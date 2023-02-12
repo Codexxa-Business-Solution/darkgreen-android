@@ -1,3 +1,4 @@
+import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DarkGreen',
-      home: const MyHomePage(),
+      home: const Dashboard(),
       debugShowCheckedModeBanner: false,
     );
   }
