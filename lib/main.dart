@@ -1,5 +1,8 @@
+import 'package:darkgreen/presentation/Address.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'LoginRegistation/Registation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DarkGreen',
-      home: const Dashboard(),
+      home:  Registration(),
       debugShowCheckedModeBanner: false,
     );
   }
