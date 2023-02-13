@@ -12,6 +12,7 @@ class CommonColor{
   static const REVIEW_COLOR = Color(0xFFF2B100);
   static const REVIEW_CONTAINER_COLOR = Color(0xFFD3E8FC);
   static const LIKE_COLOR = Color(0xFFFF0000);
+  static const OFFER_COLOR = Color(0xFFEDEDED);
 
 
 }

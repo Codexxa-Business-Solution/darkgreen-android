@@ -106,19 +106,15 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
 
   Widget getTopText(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(top: parentHeight * 0.05),
+      padding: EdgeInsets.only(top: parentHeight * 0.05, left: parentWidth*0.035),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03),
-            child: Container(
-              height: parentHeight*0.06,
-              width: parentWidth*0.13,
-              decoration: BoxDecoration(
-                color: CommonColor.CIRCLE_COLOR,
-                borderRadius: BorderRadius.circular(50)
-              ),
+          Container(
+            width: parentWidth*0.12,
+            decoration: BoxDecoration(
+              color: CommonColor.CIRCLE_COLOR,
+              shape: BoxShape.circle
             ),
           ),
           Padding(
@@ -132,9 +128,9 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
             ),),
           ),
           Padding(
-            padding: EdgeInsets.only(right: parentWidth*0.03),
+            padding: EdgeInsets.only(right: parentWidth*0.035),
             child: Container(
-              width: parentWidth*0.17,
+              width: parentWidth*0.18,
               // color: Colors.blue,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

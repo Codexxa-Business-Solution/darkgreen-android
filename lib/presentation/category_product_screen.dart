@@ -1,31 +1,78 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/presentation/category_product_screen.dart';
+import 'package:darkgreen/presentation/category_product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 
 
-class CategoryScreen extends StatefulWidget {
-
-  final CategoryScreenInterface mListener;
-
-  const CategoryScreen({Key? key, required this.mListener}) : super(key: key);
+class CategoryProduct extends StatefulWidget {
+  const CategoryProduct({Key? key}) : super(key: key);
 
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  State<CategoryProduct> createState() => _CategoryProductState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _CategoryProductState extends State<CategoryProduct> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: getCategoryGridLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+      body: Column(
+        children: [
+          Container(
+            color: CommonColor.APP_BAR_COLOR,
+            height: SizeConfig.screenHeight*0.12,
+              child: getAddMainHeadingLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+          ),
+          Container(
+              color: CommonColor.WHITE_COLOR,
+              height: SizeConfig.screenHeight*0.88,
+              child: getCategoryProductGridLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+          )
+        ],
+      ),
     );
   }
 
+  Widget getAddMainHeadingLayout(double parentHeight, double parentWidth) {
+    return Padding(
+      padding: EdgeInsets.only(top: parentHeight * .05, left: parentWidth*0.05, right: parentWidth*0.05),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            onDoubleTap: () {},
+            child: Container(
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: parentHeight * .025,
+                  color: CommonColor.WHITE_COLOR,
+              ),
+            ),
+          ),
+          Text(
+            "Grocery",
+            style: TextStyle(
+                fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                fontFamily: 'Roboto_Medium',
+                fontWeight: FontWeight.w400,
+              color: CommonColor.WHITE_COLOR,),
+          ),
+          Container(
+            child: Icon(
+              Icons.search_outlined,
+              color: CommonColor.WHITE_COLOR,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  Widget getCategoryGridLayout(double parentHeight, double parentWidth){
+  Widget getCategoryProductGridLayout(double parentHeight, double parentWidth){
     return GridView.builder(
         padding: EdgeInsets.only(bottom: parentHeight*0.05, top: parentHeight*0.03),
         shrinkWrap: true,
@@ -43,7 +90,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoryProduct()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductPriceDetails()));
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -96,9 +143,4 @@ class _CategoryScreenState extends State<CategoryScreen> {
           );
         });
   }
-}
-
-
-abstract class CategoryScreenInterface{
-
 }
