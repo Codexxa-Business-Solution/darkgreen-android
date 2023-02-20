@@ -1,4 +1,5 @@
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,11 @@ class ProductPriceDetails extends StatefulWidget {
 }
 
 class _ProductPriceDetailsState extends State<ProductPriceDetails> {
+
+
+  bool isFav = false;
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -76,15 +82,14 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
     return Padding(
       padding: EdgeInsets.only(top: parentHeight * 0.01),
       child: GridView.builder(
-          padding: EdgeInsets.only(bottom: parentHeight*0.05,
-              top: parentHeight*0.03, right: parentWidth*0.05),
+          padding: EdgeInsets.only(bottom: parentHeight*0.05, top: parentHeight*0.03,
+            left: parentWidth*0.0,right: parentWidth*0.03,),
           shrinkWrap: true,
           itemCount: 10,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
               crossAxisCount: 2,
-              childAspectRatio: 2 / 3.2,
-              crossAxisSpacing: 3,
-              mainAxisSpacing: 6
+              mainAxisSpacing: 5,
+              height: parentHeight*0.34
           ),
           itemBuilder: (context, index) {
             return Padding(
@@ -160,11 +165,47 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                 ),
                                 Padding(
                                     padding: EdgeInsets.only(right: parentWidth*0.02),
-                                    child: /*Image(image: AssetImage("assets/images/like_icon.png"),
-                                    height: parentHeight*0.02,
-                                    ),*/
-                                    Icon(Icons.favorite_outline_rounded,
-                                      color: CommonColor.LIKE_COLOR,)
+                                    child: Stack(
+                                      children: [
+                                        Visibility(
+                                          visible: !isFav,
+                                          child: GestureDetector(
+                                            onDoubleTap: (){},
+                                            onTap: (){
+                                              if(mounted){
+                                                setState(() {
+                                                  isFav = !isFav;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              color: Colors.transparent,
+                                              child: Icon(Icons.favorite_outline_rounded,
+                                                color: CommonColor.LIKE_COLOR,),
+                                            ),
+                                          ),
+                                        ),
+                                        Visibility(
+                                          visible: isFav,
+                                          child: GestureDetector(
+                                            onDoubleTap: (){},
+                                            onTap: (){
+                                              if(mounted){
+                                                setState(() {
+                                                  isFav = !isFav;
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              color: Colors.transparent,
+                                              child: Icon(Icons.favorite_rounded,
+                                                color: CommonColor.LIKE_COLOR,),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+
                                 )
                               ],
                             ),
@@ -297,3 +338,5 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
     );
   }
 }
+
+

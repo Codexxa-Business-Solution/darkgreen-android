@@ -22,6 +22,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
 
   int currentIndex = 0;
   int count = 0;
+  bool isLike = false;
 
 
 
@@ -293,9 +294,52 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image(image: AssetImage("assets/images/unlike_icon.png"),),
+                    Stack(
+                      children: [
+                        Visibility(
+                          visible: !isLike,
+                          child: GestureDetector(
+                            onDoubleTap: (){},
+                            onTap: (){
+                              if(mounted){
+                                setState(() {
+                                  isLike = !isLike;
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Icon(Icons.favorite_outline_rounded,
+                                color: CommonColor.BLACK_COLOR,
+                                size: parentHeight*0.035,),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: isLike,
+                          child: GestureDetector(
+                            onDoubleTap: (){},
+                            onTap: (){
+                              if(mounted){
+                                setState(() {
+                                  isLike = !isLike;
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Icon(Icons.favorite_rounded,
+                                color: CommonColor.LIKE_COLOR,
+                              size: parentHeight*0.035,),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
                     Image(image: AssetImage("assets/images/share.png"),
                       color: Colors.black,
+                      height: parentHeight*0.035,
                       )
                   ],
                 ),
@@ -677,7 +721,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
           padding: EdgeInsets.only(top: parentHeight * 0.01),
           child: Container(
             // color: Colors.red,
-            height: parentHeight * 0.32,
+            height: parentHeight * 0.33,
             child: ListView.builder(
                 padding: EdgeInsets.only(right: parentWidth*0.05),
                 scrollDirection: Axis.horizontal,

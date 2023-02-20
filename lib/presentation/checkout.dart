@@ -129,7 +129,7 @@ class _CheckoutState extends State<Checkout> {
       padding: EdgeInsets.only(
         top: parentHeight * 0.02,
         left: parentWidth * 0.03,
-        right: parentWidth * 0.03,
+        right: parentWidth * 0.02,
       ),
       child: Container(
         decoration: BoxDecoration(
