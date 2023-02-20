@@ -1,5 +1,6 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/checkout.dart';
 import 'package:flutter/material.dart';
 
 class Address extends StatefulWidget {
@@ -399,26 +400,31 @@ class _AddressState extends State<Address> {
                 top: parentHeight * 0.09,
                 left: parentWidth * 0.04,
                 right: parentWidth * 0.04),
-            child: Container(
-                width: parentWidth * 0.77,
-                height: parentHeight * 0.065,
-                decoration: BoxDecoration(
-                  color: CommonColor.APP_BAR_COLOR,
-                  border: Border.all(
-                      width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(11),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Checkout()));
+              },
+              child: Container(
+                  width: parentWidth * 0.77,
+                  height: parentHeight * 0.065,
+                  decoration: BoxDecoration(
+                    color: CommonColor.APP_BAR_COLOR,
+                    border: Border.all(
+                        width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(11),
+                    ),
                   ),
-                ),
-                child: Center(
-                    child: Text(
-                  "Add",
-                  style: TextStyle(
-                      color: CommonColor.WHITE_COLOR,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Roboto-Regular',
-                      fontSize: SizeConfig.blockSizeHorizontal * 4.3),
-                ))),
+                  child: Center(
+                      child: Text(
+                    "Add",
+                    style: TextStyle(
+                        color: CommonColor.WHITE_COLOR,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Roboto-Regular',
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.3),
+                  ))),
+            ),
           ),
         ),
       ],

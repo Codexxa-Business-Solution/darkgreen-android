@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
@@ -46,7 +47,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                   height: SizeConfig.screenHeight*0.88,
                   child:  ListView(
                     shrinkWrap: true,
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.05),
                     children: [
                       getImageCarouselSlider(SizeConfig.screenHeight, SizeConfig.screenWidth),
                       getNameLikeShareOtherLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
@@ -99,22 +100,31 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.05),
-                    child: Row(
-                      children: [
-                        Text("View Cart",
-                          style: TextStyle(
-                              color: CommonColor.WHITE_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*4.5,
-                              fontFamily: 'Roboto_Medium',
-                              fontWeight: FontWeight.w500
-                          ),),
-                        Padding(
-                          padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.01),
-                          child: Icon(Icons.arrow_forward_ios_outlined,
-                            color: CommonColor.WHITE_COLOR,
-                          size: SizeConfig.screenHeight*0.02,),
-                        )
-                      ],
+                    child: GestureDetector(
+                      onDoubleTap: (){},
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                      },
+                      child: Container(
+                         color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            Text("View Cart",
+                              style: TextStyle(
+                                  color: CommonColor.WHITE_COLOR,
+                                  fontSize: SizeConfig.blockSizeHorizontal*4.5,
+                                  fontFamily: 'Roboto_Medium',
+                                  fontWeight: FontWeight.w500
+                              ),),
+                            Padding(
+                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.01),
+                              child: Icon(Icons.arrow_forward_ios_outlined,
+                                color: CommonColor.WHITE_COLOR,
+                              size: SizeConfig.screenHeight*0.02,),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -520,20 +530,20 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.02),
-                        child: Container(
-                        height: parentHeight*0.023,
+                      padding: EdgeInsets.only(left: parentWidth * 0.02),
+                      child: Container(
+                        height: parentHeight * 0.023,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: CommonColor.OFFER_COLOR,
                         ),
-                          child: Text("Hii",
-                          style: TextStyle(
-                              color: Colors.transparent
-                          ),),
-                ),
+                        child: Text(
+                          "Hii",
+                          style: TextStyle(color: Colors.transparent),
+                        ),
                       ),
-                      Padding(
+                    ),
+                    Padding(
                         padding: EdgeInsets.only(left: parentWidth*0.02),
                         child: Text("10 Days Return Policy",
                         style: TextStyle(

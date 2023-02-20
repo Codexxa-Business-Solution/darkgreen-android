@@ -15,6 +15,8 @@ class CommonColor{
   static const OFFER_COLOR = Color(0xFFEDEDED);
   static const GRAY_COLOR = const Color(0xFF6D7188);
   static const RS_COLOR = const Color(0xFF808080);
+  static const LAYOUT_BACKGROUND_COLOR = const Color(0xFFF4F4F4);
+  static const SAVING_AMOUNT_COLOR = const Color(0xFFE8F4FF);
 
 
 }
