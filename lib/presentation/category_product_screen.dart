@@ -1,13 +1,17 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/constant/top_header_layout.dart';
 import 'package:darkgreen/presentation/category_product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 
 
 class CategoryProduct extends StatefulWidget {
-  const CategoryProduct({Key? key}) : super(key: key);
+
+  final String proName;
+
+  const CategoryProduct({Key? key, required this.proName}) : super(key: key);
 
   @override
   State<CategoryProduct> createState() => _CategoryProductState();
@@ -23,7 +27,7 @@ class _CategoryProductState extends State<CategoryProduct> {
           Container(
             color: CommonColor.APP_BAR_COLOR,
             height: SizeConfig.screenHeight*0.12,
-              child: getAddMainHeadingLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+              child: /*getAddMainHeadingLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)*/ToHeadLayout(title: widget.proName,)
           ),
           Container(
               color: CommonColor.WHITE_COLOR,
@@ -94,7 +98,7 @@ class _CategoryProductState extends State<CategoryProduct> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductPriceDetails()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductPriceDetails(subProName: "yes",)));
               },
               child: Container(
                 width: parentWidth*0.35,
@@ -132,7 +136,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                       // color: Colors.blue,
                       height: parentHeight*0.055,
                       child: Center(
-                        child: Text("Grocery",
+                        child: Text(index==0?"Grocery":index==1?"Hii":index==1?"Heeyyy":"yess",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.blockSizeHorizontal*4.0,

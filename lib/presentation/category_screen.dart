@@ -47,7 +47,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoryProduct()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CategoryProduct(proName: "Hello",)));
               },
               child: Container(
                 width: parentWidth*0.35,

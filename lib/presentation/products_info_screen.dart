@@ -156,9 +156,16 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
               ),
             ),
           ),
-          Container(
-            child:  Image(image: AssetImage("assets/images/trolly.png"),
-              height: parentHeight*0.03,)
+          GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child:  Image(image: AssetImage("assets/images/trolly.png"),
+                height: parentHeight*0.03,)
+            ),
           ),
         ],
       ),
@@ -230,7 +237,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                         alignment: Alignment.center,
                         children: [
                           Image(image: AssetImage("assets/images/offer_star.png")),
-                          Text("18% \n OFF ",
+                          Text("18% \nOFF ",
                           style: TextStyle(
                             color: CommonColor.WHITE_COLOR,
                             fontSize: SizeConfig.blockSizeHorizontal*3.0,
@@ -699,7 +706,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Daily Needs",
+                "Similar Product",
                 style: TextStyle(
                     fontSize: SizeConfig.blockSizeHorizontal * 4.5,
                     fontWeight: FontWeight.w500,

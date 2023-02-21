@@ -1,13 +1,17 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/constant/top_header_layout.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';
 
 
 
 class ProductPriceDetails extends StatefulWidget {
-  const ProductPriceDetails({Key? key}) : super(key: key);
+
+  final String subProName;
+
+  const ProductPriceDetails({Key? key, required this.subProName}) : super(key: key);
 
   @override
   State<ProductPriceDetails> createState() => _ProductPriceDetailsState();
@@ -28,7 +32,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
           Container(
               color: CommonColor.APP_BAR_COLOR,
               height: SizeConfig.screenHeight*0.12,
-              child: getAddMainHeadingLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+              child: /*getAddMainHeadingLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)*/ToHeadLayout(title: widget.subProName,)
           ),
           Container(
               color: CommonColor.WHITE_COLOR,
