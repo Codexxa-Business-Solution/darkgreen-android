@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -342,116 +343,239 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-                          Container(
-                            height: parentHeight*0.13,
-                            width: parentWidth*0.47,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              )
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("TATA Tea Premium",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w400
-                                        ),textAlign: TextAlign.center,),
-                                    ],
-                                  ),
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                height: parentHeight*0.13,
+                                width: parentWidth*0.47,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("Rs 34.00",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w500
-                                        ),textAlign: TextAlign.center,),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(left: parentWidth*0.02),
-                                        child: Text("Rs 35.00",
-                                          style: TextStyle(
-                                              color: CommonColor.DISCOUNT_COLOR,
-                                              fontSize: SizeConfig.blockSizeHorizontal*3.0,
-                                              fontFamily: 'Roboto_Normal',
-                                              fontWeight: FontWeight.w500,
-                                            decoration: TextDecoration.lineThrough
-                                          ),textAlign: TextAlign.center,),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("TATA Tea Premium",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w400
+                                            ),textAlign: TextAlign.center,),
+                                        ],
                                       ),
-                                    ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("Rs 34.00",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w500
+                                            ),textAlign: TextAlign.center,),
+
+                                          Padding(
+                                            padding: EdgeInsets.only(left: parentWidth*0.02),
+                                            child: Text("Rs 35.00",
+                                              style: TextStyle(
+                                                  color: CommonColor.DISCOUNT_COLOR,
+                                                  fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                                                  fontFamily: 'Roboto_Normal',
+                                                  fontWeight: FontWeight.w500,
+                                                decoration: TextDecoration.lineThrough
+                                              ),textAlign: TextAlign.center,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                         Container(
+                                           height: parentHeight*0.033,
+                                           width: parentWidth*0.13,
+                                           decoration: BoxDecoration(
+                                             color: CommonColor.REVIEW_CONTAINER_COLOR,
+                                             borderRadius: BorderRadius.circular(7)
+                                           ),
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment.center,
+                                             children: [
+                                               Text("4.5",
+                                               style: TextStyle(
+                                                  color: Colors.black,
+                                                 fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                 fontWeight: FontWeight.w400,
+                                                 fontFamily: 'Roboto_Medium'
+                                               ),
+                                               ),
+
+                                               Icon(Icons.star,
+                                               color: CommonColor.REVIEW_COLOR,
+                                               size: parentHeight*0.02,)
+                                             ],
+                                           ),
+                                         ),
+                                         /* Container(
+                                            height: parentHeight*0.045,
+                                            width: parentWidth*0.25,
+                                            decoration: BoxDecoration(
+                                                color: CommonColor.APP_BAR_COLOR,
+                                                borderRadius: BorderRadius.circular(7)
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Add to Cart",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: SizeConfig.blockSizeHorizontal*3.7,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: 'Roboto_Medium'
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )*/
+                                          Visibility(
+                                            visible: count != 0 ? true : false,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count--;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "-",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.6),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: parentHeight * 0.035,
+                                                  width: parentWidth * 0.07,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      CommonColor.WHITE_COLOR,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          5)),
+                                                  child: Center(
+                                                      child: Text(
+                                                        "$count",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .BLACK_COLOR,
+                                                            fontSize: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                3.5),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                ),
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count++;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "+",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.0),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: count == 0 ? true : false,
+                                child: GestureDetector(
+                                  onDoubleTap: (){},
+                                  onTap:(){
+                                    if(mounted){
+                                      setState(() {
+                                        count++;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    height: parentHeight*0.06,
+                                    width: parentWidth*0.13,
+                                    decoration: BoxDecoration(
+                                      color: CommonColor.APP_BAR_COLOR,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      )
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                     Container(
-                                       height: parentHeight*0.033,
-                                       width: parentWidth*0.13,
-                                       decoration: BoxDecoration(
-                                         color: CommonColor.REVIEW_CONTAINER_COLOR,
-                                         borderRadius: BorderRadius.circular(7)
-                                       ),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         children: [
-                                           Text("4.5",
-                                           style: TextStyle(
-                                              color: Colors.black,
-                                             fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                             fontWeight: FontWeight.w400,
-                                             fontFamily: 'Roboto_Medium'
-                                           ),
-                                           ),
-
-                                           Icon(Icons.star,
-                                           color: CommonColor.REVIEW_COLOR,
-                                           size: parentHeight*0.02,)
-                                         ],
-                                       ),
-                                     ),
-                                      Container(
-                                        height: parentHeight*0.045,
-                                        width: parentWidth*0.25,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.APP_BAR_COLOR,
-                                            borderRadius: BorderRadius.circular(7)
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text("Add to Cart",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.7,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: 'Roboto_Medium'
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -609,116 +733,239 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-                          Container(
-                            height: parentHeight*0.13,
-                            width: parentWidth*0.47,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("TATA Tea Premium",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w400
-                                        ),textAlign: TextAlign.center,),
-                                    ],
-                                  ),
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                height: parentHeight*0.13,
+                                width: parentWidth*0.47,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    )
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("Rs 34.00",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w500
-                                        ),textAlign: TextAlign.center,),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(left: parentWidth*0.02),
-                                        child: Text("Rs 35.00",
-                                          style: TextStyle(
-                                              color: CommonColor.DISCOUNT_COLOR,
-                                              fontSize: SizeConfig.blockSizeHorizontal*3.0,
-                                              fontFamily: 'Roboto_Normal',
-                                              fontWeight: FontWeight.w500,
-                                              decoration: TextDecoration.lineThrough
-                                          ),textAlign: TextAlign.center,),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("TATA Tea Premium",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w400
+                                            ),textAlign: TextAlign.center,),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        height: parentHeight*0.033,
-                                        width: parentWidth*0.13,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.REVIEW_CONTAINER_COLOR,
-                                            borderRadius: BorderRadius.circular(7)
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text("4.5",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Medium'
-                                              ),
-                                            ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("Rs 34.00",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w500
+                                            ),textAlign: TextAlign.center,),
 
-                                            Icon(Icons.star,
-                                              color: CommonColor.REVIEW_COLOR,
-                                              size: parentHeight*0.02,)
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: parentHeight*0.045,
-                                        width: parentWidth*0.25,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.APP_BAR_COLOR,
-                                            borderRadius: BorderRadius.circular(7)
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text("Add to Cart",
+                                          Padding(
+                                            padding: EdgeInsets.only(left: parentWidth*0.02),
+                                            child: Text("Rs 35.00",
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.7,
+                                                  color: CommonColor.DISCOUNT_COLOR,
+                                                  fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                                                  fontFamily: 'Roboto_Normal',
                                                   fontWeight: FontWeight.w500,
-                                                  fontFamily: 'Roboto_Medium'
-                                              ),
+                                                  decoration: TextDecoration.lineThrough
+                                              ),textAlign: TextAlign.center,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            height: parentHeight*0.033,
+                                            width: parentWidth*0.13,
+                                            decoration: BoxDecoration(
+                                                color: CommonColor.REVIEW_CONTAINER_COLOR,
+                                                borderRadius: BorderRadius.circular(7)
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("4.5",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                      fontWeight: FontWeight.w400,
+                                                      fontFamily: 'Roboto_Medium'
+                                                  ),
+                                                ),
+
+                                                Icon(Icons.star,
+                                                  color: CommonColor.REVIEW_COLOR,
+                                                  size: parentHeight*0.02,)
+                                              ],
+                                            ),
+                                          ),
+                                          /* Container(
+                                            height: parentHeight*0.045,
+                                            width: parentWidth*0.25,
+                                            decoration: BoxDecoration(
+                                                color: CommonColor.APP_BAR_COLOR,
+                                                borderRadius: BorderRadius.circular(7)
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Add to Cart",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: SizeConfig.blockSizeHorizontal*3.7,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: 'Roboto_Medium'
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )*/
+                                          Visibility(
+                                            visible: count != 0 ? true : false,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count--;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "-",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.6),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: parentHeight * 0.035,
+                                                  width: parentWidth * 0.07,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      CommonColor.WHITE_COLOR,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          5)),
+                                                  child: Center(
+                                                      child: Text(
+                                                        "$count",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .BLACK_COLOR,
+                                                            fontSize: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                3.5),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                ),
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count++;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "+",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.0),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: count == 0 ? true : false,
+                                child: GestureDetector(
+                                  onDoubleTap: (){},
+                                  onTap:(){
+                                    if(mounted){
+                                      setState(() {
+                                        count++;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    height: parentHeight*0.06,
+                                    width: parentWidth*0.13,
+                                    decoration: BoxDecoration(
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10),
+                                        )
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -850,116 +1097,239 @@ class _HomeScreenState extends State<HomeScreen> {
                               )
                             ],
                           ),
-                          Container(
-                            height: parentHeight*0.13,
-                            width: parentWidth*0.47,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("TATA Tea Premium",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w400
-                                        ),textAlign: TextAlign.center,),
-                                    ],
-                                  ),
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              Container(
+                                height: parentHeight*0.13,
+                                width: parentWidth*0.47,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    )
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text("Rs 34.00",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                            fontFamily: 'Roboto_Normal',
-                                            fontWeight: FontWeight.w500
-                                        ),textAlign: TextAlign.center,),
-
-                                      Padding(
-                                        padding: EdgeInsets.only(left: parentWidth*0.02),
-                                        child: Text("Rs 35.00",
-                                          style: TextStyle(
-                                              color: CommonColor.DISCOUNT_COLOR,
-                                              fontSize: SizeConfig.blockSizeHorizontal*3.0,
-                                              fontFamily: 'Roboto_Normal',
-                                              fontWeight: FontWeight.w500,
-                                              decoration: TextDecoration.lineThrough
-                                          ),textAlign: TextAlign.center,),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("TATA Tea Premium",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w400
+                                            ),textAlign: TextAlign.center,),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        height: parentHeight*0.033,
-                                        width: parentWidth*0.13,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.REVIEW_CONTAINER_COLOR,
-                                            borderRadius: BorderRadius.circular(7)
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text("4.5",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Medium'
-                                              ),
-                                            ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("Rs 34.00",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontFamily: 'Roboto_Normal',
+                                                fontWeight: FontWeight.w500
+                                            ),textAlign: TextAlign.center,),
 
-                                            Icon(Icons.star,
-                                              color: CommonColor.REVIEW_COLOR,
-                                              size: parentHeight*0.02,)
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: parentHeight*0.045,
-                                        width: parentWidth*0.25,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.APP_BAR_COLOR,
-                                            borderRadius: BorderRadius.circular(7)
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text("Add to Cart",
+                                          Padding(
+                                            padding: EdgeInsets.only(left: parentWidth*0.02),
+                                            child: Text("Rs 35.00",
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.7,
+                                                  color: CommonColor.DISCOUNT_COLOR,
+                                                  fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                                                  fontFamily: 'Roboto_Normal',
                                                   fontWeight: FontWeight.w500,
-                                                  fontFamily: 'Roboto_Medium'
-                                              ),
+                                                  decoration: TextDecoration.lineThrough
+                                              ),textAlign: TextAlign.center,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            height: parentHeight*0.033,
+                                            width: parentWidth*0.13,
+                                            decoration: BoxDecoration(
+                                                color: CommonColor.REVIEW_CONTAINER_COLOR,
+                                                borderRadius: BorderRadius.circular(7)
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("4.5",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                      fontWeight: FontWeight.w400,
+                                                      fontFamily: 'Roboto_Medium'
+                                                  ),
+                                                ),
+
+                                                Icon(Icons.star,
+                                                  color: CommonColor.REVIEW_COLOR,
+                                                  size: parentHeight*0.02,)
+                                              ],
+                                            ),
+                                          ),
+                                          /* Container(
+                                            height: parentHeight*0.045,
+                                            width: parentWidth*0.25,
+                                            decoration: BoxDecoration(
+                                                color: CommonColor.APP_BAR_COLOR,
+                                                borderRadius: BorderRadius.circular(7)
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text("Add to Cart",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: SizeConfig.blockSizeHorizontal*3.7,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: 'Roboto_Medium'
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )*/
+                                          Visibility(
+                                            visible: count != 0 ? true : false,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count--;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "-",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.6),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: parentHeight * 0.035,
+                                                  width: parentWidth * 0.07,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      CommonColor.WHITE_COLOR,
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          5)),
+                                                  child: Center(
+                                                      child: Text(
+                                                        "$count",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .BLACK_COLOR,
+                                                            fontSize: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                                3.5),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                ),
+                                                GestureDetector(
+                                                  onDoubleTap: () {},
+                                                  onTap: () {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        count++;
+                                                      });
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: parentHeight * 0.035,
+                                                    width: parentWidth * 0.067,
+                                                    decoration: BoxDecoration(
+                                                        color: CommonColor
+                                                            .APP_BAR_COLOR,
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                    child: Center(
+                                                        child: Text(
+                                                          "+",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .WHITE_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  5.0),
+                                                          textScaleFactor: 1.0,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: count == 0 ? true : false,
+                                child: GestureDetector(
+                                  onDoubleTap: (){},
+                                  onTap:(){
+                                    if(mounted){
+                                      setState(() {
+                                        count++;
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    height: parentHeight*0.06,
+                                    width: parentWidth*0.13,
+                                    decoration: BoxDecoration(
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10),
+                                        )
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),

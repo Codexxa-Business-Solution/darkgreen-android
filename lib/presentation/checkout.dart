@@ -1,5 +1,6 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:flutter/material.dart';
 
 class Checkout extends StatefulWidget {
@@ -18,12 +19,10 @@ class _CheckoutState extends State<Checkout> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: CommonColor.LAYOUT_BACKGROUND_COLOR,
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
         children: [
-          Container(
-            child: getAddMainHeadingLayout(
-                SizeConfig.screenHeight, SizeConfig.screenWidth),
-          ),
           Container(
             height: SizeConfig.screenHeight * 0.9,
             child: Stack(
@@ -384,7 +383,7 @@ class _CheckoutState extends State<Checkout> {
                                 top: SizeConfig.screenHeight * 0.03,
                                 left: SizeConfig.screenWidth * 0.03,
                                 right: SizeConfig.screenWidth * 0.03,
-                                bottom: SizeConfig.screenHeight * 0.1),
+                                bottom: SizeConfig.screenHeight * 0.17),
                             child: Container(
                               color: CommonColor.WHITE_COLOR,
                               height: SizeConfig.screenHeight * 0.05,
@@ -967,10 +966,10 @@ class _CheckoutState extends State<Checkout> {
 
   Widget getBuyButton(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(bottom: parentHeight * 0.01),
+      padding: EdgeInsets.only(bottom: parentHeight * 0.08),
       child: GestureDetector(
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=>Checkout()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2,)));
         },
         child: Container(
           height: parentHeight * 0.06,

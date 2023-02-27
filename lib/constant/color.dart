@@ -17,6 +17,8 @@ class CommonColor{
   static const RS_COLOR = const Color(0xFF808080);
   static const LAYOUT_BACKGROUND_COLOR = const Color(0xFFF4F4F4);
   static const SAVING_AMOUNT_COLOR = const Color(0xFFE8F4FF);
+  static const GIF_BACKGROUND_COLOR = const Color(0xFFf7f7f7);
+  static const ORDER_PLACED_COLOR = const Color(0xFFe4e7ea);
 
 
 }

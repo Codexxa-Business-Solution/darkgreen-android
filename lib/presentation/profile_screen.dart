@@ -1,3 +1,9 @@
+import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/cart.dart';
+import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
+import 'package:darkgreen/presentation/notification.dart';
+import 'package:darkgreen/presentation/track_order_parent_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -16,9 +22,704 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Colors.blue,
-      body: Container(),
+      backgroundColor: CommonColor.ORDER_PLACED_COLOR.withOpacity(0.5),
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: [
+
+            Padding(
+              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.04,
+              right: SizeConfig.screenWidth*0.04),
+              child: Container(
+                height: SizeConfig.screenHeight*0.13,
+                decoration: BoxDecoration(
+                  color: CommonColor.APP_BAR_COLOR,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: getProfileInfoLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+              ),
+            ),
+            Padding(
+            padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.04,
+                right: SizeConfig.screenWidth*0.04,
+            bottom: SizeConfig.screenHeight*0.03),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: CommonColor.WHITE_COLOR,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: getAllOptionsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getProfileInfoLayout(double parentHeight, double parentWidth){
+    return Row(
+      children: [
+
+        Padding(
+          padding: EdgeInsets.only(left: parentWidth*0.03),
+          child: Container(
+            height: parentHeight*0.1,
+            width: parentHeight*0.1,
+            decoration: BoxDecoration(
+              color: CommonColor.CIRCLE_COLOR,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: Icon(Icons.person,
+            size: parentHeight*0.09,
+            color: Colors.white,),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.02),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: Colors.transparent,
+                width: parentWidth*0.6,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Ash",
+                    style: TextStyle(
+                      color: CommonColor.WHITE_COLOR,
+                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                      fontFamily: 'Roboto_Medium',
+                      fontWeight: FontWeight.w500
+                    ),
+                    ),
+                    Icon(Icons.edit,
+                    size: parentHeight*0.025,
+                    color: Colors.white,)
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: parentHeight*0.015),
+                child: Text("1234567890",
+                  style: TextStyle(
+                      color: CommonColor.WHITE_COLOR,
+                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                      fontFamily: 'Roboto-Light',
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: parentHeight*0.005),
+                child: Text("Wallet : \u20B90",
+                  style: TextStyle(
+                      color: CommonColor.WHITE_COLOR,
+                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                      fontFamily: 'Roboto-Light',
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+      ],
+    );
+  }
+
+  Widget getAllOptionsLayout(double parentHeight, double parentWidth){
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.of(context)
+                  .pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      const Dashboard()),
+                      (Route route) =>
+                  false);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.home_outlined,
+                      size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Home",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward_ios,
+                  size: parentHeight*0.02,)
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.shopping_cart_outlined,
+                      size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Cart",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward_ios,
+                  size: parentHeight*0.02,)
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.notifications_none_rounded,
+                      size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Notifications",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward_ios,
+                  size: parentHeight*0.02,)
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+          child: Container(
+            height: SizeConfig.screenHeight * 0.001,
+            width: SizeConfig.screenWidth * 0.9,
+            color: CommonColor.CIRCLE_COLOR,
+            child: Text(
+              "Hii",
+              style: TextStyle(color: Colors.transparent),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderParentScreen()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.delivery_dining_outlined,
+                        size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Your Orders",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward_ios,
+                    size: parentHeight*0.02,)
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.account_balance_wallet_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Wallet History",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.import_export,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Transaction History",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.lock_outline,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Change Password",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.manage_accounts_rounded,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Manage Addresses",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.support_agent_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Support",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.person_add_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Refer & Earn",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+          child: Container(
+            height: SizeConfig.screenHeight * 0.001,
+            width: SizeConfig.screenWidth * 0.9,
+            color: CommonColor.CIRCLE_COLOR,
+            child: Text(
+              "Hii",
+              style: TextStyle(color: Colors.transparent),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.edit_note_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Blog",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.perm_contact_cal_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Contact Us",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.info_outline_rounded,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("About Us",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.star_border_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Rate Us",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.share,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Share App",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.question_answer_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("FAQ",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.event_note,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Terms and Conditions",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.security_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Privacy Policy",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.logout_outlined,
+                    size: parentHeight*0.035,),
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth*0.05),
+                    child: Text("Logout",
+                      style: TextStyle(
+                          color: CommonColor.GRAY_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontFamily: 'Roboto-Light',
+                          fontWeight: FontWeight.w400
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios,
+                size: parentHeight*0.02,)
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          child: Container(),
+        ),
+
+      ],
     );
   }
 }

@@ -4,7 +4,10 @@ import 'package:darkgreen/presentation/checkout.dart';
 import 'package:flutter/material.dart';
 
 class Address extends StatefulWidget {
-  const Address({Key? key}) : super(key: key);
+
+  final String isCome;
+
+  const Address({Key? key, required this.isCome}) : super(key: key);
 
   @override
   State<Address> createState() => _AddressState();
@@ -13,6 +16,7 @@ class Address extends StatefulWidget {
 class _AddressState extends State<Address> {
   TextEditingController fullName = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+  TextEditingController alternatePhoneNumber = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController landMark = TextEditingController();
   TextEditingController city = TextEditingController();
@@ -24,6 +28,7 @@ class _AddressState extends State<Address> {
 
   final _fullNameFocus = FocusNode();
   final _phoneNumberFocus = FocusNode();
+  final _alternatePhoneNumberFocus = FocusNode();
   final _addressFocus = FocusNode();
   final _landMarkFocus = FocusNode();
   final _cityFocus = FocusNode();
@@ -31,6 +36,8 @@ class _AddressState extends State<Address> {
   final pinCodeFocus = FocusNode();
   final stateFocus = FocusNode();
   final areaFocs = FocusNode();
+
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +118,9 @@ class _AddressState extends State<Address> {
   // }
 
   Widget getAddressField(double parentHeight, double parentWidth) {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
       children: [
         Padding(
           padding: EdgeInsets.only(
@@ -185,6 +194,29 @@ class _AddressState extends State<Address> {
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               hintText: "Phone No",
+              contentPadding: const EdgeInsets.all(14),
+              hintStyle: TextStyle(
+                  color: CommonColor.BLACK_COLOR,
+                  fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+                  fontFamily: 'Roboto_Regular'),
+              border: const OutlineInputBorder(
+                  borderSide: BorderSide(width: 1.0, color: Colors.black)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(width: 1.0, color: Colors.black)),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
+          child: TextFormField(
+            controller: alternatePhoneNumber,
+            focusNode: _alternatePhoneNumberFocus,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              hintText: "Alternate Phone No",
               contentPadding: const EdgeInsets.all(14),
               hintStyle: TextStyle(
                   color: CommonColor.BLACK_COLOR,
@@ -382,24 +414,144 @@ class _AddressState extends State<Address> {
             ),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.circle_outlined,
+                        color: CommonColor.APP_BAR_COLOR,),
+                      Padding(
+                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                        child: Icon(Icons.circle,
+                          color: CommonColor.APP_BAR_COLOR,
+                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                    child: Text("Home",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Roboto_Regular'
+                      ),),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.circle_outlined,
+                        color: CommonColor.APP_BAR_COLOR,),
+                      Padding(
+                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                        child: Icon(Icons.circle,
+                          color: CommonColor.APP_BAR_COLOR,
+                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                    child: Text("Office",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Roboto_Regular'
+                      ),),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.circle_outlined,
+                        color: CommonColor.APP_BAR_COLOR,),
+                      Padding(
+                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                        child: Icon(Icons.circle,
+                          color: CommonColor.APP_BAR_COLOR,
+                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                    child: Text("Other",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Roboto_Regular'
+                      ),),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              left: parentWidth * 0.05, top: parentHeight * 0.01),
+          child: Row(
+            children: [
+              Container(
+                height: parentHeight * 0.07,
+                width: parentWidth * 0.069,
+                child: Column(
+                  children: <Widget>[
+                    Checkbox(
+                      activeColor: CommonColor.APP_BAR_COLOR,
+                      checkColor: Colors.white,
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: parentWidth * 0.02, bottom: parentHeight*0.015),
+                    child: Text("Set as default address"),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
         GestureDetector(
           onTap: () {
-            // index == 1 ?
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const TenderDrawerScreen())) :
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const AuctionDrawerScreen()));
+
           },
           onDoubleTap: () {},
           child: Padding(
             padding: EdgeInsets.only(
-                top: parentHeight * 0.09,
+                top: parentHeight * 0.01,
                 left: parentWidth * 0.04,
-                right: parentWidth * 0.04),
+                right: parentWidth * 0.04,
+            bottom: parentHeight*0.03),
             child: GestureDetector(
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Checkout()));
@@ -417,7 +569,7 @@ class _AddressState extends State<Address> {
                   ),
                   child: Center(
                       child: Text(
-                    "Add",
+                    widget.isCome == "1" ? "Add" : "Update",
                     style: TextStyle(
                         color: CommonColor.WHITE_COLOR,
                         fontWeight: FontWeight.w700,

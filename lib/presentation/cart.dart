@@ -1,5 +1,6 @@
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/Address.dart';
+import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:darkgreen/presentation/checkout.dart';
 import 'package:flutter/material.dart';
 
@@ -103,7 +104,7 @@ class _CartState extends State<Cart> {
         children: [
           ListView.builder(
               itemCount: 10,
-              padding: EdgeInsets.only(bottom: parentHeight*0.09),
+              padding: EdgeInsets.only(bottom: parentHeight*0.1),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.only(
@@ -111,7 +112,7 @@ class _CartState extends State<Cart> {
                       bottom: parentHeight * 0.01,
                       left: parentWidth * 0.02),
                   child: Container(
-                    height: parentHeight * 0.15,
+                    height: parentHeight * 0.18,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -187,12 +188,11 @@ class _CartState extends State<Cart> {
                                             bottom: parentHeight * 0.02),
                                         child: Container(
                                             height: parentHeight * 0.03,
-                                            child: Image(
+                                            child: /*Image(
                                               image: AssetImage(
                                                 'assets/images/delete.png',
-                                              ),
+                                              ),*/Icon(Icons.delete_forever_rounded),
                                             )),
-                                      ),
                                     ],
                                   ),
                                   Row(
@@ -337,40 +337,119 @@ class _CartState extends State<Cart> {
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top: parentHeight*0.016),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: parentWidth*0.05),
+                                child: Text("Save for later",
+                                  style: TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Roboto-Medium'
+                                  ),),
+                              ),
+                              Text("Delete",
+                                style: TextStyle(
+                                    color: Colors.transparent,
+                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Roboto-Medium'
+                                ),),
+                              Padding(
+                                padding: EdgeInsets.only(right: parentWidth*0.05),
+                                child: Text("Save for later",
+                                  style: TextStyle(
+                                      color: CommonColor.APP_BAR_COLOR,
+                                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Roboto-Medium'
+                                  ),),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
                 );
               }),
-          Padding(
-            padding: EdgeInsets.only(bottom: parentHeight*0.025),
-            child: GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Address()));
-              },
-              child: Container(
-                height: parentHeight*0.06,
-                width: parentWidth*0.8,
-                decoration: BoxDecoration(
-                    color: CommonColor.APP_BAR_COLOR,
-                    borderRadius: BorderRadius.circular(7)
+          Container(
+            height: SizeConfig.screenHeight*0.07,
+            decoration: BoxDecoration(
+              color: CommonColor.APP_BAR_COLOR,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 7,
+                    spreadRadius: 3,
+                    offset: Offset(2, 2.0))
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.05),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Rs.154",
+                          style: TextStyle(
+                              color: CommonColor.WHITE_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*4.5,
+                              fontFamily: 'Roboto_Regular',
+                              fontWeight: FontWeight.w400
+                          ),),
+                      Padding(
+                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.005),
+                        child: Text("1 Item",
+                          style: TextStyle(
+                              color: CommonColor.WHITE_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                              fontFamily: 'Roboto_Regular',
+                              fontWeight: FontWeight.w400
+                          ),),
+                      )
+                    ],
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Proceed to Buy",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.7,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Roboto_Medium'
+                Padding(
+                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.05),
+                  child: GestureDetector(
+                    onDoubleTap: (){},
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0,)));
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Text("Continue",
+                            style: TextStyle(
+                                color: CommonColor.WHITE_COLOR,
+                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                                fontFamily: 'Roboto_Bold',
+                                fontWeight: FontWeight.w500
+                            ),),
+                          Padding(
+                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.01),
+                            child: Icon(Icons.arrow_forward_ios_outlined,
+                              color: CommonColor.WHITE_COLOR,
+                              size: SizeConfig.screenHeight*0.02,),
+                          )
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
