@@ -1,28 +1,24 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/constant/top_header_layout.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';
 
 
-
-class FavoriteScreen extends StatefulWidget {
-
-  final FavoriteScreenInterface mListener;
-
-  const FavoriteScreen({Key? key, required this.mListener}) : super(key: key);
+class SearchProduct extends StatefulWidget {
+  const SearchProduct({Key? key}) : super(key: key);
 
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
+  State<SearchProduct> createState() => _SearchProductState();
 }
 
-class _FavoriteScreenState extends State<FavoriteScreen> {
-
+class _SearchProductState extends State<SearchProduct> {
 
   bool isFav = false;
   int count = 0;
 
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +28,141 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: [
-           Container(
-             // color: Colors.red,
-             height: SizeConfig.screenHeight*0.8,
-               child: getProductDetailsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
-           )
+
+          Container(
+              height: SizeConfig.screenHeight*0.1,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 7,
+                      spreadRadius: 3,
+                      offset: Offset(2, 2.0))
+                ],
+              ),
+              child: getTopText(SizeConfig.screenHeight, SizeConfig.screenWidth)
+          ),
+          Container(
+              height: SizeConfig.screenHeight*0.1,
+              decoration: BoxDecoration(
+                // color: Colors.blue,
+              ),
+              child: getSearchLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+          ),
+          Container(
+              height: SizeConfig.screenHeight*0.8,
+              child: getSearchingDataLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
+          ),
         ],
       ),
     );
   }
 
+  Widget getTopText(double parentHeight, double parentWidth) {
+    return Padding(
+      padding: EdgeInsets.only(top: parentHeight * 0.05, left: parentWidth*0.04),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(Icons.arrow_back_ios_new_rounded),
+          Padding(
+            padding: EdgeInsets.only(left: parentHeight * 0.01),
+            child: Text("Search Product",
+              style: TextStyle(
+                  fontSize: SizeConfig.blockSizeHorizontal*6.0,
+                  fontFamily: "Roboto_Medium",
+                  fontWeight: FontWeight.w500,
+                  color: CommonColor.BLACK_COLOR
+              ),),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: parentWidth*0.035),
+            child: Container(
+              width: parentWidth*0.18,
+              // color: Colors.blue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.search,
+                    color: Colors.black,
+                    size: parentHeight*0.035,),
+                  GestureDetector(
+                    onDoubleTap: (){},
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Image(image: AssetImage("assets/images/trolly.png"),
+                        height: parentHeight*0.03,
+                        color: Colors.black,),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
-  Widget getProductDetailsLayout(double parentHeight, double parentWidth) {
+  Widget getSearchLayout(double parentHeight, double parentWidth){
+    return Padding(
+      padding: EdgeInsets.only(top: parentHeight*0.04, left: parentWidth*0.04, right: parentWidth*0.04),
+      child: Container(
+        width: parentWidth*0.9,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: CommonColor.CIRCLE_COLOR,width: 3.0),
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: TextFormField(
+          controller: searchController,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search_outlined,color: CommonColor.APP_BAR_COLOR,),
+              suffixIcon: Visibility(
+                  visible: searchController.text.isEmpty ? false : true,
+                  child: GestureDetector(
+                    onDoubleTap: (){},
+                    onTap: (){
+                      if(mounted){
+                        setState(() {
+                          searchController.clear();
+                        });
+                      }
+                    },
+                    child: Container(
+                        color: Colors.transparent,
+                        child: Icon(Icons.clear, color: Colors.red,)
+                    ),
+                  )
+              ),
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+            hintText: "Search by Product Name",
+            hintStyle: TextStyle(
+              color: CommonColor.RS_COLOR,
+              fontFamily: 'Roboto_Regular',
+              fontWeight: FontWeight.w400,
+              fontSize: SizeConfig.blockSizeHorizontal*4.2
+            )
+          ),
+          style:  TextStyle(
+              color: CommonColor.BLACK_COLOR,
+              fontFamily: 'Roboto_Regular',
+              fontWeight: FontWeight.w400,
+              fontSize: SizeConfig.blockSizeHorizontal*4.2
+          ),
+        )
+      ),
+    );
+  }
+
+  Widget getSearchingDataLayout(double parentHeight, double parentWidth) {
     return Padding(
       padding: EdgeInsets.only(top: parentHeight * 0.01),
       child: GridView.builder(
@@ -133,7 +252,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     child: Stack(
                                       children: [
                                         Visibility(
-                                          visible: isFav,
+                                          visible: !isFav,
                                           child: GestureDetector(
                                             onDoubleTap: (){},
                                             onTap: (){
@@ -151,7 +270,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                           ),
                                         ),
                                         Visibility(
-                                          visible: !isFav,
+                                          visible: isFav,
                                           child: GestureDetector(
                                             onDoubleTap: (){},
                                             onTap: (){
@@ -425,9 +544,4 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           }),
     );
   }
-}
-
-
-abstract class FavoriteScreenInterface{
-
 }

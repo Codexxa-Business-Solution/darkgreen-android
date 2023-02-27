@@ -19,6 +19,10 @@ class CommonColor{
   static const SAVING_AMOUNT_COLOR = const Color(0xFFE8F4FF);
   static const GIF_BACKGROUND_COLOR = const Color(0xFFf7f7f7);
   static const ORDER_PLACED_COLOR = const Color(0xFFe4e7ea);
+  static const ORDER_PROCESSED_COLOR = const Color(0xFF3b8eba);
+  static const ORDER_SHIPPED_COLOR = const Color(0xFFb5a8a7);
+  static const ORDER_DELIVERED_COLOR = const Color(0xFFf5b6a9);
+  static const ORDER_RETURNED_COLOR = const Color(0xFF8baca0);
 
 
 }

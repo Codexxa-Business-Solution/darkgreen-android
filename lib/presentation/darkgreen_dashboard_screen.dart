@@ -1,10 +1,12 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/darkgreen_screen_constant.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/category_screen.dart';
 import 'package:darkgreen/presentation/favorite_screen.dart';
 import 'package:darkgreen/presentation/home_screen.dart';
 import 'package:darkgreen/presentation/profile_screen.dart';
+import 'package:darkgreen/presentation/search_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -135,11 +137,29 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.search,
-                  color: Colors.white,
-                  size: parentHeight*0.035,),
-                 Image(image: AssetImage("assets/images/trolly.png"),
-                 height: parentHeight*0.03,)
+                  GestureDetector(
+                    onDoubleTap: (){},
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Icon(Icons.search,
+                      color: Colors.white,
+                      size: parentHeight*0.035,),
+                    ),
+                  ),
+                 GestureDetector(
+                   onDoubleTap: (){},
+                   onTap: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                   },
+                   child: Container(
+                     color: Colors.transparent,
+                     child: Image(image: AssetImage("assets/images/trolly.png"),
+                     height: parentHeight*0.03,),
+                   ),
+                 )
                 ],
               ),
             ),

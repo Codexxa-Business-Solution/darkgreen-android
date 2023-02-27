@@ -37,6 +37,7 @@ class _TrackOrderParentScreenState extends State<TrackOrderParentScreen> {
                   height: SizeConfig.screenHeight*0.16,
                   child: AppBar(
                     backgroundColor: CommonColor.WHITE_COLOR,
+                    elevation: 7,
                     centerTitle: true,
                     leading: Padding(
                       padding: EdgeInsets.only(
