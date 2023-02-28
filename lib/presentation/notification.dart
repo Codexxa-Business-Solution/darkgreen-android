@@ -28,9 +28,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03),
-                    child: Icon(
-                      Icons.arrow_back_ios_sharp,
-                      color: Colors.white,
+                    child:  GestureDetector(
+                      onDoubleTap: (){},
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Icon(
+                          Icons.arrow_back_ios_sharp,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                   Text("Notifications",

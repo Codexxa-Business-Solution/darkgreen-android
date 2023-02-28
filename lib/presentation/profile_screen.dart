@@ -1,9 +1,14 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/Address.dart';
+import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
+import 'package:darkgreen/presentation/address_chid_screen.dart';
 import 'package:darkgreen/presentation/cart.dart';
+import 'package:darkgreen/presentation/change_password.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:darkgreen/presentation/notification.dart';
 import 'package:darkgreen/presentation/track_order_parent_screen.dart';
+import 'package:darkgreen/presentation/wallet_history_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -299,29 +304,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          child:  GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletHistory()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.account_balance_wallet_outlined,
-                    size: parentHeight*0.035,),
-                  Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Wallet History",
-                      style: TextStyle(
-                          color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
-                          fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
+                  Row(
+                    children: [
+                      Icon(Icons.account_balance_wallet_outlined,
+                        size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Wallet History",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  Icon(Icons.arrow_forward_ios,
+                    size: parentHeight*0.02,)
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
-            ],
+            ),
           ),
         ),
         Padding(
@@ -356,22 +370,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.lock_outline,
-                    size: parentHeight*0.035,),
-                  Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Change Password",
-                      style: TextStyle(
-                          color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
-                          fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
+              GestureDetector(
+                onDoubleTap: (){},
+                onTap: (){
+                  showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      elevation: 20,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      enableDrag: true,
+                      builder: (BuildContext bc) {
+                        return ChangePassword();
+                      });
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Icon(Icons.lock_outline,
+                        size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Change Password",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
               Icon(Icons.arrow_forward_ios,
                 size: parentHeight*0.02,)
@@ -380,29 +412,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0,)));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.manage_accounts_rounded,
-                    size: parentHeight*0.035,),
-                  Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Manage Addresses",
-                      style: TextStyle(
-                          color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
-                          fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
+                  Row(
+                    children: [
+                      Icon(Icons.manage_accounts_rounded,
+                        size: parentHeight*0.035,),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth*0.05),
+                        child: Text("Manage Addresses",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  Icon(Icons.arrow_forward_ios,
+                    size: parentHeight*0.02,)
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
-            ],
+            ),
           ),
         ),
         Padding(

@@ -231,7 +231,16 @@ class _DoorStepOrderState extends State<DoorStepOrder> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.arrow_back_ios_new_rounded),
+          GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Container(
+              color: Colors.transparent,
+                child: Icon(Icons.arrow_back_ios_new_rounded),
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(left: parentHeight * 0.01),
             child: Text("Order Details",

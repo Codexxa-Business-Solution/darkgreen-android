@@ -40,6 +40,9 @@ dependencies:
   flutter_rating_bar:
   readmore:
   calendar_timeline: ^1.1.1
+  intl_phone_field: ^3.1.0
+  otp_autofill: ^2.1.0
+  pinput:
 
 dev_dependencies:
   flutter_test:
