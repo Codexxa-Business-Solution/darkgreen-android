@@ -3,8 +3,6 @@ import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:otp_autofill/otp_autofill.dart';
 
 
 
