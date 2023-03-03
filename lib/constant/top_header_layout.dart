@@ -41,13 +41,19 @@ class _ToHeadLayoutState extends State<ToHeadLayout> {
           ),
           Padding(
             padding: EdgeInsets.only(left: parentHeight * 0.01),
-            child: Text(widget.title,
-              style: TextStyle(
-                  fontSize: SizeConfig.blockSizeHorizontal*7.0,
-                  fontFamily: "Roboto_Medium",
-                  fontWeight: FontWeight.w500,
-                  color: CommonColor.WHITE_COLOR
-              ),),
+            child: Container(
+              color: Colors.transparent,
+              width: parentWidth*0.6,
+              child: Center(
+                child: Text(widget.title,
+                  style: TextStyle(
+                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                      fontFamily: "Roboto_Medium",
+                      fontWeight: FontWeight.w500,
+                      color: CommonColor.WHITE_COLOR
+                  ),textAlign: TextAlign.center,),
+              ),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(right: parentWidth*0.035),

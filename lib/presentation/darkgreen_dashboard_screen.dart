@@ -3,6 +3,7 @@ import 'package:darkgreen/constant/darkgreen_screen_constant.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/category_screen.dart';
+import 'package:darkgreen/presentation/exit_dialog.dart';
 import 'package:darkgreen/presentation/favorite_screen.dart';
 import 'package:darkgreen/presentation/home_screen.dart';
 import 'package:darkgreen/presentation/profile_screen.dart';
@@ -26,6 +27,9 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
   Widget? widDashboardScreen, widMenuScreen;
   bool isShow = true;
 
+  Future<bool> _onBackPressed() {
+    return showExitDialog(context);
+  }
 
   @override
   void initState() {
@@ -44,40 +48,43 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      child: Material(
-        child: Column(
-          children: [
-            Visibility(
-              visible: isShow,
-              child: Container(
-                color: CommonColor.APP_BAR_COLOR,
-                height: SizeConfig.safeUsedHeight * .12,
-                child: getTopText(SizeConfig.screenHeight, SizeConfig.screenWidth),
-              ),
-            ),
-            Container(
-              height: SizeConfig.safeUsedHeight * .8,
-              child: getContainer(),
-            ),
-            Container(
-              height: SizeConfig.safeUsedHeight * .08,
-              decoration:  BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+      child: WillPopScope(
+        onWillPop:  _onBackPressed,
+        child: Material(
+          child: Column(
+            children: [
+              Visibility(
+                visible: isShow,
+                child: Container(
+                  color: CommonColor.APP_BAR_COLOR,
+                  height: SizeConfig.safeUsedHeight * .12,
+                  child: getTopText(SizeConfig.screenHeight, SizeConfig.screenWidth),
                 ),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 7,
-                      spreadRadius: 3,
-                      offset: Offset(2, 2.0))
-                ],
               ),
-              child: getBottomBarDesign(
-                  SizeConfig.screenHeight, SizeConfig.screenWidth),
-            ),
-          ],
+              Container(
+                height: SizeConfig.safeUsedHeight * .8,
+                child: getContainer(),
+              ),
+              Container(
+                height: SizeConfig.safeUsedHeight * .08,
+                decoration:  BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 7,
+                        spreadRadius: 3,
+                        offset: Offset(2, 2.0))
+                  ],
+                ),
+                child: getBottomBarDesign(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -359,6 +366,35 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
         ],
       ),
     );
+  }
+
+
+  static showExitDialog(BuildContext context) {
+    if (context != null) {
+      showGeneralDialog(
+          barrierColor: Colors.black.withOpacity(0.5),
+          transitionBuilder: (context, a1, a2, widget) {
+            final curvedValue = Curves.easeInOutBack.transform(a1.value) - 1.0;
+            // return Transform(
+            //   transform: Matrix4.translationValues(0.0, curvedValue * 200, 0.0),
+            return Transform.scale(
+              scale: a1.value,
+              child: Opacity(
+                opacity: a1.value,
+                child: ExitAppDialog(
+                  message: "Are You Sure To Exit",
+                ),
+              ),
+            );
+          },
+          transitionDuration: Duration(milliseconds: 200),
+          barrierDismissible: true,
+          barrierLabel: '',
+          context: context,
+          pageBuilder: (context, animation2, animation1) {
+            return Container();
+          });
+    }
   }
 
   @override

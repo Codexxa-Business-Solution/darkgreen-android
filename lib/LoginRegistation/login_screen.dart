@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'package:darkgreen/LoginRegistation/otp_base_register.dart';
+import 'package:darkgreen/api_model/login/login_response_model.dart';
+import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,7 +17,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  TextEditingController numberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   final _oldPasswordFocus = FocusNode();
 
@@ -26,54 +30,39 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      backgroundColor: CommonColor.APP_BAR_COLOR,
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Container(
-            height: SizeConfig.screenHeight * 0.33,
-            child: Column(
+    return Stack(
+      children: [
+        const Scaffold(
+          backgroundColor: CommonColor.APP_BAR_COLOR,
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.36),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: ListView(
+              shrinkWrap: true,
               children: [
-                getAddMainHeadingLayout(
-                    SizeConfig.screenHeight, SizeConfig.screenWidth),
-                Center(
-                  child: Padding(
-                    padding:
-                    EdgeInsets.only(top: SizeConfig.screenHeight * 0.02),
-                    child: const Image(
-                      image: AssetImage(
-                        "assets/images/appLogo.jpg",
+                Container(
+                    height: SizeConfig.screenHeight * 0.64,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
                       ),
-                      height: 70,
                     ),
-                  ),
-                ),
+                    //  color: Colors.white,
+                    child: getNumberLayout(
+                        SizeConfig.screenHeight, SizeConfig.screenWidth))
               ],
+              //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
             ),
           ),
-          Container(
-              height: SizeConfig.screenHeight * 0.64,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              //  color: Colors.white,
-              child: getNumberLayout(
-                  SizeConfig.screenHeight, SizeConfig.screenWidth))
-        ],
-        //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
-      ),
+        ),
+      ],
     );
   }
 
@@ -127,184 +116,245 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget getNumberLayout(double parentHeight, double parentWidth){
+  Widget getNumberLayout(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(top: parentHeight*0.05),
+      padding: EdgeInsets.only(top: parentHeight * 0.05),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-
-          Text("Welcome to Darkgreen",
+          Text(
+            "Welcome to Darkgreen",
             style: TextStyle(
                 color: Colors.black,
-                fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                 fontFamily: 'Roboto_Medium',
-                fontWeight: FontWeight.w500
-            ),
+                fontWeight: FontWeight.w500),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.03, left: parentWidth*0.1, right: parentWidth*0.1),
+            padding: EdgeInsets.only(
+                top: parentHeight * 0.03,
+                left: parentWidth * 0.1,
+                right: parentWidth * 0.1),
             child: TextFormField(
               cursorColor: CommonColor.APP_BAR_COLOR,
-             decoration: InputDecoration(
-               labelText: "Mobile No.",
-               labelStyle: TextStyle(
-                   color: Colors.black,
-                   fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                   fontFamily: 'Roboto_Regular',
-                   fontWeight: FontWeight.w500,
-               ),
-               prefixIcon: Icon(Icons.phone_android_rounded,
-               color: Colors.black,),
-               focusedBorder: UnderlineInputBorder(
-                 borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
-               ),
-             ),
+              controller: numberController,
+              decoration: InputDecoration(
+                labelText: "Mobile No.",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                  fontFamily: 'Roboto_Regular',
+                  fontWeight: FontWeight.w500,
+                ),
+                prefixIcon: const Icon(
+                  Icons.phone_android_rounded,
+                  color: Colors.black,
+                ),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
+                ),
+              ),
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.1, right: parentWidth*0.1),
+            padding: EdgeInsets.only(
+                top: parentHeight * 0.01,
+                left: parentWidth * 0.1,
+                right: parentWidth * 0.1),
             child: TextFormField(
               cursorColor: CommonColor.APP_BAR_COLOR,
-              decoration:  InputDecoration(
+              controller: passwordController,
+              decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: TextStyle(
                     color: Colors.black,
-                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                    fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                     fontFamily: 'Roboto_Regular',
                     fontWeight: FontWeight.w500,
-                  ),                  focusedBorder: UnderlineInputBorder(
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                   ),
-                  prefixIcon: Icon(Icons.lock, color: Colors.black,),
-                  suffixIcon:oldPaswordShow ? GestureDetector(
-                    onDoubleTap: (){},
-                    onTap: (){
-                      _toggle();
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Icon(Icons.remove_red_eye,
-                        color: Colors.black,),
-                    ),
-                  ):
-                  Padding(
-                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.01),
-                    child:  GestureDetector(
-                      onDoubleTap: (){},
-                      onTap: (){
-                        _toggle();
-                      },
-                      child: Container(
-                        // color: Colors.red,
-                        child: Image(image: AssetImage("assets/images/close-eye.png"),
-                          color: Colors.black,),
-                      ),
-                    ),
-                  )
-              ),
+                  prefixIcon: const Icon(
+                    Icons.lock,
+                    color: Colors.black,
+                  ),
+                  suffixIcon: oldPaswordShow
+                      ? GestureDetector(
+                          onDoubleTap: () {},
+                          onTap: () {
+                            _toggle();
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: const Icon(
+                              Icons.remove_red_eye,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.only(
+                              right: SizeConfig.screenWidth * 0.01),
+                          child: GestureDetector(
+                            onDoubleTap: () {},
+                            onTap: () {
+                              _toggle();
+                            },
+                            child: Container(
+                              // color: Colors.red,
+                              child: const Image(
+                                image:
+                                    AssetImage("assets/images/close-eye.png"),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        )),
               obscureText: oldPaswordShow,
               focusNode: _oldPasswordFocus,
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.05, left: parentWidth*0.07, right: parentWidth*0.07),
+            padding: EdgeInsets.only(
+                top: parentHeight * 0.05,
+                left: parentWidth * 0.07,
+                right: parentWidth * 0.07),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
+              onDoubleTap: () {},
+              onTap: () {
+                userLogin();
               },
               child: Container(
-                height: parentHeight*0.06,
-                width: parentWidth*0.7,
+                height: parentHeight * 0.06,
+                width: parentWidth * 0.7,
                 decoration: BoxDecoration(
                     color: CommonColor.APP_BAR_COLOR,
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Center(
-                  child: Text("Log In",
+                  child: Text(
+                    "Log In",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                        fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                         fontFamily: 'Roboto_Medium',
-                        fontWeight: FontWeight.w500
-                    ),
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.05, left: parentWidth*0.07, right: parentWidth*0.07),
+            padding: EdgeInsets.only(
+                top: parentHeight * 0.05,
+                left: parentWidth * 0.07,
+                right: parentWidth * 0.07),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onDoubleTap: (){},
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                  onDoubleTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterScreen()));
                   },
                   child: Container(
                     color: Colors.transparent,
-                    child: Text("Forgot Password ?",
+                    child: Text(
+                      "Forgot Password ?",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                           fontFamily: 'Roboto_Regular',
                           fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline
-                      ),
-
+                          decoration: TextDecoration.underline),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.05, left: parentWidth*0.07, right: parentWidth*0.07),
+            padding: EdgeInsets.only(
+                top: parentHeight * 0.05,
+                left: parentWidth * 0.07,
+                right: parentWidth * 0.07),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+              onDoubleTap: () {},
+              onTap: () {
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    isScrollControlled: true,
+                    isDismissible: false,
+                    enableDrag: true,
+                    builder: (BuildContext bc) {
+                      return const RegisterScreen();
+                    });
               },
               child: Container(
-                height: parentHeight*0.06,
-                width: parentWidth*0.7,
+                height: parentHeight * 0.06,
+                width: parentWidth * 0.7,
                 decoration: BoxDecoration(
                     color: CommonColor.CIRCLE_COLOR,
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Center(
-                  child: Text("Sign Up",
+                  child: Text(
+                    "Sign Up",
                     style: TextStyle(
                         color: CommonColor.APP_BAR_COLOR,
-                        fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                        fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                         fontFamily: 'Roboto_Medium',
-                        fontWeight: FontWeight.w500
-                    ),
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
             ),
           ),
-
-
-
-
         ],
       ),
     );
   }
 
+  Future<UserLoginResponseModel> userLogin() async {
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersLogin),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "mobile": numberController.text.trim(),
+          "password": passwordController.text,
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("loginResponse -->  ${body}");
+
+      if (jsonData["message"] == "Successfully logged in!") {
+
+        AppPreferences.setIds(jsonData["user_id"]);
+
+        print(AppPreferences.getIds().toString());
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Dashboard()));
+      }
 
 
 
-
-
+      return userLoginResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
 }
