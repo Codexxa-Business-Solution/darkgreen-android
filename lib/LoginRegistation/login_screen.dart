@@ -33,36 +33,30 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Stack(
-      children: [
-        const Scaffold(
-          backgroundColor: CommonColor.APP_BAR_COLOR,
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.36),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: ListView(
-              shrinkWrap: true,
-              children: [
-                Container(
-                    height: SizeConfig.screenHeight * 0.64,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25),
-                      ),
-                    ),
-                    //  color: Colors.white,
-                    child: getNumberLayout(
-                        SizeConfig.screenHeight, SizeConfig.screenWidth))
-              ],
-              //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
-            ),
-          ),
-        ),
-      ],
+    return Scaffold(
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: [
+          Container(
+              height: SizeConfig.screenHeight * 0.5,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
+              ),),
+          Container(
+              height: SizeConfig.screenHeight * 0.5,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              //  color: Colors.white,
+              child: getNumberLayout(
+                  SizeConfig.screenHeight, SizeConfig.screenWidth)),
+        ],
+      ),
     );
   }
 
@@ -118,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget getNumberLayout(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(top: parentHeight * 0.05),
+      padding: EdgeInsets.only(top: parentHeight * 0.03),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -217,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(
-                top: parentHeight * 0.05,
+                top: parentHeight * 0.03,
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
@@ -246,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(
-                top: parentHeight * 0.05,
+                top: parentHeight * 0.03,
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: Row(
@@ -278,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(
-                top: parentHeight * 0.05,
+                top: parentHeight * 0.03,
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
@@ -330,6 +324,7 @@ class _LoginScreenState extends State<LoginScreen> {
           "accesskey": ApiConstants().accessKey,
           "mobile": numberController.text.trim(),
           "password": passwordController.text,
+          "login":"1"
         },
         headers: headersList);
 

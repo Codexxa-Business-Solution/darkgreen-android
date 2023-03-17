@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -11,30 +11,44 @@ import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class ProductPriceDetails extends StatefulWidget {
-
   final String subProName;
   final String subCatId;
 
-  const ProductPriceDetails({Key? key, required this.subProName, required this.subCatId}) : super(key: key);
+  const ProductPriceDetails(
+      {Key? key, required this.subProName, required this.subCatId})
+      : super(key: key);
 
   @override
   State<ProductPriceDetails> createState() => _ProductPriceDetailsState();
 }
 
 class _ProductPriceDetailsState extends State<ProductPriceDetails> {
-
-
   bool isFav = false;
   int count = 0;
+  int currentIndex = 0;
+  String productId = "";
+  String productVariantId = "";
 
+  int cartCount = 0;
+  int addCartValue = 0;
 
   @override
   void initState() {
     super.initState();
-    productByCategoriesApi();
+    AllCommonApis().productByCategoriesApi(widget.subCatId);
+  }
+
+  Future<Null> refreshList() async {
+    await Future.delayed(Duration(seconds: 1));
+
+    var result = AllCommonApis().productByCategoriesApi(widget.subCatId);
+
+    result.then((value) {
+      setState(() {});
+    });
+
+    return null;
   }
 
   @override
@@ -45,13 +59,20 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
         children: [
           Container(
               color: CommonColor.APP_BAR_COLOR,
-              height: SizeConfig.screenHeight*0.12,
-              child: ToHeadLayout(title: widget.subProName,)
+              height: SizeConfig.screenHeight * 0.12,
+              child: ToHeadLayout(
+                title: widget.subProName,
+              )),
+          RefreshIndicator(
+            color: CommonColor.REFRESH_INDICATOR_COLOR,
+            onRefresh: () async {
+              await refreshList();
+            },
+            child: Container(
+                color: CommonColor.WHITE_COLOR,
+                height: SizeConfig.screenHeight * 0.88,
+                child: GetAllProducts(getSubCatId: widget.subCatId,),
           ),
-          Container(
-              color: CommonColor.WHITE_COLOR,
-              height: SizeConfig.screenHeight*0.88,
-              child: getProductDetailsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth)
           ),
         ],
       ),
@@ -60,7 +81,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
 
   Widget getAddMainHeadingLayout(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(top: parentHeight * .05, left: parentWidth*0.05, right: parentWidth*0.05),
+      padding: EdgeInsets.only(
+          top: parentHeight * .05,
+          left: parentWidth * 0.05,
+          right: parentWidth * 0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -70,6 +94,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
             },
             onDoubleTap: () {},
             child: Container(
+              color: Colors.transparent,
               child: Icon(
                 Icons.arrow_back_ios,
                 size: parentHeight * .025,
@@ -83,10 +108,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
               fontSize: SizeConfig.blockSizeHorizontal * 5.5,
               fontFamily: 'Roboto_Medium',
               fontWeight: FontWeight.w400,
-              color: CommonColor.WHITE_COLOR,),
+              color: CommonColor.WHITE_COLOR,
+            ),
           ),
           Container(
-            child: Icon(
+            color: Colors.transparent,
+            child: const Icon(
               Icons.search_outlined,
               color: Colors.transparent,
             ),
@@ -96,11 +123,76 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
     );
   }
 
-  Widget getProductDetailsLayout(double parentHeight, double parentWidth) {
-    return FutureBuilder<GetProductsByCategoriesResponseModel>(
-      future: productByCategoriesApi(),
-      builder: (context, snap){
+  Future addToCartApi(String pi, String pvi, String count) async {
+    String? id = await AppPreferences.getIds();
 
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    try {
+      final result = await http.post(
+          Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+          body: {
+            "accesskey": ApiConstants().accessKey,
+            "add_to_cart": "1",
+            "user_id": id,
+            "product_id": pi,
+            "product_variant_id": pvi,
+            "qty": count
+          },
+          headers: headersList);
+      var pdfText = await json.decode(json.encode(result.body));
+
+      print("$pdfText");
+
+      return pdfText;
+    } catch (e) {
+      throw e;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class GetAllProducts extends StatefulWidget {
+  final String getSubCatId;
+
+  const GetAllProducts({Key? key, required this.getSubCatId}) : super(key: key);
+
+  @override
+  State<GetAllProducts> createState() => _GetAllProductsState();
+}
+
+class _GetAllProductsState extends State<GetAllProducts> {
+
+
+  String productId = "";
+  String productVariantId = "";
+  int cartCount = 0;
+  int addCartValue = 0;
+
+
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return  FutureBuilder<GetProductsByCategoriesResponseModel>(
+      future: AllCommonApis().productByCategoriesApi(widget.getSubCatId),
+      builder: (context, snap) {
         if (!snap.hasData && !snap.hasError) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -116,36 +208,44 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
         }
 
         return Padding(
-          padding: EdgeInsets.only(top: parentHeight * 0.01),
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.01),
           child: GridView.builder(
-              padding: EdgeInsets.only(bottom: parentHeight*0.05, top: parentHeight*0.03,
-                left: parentWidth*0.0,right: parentWidth*0.03,),
+              padding: EdgeInsets.only(
+                bottom: SizeConfig.screenHeight * 0.05,
+                top: SizeConfig.screenHeight * 0.03,
+                left: SizeConfig.screenWidth * 0.0,
+                right: SizeConfig.screenWidth * 0.03,
+              ),
               shrinkWrap: true,
               itemCount: snap.data?.data.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+              gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                   crossAxisCount: 2,
                   mainAxisSpacing: 5,
-                  height: parentHeight*0.33
-              ),
+                  height: SizeConfig.screenHeight * 0.33),
               itemBuilder: (context, index) {
-
-                final img = data.data[index].image.isNotEmpty
+                final img = snap.data?.data[index].image != null
                     ? Image.network(
-                  "${data.data[index].image}",
+                  "${snap.data?.data[index].image}",
                 )
                     : Image.network("");
 
                 return Padding(
                   padding: EdgeInsets.only(
-                      top: parentHeight * 0.01,bottom: parentHeight * 0.01, left: parentWidth*0.05),
+                      top: SizeConfig.screenHeight * 0.01,
+                      bottom: SizeConfig.screenHeight * 0.01,
+                      left: SizeConfig.screenWidth * 0.05),
                   child: GestureDetector(
-                    onDoubleTap: (){},
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductInfoScreen()));
+                    onDoubleTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProductInfoScreen()));
                     },
                     child: Container(
-                      height: parentHeight*0.17,
-                      width: parentWidth*0.47,
+                      height: SizeConfig.screenHeight * 0.17,
+                      width: SizeConfig.screenWidth * 0.47,
                       decoration: BoxDecoration(
                         color: CommonColor.WHITE_COLOR,
                         borderRadius: BorderRadius.circular(10),
@@ -167,87 +267,119 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
                                   ),
-                                  height: parentHeight*0.18,
-                                  width: parentWidth*0.47,
+                                  height: SizeConfig.screenHeight * 0.18,
+                                  width: SizeConfig.screenWidth * 0.47,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
                                     child: img,
-                                  )
-                              ),
+                                  )),
                               Padding(
-                                padding: EdgeInsets.only(top: parentHeight*0.015),
+                                padding:
+                                EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: parentWidth*0.15,
-                                      height: parentHeight*0.027,
-                                      decoration: BoxDecoration(
+                                      width: SizeConfig.screenWidth * 0.15,
+                                      height: SizeConfig.screenHeight * 0.027,
+                                      decoration: const BoxDecoration(
                                           color: CommonColor.APP_BAR_COLOR,
                                           borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(5),
-                                              bottomRight: Radius.circular(5)
-                                          )
-                                      ),
+                                              bottomRight: Radius.circular(5))),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
                                         children: [
-                                          Text("30% off",
+                                          Text(
+                                            "30% off",
                                             style: TextStyle(
                                                 color: CommonColor.WHITE_COLOR,
-                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontSize: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    3.5,
                                                 fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Regular'
-                                            ),),
+                                                fontFamily: 'Roboto_Regular'),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                        padding: EdgeInsets.only(right: parentWidth*0.02),
-                                        child: Stack(
-                                          children: [
-                                            Visibility(
-                                              visible: !isFav,
-                                              child: GestureDetector(
-                                                onDoubleTap: (){},
-                                                onTap: (){
-                                                  if(mounted){
-                                                    setState(() {
-                                                      isFav = !isFav;
-                                                    });
-                                                  }
-                                                },
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  child: Icon(Icons.favorite_outline_rounded,
-                                                    color: CommonColor.LIKE_COLOR,),
-                                                ),
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible: isFav,
-                                              child: GestureDetector(
-                                                onDoubleTap: (){},
-                                                onTap: (){
-                                                  if(mounted){
-                                                    setState(() {
-                                                      isFav = !isFav;
-                                                    });
-                                                  }
-                                                },
-                                                child: Container(
-                                                  color: Colors.transparent,
-                                                  child: Icon(Icons.favorite_rounded,
-                                                    color: CommonColor.LIKE_COLOR,),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                    snap.data?.data[index].isFavorite == true
+                                        ? Padding(
+                                      padding: EdgeInsets.only(
+                                          right: SizeConfig.screenWidth * 0.02),
+                                      child: GestureDetector(
+                                        onDoubleTap: () {},
+                                        onTap: () {
+                                          productId =
+                                          "${snap.data?.data[index].variants[0].productId}";
 
+                                          var result = AllCommonApis()
+                                              .removeToFavorite(
+                                              productId);
+
+                                          result.then((value) {
+                                            if (mounted) {
+                                              setState(() {
+                                                // productId =
+                                                // "${snap.data?.data[index].variants[0].productId}";
+                                                //
+                                                // var result = AllCommonApis()
+                                                //     .removeToFavorite(productId);
+                                                //
+                                                // result.then((value) {
+                                                //   if (mounted) {
+                                                //     setState(() {
+                                                //     });
+                                                //   }
+                                                // });
+                                              });
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          child: const Icon(
+                                            Icons.favorite_rounded,
+                                            color: CommonColor.LIKE_COLOR,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                        : Padding(
+                                      padding: EdgeInsets.only(
+                                          right: SizeConfig.screenWidth * 0.02),
+                                      child: GestureDetector(
+                                        onDoubleTap: () {},
+                                        onTap: () {
+                                          productId =
+                                          "${snap.data?.data[index].variants[0].productId}";
+
+                                          var result = AllCommonApis()
+                                              .addToFavorite(
+                                              productId);
+
+                                          result.then((value) {
+                                            if (mounted) {
+                                              setState(() {
+
+                                              });
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          child: const Icon(
+                                            Icons
+                                                .favorite_outline_rounded,
+                                            color: CommonColor.LIKE_COLOR,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -258,123 +390,184 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                             alignment: Alignment.bottomRight,
                             children: [
                               Container(
-                                height: parentHeight*0.13,
-                                width: parentWidth*0.47,
-                                decoration: BoxDecoration(
-                                  // color: Colors.red,
+                                height: SizeConfig.screenHeight * 0.13,
+                                width: SizeConfig.screenWidth * 0.47,
+                                decoration: const BoxDecoration(
+                                    color: CommonColor.LAYOUT_BACKGROUND_COLOR,
                                     borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
-                                    )
-                                ),
+                                    )),
                                 child: Column(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.01,
+                                          left: SizeConfig.screenWidth * 0.02),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: parentWidth*0.4,
+                                            width: SizeConfig.screenWidth * 0.4,
                                             color: Colors.transparent,
-                                            child: Text("${data.data[index].name}",
+                                            child: Text(
+                                              "${snap.data?.data[index].name}",
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                  fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      3.5,
                                                   fontFamily: 'Roboto_Normal',
-                                                  fontWeight: FontWeight.w400
-                                              ),textAlign: TextAlign.start,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,),
+                                                  fontWeight: FontWeight.w400),
+                                              textAlign: TextAlign.start,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: parentHeight*0.01, left: parentWidth*0.02),
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.01,
+                                          left: SizeConfig.screenWidth * 0.02),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
                                         children: [
-                                          Text("Rs ${data.data[index].price}",
+                                          Text(
+                                            "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
                                             style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                                                fontSize: SizeConfig
+                                                    .blockSizeHorizontal *
+                                                    3.5,
                                                 fontFamily: 'Roboto_Normal',
-                                                fontWeight: FontWeight.w500
-                                            ),textAlign: TextAlign.center,),
-
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
                                           Padding(
-                                            padding: EdgeInsets.only(left: parentWidth*0.02),
-                                            child: Text("Rs ${data.data[index].variants[0].discountedPrice}",
+                                            padding: EdgeInsets.only(
+                                                left: SizeConfig.screenWidth * 0.02),
+                                            child: Text(
+                                              "Rs ${snap.data?.data[index].price}",
                                               style: TextStyle(
-                                                  color: CommonColor.DISCOUNT_COLOR,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                                                  color: CommonColor
+                                                      .DISCOUNT_COLOR,
+                                                  fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                      3.0,
                                                   fontFamily: 'Roboto_Normal',
                                                   fontWeight: FontWeight.w500,
-                                                  decoration: TextDecoration.lineThrough
-                                              ),textAlign: TextAlign.center,),
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: parentHeight*0.015, left: parentWidth*0.02, right: parentWidth*0.02),
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.015,
+                                          left: SizeConfig.screenWidth * 0.02,
+                                          right: SizeConfig.screenWidth * 0.02),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
-                                            height: parentHeight*0.035,
-                                            width: parentWidth*0.13,
+                                            height: SizeConfig.screenHeight * 0.035,
+                                            width: SizeConfig.screenWidth * 0.13,
                                             decoration: BoxDecoration(
-                                                color: CommonColor.REVIEW_CONTAINER_COLOR,
-                                                borderRadius: BorderRadius.circular(7)
-                                            ),
+                                                color: CommonColor
+                                                    .REVIEW_CONTAINER_COLOR,
+                                                borderRadius:
+                                                BorderRadius.circular(7)),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(left: parentWidth*0.02),
-                                                  child: Text("${data.data[index].numberOfRatings}",
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig.screenWidth * 0.02),
+                                                  child: Text(
+                                                    "${snap.data?.data[index].ratings}",
                                                     style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                                                        fontWeight: FontWeight.w400,
-                                                        fontFamily: 'Roboto_Medium'
-                                                    ),
+                                                        fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                            3.5,
+                                                        fontWeight:
+                                                        FontWeight.w400,
+                                                        fontFamily:
+                                                        'Roboto_Medium'),
                                                   ),
                                                 ),
-
                                                 Padding(
-                                                  padding: EdgeInsets.only(right: parentWidth*0.015),
-                                                  child: Icon(Icons.star,
-                                                    color: CommonColor.REVIEW_COLOR,
-                                                    size: parentHeight*0.018,),
+                                                  padding: EdgeInsets.only(
+                                                      right:
+                                                      SizeConfig.screenWidth * 0.015),
+                                                  child: Icon(
+                                                    Icons.star,
+                                                    color: CommonColor
+                                                        .REVIEW_COLOR,
+                                                    size: SizeConfig.screenHeight * 0.018,
+                                                  ),
                                                 )
                                               ],
                                             ),
                                           ),
                                           Visibility(
-                                            visible: count != 0 ? true : false,
+                                            visible: snap.data?.data[index]
+                                                .variants[0]
+                                                .cartCount !=
+                                                "0"
+                                                ? true
+                                                : false,
                                             child: Row(
                                               children: [
                                                 GestureDetector(
                                                   onDoubleTap: () {},
                                                   onTap: () {
-                                                    if (mounted) {
-                                                      setState(() {
-                                                        count--;
-                                                      });
-                                                    }
+                                                    productId = "${snap.data?.data[index].variants[0].productId}";
+
+                                                    productVariantId = "${snap.data?.data[index].variants[0].id}";
+
+                                                    cartCount = int.parse("${snap.data?.data[index].variants[0].cartCount}");
+
+                                                    cartCount--;
+
+                                                    snap.data
+                                                        ?.data[index]
+                                                        .variants[0]
+                                                        .cartCount =
+                                                        cartCount.toString();
+
+                                                    AllCommonApis().addToCartApi(
+                                                        productId,
+                                                        productVariantId,
+                                                        cartCount.toString()).then((value) {
+                                                          setState(() {
+
+                                                          });
+                                                    });
+
+
+
                                                   },
                                                   child: Container(
-                                                    height: parentHeight * 0.035,
-                                                    width: parentWidth * 0.067,
+                                                    height:
+                                                    SizeConfig.screenHeight * 0.035,
+                                                    width: SizeConfig.screenWidth * 0.07,
                                                     decoration: BoxDecoration(
                                                         color: CommonColor
                                                             .APP_BAR_COLOR,
                                                         borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
+                                                        BorderRadius
+                                                            .circular(5)),
                                                     child: Center(
                                                         child: Text(
                                                           "-",
@@ -389,17 +582,17 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  height: parentHeight * 0.035,
-                                                  width: parentWidth * 0.07,
+                                                  height: SizeConfig.screenHeight * 0.035,
+                                                  width: SizeConfig.screenWidth * 0.07,
                                                   decoration: BoxDecoration(
-                                                      color:
-                                                      CommonColor.WHITE_COLOR,
+                                                      color: CommonColor
+                                                          .WHITE_COLOR,
                                                       borderRadius:
                                                       BorderRadius.circular(
                                                           5)),
                                                   child: Center(
                                                       child: Text(
-                                                        "$count",
+                                                        "${snap.data?.data[index].variants[0].cartCount}",
                                                         style: TextStyle(
                                                             color: CommonColor
                                                                 .BLACK_COLOR,
@@ -412,21 +605,38 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                 GestureDetector(
                                                   onDoubleTap: () {},
                                                   onTap: () {
-                                                    if (mounted) {
+                                                    productId = "${snap.data?.data[index].variants[0].productId}";
+                                                    productVariantId = "${snap.data?.data[index].variants[0].id}";
+
+                                                    cartCount = int.parse("${snap.data?.data[index].variants[0].cartCount}");
+
+                                                    cartCount++;
+
+                                                    snap.data
+                                                        ?.data[index]
+                                                        .variants[0]
+                                                        .cartCount =
+                                                        cartCount.toString();
+
+                                                    AllCommonApis().addToCartApi(
+                                                        productId,
+                                                        productVariantId,
+                                                        cartCount.toString()).then((value) {
                                                       setState(() {
-                                                        count++;
+
                                                       });
-                                                    }
+                                                    });
                                                   },
                                                   child: Container(
-                                                    height: parentHeight * 0.035,
-                                                    width: parentWidth * 0.067,
+                                                    height:
+                                                    SizeConfig.screenHeight * 0.035,
+                                                    width: SizeConfig.screenWidth * 0.07,
                                                     decoration: BoxDecoration(
                                                         color: CommonColor
                                                             .APP_BAR_COLOR,
                                                         borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
+                                                        BorderRadius
+                                                            .circular(5)),
                                                     child: Center(
                                                         child: Text(
                                                           "+",
@@ -450,27 +660,44 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                 ),
                               ),
                               Visibility(
-                                visible: count == 0 ? true : false,
+                                visible: snap.data?.data[index].variants[0]
+                                    .cartCount ==
+                                    "0"
+                                    ? true
+                                    : false,
                                 child: GestureDetector(
-                                  onDoubleTap: (){},
-                                  onTap:(){
-                                    if(mounted){
+                                  onDoubleTap: () {},
+                                  onTap: () {
+
+                                    productId = "${snap.data?.data[index].variants[0].productId}";
+
+                                    productVariantId = "${snap.data?.data[index].variants[0].id}";
+
+                                    cartCount = int.parse("${snap.data?.data[index].variants[0].cartCount}");
+
+                                    cartCount++;
+
+                                    snap.data?.data[index].variants[0].cartCount = cartCount.toString();
+
+                                    AllCommonApis().addToCartApi(
+                                        productId,
+                                        productVariantId,
+                                        cartCount.toString()).then((value) {
                                       setState(() {
-                                        count++;
+
                                       });
-                                    }
+                                    });
                                   },
                                   child: Container(
-                                    height: parentHeight*0.06,
-                                    width: parentWidth*0.13,
-                                    decoration: BoxDecoration(
+                                    height: SizeConfig.screenHeight * 0.06,
+                                    width: SizeConfig.screenWidth * 0.13,
+                                    decoration: const BoxDecoration(
                                         color: CommonColor.APP_BAR_COLOR,
                                         borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(10),
                                           topLeft: Radius.circular(10),
-                                        )
-                                    ),
-                                    child: Icon(
+                                        )),
+                                    child: const Icon(
                                       Icons.add,
                                       color: Colors.white,
                                     ),
@@ -489,39 +716,4 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
       },
     );
   }
-
-  Future<GetProductsByCategoriesResponseModel> productByCategoriesApi() async {
-
-    String? id = await AppPreferences.getIds();
-
-    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
-    print("${widget.subCatId}");
-
-    var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().productBySubCategories),
-        body: {
-          "accesskey": ApiConstants().accessKey,
-          "subcategory_id": widget.subCatId,
-          "user_id":id,
-          "limit":"10",
-          "offset":"0",
-          "sort":""
-        },
-        headers: headersList);
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      print("productBySubCategoriesResponse -->  ${body}");
-
-      return getProductsByCategoriesResponseModelFromJson(response.body);
-    } else {
-      throw Exception('Failed to create album.');
-    }
-  }
 }
-
-

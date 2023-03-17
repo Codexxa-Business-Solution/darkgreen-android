@@ -23,6 +23,7 @@ class CommonColor{
   static const ORDER_SHIPPED_COLOR = const Color(0xFFb5a8a7);
   static const ORDER_DELIVERED_COLOR = const Color(0xFFf5b6a9);
   static const ORDER_RETURNED_COLOR = const Color(0xFF8baca0);
+  static const REFRESH_INDICATOR_COLOR = const Color(0xFFCDD2FD);
 
 
 }
