@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
+import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
+import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:http/http.dart' as http;
@@ -9,10 +11,8 @@ import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
 
 class AllCommonApis {
-
-
-
-  Future<GetProductsByCategoriesResponseModel> productByCategoriesApi(String subCatId) async {
+  Future<GetProductsByCategoriesResponseModel> productByCategoriesApi(
+      String subCatId) async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -24,7 +24,7 @@ class AllCommonApis {
             ApiConstants().baseUrl + ApiConstants().productBySubCategories),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "subcategory_id":subCatId,
+          "subcategory_id": subCatId,
           "user_id": id,
           "limit": "10",
           "offset": "0",
@@ -45,8 +45,65 @@ class AllCommonApis {
     }
   }
 
+  Future<GetProductByIdResponseModel> getProductInfoByIdApi(
+      String productId) async {
+    String? id = await AppPreferences.getIds();
 
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getProductInfoById),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "product_id": productId,
+          "user_id": id,
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getProductInfoByIdResponse -->  $body");
+
+      return getProductByIdResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetSimilarProductResponseModel> getSimilarProductByIdApi(
+      String productId, String catId) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(
+            ApiConstants().baseUrl + ApiConstants().getSimilarProductById),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_similar_products": "1",
+          "product_id": productId,
+          "category_id": catId,
+          "user_id": id,
+          "limit": "1000000000000000000"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getSimilarProductResponse -->  $body");
+
+      return getSimilarProductResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
 
   Future<GetUserCartResponseModel> getAllCarts() async {
     String? id = await AppPreferences.getIds();
@@ -103,22 +160,14 @@ class AllCommonApis {
           },
           headers: headersList);
 
-      var pdfText = await json.decode(json.encode(result.body));
+      var pdfText = await json.decode(json.encode(result.body.toString()));
 
-      // var jsonData = json.decode(result.body);
-      //
-      // if(jsonData['message'] == "Item removed user cart due to 0 quantity"){
-      //   print("object");
-      //   var result = getAllCarts();
-      //   result.then((value) {
-      //     // setState((){
-      //     //   totalCartsCount = value.data.length != 0 ? value.data.length : 0;
-      //     // });
-      //
-      //   });
-      // }
+      if(result.statusCode == 200){
+        var data = json.decode(json.encode(result.body.toString()));
+        print(data);
+      }
 
-      print("AddToCartResponse ---> $pdfText");
+      print("AddToCartResponse ---> ${pdfText}");
 
       return pdfText;
     } catch (e) {
@@ -243,7 +292,8 @@ class AllCommonApis {
     }
   }
 
-  Future<GetSearchProductResponseModel> getAllSearchingProductsApi(String searchText) async {
+  Future<GetSearchProductResponseModel> getAllSearchingProductsApi(
+      String searchText) async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -252,13 +302,13 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().searchProduct),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "type":"products-search",
-          "search":searchText,
-          "user_id":id,
-          "offset":"0",
-          "limit":"1000000",
-          "sort":"id",
-          "order":"ASC",
+          "type": "products-search",
+          "search": searchText,
+          "user_id": id,
+          "offset": "0",
+          "limit": "1000000",
+          "sort": "id",
+          "order": "ASC",
         },
         headers: headersList);
 
@@ -274,9 +324,4 @@ class AllCommonApis {
       throw Exception('Failed to create album.');
     }
   }
-
-
-
-
-
 }

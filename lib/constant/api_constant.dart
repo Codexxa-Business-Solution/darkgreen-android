@@ -7,7 +7,7 @@ class ApiConstants {
 
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzkwNTY3MTQsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjc5MDU4NTE0LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.clp_-sp3LAsacp19lUj2GpyVmegH2l4XKBCsn7c6FQA";
+  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzk0NzEzOTgsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjc5NDczMTk4LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.59f3ubqMzrWdVo9u18JDlgQA0Mz6BT9jwpoIxE3wSvc";
 
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
@@ -19,6 +19,8 @@ class ApiConstants {
   String addToCart = "cart.php";
   String addFavorite = "favorites.php";
   String searchProduct = "products-search.php";
+  String getProductInfoById = "get-product-by-id.php";
+  String getSimilarProductById = "get-similar-products.php";
 
 
 

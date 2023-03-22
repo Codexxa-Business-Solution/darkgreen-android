@@ -9,8 +9,6 @@ import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'confirm_dialogue.dart';
-
 class SearchProduct extends StatefulWidget {
   const SearchProduct({Key? key}) : super(key: key);
 
@@ -29,9 +27,13 @@ class _SearchProductState extends State<SearchProduct> {
   String productVariantId = "";
   int cartCount = 0;
   int offerPrice = 0;
+
   // Timer? _timer;
   bool showAlertDialog = true;
+  String productName = "";
+  int favTap = 0;
 
+  bool _isDialogVisible = false;
 
   removeSearch() {
     if (searchController.text.trim().length > 0) {
@@ -65,7 +67,8 @@ class _SearchProductState extends State<SearchProduct> {
   Future<Null> refreshList() async {
     await Future.delayed(Duration(seconds: 1));
 
-    var result = AllCommonApis().getAllSearchingProductsApi(searchController.text.trim());
+    var result = AllCommonApis()
+        .getAllSearchingProductsApi(searchController.text.trim());
 
     result.then((value) {
       setState(() {});
@@ -122,6 +125,38 @@ class _SearchProductState extends State<SearchProduct> {
                   SizeConfig.screenHeight, SizeConfig.screenWidth)),
         ],
       ),
+      floatingActionButton: _isDialogVisible == true
+          ? Padding(
+              padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
+              child: AlertDialog(
+                  backgroundColor: Colors.white,
+                  elevation: 9,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  title: Text(favTap == 0
+                      ? "Removed From Favorites"
+                      : "Added To Favorites"),
+                  content: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: productName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: CommonColor.APP_BAR_COLOR)),
+                        TextSpan(
+                            text: favTap == 0
+                                ? " remove this product from favorite list."
+                                : " add this product from favorite list.",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: CommonColor.BLACK_COLOR)),
+                      ],
+                    ),
+                  )),
+            )
+          : null,
     );
   }
 
@@ -286,14 +321,14 @@ class _SearchProductState extends State<SearchProduct> {
 
             if (snap.data?.data.length == 0) {
               return Center(
-                child: Text("No products available",
+                child: Text(
+                  "No products available",
                   style: TextStyle(
                       color: CommonColor.BLACK_COLOR,
-                      fontSize: SizeConfig
-                          .blockSizeHorizontal *
-                          4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'Roboto_Bold'),),
+                      fontFamily: 'Roboto_Bold'),
+                ),
               );
             }
 
@@ -312,16 +347,15 @@ class _SearchProductState extends State<SearchProduct> {
                         mainAxisSpacing: 5,
                         height: parentHeight * 0.33),
                 itemBuilder: (context, index) {
-
                   final img = data.data[index].image.isNotEmpty
                       ? Image.network(
-                    "${data.data[index].image}",
-                  )
+                          "${data.data[index].image}",
+                        )
                       : Image.network("");
 
-
-                  offerPrice = int.parse("${snap.data?.data[index].price}") - int.parse("${snap.data?.data[index].variants[0].discountedPrice}");
-
+                  offerPrice = int.parse("${snap.data?.data[index].price}") -
+                      int.parse(
+                          "${snap.data?.data[index].variants[0].discountedPrice}");
 
                   return Padding(
                     padding: EdgeInsets.only(
@@ -334,7 +368,10 @@ class _SearchProductState extends State<SearchProduct> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProductInfoScreen()));
+                                builder: (context) => ProductInfoScreen(
+                                      productId: "${snap.data?.data[index].id}",
+                                      catId: '',
+                                    )));
                       },
                       child: Container(
                         height: parentHeight * 0.17,
@@ -362,7 +399,7 @@ class _SearchProductState extends State<SearchProduct> {
                                     ),
                                     height: parentHeight * 0.18,
                                     width: parentWidth * 0.47,
-                                    child:  ClipRRect(
+                                    child: ClipRRect(
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(10),
                                         topRight: Radius.circular(10),
@@ -370,8 +407,8 @@ class _SearchProductState extends State<SearchProduct> {
                                       child: img,
                                     )),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(top: parentHeight * 0.015),
+                                  padding: EdgeInsets.only(
+                                      top: parentHeight * 0.015),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -383,7 +420,8 @@ class _SearchProductState extends State<SearchProduct> {
                                             color: CommonColor.APP_BAR_COLOR,
                                             borderRadius: BorderRadius.only(
                                                 topRight: Radius.circular(5),
-                                                bottomRight: Radius.circular(5))),
+                                                bottomRight:
+                                                    Radius.circular(5))),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -391,7 +429,8 @@ class _SearchProductState extends State<SearchProduct> {
                                             Text(
                                               "$offerPrice \u{20B9} off",
                                               style: TextStyle(
-                                                  color: CommonColor.WHITE_COLOR,
+                                                  color:
+                                                      CommonColor.WHITE_COLOR,
                                                   fontSize: SizeConfig
                                                           .blockSizeHorizontal *
                                                       3.5,
@@ -403,86 +442,97 @@ class _SearchProductState extends State<SearchProduct> {
                                       ),
                                       snap.data?.data[index].isFavorite == true
                                           ? Padding(
-                                        padding: EdgeInsets.only(
-                                            right: parentWidth * 0.02),
-                                        child: GestureDetector(
-                                          onDoubleTap: () {},
-                                          onTap: () {
-                                            productId =
-                                            "${snap.data?.data[index].variants[0].productId}";
+                                              padding: EdgeInsets.only(
+                                                  right: parentWidth * 0.02),
+                                              child: GestureDetector(
+                                                onDoubleTap: () {},
+                                                onTap: () {
+                                                  productId =
+                                                      "${snap.data?.data[index].variants[0].productId}";
 
-                                            var result = AllCommonApis()
-                                                .removeToFavorite(
-                                                productId);
+                                                  productName =
+                                                      "${snap.data?.data[index].name}";
 
-                                            result.then((value) {
-                                              if (mounted) {
-                                                setState(() {
+                                                  favTap = 0;
 
-                                                  showAlertDialog = true;
+                                                  var result = AllCommonApis()
+                                                      .removeToFavorite(
+                                                          productId);
 
-                                                  // Timer(Duration(seconds: 3), () {
-                                                  //   setState(() {
-                                                  //     showAlertDialog = false;
-                                                  //   });
-                                                  // });
+                                                  result.then((value) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        _isDialogVisible = true;
 
-                                                  showAlertDialog == true ? showConfirmationDialog(
-                                                    context,
-                                                    heading: 'Remove Favorite',
-                                                    name: '${snap.data?.data[index].name}',
-                                                    message: ' Removed from Favorites Product List.',
-                                                    isConfirmationDialog: true,
-                                                  ).then((value) => {
-
-                                                  }) : Container();
-
-
-
-                                                });
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            child: const Icon(
-                                              Icons.favorite_rounded,
-                                              color: CommonColor.LIKE_COLOR,
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                                        Future.delayed(
+                                                            Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                false;
+                                                          });
+                                                        });
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  color: Colors.transparent,
+                                                  child: const Icon(
+                                                    Icons.favorite_rounded,
+                                                    color:
+                                                        CommonColor.LIKE_COLOR,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                           : Padding(
-                                        padding: EdgeInsets.only(
-                                            right: parentWidth * 0.02),
-                                        child: GestureDetector(
-                                          onDoubleTap: () {},
-                                          onTap: () {
-                                            productId =
-                                            "${snap.data?.data[index].variants[0].productId}";
+                                              padding: EdgeInsets.only(
+                                                  right: parentWidth * 0.02),
+                                              child: GestureDetector(
+                                                onDoubleTap: () {},
+                                                onTap: () {
+                                                  productId =
+                                                      "${snap.data?.data[index].variants[0].productId}";
 
-                                            var result = AllCommonApis()
-                                                .addToFavorite(productId);
+                                                  productName =
+                                                      "${snap.data?.data[index].name}";
 
-                                            result.then((value) {
-                                              if (mounted) {
-                                                setState(() {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(content: Text("${snap.data?.data[index].name} Added to Favorites Product List.")));
-                                                });
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            child: const Icon(
-                                              Icons
-                                                  .favorite_outline_rounded,
-                                              color: CommonColor.LIKE_COLOR,
+                                                  favTap = 1;
+
+                                                  var result = AllCommonApis()
+                                                      .addToFavorite(productId);
+
+                                                  result.then((value) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        _isDialogVisible = true;
+
+                                                        Future.delayed(
+                                                            Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                false;
+                                                          });
+                                                        });
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  color: Colors.transparent,
+                                                  child: const Icon(
+                                                    Icons
+                                                        .favorite_outline_rounded,
+                                                    color:
+                                                        CommonColor.LIKE_COLOR,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 )
@@ -495,7 +545,8 @@ class _SearchProductState extends State<SearchProduct> {
                                   height: parentHeight * 0.13,
                                   width: parentWidth * 0.47,
                                   decoration: const BoxDecoration(
-                                      color: CommonColor.LAYOUT_BACKGROUND_COLOR,
+                                      color:
+                                          CommonColor.LAYOUT_BACKGROUND_COLOR,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(10),
                                         bottomRight: Radius.circular(10),
@@ -508,7 +559,7 @@ class _SearchProductState extends State<SearchProduct> {
                                             left: parentWidth * 0.02),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           children: [
                                             Container(
                                               width: parentWidth * 0.4,
@@ -518,10 +569,11 @@ class _SearchProductState extends State<SearchProduct> {
                                                 style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         3.5,
                                                     fontFamily: 'Roboto_Normal',
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                                 textAlign: TextAlign.start,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
@@ -536,14 +588,14 @@ class _SearchProductState extends State<SearchProduct> {
                                             left: parentWidth * 0.02),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: SizeConfig
-                                                      .blockSizeHorizontal *
+                                                          .blockSizeHorizontal *
                                                       3.5,
                                                   fontFamily: 'Roboto_Normal',
                                                   fontWeight: FontWeight.w500),
@@ -558,7 +610,7 @@ class _SearchProductState extends State<SearchProduct> {
                                                     color: CommonColor
                                                         .DISCOUNT_COLOR,
                                                     fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                         3.0,
                                                     fontFamily: 'Roboto_Normal',
                                                     fontWeight: FontWeight.w500,
@@ -577,7 +629,7 @@ class _SearchProductState extends State<SearchProduct> {
                                             right: parentWidth * 0.02),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
                                               height: parentHeight * 0.035,
@@ -586,37 +638,39 @@ class _SearchProductState extends State<SearchProduct> {
                                                   color: CommonColor
                                                       .REVIEW_CONTAINER_COLOR,
                                                   borderRadius:
-                                                  BorderRadius.circular(7)),
+                                                      BorderRadius.circular(7)),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Padding(
                                                     padding: EdgeInsets.only(
-                                                        left: parentWidth * 0.02),
+                                                        left:
+                                                            parentWidth * 0.02),
                                                     child: Text(
                                                       "${snap.data?.data[index].ratings}",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                                  .blockSizeHorizontal *
                                                               3.5,
                                                           fontWeight:
-                                                          FontWeight.w400,
+                                                              FontWeight.w400,
                                                           fontFamily:
-                                                          'Roboto_Medium'),
+                                                              'Roboto_Medium'),
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding: EdgeInsets.only(
-                                                        right:
-                                                        parentWidth * 0.015),
+                                                        right: parentWidth *
+                                                            0.015),
                                                     child: Icon(
                                                       Icons.star,
                                                       color: CommonColor
                                                           .REVIEW_COLOR,
-                                                      size: parentHeight * 0.018,
+                                                      size:
+                                                          parentHeight * 0.018,
                                                     ),
                                                   )
                                                 ],
@@ -624,11 +678,11 @@ class _SearchProductState extends State<SearchProduct> {
                                             ),
                                             Visibility(
                                               visible: snap
-                                                  .data
-                                                  ?.data[index]
-                                                  .variants[0]
-                                                  .cartCount !=
-                                                  "0"
+                                                          .data
+                                                          ?.data[index]
+                                                          .variants[0]
+                                                          .cartCount !=
+                                                      "0"
                                                   ? true
                                                   : false,
                                               child: Row(
@@ -637,23 +691,25 @@ class _SearchProductState extends State<SearchProduct> {
                                                     onDoubleTap: () {},
                                                     onTap: () {
                                                       productId =
-                                                      "${snap.data?.data[index].variants[0].productId}";
+                                                          "${snap.data?.data[index].variants[0].productId}";
                                                       productVariantId =
-                                                      "${snap.data?.data[index].variants[0].id}";
+                                                          "${snap.data?.data[index].variants[0].id}";
 
                                                       cartCount = int.parse(
                                                           "${snap.data?.data[index].variants[0].cartCount}");
                                                       cartCount--;
                                                       snap
-                                                          .data
-                                                          ?.data[index]
-                                                          .variants[0]
-                                                          .cartCount =
+                                                              .data
+                                                              ?.data[index]
+                                                              .variants[0]
+                                                              .cartCount =
                                                           cartCount.toString();
-                                                      AllCommonApis().addToCartApi(
-                                                          productId,
-                                                          productVariantId,
-                                                          cartCount.toString());
+                                                      AllCommonApis()
+                                                          .addToCartApi(
+                                                              productId,
+                                                              productVariantId,
+                                                              cartCount
+                                                                  .toString());
 
                                                       if (mounted) {
                                                         setState(() {});
@@ -661,69 +717,72 @@ class _SearchProductState extends State<SearchProduct> {
                                                     },
                                                     child: Container(
                                                       height:
-                                                      parentHeight * 0.035,
+                                                          parentHeight * 0.035,
                                                       width: parentWidth * 0.07,
                                                       decoration: BoxDecoration(
                                                           color: CommonColor
                                                               .APP_BAR_COLOR,
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(5)),
+                                                              BorderRadius
+                                                                  .circular(5)),
                                                       child: Center(
                                                           child: Text(
-                                                            "-",
-                                                            style: TextStyle(
-                                                                color: CommonColor
-                                                                    .WHITE_COLOR,
-                                                                fontSize: SizeConfig
+                                                        "-",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
                                                                     .blockSizeHorizontal *
-                                                                    5.6),
-                                                            textScaleFactor: 1.0,
-                                                          )),
+                                                                5.6),
+                                                        textScaleFactor: 1.0,
+                                                      )),
                                                     ),
                                                   ),
                                                   Container(
-                                                    height: parentHeight * 0.035,
+                                                    height:
+                                                        parentHeight * 0.035,
                                                     width: parentWidth * 0.07,
                                                     decoration: BoxDecoration(
                                                         color: CommonColor
                                                             .WHITE_COLOR,
                                                         borderRadius:
-                                                        BorderRadius.circular(
-                                                            5)),
+                                                            BorderRadius
+                                                                .circular(5)),
                                                     child: Center(
                                                         child: Text(
-                                                          "${snap.data?.data[index].variants[0].cartCount}",
-                                                          style: TextStyle(
-                                                              color: CommonColor
-                                                                  .BLACK_COLOR,
-                                                              fontSize: SizeConfig
+                                                      "${snap.data?.data[index].variants[0].cartCount}",
+                                                      style: TextStyle(
+                                                          color: CommonColor
+                                                              .BLACK_COLOR,
+                                                          fontSize: SizeConfig
                                                                   .blockSizeHorizontal *
-                                                                  3.5),
-                                                          textScaleFactor: 1.0,
-                                                        )),
+                                                              3.5),
+                                                      textScaleFactor: 1.0,
+                                                    )),
                                                   ),
                                                   GestureDetector(
                                                     onDoubleTap: () {},
                                                     onTap: () {
                                                       productId =
-                                                      "${snap.data?.data[index].variants[0].productId}";
+                                                          "${snap.data?.data[index].variants[0].productId}";
                                                       productVariantId =
-                                                      "${snap.data?.data[index].variants[0].id}";
+                                                          "${snap.data?.data[index].variants[0].id}";
 
                                                       cartCount = int.parse(
                                                           "${snap.data?.data[index].variants[0].cartCount}");
                                                       cartCount++;
                                                       snap
-                                                          .data
-                                                          ?.data[index]
-                                                          .variants[0]
-                                                          .cartCount =
+                                                              .data
+                                                              ?.data[index]
+                                                              .variants[0]
+                                                              .cartCount =
                                                           cartCount.toString();
-                                                      AllCommonApis().addToCartApi(
-                                                          productId,
-                                                          productVariantId,
-                                                          cartCount.toString());
+                                                      AllCommonApis()
+                                                          .addToCartApi(
+                                                              productId,
+                                                              productVariantId,
+                                                              cartCount
+                                                                  .toString());
 
                                                       if (mounted) {
                                                         setState(() {});
@@ -731,25 +790,25 @@ class _SearchProductState extends State<SearchProduct> {
                                                     },
                                                     child: Container(
                                                       height:
-                                                      parentHeight * 0.035,
+                                                          parentHeight * 0.035,
                                                       width: parentWidth * 0.07,
                                                       decoration: BoxDecoration(
                                                           color: CommonColor
                                                               .APP_BAR_COLOR,
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(5)),
+                                                              BorderRadius
+                                                                  .circular(5)),
                                                       child: Center(
                                                           child: Text(
-                                                            "+",
-                                                            style: TextStyle(
-                                                                color: CommonColor
-                                                                    .WHITE_COLOR,
-                                                                fontSize: SizeConfig
+                                                        "+",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
                                                                     .blockSizeHorizontal *
-                                                                    5.0),
-                                                            textScaleFactor: 1.0,
-                                                          )),
+                                                                5.0),
+                                                        textScaleFactor: 1.0,
+                                                      )),
                                                     ),
                                                   ),
                                                 ],
@@ -763,24 +822,26 @@ class _SearchProductState extends State<SearchProduct> {
                                 ),
                                 Visibility(
                                   visible: snap.data?.data[index].variants[0]
-                                      .cartCount ==
-                                      "0"
+                                              .cartCount ==
+                                          "0"
                                       ? true
                                       : false,
                                   child: GestureDetector(
                                     onDoubleTap: () {},
                                     onTap: () {
                                       productId =
-                                      "${snap.data?.data[index].variants[0].productId}";
+                                          "${snap.data?.data[index].variants[0].productId}";
                                       productVariantId =
-                                      "${snap.data?.data[index].variants[0].id}";
+                                          "${snap.data?.data[index].variants[0].id}";
 
                                       cartCount = int.parse(
                                           "${snap.data?.data[index].variants[0].cartCount}");
                                       cartCount++;
                                       snap.data?.data[index].variants[0]
                                           .cartCount = cartCount.toString();
-                                      AllCommonApis().addToCartApi(productId, productVariantId,
+                                      AllCommonApis().addToCartApi(
+                                          productId,
+                                          productVariantId,
                                           cartCount.toString());
 
                                       if (mounted) {
