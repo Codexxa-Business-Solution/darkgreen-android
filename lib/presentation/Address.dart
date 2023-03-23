@@ -1,13 +1,21 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/address_map.dart';
 import 'package:darkgreen/presentation/checkout.dart';
 import 'package:flutter/material.dart';
 
 class Address extends StatefulWidget {
 
   final String isCome;
+  final String address;
+  final String landMark;
+  final String city;
+  final String area;
+  final String country;
+  final String state;
+  final String postalCode;
 
-  const Address({Key? key, required this.isCome}) : super(key: key);
+  const Address({Key? key, required this.isCome, this.address = '', this.landMark = '', this.city = '', this.area = '', this.country = '', this.state = '', this.postalCode = ''}) : super(key: key);
 
   @override
   State<Address> createState() => _AddressState();
@@ -38,6 +46,19 @@ class _AddressState extends State<Address> {
   final areaFocs = FocusNode();
 
   bool isChecked = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    address.text = widget.address;
+    landMark.text = widget.landMark;
+    city.text = widget.city;
+    country.text = widget.country;
+    state.text = widget.state;
+    pinCode.text = widget.postalCode;
+    area.text = widget.area;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +134,6 @@ class _AddressState extends State<Address> {
     );
   }
 
-  // Widget currentLocation(double parentHeight, double parentWidth) {
-  //   return ;
-  // }
 
   Widget getAddressField(double parentHeight, double parentWidth) {
     return ListView(
@@ -127,37 +145,43 @@ class _AddressState extends State<Address> {
               top: parentHeight * 0.03,
               left: parentHeight * 0.07,
               right: parentWidth * 0.14),
-          child: Container(
-            height: parentHeight * 0.06,
-            width: parentWidth * 0.8,
-            decoration: BoxDecoration(
-              border:
-              Border.all(width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddressMap(buttonText: widget.isCome,)));
+            },
+            child: Container(
+              height: parentHeight * 0.06,
+              width: parentWidth * 0.8,
+              decoration: BoxDecoration(
+                border:
+                Border.all(width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
               ),
+              child: Row(children: [
+                Padding(
+                  padding: EdgeInsets.only(left: parentWidth * 0.04),
+                  child: Icon(
+                    Icons.assistant_direction_rounded,
+                    size: parentHeight * .030,
+                    color: CommonColor.APP_BAR_COLOR,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: parentWidth * 0.07),
+                  child: const Text(
+                    "Use my current location",
+                    style: TextStyle(
+                        fontFamily: 'Regular-Roboto',
+                        fontWeight: FontWeight.w700,
+                        color: CommonColor.APP_BAR_COLOR,
+                        fontSize: 15),
+                  ),
+                )
+              ]),
             ),
-            child: Row(children: [
-              Padding(
-                padding: EdgeInsets.only(left: parentWidth * 0.04),
-                child: Icon(
-                  Icons.assistant_direction_rounded,
-                  size: parentHeight * .030,
-                  color: CommonColor.APP_BAR_COLOR,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: parentWidth * 0.07),
-                child: const Text(
-                  "Use my current location",
-                  style: TextStyle(
-                      fontFamily: 'Regular-Roboto',
-                      fontWeight: FontWeight.w700,
-                      color: CommonColor.APP_BAR_COLOR,
-                      fontSize: 15),
-                ),
-              )
-            ]),
           ),
         ),
         Padding(
@@ -344,7 +368,7 @@ class _AddressState extends State<Address> {
                 child: Padding(
                   padding: EdgeInsets.only(right: parentWidth * 0.05),
                   child: TextFormField(
-                    controller: city,
+                    controller: country,
                     focusNode: _cityFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
@@ -368,7 +392,7 @@ class _AddressState extends State<Address> {
                 child: Padding(
                   padding: EdgeInsets.only(left: parentWidth * 0.05),
                   child: TextFormField(
-                    controller: selectArea,
+                    controller: state,
                     focusNode: _selectAreaFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(

@@ -24,6 +24,7 @@ class CommonColor{
   static const ORDER_DELIVERED_COLOR = const Color(0xFFf5b6a9);
   static const ORDER_RETURNED_COLOR = const Color(0xFF8baca0);
   static const REFRESH_INDICATOR_COLOR = const Color(0xFFCDD2FD);
+  static const SEARCH_TEXT_COLOR = const Color(0xFF9F9F9F);
 
 
 }
