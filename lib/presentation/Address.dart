@@ -1,7 +1,10 @@
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:darkgreen/presentation/address_map.dart';
 import 'package:darkgreen/presentation/checkout.dart';
+import 'package:darkgreen/presentation/current_location_dialogue.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Address extends StatefulWidget {
@@ -46,6 +49,7 @@ class _AddressState extends State<Address> {
   final areaFocs = FocusNode();
 
   bool isChecked = false;
+  bool _isDialogVisible = false;
 
 
   @override
@@ -63,23 +67,35 @@ class _AddressState extends State<Address> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-              color: CommonColor.APP_BAR_COLOR,
-              height: SizeConfig.screenHeight * 0.1,
-              child: getAddMainHeadingLayout(
-                  SizeConfig.screenHeight, SizeConfig.screenWidth)),
-          Container(
-            height: SizeConfig.screenHeight * 0.9,
-            child: getAddressField(
-                SizeConfig.screenHeight, SizeConfig.screenWidth),
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddCheckPayParentScreen(
+                  index: 0,
+                )));
+
+        return Future.value(false);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          children: [
+            Container(
+                color: CommonColor.APP_BAR_COLOR,
+                height: SizeConfig.screenHeight * 0.1,
+                child: getAddMainHeadingLayout(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth)),
+            Container(
+              height: SizeConfig.screenHeight * 0.9,
+              child: getAddressField(
+                  SizeConfig.screenHeight, SizeConfig.screenWidth),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -148,7 +164,18 @@ class _AddressState extends State<Address> {
           child: GestureDetector(
             onDoubleTap: (){},
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> AddressMap(buttonText: widget.isCome,)));
+
+              showCupertinoDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) {
+                  return AnimatedOpacity(
+                      opacity: 1.0,
+                      duration: Duration(seconds: 2),
+                      child: CurrentLocationDialogue(buttonText: widget.isCome,));
+                },);
+
+
             },
             child: Container(
               height: parentHeight * 0.06,

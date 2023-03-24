@@ -238,21 +238,16 @@ class _AddressMapState extends State<AddressMap> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                 Address(isCome: widget.buttonText,
-                                   address: '$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
-                                   landMark: '$name, $locality',
-                                   city: locality,
-                                   area: subLocality,
-                                   country: country,
-                                   state: administrativeArea,
-                                   postalCode: postalCode,
-                                 )),
-                                (Route route) =>
-                            false);
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                           Address(isCome: widget.buttonText,
+                         address: '$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
+                         landMark: '$name, $subLocality',
+                         city: locality,
+                         area: subLocality,
+                         country: country,
+                         state: administrativeArea,
+                         postalCode: postalCode,
+                       )));
                       },
                       child: const Text('Save Address'),
                     )
