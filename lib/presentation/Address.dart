@@ -1,11 +1,14 @@
+import 'dart:convert';
+
+import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
-import 'package:darkgreen/presentation/address_map.dart';
-import 'package:darkgreen/presentation/checkout.dart';
 import 'package:darkgreen/presentation/current_location_dialogue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Address extends StatefulWidget {
 
@@ -17,8 +20,10 @@ class Address extends StatefulWidget {
   final String country;
   final String state;
   final String postalCode;
+  final double lat;
+  final double long;
 
-  const Address({Key? key, required this.isCome, this.address = '', this.landMark = '', this.city = '', this.area = '', this.country = '', this.state = '', this.postalCode = ''}) : super(key: key);
+  const Address({Key? key, required this.isCome, this.address = '', this.landMark = '', this.city = '', this.area = '', this.country = '', this.state = '', this.postalCode = '', required this.lat, required this.long}) : super(key: key);
 
   @override
   State<Address> createState() => _AddressState();
@@ -43,12 +48,14 @@ class _AddressState extends State<Address> {
   final _addressFocus = FocusNode();
   final _landMarkFocus = FocusNode();
   final _cityFocus = FocusNode();
-  final _selectAreaFocus = FocusNode();
+  final countryFocus = FocusNode();
   final pinCodeFocus = FocusNode();
   final stateFocus = FocusNode();
-  final areaFocs = FocusNode();
+  final areaFocus = FocusNode();
 
   bool isChecked = false;
+  String isType = "0";
+  String isDefault = "0";
   bool _isDialogVisible = false;
 
 
@@ -62,41 +69,66 @@ class _AddressState extends State<Address> {
     state.text = widget.state;
     pinCode.text = widget.postalCode;
     area.text = widget.area;
+
+    print("${widget.lat}, ${widget.long} ${widget.isCome}");
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return WillPopScope(
-      onWillPop: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddCheckPayParentScreen(
-                  index: 0,
-                )));
-
-        return Future.value(false);
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-                color: CommonColor.APP_BAR_COLOR,
-                height: SizeConfig.screenHeight * 0.1,
-                child: getAddMainHeadingLayout(
-                    SizeConfig.screenHeight, SizeConfig.screenWidth)),
-            Container(
-              height: SizeConfig.screenHeight * 0.9,
-              child: getAddressField(
-                  SizeConfig.screenHeight, SizeConfig.screenWidth),
-            ),
-          ],
-        ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: ListView(
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: [
+          Container(
+              color: CommonColor.APP_BAR_COLOR,
+              height: SizeConfig.screenHeight * 0.1,
+              child: getAddMainHeadingLayout(
+                  SizeConfig.screenHeight, SizeConfig.screenWidth)),
+          Container(
+            height: SizeConfig.screenHeight * 0.9,
+            child: getAddressField(
+                SizeConfig.screenHeight, SizeConfig.screenWidth),
+          ),
+        ],
       ),
+      floatingActionButton: _isDialogVisible == true
+          ? Padding(
+        padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
+        child: AlertDialog(
+            backgroundColor: Colors.white,
+            elevation: 9,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            title: Text("Address Added Successfully.",
+              style: TextStyle(
+                  fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                  fontFamily: 'Roboto_Medium',
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black),),
+           /* content: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                      text: productName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: CommonColor.APP_BAR_COLOR)),
+                  TextSpan(
+                      text: favTap == 0
+                          ? " remove this product from favorite list."
+                          : " add this product from favorite list.",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: CommonColor.BLACK_COLOR)),
+                ],
+              ),
+            )*/),
+      )
+          : null,
     );
   }
 
@@ -108,7 +140,7 @@ class _AddressState extends State<Address> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context, AllCommonApis().getAddressOfUser());
             },
             onDoubleTap: () {},
             child: Padding(
@@ -243,6 +275,7 @@ class _AddressState extends State<Address> {
             controller: phoneNumber,
             focusNode: _phoneNumberFocus,
             textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: "Phone No",
               contentPadding: const EdgeInsets.all(14),
@@ -266,6 +299,7 @@ class _AddressState extends State<Address> {
             controller: alternatePhoneNumber,
             focusNode: _alternatePhoneNumberFocus,
             textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: "Alternate Phone No",
               contentPadding: const EdgeInsets.all(14),
@@ -362,7 +396,7 @@ class _AddressState extends State<Address> {
                   padding: EdgeInsets.only(left: parentWidth * 0.05),
                   child: TextFormField(
                     controller: area,
-                    // focusNode: _area,
+                    focusNode: areaFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "Select Area",
@@ -396,7 +430,7 @@ class _AddressState extends State<Address> {
                   padding: EdgeInsets.only(right: parentWidth * 0.05),
                   child: TextFormField(
                     controller: country,
-                    focusNode: _cityFocus,
+                    focusNode: countryFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "Country",
@@ -420,7 +454,7 @@ class _AddressState extends State<Address> {
                   padding: EdgeInsets.only(left: parentWidth * 0.05),
                   child: TextFormField(
                     controller: state,
-                    focusNode: _selectAreaFocus,
+                    focusNode: stateFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "State",
@@ -473,32 +507,108 @@ class _AddressState extends State<Address> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
+              GestureDetector(
+                onDoubleTap: (){},
+                onTap: (){
+                  if(mounted){
+                    setState(() {
+                      isType = "1";
+                    });
+                  }
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
                     children: [
-                      Icon(Icons.circle_outlined,
-                        color: CommonColor.APP_BAR_COLOR,),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            color: Colors.transparent,
+                            child: Icon(
+                              Icons.circle_outlined,
+                              color: CommonColor.APP_BAR_COLOR,),
+                          ),
+                          Visibility(
+                            visible: isType == "1" ? true : false,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.00277),
+                              child: Icon(Icons.circle,
+                                color: CommonColor.APP_BAR_COLOR,
+                                size: SizeConfig.blockSizeHorizontal*4.0,),
+                            ),
+                          ),
+                        ],
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                        child: Icon(Icons.circle,
-                          color: CommonColor.APP_BAR_COLOR,
-                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                        padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                        child: Text("Home",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Roboto_Regular'
+                          ),),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                    child: Text("Home",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Roboto_Regular'
-                      ),),
+                ),
+              ),
+              GestureDetector(
+                onDoubleTap: (){},
+                onTap: (){
+                  if(mounted){
+                    setState(() {
+                      isType = "2";
+                    });
+                  }
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          GestureDetector(
+                            onDoubleTap: (){},
+                            onTap: (){
+                              if(mounted){
+                                setState(() {
+                                  isType = "2";
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Icon(Icons.circle_outlined,
+                                color: CommonColor.APP_BAR_COLOR,),
+                            ),
+                          ),
+                          Visibility(
+                            visible: isType == "2" ? true : false,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                              child: Icon(Icons.circle,
+                                color: CommonColor.APP_BAR_COLOR,
+                                size: SizeConfig.blockSizeHorizontal*4.0,),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                        child: Text("Office",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Roboto_Regular'
+                          ),),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
               Row(
                 children: [
@@ -506,38 +616,11 @@ class _AddressState extends State<Address> {
                     alignment: Alignment.center,
                     children: [
                       Icon(Icons.circle_outlined,
-                        color: CommonColor.APP_BAR_COLOR,),
+                        color: Colors.transparent,),
                       Padding(
                         padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
                         child: Icon(Icons.circle,
-                          color: CommonColor.APP_BAR_COLOR,
-                          size: SizeConfig.blockSizeHorizontal*4.0,),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                    child: Text("Office",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Roboto_Regular'
-                      ),),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Icon(Icons.circle_outlined,
-                        color: CommonColor.APP_BAR_COLOR,),
-                      Padding(
-                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                        child: Icon(Icons.circle,
-                          color: CommonColor.APP_BAR_COLOR,
+                          color: Colors.transparent,
                           size: SizeConfig.blockSizeHorizontal*4.0,),
                       ),
                     ],
@@ -546,7 +629,7 @@ class _AddressState extends State<Address> {
                     padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
                     child: Text("Other",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.transparent,
                           fontSize: SizeConfig.blockSizeHorizontal*4.0,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Roboto_Regular'
@@ -574,6 +657,8 @@ class _AddressState extends State<Address> {
                       onChanged: (bool? value) {
                         setState(() {
                           isChecked = value!;
+                          print(isChecked);
+                          isChecked == true ? isDefault = "1" : isDefault = "0";
                         });
                       },
                     ),
@@ -592,45 +677,190 @@ class _AddressState extends State<Address> {
             ],
           ),
         ),
-        GestureDetector(
-          onTap: () {
+        Padding(
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.01,
+              left: parentWidth * 0.04,
+              right: parentWidth * 0.04,
+          bottom: parentHeight*0.03),
+          child: GestureDetector(
+            onTap: (){
 
-          },
-          onDoubleTap: () {},
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: parentHeight * 0.01,
-                left: parentWidth * 0.04,
-                right: parentWidth * 0.04,
-            bottom: parentHeight*0.03),
-            child: GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Checkout()));
-              },
-              child: Container(
-                  width: parentWidth * 0.77,
-                  height: parentHeight * 0.065,
-                  decoration: BoxDecoration(
-                    color: CommonColor.APP_BAR_COLOR,
-                    border: Border.all(
-                        width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(11),
-                    ),
+
+              if(fullName.text.isNotEmpty){
+
+                if(phoneNumber.text.isNotEmpty || phoneNumber.text.length == 10){
+
+                  if(alternatePhoneNumber.text.isNotEmpty || alternatePhoneNumber.text.length == 10){
+
+                    if(address.text.isNotEmpty){
+
+                      if(landMark.text.isNotEmpty){
+
+                        if(city.text.isNotEmpty){
+
+                          if(area.text.isNotEmpty){
+
+                            if(country.text.isNotEmpty){
+
+                              if(state.text.isNotEmpty){
+
+                                if(pinCode.text.isNotEmpty){
+
+                                  if(isType != "0"){
+
+                                    AddAddress(fullName.text.trim(), phoneNumber.text.trim(), alternatePhoneNumber.text.trim(),
+                                        address.text.trim(), landMark.text.trim(), city.text.trim(), area.text.trim(),
+                                        country.text.trim(), state.text.trim(), pinCode.text.trim(), widget.lat, widget.long);
+
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                        content: Text("Select Your Address Type.")));
+                                  }
+
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                      content: Text("Enter Your PinCode.")));
+                                }
+
+                              }else{
+                                ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                    content: Text("Enter Your State.")));
+                              }
+
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                  content: Text("Enter Your Country.")));
+                            }
+
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                                content: Text("Enter Your Area.")));
+                          }
+
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                              content: Text("Enter Your City.")));
+                        }
+
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                            content: Text("Enter Your Land Mark.")));
+                      }
+
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                          content: Text("Enter Your Full Address.")));
+                    }
+
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                        content: Text("Enter Your Valid Number.")));
+                  }
+
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                      content: Text("Enter Your Valid Number.")));
+                }
+
+              }else{
+                ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                    content: Text("Enter Your Full Name.")));
+              }
+
+            },
+            child: Container(
+                width: parentWidth * 0.77,
+                height: parentHeight * 0.065,
+                decoration: BoxDecoration(
+                  color: CommonColor.APP_BAR_COLOR,
+                  border: Border.all(
+                      width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(11),
                   ),
-                  child: Center(
-                      child: Text(
-                    widget.isCome == "1" ? "Add" : "Update",
-                    style: TextStyle(
-                        color: CommonColor.WHITE_COLOR,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Roboto-Regular',
-                        fontSize: SizeConfig.blockSizeHorizontal * 4.3),
-                  ))),
-            ),
+                ),
+                child: Center(
+                    child: Text(
+                  widget.isCome == "1" ? "Add" : "Update",
+                  style: TextStyle(
+                      color: CommonColor.WHITE_COLOR,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Roboto-Regular',
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.3),
+                ))),
           ),
         ),
       ],
     );
   }
+
+
+
+  void AddAddress(String name, String number, String alterNumber, String address, String landMark,
+      String city, String area, String country, String state, String pinCode, double lat, double long) async{
+
+
+    String? id = await AppPreferences.getIds();
+
+
+    print("$id \n$name \n$number \n$alterNumber \n$address \n$landMark \n$city \n$area \n$country \n$state \n$pinCode \n${lat.toString()} \n${long.toString()} \n$isType \n$isDefault");
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    try{
+
+      Response response = await post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAddUserAddress),
+          headers: headersList,
+        body: {
+          "accesskey":"90336",
+          "add_address":"1",
+          "user_id":id,
+          "type":isType,
+          "name":name,
+          "mobile":number,
+          "address":address,
+          "landmark":landMark,
+          "area_id":area,
+          "city_id":city,
+          "pincode":pinCode,
+          "state":state,
+          "country":country,
+          "latitude":lat.toString(),
+          "longitude":long.toString(),
+          "is_default":"$isDefault",
+          "country_code":"+91",
+          "alternate_mobile":alterNumber
+        }
+      );
+
+      if(response.statusCode == 200){
+        var data = jsonDecode(response.body.toString());
+        print(data);
+        if (mounted) {
+          setState(() {
+            _isDialogVisible = true;
+
+            Future.delayed(const Duration(seconds: 2), () {
+              if(mounted) {
+                setState(() {
+                  _isDialogVisible = false;
+                  Navigator.pop(context);
+                });
+              }
+            });
+          });
+        }
+        // Navigator.pop(context);
+      }else{
+        print("failed");
+      }
+
+    }catch(e){
+      print(e.toString());
+    }
+
+  }
+
 }

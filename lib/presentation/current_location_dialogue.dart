@@ -7,7 +7,6 @@ import 'package:darkgreen/presentation/address_map.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 
@@ -33,6 +32,8 @@ class _CurrentLocationDialogueState extends State<CurrentLocationDialogue> {
   String postalCode = "";
   String administrativeArea = "";
   String country = "";
+  double lat = 0.0;
+  double long = 0.0;
 
   Future<Position?> getUserCurrentLocation() async{
 
@@ -58,12 +59,17 @@ class _CurrentLocationDialogueState extends State<CurrentLocationDialogue> {
         getUserCurrentLocation().then((value) async {
           print("${value?.latitude.toString()}    ${value?.longitude.toString()}");
 
-          await placemarkFromCoordinates(double.parse("${value?.latitude.toString()}"),
+          lat = value?.latitude ?? 0.0;
+          long = value?.longitude ?? 0.0;
+
+          placeMark = await placemarkFromCoordinates(double.parse("${value?.latitude.toString()}"),
               double.parse("${value?.longitude.toString()}")).then((value) {
 
-            setState(() {
+                if(mounted) {
+                  setState(() {
 
             });
+                }
 
             print(value);
 
@@ -77,11 +83,13 @@ class _CurrentLocationDialogueState extends State<CurrentLocationDialogue> {
 
           });
 
-          print("placemark  ${placeMark?[0].name}  ${placeMark?[0].locality}  ${placeMark?[0].postalCode}");
+          print("placemark  ${lat}  ${long}  ${placeMark?[0].postalCode}");
 
-          setState(() {
+          if(mounted) {
+            setState(() {
 
-          });
+            });
+          }
 
         });
       });
@@ -195,8 +203,11 @@ class _CurrentLocationDialogueState extends State<CurrentLocationDialogue> {
                                 area: subLocality,
                                 country: country,
                                 state: administrativeArea,
-                                postalCode: postalCode,
-                              )));
+                                postalCode: postalCode, lat: lat, long: long,
+                              ))).then((value){
+                                Navigator.pop(context);
+                          });
+                          // Navigator.of(context).pop(placeMark);
                         },
                         child: Container(
                           height: SizeConfig.screenHeight*0.05,

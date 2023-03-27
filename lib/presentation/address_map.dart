@@ -44,7 +44,7 @@ class _AddressMapState extends State<AddressMap> {
   String administrativeArea = "";
   String country = "";
   double selectLat = 0.0;
-  double selectLang = 0.0;
+  double selectLong = 0.0;
 
   static const kGoogleApiKey = "AIzaSyDmKx2C1OIAxNzTeoxEH1U8getJT3hTQF4";
 
@@ -69,6 +69,9 @@ class _AddressMapState extends State<AddressMap> {
     super.initState();
     getUserCurrentLocation().then((value) async {
       print("${value?.latitude.toString()}    ${value?.longitude.toString()}");
+
+      selectLat = value?.latitude ?? 0.0;
+      selectLong = value?.longitude ?? 0.0;
 
       _markers.add(
           Marker(
@@ -129,6 +132,9 @@ class _AddressMapState extends State<AddressMap> {
           )
       );
 
+      selectLat = double.parse("${target.latitude}");
+      selectLong = double.parse("${target.longitude}");
+
 
       await placemarkFromCoordinates(double.parse("${target.latitude}"),
           double.parse("${target.longitude}")).then((value) {
@@ -165,6 +171,9 @@ class _AddressMapState extends State<AddressMap> {
               )
           )
       );
+
+      selectLat = lat;
+      selectLong = long;
 
       await placemarkFromCoordinates(lat, long).then((value){
         setState(() {
@@ -246,7 +255,7 @@ class _AddressMapState extends State<AddressMap> {
                          area: subLocality,
                          country: country,
                          state: administrativeArea,
-                         postalCode: postalCode,
+                         postalCode: postalCode, lat: selectLat, long: selectLong,
                        )));
                       },
                       child: const Text('Save Address'),
@@ -325,8 +334,7 @@ class _AddressMapState extends State<AddressMap> {
     displayPrediction(p);
     setState(
           () {
-        // address = '${p!.description}';
-        // _textFullAddress.text = address;
+
       },
     );
 
@@ -346,7 +354,7 @@ class _AddressMapState extends State<AddressMap> {
       double lat = detail.result.geometry!.location.lat;
       double lng = detail.result.geometry!.location.lng;
 
-      selectLang = double.parse('$lng');
+      selectLong = double.parse('$lng');
       selectLat = double.parse('$lat');
 
       setState(() {
@@ -357,7 +365,7 @@ class _AddressMapState extends State<AddressMap> {
 
           CameraPosition cameraPosition = CameraPosition(
               zoom: 14,
-              target: LatLng(selectLat, selectLang));
+              target: LatLng(selectLat, selectLong));
 
           final GoogleMapController controller = await _controller.future;
 
@@ -367,7 +375,7 @@ class _AddressMapState extends State<AddressMap> {
           _markers.add(
               Marker(
                   markerId:MarkerId('2'),
-                  position: LatLng(selectLat, selectLang),
+                  position: LatLng(selectLat, selectLong),
                   infoWindow: InfoWindow(
                       title: 'Current'
                   )
@@ -376,7 +384,7 @@ class _AddressMapState extends State<AddressMap> {
 
 
           await placemarkFromCoordinates(selectLat,
-              selectLang).then((value) {
+              selectLong).then((value) {
 
             setState(() {
 
@@ -394,8 +402,7 @@ class _AddressMapState extends State<AddressMap> {
 
           print(placeMark);
         });
-        // _initialCameraPosition = LatLng(selectLat, selectLang);
-        // _createMarker();
+
       });
 
     }}

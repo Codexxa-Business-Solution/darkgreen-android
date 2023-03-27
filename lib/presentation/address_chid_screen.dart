@@ -1,3 +1,5 @@
+import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
+import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/Address.dart';
@@ -14,6 +16,18 @@ class AddressSelectScreen extends StatefulWidget {
 }
 
 class _AddressSelectScreenState extends State<AddressSelectScreen> {
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    print("Hi");
+    AllCommonApis().getAddressOfUser();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +57,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
           child: Icon(Icons.add,
           size: SizeConfig.blockSizeHorizontal*9.0,),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>Address(isCome: '1',)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '1', lat: 0.0, long: 0.0,)));
           },),
       ),
     );
@@ -52,151 +66,199 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
 
 
   Widget NameAddressLayout(double parentHeight, double parentWidth){
-    return ListView.builder(
-        itemCount: 10,
-        padding: const EdgeInsets.only(bottom: 20, top: 3),
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03,
-                left: SizeConfig.screenWidth*0.03,
-                right: SizeConfig.screenWidth*0.03,),
-            child: Container(
-              height: SizeConfig.screenHeight*0.15,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.17),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(2, 2),
+    return FutureBuilder<GetAddressOfUserResponseModel>(
+      future: AllCommonApis().getAddressOfUser(),
+      builder: (context, snap) {
+        if (!snap.hasData && !snap.hasError) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        final data = snap.data;
+
+        if (data == null) {
+          return const Center(
+            child: Text("Something Went Wrong!"),
+          );
+        }
+
+        if (data.data == null) {
+          return const Center(
+            child: Text("No Address Available."),
+          );
+        }
+
+        return ListView.builder(
+            itemCount: snap.data?.data?.length,
+            padding: const EdgeInsets.only(bottom: 20, top: 3),
+            itemBuilder: (context, index) {
+
+              final typeText = snap.data?.data?[index].type == "1" ? "Home"
+                  : snap.data?.data?[index].type == "2" ? "Office" : "Office";
+
+
+              return Padding(
+                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03,
+                  left: SizeConfig.screenWidth*0.03,
+                  right: SizeConfig.screenWidth*0.03,),
+                child: Container(
+                  height: SizeConfig.screenHeight*0.15,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.17),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: const Offset(2, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.015,
-                        left: parentWidth*0.03, right: parentWidth*0.03),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: parentHeight*0.015,
+                            left: parentWidth*0.03, right: parentWidth*0.03),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Stack(
-                              alignment: Alignment.center,
+                            Row(
                               children: [
-                                Icon(Icons.circle_outlined,
-                                  color: CommonColor.APP_BAR_COLOR,),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(Icons.circle_outlined,
+                                      color: CommonColor.APP_BAR_COLOR,),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: parentWidth*0.0027),
+                                      child: Icon(Icons.circle,
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        size: SizeConfig.blockSizeHorizontal*4.0,),
+                                    ),
+                                  ],
+                                ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: parentWidth*0.0027),
-                                  child: Icon(Icons.circle,
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    size: SizeConfig.blockSizeHorizontal*4.0,),
+                                  padding: EdgeInsets.only(left: parentWidth*0.01),
+                                  child: Container(
+                                    width: parentWidth*0.31,
+                                    color: Colors.transparent,
+                                    child: Text("${snap.data?.data?[index].name}",
+                                      style: TextStyle(
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                        fontFamily: 'Roboto_Medium',
+                                        fontWeight: FontWeight.w400,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),maxLines: 1,),
+                                  ),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: parentWidth*0.01),
-                              child: Container(
-                                width: parentWidth*0.3,
-                                color: Colors.transparent,
-                                child: Text("Ashish Bhosale",
-                                  style: TextStyle(
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                    fontFamily: 'Roboto_Medium',
-                                    fontWeight: FontWeight.w400,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),maxLines: 1,),
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                Visibility(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: parentWidth*0.02),
+                                    child: Container(
+                                      height: parentHeight*0.03,
+                                      width: parentWidth*0.14,
+                                      decoration: BoxDecoration(
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          borderRadius: BorderRadius.circular(20)
+                                      ),
+                                      child: Center(child: Text(typeText,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Roboto_Medium',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: SizeConfig.blockSizeHorizontal*3.0
+                                        ),)),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: snap.data?.data?[index].isDefault == "0" ? false : true,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: parentWidth*0.02),
+                                    child: Container(
+                                      height: parentHeight*0.03,
+                                      width: parentWidth*0.17,
+                                      decoration: BoxDecoration(
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          borderRadius: BorderRadius.circular(20)
+                                      ),
+                                      child: Center(child: Text("Default",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Roboto_Medium',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: SizeConfig.blockSizeHorizontal*3.0
+                                        ),)),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: parentWidth*0.02),
+                                  child: GestureDetector(
+                                    onDoubleTap: (){},
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '2', lat: 0.0, long: 0.0,)));
+                                    },
+                                    child: Container(
+                                        color: Colors.transparent,
+                                        child: Icon(Icons.edit)
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onDoubleTap: (){},
+                                  onTap: (){
+                                    AllCommonApis().removeAddress("${snap.data?.data?[index].id}").then((value){
+                                      setState(() {
+
+                                      });
+                                    });
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                      child: Icon(Icons.delete_forever
+                                      )),
+                                ),
+                              ],
+                            )
                           ],
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: parentWidth*0.02),
-                              child: Container(
-                                height: parentHeight*0.03,
-                                width: parentWidth*0.14,
-                                decoration: BoxDecoration(
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
-                                child: Center(child: Text("Home",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Roboto_Medium',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: SizeConfig.blockSizeHorizontal*3.0
-                                  ),)),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: parentWidth*0.02),
-                              child: Container(
-                                height: parentHeight*0.03,
-                                width: parentWidth*0.17,
-                                decoration: BoxDecoration(
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    borderRadius: BorderRadius.circular(20)
-                                ),
-                                child: Center(child: Text("Default",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Roboto_Medium',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: SizeConfig.blockSizeHorizontal*3.0
-                                  ),)),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: parentWidth*0.02),
-                              child: GestureDetector(
-                                onDoubleTap: (){},
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Address(isCome: '2',)));
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                    child: Icon(Icons.edit)
-                                ),
-                              ),
-                            ),
-                            Icon(Icons.delete_forever),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.017, left: parentWidth*0.1, right: parentWidth*0.04),
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              child: Text("City Avenue, Wakad Bridge, Bhumkar Chawk, Pune, Maharashtra",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'Roboto_Medium',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: SizeConfig.blockSizeHorizontal*4.0
-                                ),
-                                maxLines: 4,)
-                          ),
-                        ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
+                      Padding(
+                        padding: EdgeInsets.only(top: parentHeight*0.017, left: parentWidth*0.1, right: parentWidth*0.04),
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: Text("${snap.data?.data?[index].address}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Roboto_Regular',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: SizeConfig.blockSizeHorizontal*4.0
+                                    ),
+                                    maxLines: 4,)
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            });
+      },
+    );
   }
 
   Widget getBottomText(double parentHeight, double parentWidth){
@@ -274,5 +336,8 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       ),
     );
   }
+
+
+
 
 }
