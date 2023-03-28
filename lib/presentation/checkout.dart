@@ -1,10 +1,20 @@
+import 'dart:convert';
+
+import 'package:darkgreen/allCommonApis/common_api.dart';
+import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
+import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Checkout extends StatefulWidget {
-  const Checkout({Key? key}) : super(key: key);
+
+  final int deliverCharges;
+
+  const Checkout({Key? key, this.deliverCharges = 0}) : super(key: key);
 
   @override
   State<Checkout> createState() => _CheckoutState();
@@ -13,6 +23,36 @@ class Checkout extends StatefulWidget {
 class _CheckoutState extends State<Checkout> {
   int currentIndex = 0;
   int count = 0;
+  String productId = "";
+  String productVariantId = "";
+  int? totalCartsCount;
+  int totalCartAmount = 0;
+  int cartCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    refresh();
+
+  }
+
+
+  void refresh() {
+    var result = getAllCarts();
+    totalCartAmount = 0;
+    result.then((value) {
+      if (mounted) {
+        setState(() {
+          totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
+          for (var element in value.data) {
+            totalCartAmount +=
+            (int.parse(element.discountedPrice) * int.parse(element.qty));
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,391 +68,467 @@ class _CheckoutState extends State<Checkout> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                CustomScrollView(
-                  slivers: <Widget>[
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: SizeConfig.screenHeight * 0.03,
-                              left: SizeConfig.screenWidth * 0.025,
-                              right: SizeConfig.screenWidth * 0.025,
-                            ),
-                            child: Container(
-                              height: SizeConfig.screenHeight * 0.05,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: CommonColor.WHITE_COLOR,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: SizeConfig.screenWidth * 0.03,
-                                        top: SizeConfig.screenHeight * 0.015),
-                                    child: Text(
-                                      "Order Summery",
-                                      style: TextStyle(
-                                          color: CommonColor.BLACK_COLOR,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Roboto_Medium'),
-                                    ),
+                FutureBuilder<GetUserCartResponseModel>(
+                  future: getAllCarts(),
+                  builder: (context, snap) {
+                    if (!snap.hasData && !snap.hasError) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final data = snap.data;
+
+                    if (data == null) {
+                      return const Center(
+                        child: Text("No items found in user cart!"),
+                      );
+                    }
+                    return CustomScrollView(
+                      slivers: <Widget>[
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: SizeConfig.screenHeight * 0.03,
+                                  left: SizeConfig.screenWidth * 0.025,
+                                  right: SizeConfig.screenWidth * 0.025,
+                                ),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.05,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: CommonColor.WHITE_COLOR,
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      childCount: 3,
-                      (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: SizeConfig.screenWidth * 0.025,
-                            right: SizeConfig.screenWidth * 0.025,
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: SizeConfig.screenHeight * 0.02),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: SizeConfig.screenWidth * 0.20,
-                                          width: SizeConfig.screenWidth * 0.19,
-                                          decoration: BoxDecoration(
-                                              color: CommonColor.GRAY_COLOR,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      "assets/images/dark.jpg"),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                        padding: EdgeInsets.only(
+                                            left: SizeConfig.screenWidth * 0.03,
+                                            top: SizeConfig.screenHeight * 0.015),
+                                        child: Text(
+                                          "Order Summery",
+                                          style: TextStyle(
+                                              color: CommonColor.BLACK_COLOR,
+                                              fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5.0,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Roboto_Medium'),
                                         ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left:
-                                                        SizeConfig.screenWidth *
-                                                            0.03,
-                                                    right:
-                                                        SizeConfig.screenWidth *
-                                                            0.01,
-                                                    top: SizeConfig
-                                                            .screenHeight *
-                                                        0.01),
-                                                child: Container(
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.57,
-                                                  color: Colors.transparent,
-                                                  child: Text(
-                                                    "Fortune Sunlite Refined Sunflower Oil ( 1 L)",
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            "Roboto_Regular",
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            3.5,
-                                                        color: CommonColor
-                                                            .BLACK_COLOR),
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: SizeConfig
-                                                            .screenHeight *
-                                                        0.02),
-                                                child: Container(
-                                                    height: SizeConfig
-                                                            .screenHeight *
-                                                        0.03,
-                                                    child: Image(
-                                                      image: AssetImage(
-                                                        'assets/images/delete.png',
-                                                      ),
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .screenHeight *
-                                                        0.02,
-                                                    left:
-                                                        SizeConfig.screenWidth *
-                                                            0.02),
-                                                child: Text(
-                                                  "Rs.154",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4.7,
-                                                      fontFamily:
-                                                          'Roboto_Medium',
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left:
-                                                        SizeConfig.screenWidth *
-                                                            0.02,
-                                                    top: SizeConfig
-                                                            .screenHeight *
-                                                        0.02),
-                                                child: Text(
-                                                  "Rs.189",
-                                                  style: TextStyle(
-                                                      color:
-                                                          CommonColor.RS_COLOR,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          4.7,
-                                                      fontFamily:
-                                                          'Roboto_Normal',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      decoration: TextDecoration
-                                                          .lineThrough),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: SizeConfig
-                                                            .screenHeight *
-                                                        0.02,
-                                                    left:
-                                                        SizeConfig.screenWidth *
-                                                            0.13),
-                                                child: Column(
-                                                  children: [
-                                                    Visibility(
-                                                      visible: count != 0
-                                                          ? true
-                                                          : true,
-                                                      child: Row(
-                                                        children: [
-                                                          GestureDetector(
-                                                            onDoubleTap: () {},
-                                                            onTap: () {
-                                                              if (mounted) {
-                                                                setState(() {
-                                                                  count--;
-                                                                });
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              height: SizeConfig
-                                                                      .screenHeight *
-                                                                  0.035,
-                                                              width: SizeConfig
-                                                                      .screenWidth *
-                                                                  0.067,
-                                                              decoration: BoxDecoration(
-                                                                  color: CommonColor
-                                                                      .APP_BAR_COLOR,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                              child: Center(
-                                                                  child: Text(
-                                                                "-",
-                                                                style: TextStyle(
-                                                                    color: CommonColor
-                                                                        .WHITE_COLOR,
-                                                                    fontSize:
-                                                                        SizeConfig.blockSizeHorizontal *
-                                                                            5.6),
-                                                                textScaleFactor:
-                                                                    1.0,
-                                                              )),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: SizeConfig
-                                                                    .screenHeight *
-                                                                0.035,
-                                                            width: SizeConfig
-                                                                    .screenWidth *
-                                                                0.07,
-                                                            decoration: BoxDecoration(
-                                                                color: CommonColor
-                                                                    .WHITE_COLOR,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5)),
-                                                            child: Center(
-                                                                child: Text(
-                                                              "$count",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .BLACK_COLOR,
-                                                                  fontSize:
-                                                                      SizeConfig
-                                                                              .blockSizeHorizontal *
-                                                                          3.5),
-                                                              textScaleFactor:
-                                                                  1.0,
-                                                            )),
-                                                          ),
-                                                          GestureDetector(
-                                                            onDoubleTap: () {},
-                                                            onTap: () {
-                                                              if (mounted) {
-                                                                setState(() {
-                                                                  count++;
-                                                                });
-                                                              }
-                                                            },
-                                                            child: Container(
-                                                              height: SizeConfig
-                                                                      .screenHeight *
-                                                                  0.035,
-                                                              width: SizeConfig
-                                                                      .screenWidth *
-                                                                  0.067,
-                                                              decoration: BoxDecoration(
-                                                                  color: CommonColor
-                                                                      .APP_BAR_COLOR,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5)),
-                                                              child: Center(
-                                                                  child: Text(
-                                                                "+",
-                                                                style: TextStyle(
-                                                                    color: CommonColor
-                                                                        .WHITE_COLOR,
-                                                                    fontSize:
-                                                                        SizeConfig.blockSizeHorizontal *
-                                                                            5.0),
-                                                                textScaleFactor:
-                                                                    1.0,
-                                                              )),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
                                       ),
                                     ],
                                   ),
                                 ),
-                                Padding(
+                              ),
+                            ],
+                          ),
+                        ),
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: snap.data?.data.length,
+                                  (context, index) {
+
+                                return Padding(
                                   padding: EdgeInsets.only(
-                                      top: SizeConfig.screenHeight * 0.02),
+                                    left: SizeConfig.screenWidth * 0.025,
+                                    right: SizeConfig.screenWidth * 0.025,
+                                  ),
                                   child: Container(
-                                    height: SizeConfig.screenHeight * 0.001,
-                                    width: SizeConfig.screenWidth * 0.9,
-                                    color: CommonColor.CIRCLE_COLOR,
-                                    child: Text(
-                                      "Hii",
-                                      style:
-                                          TextStyle(color: Colors.transparent),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: SizeConfig.screenHeight * 0.02),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  height: SizeConfig.screenWidth * 0.20,
+                                                  width: SizeConfig.screenWidth * 0.19,
+                                                  decoration: BoxDecoration(
+                                                      color: CommonColor.GRAY_COLOR,
+                                                      borderRadius:
+                                                      BorderRadius.circular(8)),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.circular(8),
+                                                    child: Container(
+                                                      decoration: const BoxDecoration(
+                                                        image: DecorationImage(
+                                                          image: AssetImage(
+                                                              "assets/images/dark.jpg"),
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left:
+                                                            SizeConfig.screenWidth *
+                                                                0.03,
+                                                            right:
+                                                            SizeConfig.screenWidth *
+                                                                0.01,
+                                                            top: SizeConfig
+                                                                .screenHeight *
+                                                                0.01),
+                                                        child: Container(
+                                                          width:
+                                                          SizeConfig.screenWidth *
+                                                              0.57,
+                                                          color: Colors.transparent,
+                                                          child: Text(
+                                                            "${snap.data?.data[index].name}",
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                "Roboto_Regular",
+                                                                fontWeight:
+                                                                FontWeight.w500,
+                                                                fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                    3.5,
+                                                                color: CommonColor
+                                                                    .BLACK_COLOR),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            bottom: SizeConfig
+                                                                .screenHeight *
+                                                                0.02),
+                                                        child: GestureDetector(
+                                                          onDoubleTap: (){},
+                                                          onTap: () {
+                                                            productVariantId =
+                                                            "${snap.data?.data[index].productVariantId}";
+
+                                                            var result = removeToCartApi(
+                                                                productVariantId);
+
+                                                            result.then((value) {
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  print("HIIIIIIII");
+                                                                  getAllCarts();
+                                                                });
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            color: Colors.transparent,
+                                                              height: SizeConfig
+                                                                  .screenHeight *
+                                                                  0.03,
+                                                              child: Image(
+                                                                image: AssetImage(
+                                                                  'assets/images/delete.png',
+                                                                ),
+                                                              )),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .screenHeight *
+                                                                0.02,
+                                                            left:
+                                                            SizeConfig.screenWidth *
+                                                                0.02),
+                                                        child: Text(
+                                                          "Rs.${snap.data?.data[index].discountedPrice}",
+                                                          style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  4.7,
+                                                              fontFamily:
+                                                              'Roboto_Medium',
+                                                              fontWeight:
+                                                              FontWeight.w500),
+                                                          textAlign: TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left:
+                                                            SizeConfig.screenWidth *
+                                                                0.02,
+                                                            top: SizeConfig
+                                                                .screenHeight *
+                                                                0.02),
+                                                        child: Text(
+                                                          "Rs.${snap.data?.data[index].price}",
+                                                          style: TextStyle(
+                                                              color:
+                                                              CommonColor.RS_COLOR,
+                                                              fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                                  4.7,
+                                                              fontFamily:
+                                                              'Roboto_Normal',
+                                                              fontWeight:
+                                                              FontWeight.w400,
+                                                              decoration: TextDecoration
+                                                                  .lineThrough),
+                                                          textAlign: TextAlign.center,
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(
+                                                            top: SizeConfig
+                                                                .screenHeight *
+                                                                0.02,
+                                                            left:
+                                                            SizeConfig.screenWidth *
+                                                                0.13),
+                                                        child: Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                GestureDetector(
+                                                                  onDoubleTap: () {},
+                                                                  onTap: () {
+                                                                    productId =
+                                                                    "${snap.data?.data[index].productId}";
+                                                                    productVariantId =
+                                                                    "${snap.data?.data[index].productVariantId}";
+
+                                                                    cartCount = int.parse(
+                                                                        "${snap.data?.data[index].qty}");
+
+                                                                    cartCount--;
+
+                                                                    snap.data?.data[index]
+                                                                        .qty =
+                                                                        cartCount
+                                                                            .toString();
+
+                                                                    AllCommonApis()
+                                                                        .addToCartApi(
+                                                                        productId,
+                                                                        productVariantId,
+                                                                        cartCount
+                                                                            .toString())
+                                                                        .then((value) {
+                                                                      if (mounted) {
+                                                                        setState(() {
+                                                                          print("hhuihuhuihhui");
+                                                                          refresh();
+                                                                        });
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    height: SizeConfig
+                                                                        .screenHeight *
+                                                                        0.035,
+                                                                    width: SizeConfig
+                                                                        .screenWidth *
+                                                                        0.07,
+                                                                    decoration: BoxDecoration(
+                                                                        color: CommonColor
+                                                                            .APP_BAR_COLOR,
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            5)),
+                                                                    child: Center(
+                                                                        child: Text(
+                                                                          "-",
+                                                                          style: TextStyle(
+                                                                              color: CommonColor
+                                                                                  .WHITE_COLOR,
+                                                                              fontSize: SizeConfig
+                                                                                  .blockSizeHorizontal *
+                                                                                  5.6),
+                                                                          textScaleFactor: 1.0,
+                                                                        )),
+                                                                  ),
+                                                                ),
+                                                                Container(
+                                                                  height: SizeConfig
+                                                                      .screenHeight *
+                                                                      0.035,
+                                                                  width: SizeConfig
+                                                                      .screenWidth *
+                                                                      0.07,
+                                                                  decoration: BoxDecoration(
+                                                                      color: CommonColor
+                                                                          .WHITE_COLOR,
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(5)),
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                        "${snap.data?.data[index].qty}",
+                                                                        style: TextStyle(
+                                                                            color: CommonColor
+                                                                                .BLACK_COLOR,
+                                                                            fontSize: SizeConfig
+                                                                                .blockSizeHorizontal *
+                                                                                3.5),
+                                                                        textScaleFactor: 1.0,
+                                                                      )),
+                                                                ),
+                                                                GestureDetector(
+                                                                  onDoubleTap: () {},
+                                                                  onTap: () {
+                                                                    productId =
+                                                                    "${snap.data?.data[index].productId}";
+                                                                    productVariantId =
+                                                                    "${snap.data?.data[index].productVariantId}";
+
+                                                                    cartCount = int.parse(
+                                                                        "${snap.data?.data[index].qty}");
+
+                                                                    cartCount++;
+
+                                                                    snap.data?.data[index]
+                                                                        .qty =
+                                                                        cartCount
+                                                                            .toString();
+
+                                                                    AllCommonApis()
+                                                                        .addToCartApi(
+                                                                        productId,
+                                                                        productVariantId,
+                                                                        cartCount
+                                                                            .toString())
+                                                                        .then((value) {
+                                                                      if (mounted) {
+                                                                        setState(() {
+                                                                          refresh();
+                                                                        });
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                    height: SizeConfig
+                                                                        .screenHeight *
+                                                                        0.035,
+                                                                    width: SizeConfig
+                                                                        .screenWidth *
+                                                                        0.07,
+                                                                    decoration: BoxDecoration(
+                                                                        color: CommonColor
+                                                                            .APP_BAR_COLOR,
+                                                                        borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                            5)),
+                                                                    child: Center(
+                                                                        child: Text(
+                                                                          "+",
+                                                                          style: TextStyle(
+                                                                              color: CommonColor
+                                                                                  .WHITE_COLOR,
+                                                                              fontSize: SizeConfig
+                                                                                  .blockSizeHorizontal *
+                                                                                  5.0),
+                                                                          textScaleFactor: 1.0,
+                                                                        )),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: SizeConfig.screenHeight * 0.02),
+                                          child: Container(
+                                            height: SizeConfig.screenHeight * 0.001,
+                                            width: SizeConfig.screenWidth * 0.9,
+                                            color: CommonColor.CIRCLE_COLOR,
+                                            child: Text(
+                                              "Hii",
+                                              style:
+                                              TextStyle(color: Colors.transparent),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    )),
-                    SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          getCoupanCode(
-                              SizeConfig.screenHeight, SizeConfig.screenWidth),
-                          getBillDetails(
-                              SizeConfig.screenHeight, SizeConfig.screenWidth),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.screenHeight * 0.03,
-                                left: SizeConfig.screenWidth * 0.03,
-                                right: SizeConfig.screenWidth * 0.03,
-                                bottom: SizeConfig.screenHeight * 0.17),
-                            child: Container(
-                              color: CommonColor.WHITE_COLOR,
-                              height: SizeConfig.screenHeight * 0.05,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: SizeConfig.screenWidth * 0.03,
-                                    ),
-                                    child: Text(
-                                      "Cancel Policy",
-                                      style: TextStyle(
-                                          color: CommonColor.BLACK_COLOR,
-                                          fontSize:
+                                );
+                              },
+                            )),
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              getCoupanCode(
+                                  SizeConfig.screenHeight, SizeConfig.screenWidth),
+                              getBillDetails(
+                                  SizeConfig.screenHeight, SizeConfig.screenWidth),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.screenHeight * 0.03,
+                                    left: SizeConfig.screenWidth * 0.03,
+                                    right: SizeConfig.screenWidth * 0.03,
+                                    bottom: SizeConfig.screenHeight * 0.17),
+                                child: Container(
+                                  color: CommonColor.WHITE_COLOR,
+                                  height: SizeConfig.screenHeight * 0.05,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: SizeConfig.screenWidth * 0.03,
+                                        ),
+                                        child: Text(
+                                          "Cancel Policy",
+                                          style: TextStyle(
+                                              color: CommonColor.BLACK_COLOR,
+                                              fontSize:
                                               SizeConfig.blockSizeHorizontal *
                                                   4.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Roboto_Medium'),
-                                    ),
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Roboto_Medium'),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 getBuyButton(SizeConfig.screenHeight, SizeConfig.screenWidth)
               ],
@@ -805,6 +921,7 @@ class _CheckoutState extends State<Checkout> {
   }
 
   Widget getBillDetails(double parentHeight, double parentWidth) {
+    int grandTotal = totalCartAmount + widget.deliverCharges;
     return Padding(
       padding: EdgeInsets.only(
         top: parentHeight * 0.03,
@@ -856,7 +973,7 @@ class _CheckoutState extends State<Checkout> {
                   padding: EdgeInsets.only(
                       right: parentWidth * 0.05, top: parentHeight * 0.02),
                   child: Text(
-                    "Rs.245",
+                    "Rs.$totalCartAmount",
                     style: TextStyle(
                         color: CommonColor.BLACK_COLOR,
                         fontSize: SizeConfig.blockSizeHorizontal * 4.0,
@@ -885,7 +1002,7 @@ class _CheckoutState extends State<Checkout> {
                   padding: EdgeInsets.only(
                       right: parentWidth * 0.05, top: parentHeight * 0.01),
                   child: Text(
-                    "Free",
+                    "${widget.deliverCharges}",
                     style: TextStyle(
                         color: CommonColor.BLACK_COLOR,
                         fontSize: SizeConfig.blockSizeHorizontal * 4.0,
@@ -914,7 +1031,7 @@ class _CheckoutState extends State<Checkout> {
                   padding: EdgeInsets.only(
                       right: parentWidth * 0.05, top: parentHeight * 0.01),
                   child: Text(
-                    "Rs.245",
+                    "Rs.$grandTotal",
                     style: TextStyle(
                         color: CommonColor.BLACK_COLOR,
                         fontSize: SizeConfig.blockSizeHorizontal * 4.0,
@@ -994,4 +1111,85 @@ class _CheckoutState extends State<Checkout> {
       ),
     );
   }
+
+
+
+  Future<GetUserCartResponseModel> getAllCarts() async {
+
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+        body: {
+          "accesskey": "90336",
+          "get_user_cart": "1",
+          "user_id": id,
+          "offset": "0",
+          "limit": "10"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllCartsOfUser -->  $body");
+      print("getAllCartsOfUsersssss -->  ${jsonData['message']}");
+
+      if (jsonData['message'] == "No item(s) found in user cart!") {
+        if (mounted) {
+          setState(() {
+            totalCartsCount = 0;
+          });
+        }
+      }
+
+      return getUserCartResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future removeToCartApi(String pvi) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    try {
+      final result = await http.post(
+          Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+          body: {
+            "accesskey": ApiConstants().accessKey,
+            "remove_from_cart": "1",
+            "user_id": id,
+            "product_variant_id": pvi
+          },
+          headers: headersList);
+
+      var pdfText = await json.decode(json.encode(result.body));
+      var jsonData = json.decode(result.body);
+      print("removeCart ${jsonData['message']}");
+
+      if (jsonData['message'] == "Item removed from user cart successfully") {
+        print("objects");
+        var result = getAllCarts();
+        result.then((value) {
+          if (mounted) {
+            setState(() {
+              totalCartsCount = value.data.length != 0 ? value.data.length : 0;
+            });
+          }
+        });
+      }
+
+      return pdfText;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 }

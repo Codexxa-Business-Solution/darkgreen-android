@@ -29,19 +29,6 @@ class _CartState extends State<Cart> {
   void initState() {
     super.initState();
 
-    // var result = getAllCarts();
-    //
-    // result.then((value) {
-    //   if (mounted) {
-    //     setState(() {
-    //       totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
-    //       for (var element in value.data) {
-    //         totalCartAmount +=
-    //             (int.parse(element.discountedPrice) * int.parse(element.qty));
-    //       }
-    //     });
-    //   }
-    // });
     refresh();
 
   }
@@ -611,6 +598,8 @@ class _CartState extends State<Cart> {
                           MaterialPageRoute(
                               builder: (context) => AddCheckPayParentScreen(
                                     index: 0,
+                                    totalAmount: totalCartAmount,
+                                    itemCount: totalCartsCount ?? 0,
                                   )));
                     },
                     child: Container(

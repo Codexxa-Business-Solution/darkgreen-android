@@ -9,8 +9,11 @@ import 'package:flutter/material.dart';
 class AddCheckPayParentScreen extends StatefulWidget {
 
   final int index;
+  final int totalAmount;
+  final int itemCount;
+  final int deliveryCharges;
 
-  const AddCheckPayParentScreen({Key? key, required this.index}) : super(key: key);
+  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0}) : super(key: key);
 
   @override
   State<AddCheckPayParentScreen> createState() => _AddCheckPayParentScreenState();
@@ -125,8 +128,8 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              AddressSelectScreen(),
-              Checkout(),
+              AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount,),
+              Checkout(deliverCharges: widget.deliveryCharges ,),
               PaymentScreen()
             ],
           ),

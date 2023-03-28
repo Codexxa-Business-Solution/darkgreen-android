@@ -9,7 +9,11 @@ import 'package:flutter/material.dart';
 
 class AddressSelectScreen extends StatefulWidget {
 
-  const AddressSelectScreen({Key? key}) : super(key: key);
+  final int totalAmount;
+  final int itemCount;
+  final int deliveryCharges;
+
+  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0}) : super(key: key);
 
   @override
   State<AddressSelectScreen> createState() => _AddressSelectScreenState();
@@ -17,6 +21,9 @@ class AddressSelectScreen extends StatefulWidget {
 
 class _AddressSelectScreenState extends State<AddressSelectScreen> {
 
+
+
+  bool selectedAddress = false;
 
 
   @override
@@ -149,8 +156,17 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Icon(Icons.circle_outlined,
-                                      color: CommonColor.APP_BAR_COLOR,),
+                                    GestureDetector(
+                                      onDoubleTap: (){},
+                                      onTap: (){
+
+                                      },
+                                      child: Container(
+                                        color: Colors.transparent,
+                                        child: Icon(Icons.circle_outlined,
+                                          color: CommonColor.APP_BAR_COLOR,),
+                                      ),
+                                    ),
                                     Visibility(
                                       visible: snap.data?.data?[index].isDefault == "1" ? true : false,
                                       child: Padding(
@@ -323,7 +339,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Rs.154",
+                Text("Rs.${widget.totalAmount}",
                   style: TextStyle(
                       color: CommonColor.WHITE_COLOR,
                       fontSize: SizeConfig.blockSizeHorizontal*4.5,
@@ -332,7 +348,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                   ),),
                 Padding(
                   padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.005),
-                  child: Text("1 Item",
+                  child: Text("${widget.itemCount} Item",
                     style: TextStyle(
                         color: CommonColor.WHITE_COLOR,
                         fontSize: SizeConfig.blockSizeHorizontal*4.0,
@@ -348,7 +364,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliveryCharges,)));
               },
               child: Container(
                 color: Colors.transparent,
