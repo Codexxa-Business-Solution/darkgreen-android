@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/constant/color.dart';

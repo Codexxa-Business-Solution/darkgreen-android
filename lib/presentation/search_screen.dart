@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';

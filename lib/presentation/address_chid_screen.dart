@@ -1,5 +1,5 @@
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/Address.dart';
@@ -27,6 +27,19 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
   }
 
 
+  Future<Null> refreshList() async {
+    await Future.delayed(const Duration(seconds: 1));
+
+    var result = AllCommonApis().getAddressOfUser();
+
+    result.then((value) {
+      setState(() {});
+    });
+
+    return null;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +48,23 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          GestureDetector(
-            onTap: (){
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1)));
+          RefreshIndicator(
+            color: CommonColor.REFRESH_INDICATOR_COLOR,
+            onRefresh: () async {
+              await refreshList();
             },
-            child: Container(
-              height: SizeConfig.screenHeight*0.9,
-                color: Colors.white,
-              child: Padding(
-                padding:  EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07),
-                child: NameAddressLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-              )
+            child: GestureDetector(
+              onTap: (){
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1)));
+              },
+              child: Container(
+                height: SizeConfig.screenHeight*0.9,
+                  color: Colors.white,
+                child: Padding(
+                  padding:  EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07),
+                  child: NameAddressLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+                )
+              ),
             ),
           ),
           getBottomText(SizeConfig.screenHeight, SizeConfig.screenWidth)
@@ -54,6 +73,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07, right: SizeConfig.screenWidth*0.03),
         child: FloatingActionButton(
+          backgroundColor: CommonColor.APP_BAR_COLOR,
           child: Icon(Icons.add,
           size: SizeConfig.blockSizeHorizontal*9.0,),
           onPressed: () {
@@ -131,11 +151,14 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                   children: [
                                     Icon(Icons.circle_outlined,
                                       color: CommonColor.APP_BAR_COLOR,),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: parentWidth*0.0027),
-                                      child: Icon(Icons.circle,
-                                        color: CommonColor.APP_BAR_COLOR,
-                                        size: SizeConfig.blockSizeHorizontal*4.0,),
+                                    Visibility(
+                                      visible: snap.data?.data?[index].isDefault == "1" ? true : false,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: parentWidth*0.0027),
+                                        child: Icon(Icons.circle,
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -204,7 +227,24 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                   child: GestureDetector(
                                     onDoubleTap: (){},
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '2', lat: 0.0, long: 0.0,)));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Address(
+                                        isCome: '2',
+                                        lat: double.parse("${snap.data?.data?[index].latitude}"),
+                                        long: double.parse("${snap.data?.data?[index].longitude}"),
+                                        fullName: "${snap.data?.data?[index].name}",
+                                        phoneNumber: "${snap.data?.data?[index].mobile}",
+                                        alterPhoneNumber: "${snap.data?.data?[index].alternateMobile}",
+                                        address: "${snap.data?.data?[index].address}",
+                                        landMark: "${snap.data?.data?[index].landmark}",
+                                        city: "${snap.data?.data?[index].cityId}",
+                                        area: "${snap.data?.data?[index].areaId}",
+                                        country: "${snap.data?.data?[index].country}",
+                                        state: "${snap.data?.data?[index].state}",
+                                        postalCode: "${snap.data?.data?[index].pincode}",
+                                        isType: "${snap.data?.data?[index].type}",
+                                        isDefault:"${snap.data?.data?[index].isDefault}",
+                                        addressId: "${snap.data?.data?[index].id}",
+                                      )));
                                     },
                                     child: Container(
                                         color: Colors.transparent,

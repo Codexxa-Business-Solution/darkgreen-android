@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';

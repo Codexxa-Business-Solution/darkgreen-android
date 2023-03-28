@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
@@ -30,13 +29,36 @@ class _CartState extends State<Cart> {
   void initState() {
     super.initState();
 
-    var result = getAllCarts();
+    // var result = getAllCarts();
+    //
+    // result.then((value) {
+    //   if (mounted) {
+    //     setState(() {
+    //       totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
+    //       for (var element in value.data) {
+    //         totalCartAmount +=
+    //             (int.parse(element.discountedPrice) * int.parse(element.qty));
+    //       }
+    //     });
+    //   }
+    // });
+    refresh();
 
+  }
+
+  void refresh() {
+    var result = getAllCarts();
+    totalCartAmount = 0;
     result.then((value) {
-      setState(() {
-        totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
-        print("hiiii${value.data.length}");
-      });
+      if (mounted) {
+        setState(() {
+          totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
+          for (var element in value.data) {
+            totalCartAmount +=
+            (int.parse(element.discountedPrice) * int.parse(element.qty));
+          }
+        });
+      }
     });
   }
 
@@ -119,7 +141,6 @@ class _CartState extends State<Cart> {
   }
 
   Widget getOrderSummery(double parentHeight, double parentWidth) {
-
     return Container(
       height: parentHeight * 0.9,
       child: Stack(
@@ -150,8 +171,6 @@ class _CartState extends State<Cart> {
                     totalCartsCount = snap.data?.data.length != 0
                         ? snap.data?.data.length
                         : 0;
-
-                    totalCartAmount += (int.parse("${snap.data?.data[index].discountedPrice}"/* ?? '0'*/) * int.parse("${snap.data?.data[index].qty}" /*?? '0'*/) );
 
                     print("aaaaaaaaa $totalCartAmount");
 
@@ -322,9 +341,14 @@ class _CartState extends State<Cart> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    /*GestureDetector(
+                                                    GestureDetector(
                                                       onDoubleTap: () {},
                                                       onTap: () {
+                                                        productId =
+                                                            "${snap.data?.data[index].productId}";
+                                                        productVariantId =
+                                                            "${snap.data?.data[index].productVariantId}";
+
                                                         cartCount = int.parse(
                                                             "${snap.data?.data[index].qty}");
 
@@ -335,30 +359,28 @@ class _CartState extends State<Cart> {
                                                             cartCount
                                                                 .toString();
 
-                                                        productId =
-                                                            "${snap.data?.data[index].productId}";
-                                                        productVariantId =
-                                                            "${snap.data?.data[index].productVariantId}";
-
-                                                        addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount
-                                                                .toString());
-
-                                                        int.parse(
-                                                                "${snap.data?.data[index].discountedPrice}") *
-                                                            cartCount;
-
-                                                        if (mounted) {
-                                                          setState(() {});
-                                                        }
+                                                        AllCommonApis()
+                                                            .addToCartApi(
+                                                                productId,
+                                                                productVariantId,
+                                                                cartCount
+                                                                    .toString())
+                                                            .then((value) {
+                                                          if (mounted) {
+                                                            setState(() {
+                                                              print("hhuihuhuihhui");
+                                                              refresh();
+                                                            });
+                                                          }
+                                                        });
                                                       },
                                                       child: Container(
-                                                        height: parentHeight *
+                                                        height: SizeConfig
+                                                                .screenHeight *
                                                             0.035,
-                                                        width:
-                                                            parentWidth * 0.07,
+                                                        width: SizeConfig
+                                                                .screenWidth *
+                                                            0.07,
                                                         decoration: BoxDecoration(
                                                             color: CommonColor
                                                                 .APP_BAR_COLOR,
@@ -380,9 +402,12 @@ class _CartState extends State<Cart> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      height:
-                                                          parentHeight * 0.035,
-                                                      width: parentWidth * 0.07,
+                                                      height: SizeConfig
+                                                              .screenHeight *
+                                                          0.035,
+                                                      width: SizeConfig
+                                                              .screenWidth *
+                                                          0.07,
                                                       decoration: BoxDecoration(
                                                           color: CommonColor
                                                               .WHITE_COLOR,
@@ -404,6 +429,11 @@ class _CartState extends State<Cart> {
                                                     GestureDetector(
                                                       onDoubleTap: () {},
                                                       onTap: () {
+                                                        productId =
+                                                            "${snap.data?.data[index].productId}";
+                                                        productVariantId =
+                                                            "${snap.data?.data[index].productVariantId}";
+
                                                         cartCount = int.parse(
                                                             "${snap.data?.data[index].qty}");
 
@@ -414,26 +444,27 @@ class _CartState extends State<Cart> {
                                                             cartCount
                                                                 .toString();
 
-                                                        productId =
-                                                            "${snap.data?.data[index].productId}";
-                                                        productVariantId =
-                                                            "${snap.data?.data[index].productVariantId}";
-
-                                                        addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount
-                                                                .toString());
-
-                                                        if (mounted) {
-                                                          setState(() {});
-                                                        }
+                                                        AllCommonApis()
+                                                            .addToCartApi(
+                                                                productId,
+                                                                productVariantId,
+                                                                cartCount
+                                                                    .toString())
+                                                            .then((value) {
+                                                          if (mounted) {
+                                                            setState(() {
+                                                              refresh();
+                                                            });
+                                                          }
+                                                        });
                                                       },
                                                       child: Container(
-                                                        height: parentHeight *
+                                                        height: SizeConfig
+                                                                .screenHeight *
                                                             0.035,
-                                                        width:
-                                                            parentWidth * 0.07,
+                                                        width: SizeConfig
+                                                                .screenWidth *
+                                                            0.07,
                                                         decoration: BoxDecoration(
                                                             color: CommonColor
                                                                 .APP_BAR_COLOR,
@@ -452,132 +483,6 @@ class _CartState extends State<Cart> {
                                                                   5.0),
                                                           textScaleFactor: 1.0,
                                                         )),
-                                                      ),
-                                                    ),*/
-                                                    GestureDetector(
-                                                      onDoubleTap: () {},
-                                                      onTap: () {
-                                                        productId =
-                                                        "${snap.data?.data[index].productId}";
-                                                        productVariantId =
-                                                        "${snap.data?.data[index].productVariantId}";
-
-                                                        cartCount = int.parse(
-                                                            "${snap.data?.data[index].qty}");
-
-                                                        cartCount--;
-
-                                                        snap.data?.data[index]
-                                                            .qty =
-                                                            cartCount
-                                                                .toString();
-
-                                                        AllCommonApis().addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount.toString()).then((value) {
-                                                          setState(() {
-
-                                                          });
-                                                        });
-
-
-
-                                                      },
-                                                      child: Container(
-                                                        height: SizeConfig.screenHeight * 0.035,
-                                                        width: SizeConfig.screenWidth * 0.07,
-                                                        decoration: BoxDecoration(
-                                                            color: CommonColor
-                                                                .APP_BAR_COLOR,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
-                                                        child: Center(
-                                                            child: Text(
-                                                              "-",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .WHITE_COLOR,
-                                                                  fontSize: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      5.6),
-                                                              textScaleFactor: 1.0,
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      height: SizeConfig.screenHeight * 0.035,
-                                                      width: SizeConfig.screenWidth * 0.07,
-                                                      decoration: BoxDecoration(
-                                                          color: CommonColor
-                                                              .WHITE_COLOR,
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                      child: Center(
-                                                          child: Text(
-                                                            "${snap.data?.data[index].qty}",
-                                                            style: TextStyle(
-                                                                color: CommonColor
-                                                                    .BLACK_COLOR,
-                                                                fontSize: SizeConfig
-                                                                    .blockSizeHorizontal *
-                                                                    3.5),
-                                                            textScaleFactor: 1.0,
-                                                          )),
-                                                    ),
-                                                    GestureDetector(
-                                                      onDoubleTap: () {},
-                                                      onTap: () {
-                                                        productId =
-                                                        "${snap.data?.data[index].productId}";
-                                                        productVariantId =
-                                                        "${snap.data?.data[index].productVariantId}";
-
-                                                        cartCount = int.parse(
-                                                            "${snap.data?.data[index].qty}");
-
-                                                        cartCount++;
-
-                                                        snap.data?.data[index]
-                                                            .qty =
-                                                            cartCount
-                                                                .toString();
-
-                                                        AllCommonApis().addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount.toString()).then((value) {
-                                                          setState(() {
-
-                                                          });
-                                                        });
-
-
-
-                                                      },
-                                                      child: Container(
-                                                        height:
-                                                        SizeConfig.screenHeight * 0.035,
-                                                        width: SizeConfig.screenWidth * 0.07,
-                                                        decoration: BoxDecoration(
-                                                            color: CommonColor
-                                                                .APP_BAR_COLOR,
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
-                                                        child: Center(
-                                                            child: Text(
-                                                              "+",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .WHITE_COLOR,
-                                                                  fontSize: SizeConfig
-                                                                      .blockSizeHorizontal *
-                                                                      5.0),
-                                                              textScaleFactor: 1.0,
-                                                            )),
                                                       ),
                                                     ),
                                                   ],
@@ -769,9 +674,11 @@ class _CartState extends State<Cart> {
       print("getAllCartsOfUsersssss -->  ${jsonData['message']}");
 
       if (jsonData['message'] == "No item(s) found in user cart!") {
-        setState(() {
-          totalCartsCount = 0;
-        });
+        if (mounted) {
+          setState(() {
+            totalCartsCount = 0;
+          });
+        }
       }
 
       return getUserCartResponseModelFromJson(response.body);
@@ -805,9 +712,11 @@ class _CartState extends State<Cart> {
         print("object");
         var result = getAllCarts();
         result.then((value) {
-          setState(() {
-            totalCartsCount = value.data.length != 0 ? value.data.length : 0;
-          });
+          if (mounted) {
+            setState(() {
+              totalCartsCount = value.data.length != 0 ? value.data.length : 0;
+            });
+          }
         });
       }
 
@@ -819,7 +728,7 @@ class _CartState extends State<Cart> {
     }
   }
 
-    Future removeToCartApi(String pvi) async {
+  Future removeToCartApi(String pvi) async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -843,9 +752,11 @@ class _CartState extends State<Cart> {
         print("objects");
         var result = getAllCarts();
         result.then((value) {
-          setState(() {
-            totalCartsCount = value.data.length != 0 ? value.data.length : 0;
-          });
+          if (mounted) {
+            setState(() {
+              totalCartsCount = value.data.length != 0 ? value.data.length : 0;
+            });
+          }
         });
       }
 

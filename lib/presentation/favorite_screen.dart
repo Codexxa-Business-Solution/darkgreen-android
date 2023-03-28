@@ -1,11 +1,7 @@
-import 'dart:convert';
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
-import 'package:http/http.dart' as http;
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
-import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
-import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:flutter/material.dart';

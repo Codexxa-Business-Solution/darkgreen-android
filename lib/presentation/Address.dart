@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:darkgreen/api_model/allCommonApis/common_api.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/share_preference.dart';
@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class Address extends StatefulWidget {
-
   final String isCome;
   final String address;
   final String landMark;
@@ -20,10 +19,34 @@ class Address extends StatefulWidget {
   final String country;
   final String state;
   final String postalCode;
+  final String fullName;
+  final String phoneNumber;
+  final String alterPhoneNumber;
+  final String isType;
+  final String isDefault;
+  final String addressId;
   final double lat;
   final double long;
 
-  const Address({Key? key, required this.isCome, this.address = '', this.landMark = '', this.city = '', this.area = '', this.country = '', this.state = '', this.postalCode = '', required this.lat, required this.long}) : super(key: key);
+  const Address(
+      {Key? key,
+      required this.isCome,
+      this.address = '',
+      this.landMark = '',
+      this.city = '',
+      this.area = '',
+      this.country = '',
+      this.state = '',
+      this.postalCode = '',
+      required this.lat,
+      required this.long,
+      this.fullName = '',
+      this.phoneNumber = '',
+      this.alterPhoneNumber = '',
+      this.isType = '',
+      this.isDefault = '',
+      this.addressId = ''})
+      : super(key: key);
 
   @override
   State<Address> createState() => _AddressState();
@@ -58,19 +81,33 @@ class _AddressState extends State<Address> {
   String isDefault = "0";
   bool _isDialogVisible = false;
 
-
   @override
   void initState() {
     super.initState();
-    address.text = widget.address;
-    landMark.text = widget.landMark;
-    city.text = widget.city;
-    country.text = widget.country;
-    state.text = widget.state;
-    pinCode.text = widget.postalCode;
-    area.text = widget.area;
 
     print("${widget.lat}, ${widget.long} ${widget.isCome}");
+
+
+    if(mounted){
+      setState(() {
+        fullName.text = widget.fullName;
+        phoneNumber.text = widget.phoneNumber;
+        alternatePhoneNumber.text = widget.alterPhoneNumber;
+        address.text = widget.address;
+        landMark.text = widget.landMark;
+        city.text = widget.city;
+        area.text = widget.area;
+        country.text = widget.country;
+        state.text = widget.state;
+        pinCode.text = widget.postalCode;
+        isType = widget.isType;
+        isDefault = widget.isDefault;
+      });
+    }
+
+    isDefault == "1" ? isChecked = true : isChecked = false;
+
+
   }
 
   @override
@@ -96,38 +133,23 @@ class _AddressState extends State<Address> {
       ),
       floatingActionButton: _isDialogVisible == true
           ? Padding(
-        padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
-        child: AlertDialog(
-            backgroundColor: Colors.white,
-            elevation: 9,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            title: Text("Address Added Successfully.",
-              style: TextStyle(
-                  fontSize: SizeConfig.blockSizeHorizontal * 4.0,
-                  fontFamily: 'Roboto_Medium',
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black),),
-           /* content: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: productName,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: CommonColor.APP_BAR_COLOR)),
-                  TextSpan(
-                      text: favTap == 0
-                          ? " remove this product from favorite list."
-                          : " add this product from favorite list.",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: CommonColor.BLACK_COLOR)),
-                ],
+              padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
+              child: AlertDialog(
+                backgroundColor: Colors.white,
+                elevation: 9,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                title: Text(
+                  widget.isCome == "1" ? "Address Added Successfully." : "Address Updated Successfully.",
+                  style: TextStyle(
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                      fontFamily: 'Roboto_Medium',
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
+                ),
               ),
-            )*/),
-      )
+            )
           : null,
     );
   }
@@ -182,7 +204,6 @@ class _AddressState extends State<Address> {
     );
   }
 
-
   Widget getAddressField(double parentHeight, double parentWidth) {
     return ListView(
       shrinkWrap: true,
@@ -194,9 +215,8 @@ class _AddressState extends State<Address> {
               left: parentHeight * 0.07,
               right: parentWidth * 0.14),
           child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-
+            onDoubleTap: () {},
+            onTap: () {
               showCupertinoDialog(
                 context: context,
                 barrierDismissible: true,
@@ -204,17 +224,18 @@ class _AddressState extends State<Address> {
                   return AnimatedOpacity(
                       opacity: 1.0,
                       duration: Duration(seconds: 2),
-                      child: CurrentLocationDialogue(buttonText: widget.isCome,));
-                },);
-
-
+                      child: CurrentLocationDialogue(
+                        buttonText: widget.isCome,
+                      ));
+                },
+              );
             },
             child: Container(
               height: parentHeight * 0.06,
               width: parentWidth * 0.8,
               decoration: BoxDecoration(
-                border:
-                Border.all(width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
+                border: Border.all(width: 1, color: CommonColor.APP_BAR_COLOR),
+                //Border.
                 borderRadius: const BorderRadius.all(
                   Radius.circular(8),
                 ),
@@ -508,9 +529,9 @@ class _AddressState extends State<Address> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onDoubleTap: (){},
-                onTap: (){
-                  if(mounted){
+                onDoubleTap: () {},
+                onTap: () {
+                  if (mounted) {
                     setState(() {
                       isType = "1";
                     });
@@ -527,37 +548,43 @@ class _AddressState extends State<Address> {
                             color: Colors.transparent,
                             child: Icon(
                               Icons.circle_outlined,
-                              color: CommonColor.APP_BAR_COLOR,),
+                              color: CommonColor.APP_BAR_COLOR,
+                            ),
                           ),
                           Visibility(
                             visible: isType == "1" ? true : false,
                             child: Padding(
-                              padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.00277),
-                              child: Icon(Icons.circle,
+                              padding: EdgeInsets.only(
+                                  right: SizeConfig.screenWidth * 0.00277),
+                              child: Icon(
+                                Icons.circle,
                                 color: CommonColor.APP_BAR_COLOR,
-                                size: SizeConfig.blockSizeHorizontal*4.0,),
+                                size: SizeConfig.blockSizeHorizontal * 4.0,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                        child: Text("Home",
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.screenWidth * 0.02),
+                        child: Text(
+                          "Home",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                               fontWeight: FontWeight.w400,
-                              fontFamily: 'Roboto_Regular'
-                          ),),
+                              fontFamily: 'Roboto_Regular'),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
               GestureDetector(
-                onDoubleTap: (){},
-                onTap: (){
-                  if(mounted){
+                onDoubleTap: () {},
+                onTap: () {
+                  if (mounted) {
                     setState(() {
                       isType = "2";
                     });
@@ -571,9 +598,9 @@ class _AddressState extends State<Address> {
                         alignment: Alignment.center,
                         children: [
                           GestureDetector(
-                            onDoubleTap: (){},
-                            onTap: (){
-                              if(mounted){
+                            onDoubleTap: () {},
+                            onTap: () {
+                              if (mounted) {
                                 setState(() {
                                   isType = "2";
                                 });
@@ -581,30 +608,37 @@ class _AddressState extends State<Address> {
                             },
                             child: Container(
                               color: Colors.transparent,
-                              child: Icon(Icons.circle_outlined,
-                                color: CommonColor.APP_BAR_COLOR,),
+                              child: Icon(
+                                Icons.circle_outlined,
+                                color: CommonColor.APP_BAR_COLOR,
+                              ),
                             ),
                           ),
                           Visibility(
                             visible: isType == "2" ? true : false,
                             child: Padding(
-                              padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                              child: Icon(Icons.circle,
+                              padding: EdgeInsets.only(
+                                  right: SizeConfig.screenWidth * 0.0027),
+                              child: Icon(
+                                Icons.circle,
                                 color: CommonColor.APP_BAR_COLOR,
-                                size: SizeConfig.blockSizeHorizontal*4.0,),
+                                size: SizeConfig.blockSizeHorizontal * 4.0,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                        child: Text("Office",
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.screenWidth * 0.02),
+                        child: Text(
+                          "Office",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                               fontWeight: FontWeight.w400,
-                              fontFamily: 'Roboto_Regular'
-                          ),),
+                              fontFamily: 'Roboto_Regular'),
+                        ),
                       ),
                     ],
                   ),
@@ -615,25 +649,32 @@ class _AddressState extends State<Address> {
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      Icon(Icons.circle_outlined,
-                        color: Colors.transparent,),
+                      Icon(
+                        Icons.circle_outlined,
+                        color: Colors.transparent,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                        child: Icon(Icons.circle,
+                        padding: EdgeInsets.only(
+                            right: SizeConfig.screenWidth * 0.0027),
+                        child: Icon(
+                          Icons.circle,
                           color: Colors.transparent,
-                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                          size: SizeConfig.blockSizeHorizontal * 4.0,
+                        ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                    child: Text("Other",
+                    padding:
+                        EdgeInsets.only(left: SizeConfig.screenWidth * 0.02),
+                    child: Text(
+                      "Other",
                       style: TextStyle(
                           color: Colors.transparent,
-                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                          fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                           fontWeight: FontWeight.w400,
-                          fontFamily: 'Roboto_Regular'
-                      ),),
+                          fontFamily: 'Roboto_Regular'),
+                    ),
                   ),
                 ],
               ),
@@ -669,7 +710,8 @@ class _AddressState extends State<Address> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth * 0.02, bottom: parentHeight*0.015),
+                    padding: EdgeInsets.only(
+                        left: parentWidth * 0.02, bottom: parentHeight * 0.015),
                     child: Text("Set as default address"),
                   ),
                 ],
@@ -682,92 +724,104 @@ class _AddressState extends State<Address> {
               top: parentHeight * 0.01,
               left: parentWidth * 0.04,
               right: parentWidth * 0.04,
-          bottom: parentHeight*0.03),
+              bottom: parentHeight * 0.03),
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
+              if (fullName.text.isNotEmpty) {
+                if (phoneNumber.text.isNotEmpty ||
+                    phoneNumber.text.length == 10) {
+                  if (alternatePhoneNumber.text.isNotEmpty ||
+                      alternatePhoneNumber.text.length == 10) {
+                    if (address.text.isNotEmpty) {
+                      if (landMark.text.isNotEmpty) {
+                        if (city.text.isNotEmpty) {
+                          if (area.text.isNotEmpty) {
+                            if (country.text.isNotEmpty) {
+                              if (state.text.isNotEmpty) {
+                                if (pinCode.text.isNotEmpty) {
+                                  if (isType != "0") {
 
+                                    widget.isCome == "1" ? AddAddress(
+                                        fullName.text.trim(),
+                                        phoneNumber.text.trim(),
+                                        alternatePhoneNumber.text.trim(),
+                                        address.text.trim(),
+                                        landMark.text.trim(),
+                                        city.text.trim(),
+                                        area.text.trim(),
+                                        country.text.trim(),
+                                        state.text.trim(),
+                                        pinCode.text.trim(),
+                                        widget.lat,
+                                        widget.long) : updateAddress(
+                                        fullName.text.trim(),
+                                        phoneNumber.text.trim(),
+                                        alternatePhoneNumber.text.trim(),
+                                        address.text.trim(),
+                                        landMark.text.trim(),
+                                        city.text.trim(),
+                                        area.text.trim(),
+                                        country.text.trim(),
+                                        state.text.trim(),
+                                        pinCode.text.trim(),
+                                        widget.addressId,
+                                        widget.lat,
+                                        widget.long,
+                                    );
 
-              if(fullName.text.isNotEmpty){
-
-                if(phoneNumber.text.isNotEmpty || phoneNumber.text.length == 10){
-
-                  if(alternatePhoneNumber.text.isNotEmpty || alternatePhoneNumber.text.length == 10){
-
-                    if(address.text.isNotEmpty){
-
-                      if(landMark.text.isNotEmpty){
-
-                        if(city.text.isNotEmpty){
-
-                          if(area.text.isNotEmpty){
-
-                            if(country.text.isNotEmpty){
-
-                              if(state.text.isNotEmpty){
-
-                                if(pinCode.text.isNotEmpty){
-
-                                  if(isType != "0"){
-
-                                    AddAddress(fullName.text.trim(), phoneNumber.text.trim(), alternatePhoneNumber.text.trim(),
-                                        address.text.trim(), landMark.text.trim(), city.text.trim(), area.text.trim(),
-                                        country.text.trim(), state.text.trim(), pinCode.text.trim(), widget.lat, widget.long);
-
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                        content: Text("Select Your Address Type.")));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                "Select Your Address Type.")));
                                   }
-
-                                }else{
-                                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                      content: Text("Enter Your PinCode.")));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text("Enter Your PinCode.")));
                                 }
-
-                              }else{
-                                ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                    content: Text("Enter Your State.")));
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Enter Your State.")));
                               }
-
-                            }else{
-                              ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                  content: Text("Enter Your Country.")));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("Enter Your Country.")));
                             }
-
-                          }else{
-                            ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                                content: Text("Enter Your Area.")));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Enter Your Area.")));
                           }
-
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                              content: Text("Enter Your City.")));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Enter Your City.")));
                         }
-
-                      }else{
-                        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                            content: Text("Enter Your Land Mark.")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Enter Your Land Mark.")));
                       }
-
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Enter Your Full Address.")));
                     }
-
-                  }else{
-                    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Enter Your Valid Number.")));
                   }
-
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Enter Your Valid Number.")));
                 }
-
-              }else{
-                ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                    content: Text("Enter Your Full Name.")));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Enter Your Full Name.")));
               }
-
             },
             child: Container(
                 width: parentWidth * 0.77,
@@ -795,47 +849,52 @@ class _AddressState extends State<Address> {
     );
   }
 
-
-
-  void AddAddress(String name, String number, String alterNumber, String address, String landMark,
-      String city, String area, String country, String state, String pinCode, double lat, double long) async{
-
-
+  void AddAddress(
+      String name,
+      String number,
+      String alterNumber,
+      String address,
+      String landMark,
+      String city,
+      String area,
+      String country,
+      String state,
+      String pinCode,
+      double lat,
+      double long) async {
     String? id = await AppPreferences.getIds();
 
-
-    print("$id \n$name \n$number \n$alterNumber \n$address \n$landMark \n$city \n$area \n$country \n$state \n$pinCode \n${lat.toString()} \n${long.toString()} \n$isType \n$isDefault");
+    print(
+        "$id \n$name \n$number \n$alterNumber \n$address \n$landMark \n$city \n$area \n$country \n$state \n$pinCode \n${lat.toString()} \n${long.toString()} \n$isType \n$isDefault");
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
-    try{
-
+    try {
       Response response = await post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAddUserAddress),
+          Uri.parse(ApiConstants().baseUrl + ApiConstants().getAddUserAddress),
           headers: headersList,
-        body: {
-          "accesskey":"90336",
-          "add_address":"1",
-          "user_id":id,
-          "type":isType,
-          "name":name,
-          "mobile":number,
-          "address":address,
-          "landmark":landMark,
-          "area_id":area,
-          "city_id":city,
-          "pincode":pinCode,
-          "state":state,
-          "country":country,
-          "latitude":lat.toString(),
-          "longitude":long.toString(),
-          "is_default":"$isDefault",
-          "country_code":"+91",
-          "alternate_mobile":alterNumber
-        }
-      );
+          body: {
+            "accesskey": "90336",
+            "add_address": "1",
+            "user_id": id,
+            "type": isType,
+            "name": name,
+            "mobile": number,
+            "address": address,
+            "landmark": landMark,
+            "area_id": area,
+            "city_id": city,
+            "pincode": pinCode,
+            "state": state,
+            "country": country,
+            "latitude": lat.toString(),
+            "longitude": long.toString(),
+            "is_default": "$isDefault",
+            "country_code": "+91",
+            "alternate_mobile": alterNumber
+          });
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
         print(data);
         if (mounted) {
@@ -843,7 +902,7 @@ class _AddressState extends State<Address> {
             _isDialogVisible = true;
 
             Future.delayed(const Duration(seconds: 2), () {
-              if(mounted) {
+              if (mounted) {
                 setState(() {
                   _isDialogVisible = false;
                   Navigator.pop(context);
@@ -853,14 +912,86 @@ class _AddressState extends State<Address> {
           });
         }
         // Navigator.pop(context);
-      }else{
+      } else {
         print("failed");
       }
-
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
-
   }
 
+
+  void updateAddress(
+      String name,
+      String number,
+      String alterNumber,
+      String address,
+      String landMark,
+      String city,
+      String area,
+      String country,
+      String state,
+      String pinCode,
+      String addressId,
+      double lat,
+      double long) async {
+    String? id = await AppPreferences.getIds();
+
+    print(
+        "$id \n$name \n$number \n$alterNumber \n$address \n$landMark \n$city \n$area \n$country \n$state \n$pinCode \n${lat.toString()} \n${long.toString()} \n$isType \n$isDefault");
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    try {
+      Response response = await post(
+          Uri.parse(ApiConstants().baseUrl + ApiConstants().getAddUserAddress),
+          headers: headersList,
+          body: {
+            "accesskey": "90336",
+            "update_address": "1",
+            "id":addressId,
+            "user_id": id,
+            "type": isType,
+            "name": name,
+            "mobile": number,
+            "address": address,
+            "landmark": landMark,
+            "area_id": area,
+            "city_id": city,
+            "pincode": pinCode,
+            "state": state,
+            "country": country,
+            "latitude": lat.toString(),
+            "longitude": long.toString(),
+            "is_default": isDefault,
+            "country_code": "+91",
+            "alternate_mobile": alterNumber
+          });
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body.toString());
+        print(data);
+        if (mounted) {
+          setState(() {
+            _isDialogVisible = true;
+
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) {
+                setState(() {
+                  _isDialogVisible = false;
+                  AllCommonApis().getAddressOfUser();
+                  Navigator.pop(context);
+                });
+              }
+            });
+          });
+        }
+        // Navigator.pop(context);
+      } else {
+        print("failed");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
