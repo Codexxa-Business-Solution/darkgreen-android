@@ -728,9 +728,9 @@ class _AddressState extends State<Address> {
           child: GestureDetector(
             onTap: () {
               if (fullName.text.isNotEmpty) {
-                if (phoneNumber.text.isNotEmpty ||
+                if (phoneNumber.text.isNotEmpty &&
                     phoneNumber.text.length == 10) {
-                  if (alternatePhoneNumber.text.isNotEmpty ||
+                  if (alternatePhoneNumber.text.isNotEmpty &&
                       alternatePhoneNumber.text.length == 10) {
                     if (address.text.isNotEmpty) {
                       if (landMark.text.isNotEmpty) {
@@ -740,20 +740,22 @@ class _AddressState extends State<Address> {
                               if (state.text.isNotEmpty) {
                                 if (pinCode.text.isNotEmpty) {
                                   if (isType != "0") {
-
-                                    widget.isCome == "1" ? AddAddress(
-                                        fullName.text.trim(),
-                                        phoneNumber.text.trim(),
-                                        alternatePhoneNumber.text.trim(),
-                                        address.text.trim(),
-                                        landMark.text.trim(),
-                                        city.text.trim(),
-                                        area.text.trim(),
-                                        country.text.trim(),
-                                        state.text.trim(),
-                                        pinCode.text.trim(),
-                                        widget.lat,
-                                        widget.long) : updateAddress(
+                                    if(widget.isCome == "1"){
+                                      AddAddress(
+                                          fullName.text.trim(),
+                                          phoneNumber.text.trim(),
+                                          alternatePhoneNumber.text.trim(),
+                                          address.text.trim(),
+                                          landMark.text.trim(),
+                                          city.text.trim(),
+                                          area.text.trim(),
+                                          country.text.trim(),
+                                          state.text.trim(),
+                                          pinCode.text.trim(),
+                                          widget.lat,
+                                          widget.long);
+                                    }else{
+                                      updateAddress(
                                         fullName.text.trim(),
                                         phoneNumber.text.trim(),
                                         alternatePhoneNumber.text.trim(),
@@ -767,7 +769,8 @@ class _AddressState extends State<Address> {
                                         widget.addressId,
                                         widget.lat,
                                         widget.long,
-                                    );
+                                      );
+                                    }
 
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(

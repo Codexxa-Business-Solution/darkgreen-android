@@ -600,7 +600,13 @@ class _CartState extends State<Cart> {
                                     index: 0,
                                     totalAmount: totalCartAmount,
                                     itemCount: totalCartsCount ?? 0,
-                                  )));
+                                  ))).then((value){
+                                    if(mounted){
+                                      setState(() {
+                                        refresh();
+                                      });
+                                    }
+                      });
                     },
                     child: Container(
                       color: Colors.transparent,

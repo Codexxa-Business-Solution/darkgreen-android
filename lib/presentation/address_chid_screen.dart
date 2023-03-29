@@ -24,6 +24,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
 
 
   bool selectedAddress = false;
+  int selectedIndex = 0;
 
 
   @override
@@ -84,7 +85,13 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
           child: Icon(Icons.add,
           size: SizeConfig.blockSizeHorizontal*9.0,),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '1', lat: 0.0, long: 0.0,)));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '1', lat: 0.0, long: 0.0,))).then((value){
+              if(mounted) {
+                setState(() {
+                AllCommonApis().getAddressOfUser();
+              });
+              }
+            });
           },),
       ),
     );
@@ -124,6 +131,10 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
               final typeText = snap.data?.data?[index].type == "1" ? "Home"
                   : snap.data?.data?[index].type == "2" ? "Office" : "Office";
 
+              if(snap.data?.data?[index].isDefault == "1") {
+                selectedIndex == index;
+              }
+
 
               return Padding(
                 padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03,
@@ -159,7 +170,10 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                     GestureDetector(
                                       onDoubleTap: (){},
                                       onTap: (){
+                                        selectedIndex = index;
+                                        setState(() {
 
+                                        });
                                       },
                                       child: Container(
                                         color: Colors.transparent,
@@ -168,7 +182,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: snap.data?.data?[index].isDefault == "1" ? true : false,
+                                      visible: index == selectedIndex,
                                       child: Padding(
                                         padding: EdgeInsets.only(right: parentWidth*0.0027),
                                         child: Icon(Icons.circle,
@@ -197,24 +211,22 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                             ),
                             Row(
                               children: [
-                                Visibility(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: parentWidth*0.02),
-                                    child: Container(
-                                      height: parentHeight*0.03,
-                                      width: parentWidth*0.14,
-                                      decoration: BoxDecoration(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          borderRadius: BorderRadius.circular(20)
-                                      ),
-                                      child: Center(child: Text(typeText,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Roboto_Medium',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.0
-                                        ),)),
+                                Padding(
+                                  padding: EdgeInsets.only(right: parentWidth*0.02),
+                                  child: Container(
+                                    height: parentHeight*0.03,
+                                    width: parentWidth*0.14,
+                                    decoration: BoxDecoration(
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        borderRadius: BorderRadius.circular(20)
                                     ),
+                                    child: Center(child: Text(typeText,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Roboto_Medium',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: SizeConfig.blockSizeHorizontal*3.0
+                                      ),)),
                                   ),
                                 ),
                                 Visibility(
@@ -260,7 +272,11 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                         isType: "${snap.data?.data?[index].type}",
                                         isDefault:"${snap.data?.data?[index].isDefault}",
                                         addressId: "${snap.data?.data?[index].id}",
-                                      )));
+                                      ))).then((value){
+                                        setState(() {
+                                          AllCommonApis().getAddressOfUser();
+                                        });
+                                      });
                                     },
                                     child: Container(
                                         color: Colors.transparent,
