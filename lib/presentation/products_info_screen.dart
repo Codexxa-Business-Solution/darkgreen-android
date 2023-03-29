@@ -37,6 +37,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
   String productVariantId = "";
   String productName = "";
   int favTap = 0;
+  int totalCartAmount = 0;
 
   bool _isDialogVisible = false;
 
@@ -58,13 +59,22 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
     AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
 
 
-    var result = AllCommonApis().getAllCarts();
+    refresh();
+  }
 
+  void refresh() {
+    var result = AllCommonApis().getAllCarts();
+    totalCartAmount = 0;
     result.then((value) {
-      setState(() {
-        totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
-        print("hiiii${value.data.length}");
-      });
+      if (mounted) {
+        setState(() {
+          totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
+          for (var element in value.data) {
+            totalCartAmount +=
+            (int.parse(element.discountedPrice) * int.parse(element.qty));
+          }
+        });
+      }
     });
   }
 
@@ -163,7 +173,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                           padding: EdgeInsets.only(
                               top: SizeConfig.screenHeight * 0.005),
                           child: Text(
-                            "Rs.154",
+                            "Rs.$totalCartAmount",
                             style: TextStyle(
                                 color: CommonColor.WHITE_COLOR,
                                 fontSize: SizeConfig.blockSizeHorizontal * 4.5,
@@ -658,14 +668,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                               cartCount.toString())
                               .then((value) {
                             setState(() {
-                              var result = AllCommonApis().getAllCarts();
-
-                              result.then((value) {
-                                setState(() {
-                                  totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
-                                  print("hiiii${value.data.length}");
-                                });
-                              });
+                              refresh();
                             });
                           });
                         },
@@ -731,8 +734,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
 
                                       result.then((value) {
                                         setState(() {
-                                          totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
-                                          print("hiiii${value.data.length}");
+                                          refresh();
                                         });
                                       });
                                     });
@@ -797,7 +799,9 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                       .toString())
                                   .then(
                                       (value) {
-                                    setState(() {});
+                                    setState(() {
+                                      refresh();
+                                    });
                                   });
                             },
                             child: Container(
@@ -1291,7 +1295,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                               MainAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Rs ${snap.data?.data[index].variants[0].price}",
+                                                  "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
@@ -1305,7 +1309,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                   padding: EdgeInsets.only(
                                                       left: parentWidth * 0.02),
                                                   child: Text(
-                                                    "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
+                                                    "Rs ${snap.data?.data[index].variants[0].price}",
                                                     style: TextStyle(
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
@@ -1405,7 +1409,9 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                                   .toString())
                                                               .then(
                                                                   (value) {
-                                                                setState(() {});
+                                                                setState(() {
+                                                                  refresh();
+                                                                });
                                                               });
                                                         },
                                                         child: Container(
@@ -1493,7 +1499,9 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                                   .toString())
                                                               .then(
                                                                   (value) {
-                                                                setState(() {});
+                                                                setState(() {
+                                                                  refresh();
+                                                                });
                                                               });
                                                         },
                                                         child: Container(
@@ -1563,7 +1571,9 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                               productVariantId,
                                               cartCount.toString())
                                               .then((value) {
-                                            setState(() {});
+                                            setState(() {
+                                              refresh();
+                                            });
                                           });
                                         },
                                         child: Container(
