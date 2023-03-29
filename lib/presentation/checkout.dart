@@ -27,6 +27,8 @@ class _CheckoutState extends State<Checkout> {
   String productVariantId = "";
   int? totalCartsCount;
   int totalCartAmount = 0;
+  int originalAmount = 0;
+  int totalSavingAmount = 0;
   int cartCount = 0;
 
   @override
@@ -41,6 +43,7 @@ class _CheckoutState extends State<Checkout> {
   void refresh() {
     var result = getAllCarts();
     totalCartAmount = 0;
+    originalAmount = 0;
     result.then((value) {
       if (mounted) {
         setState(() {
@@ -48,6 +51,15 @@ class _CheckoutState extends State<Checkout> {
           for (var element in value.data) {
             totalCartAmount +=
             (int.parse(element.discountedPrice) * int.parse(element.qty));
+
+            originalAmount +=
+            (int.parse(element.price) * int.parse(element.qty));
+
+            print(originalAmount);
+
+            totalSavingAmount = originalAmount - totalCartAmount;
+
+            print(totalSavingAmount);
           }
         });
       }
@@ -1063,7 +1075,7 @@ class _CheckoutState extends State<Checkout> {
                     Padding(
                       padding: EdgeInsets.only(right: parentWidth * 0.05),
                       child: Text(
-                        "45",
+                        "Rs.$totalSavingAmount",
                         style: TextStyle(
                             color: CommonColor.BLACK_COLOR,
                             fontSize: SizeConfig.blockSizeHorizontal * 4.0,
