@@ -419,7 +419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: GestureDetector(
             onDoubleTap: (){},
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0,)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
             },
             child: Container(
               color: Colors.transparent,
@@ -987,7 +987,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1068,7 +1068,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
               },
               child: Container(
                 color: Colors.transparent,

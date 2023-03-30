@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+
+  final String orderFormat;
+  final String selectAddId;
+
+  const PaymentScreen({Key? key, required this.orderFormat, required this.selectAddId}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -21,6 +25,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void initState() {
     super.initState();
     _resetSelectedDate();
+
+    print("pay ${widget.orderFormat}");
+    print("pay ${widget.selectAddId}");
   }
 
   void _resetSelectedDate() {
@@ -505,14 +512,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ],
                     ),
                     actions: <Widget>[
-                      // TextButton(
-                      //   onPressed: () => Navigator.pop(context, 'Cancel'),
-                      //   child: const Text('Cancel'),
-                      // ),
-                      // TextButton(
-                      //   onPressed: () => Navigator.pop(context, 'OK'),
-                      //   child: const Text('OK'),
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -575,14 +574,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     ],
                                   ),
                                   actions: <Widget>[
-                                    // TextButton(
-                                    //   onPressed: () => Navigator.pop(context, 'Cancel'),
-                                    //   child: const Text('Cancel'),
-                                    // ),
-                                    // TextButton(
-                                    //   onPressed: () => Navigator.pop(context, 'OK'),
-                                    //   child: const Text('OK'),
-                                    // ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [

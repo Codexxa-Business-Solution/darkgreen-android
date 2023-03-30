@@ -12,8 +12,10 @@ class AddCheckPayParentScreen extends StatefulWidget {
   final int totalAmount;
   final int itemCount;
   final int deliveryCharges;
+  final String orderFormat;
+  final String addressId;
 
-  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0}) : super(key: key);
+  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.addressId}) : super(key: key);
 
   @override
   State<AddCheckPayParentScreen> createState() => _AddCheckPayParentScreenState();
@@ -30,6 +32,9 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
     print(widget.index);
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
+
+    print("parent ${widget.orderFormat}");
+    print("parent ${widget.addressId}");
   }
 
 
@@ -128,9 +133,9 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount,),
-              Checkout(deliverCharges: widget.deliveryCharges ,),
-              PaymentScreen()
+              AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount, orderFormat: widget.orderFormat,),
+              Checkout(deliverCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, selectAddId: widget.addressId),
+              PaymentScreen(orderFormat: widget.orderFormat, selectAddId: widget.addressId)
             ],
           ),
         ),

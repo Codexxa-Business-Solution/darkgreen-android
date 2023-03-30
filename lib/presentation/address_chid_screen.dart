@@ -12,8 +12,9 @@ class AddressSelectScreen extends StatefulWidget {
   final int totalAmount;
   final int itemCount;
   final int deliveryCharges;
+  final String orderFormat;
 
-  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0}) : super(key: key);
+  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat}) : super(key: key);
 
   @override
   State<AddressSelectScreen> createState() => _AddressSelectScreenState();
@@ -26,12 +27,22 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
   bool selectedAddress = false;
   int selectedIndex = 0;
 
+  String selectAddId = "";
+
 
   @override
   void initState() {
     super.initState();
     print("Hi");
-    AllCommonApis().getAddressOfUser();
+    AllCommonApis().getAddressOfUser().then((value){
+      if(mounted){
+        setState(() {
+          selectAddId = value.data?.elementAt(0).id ?? "";
+          print(" initId $selectAddId");
+        });
+      }
+    });
+    print("add ${widget.orderFormat}");
   }
 
 
@@ -56,24 +67,13 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          RefreshIndicator(
-            color: CommonColor.REFRESH_INDICATOR_COLOR,
-            onRefresh: () async {
-              await refreshList();
-            },
-            child: GestureDetector(
-              onTap: (){
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1)));
-              },
-              child: Container(
-                height: SizeConfig.screenHeight*0.9,
-                  color: Colors.white,
-                child: Padding(
-                  padding:  EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07),
-                  child: NameAddressLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-                )
-              ),
-            ),
+          Container(
+            height: SizeConfig.screenHeight*0.9,
+              color: Colors.white,
+            child: Padding(
+              padding:  EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07),
+              child: NameAddressLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+            )
           ),
           getBottomText(SizeConfig.screenHeight, SizeConfig.screenWidth)
         ],
@@ -88,7 +88,13 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '1', lat: 0.0, long: 0.0,))).then((value){
               if(mounted) {
                 setState(() {
-                AllCommonApis().getAddressOfUser();
+                  AllCommonApis().getAddressOfUser().then((value){
+                    if(mounted){
+                      setState(() {
+                        print("selectAddId $selectAddId");
+                      });
+                    }
+                  });
               });
               }
             });
@@ -172,7 +178,8 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                       onTap: (){
                                         selectedIndex = index;
                                         setState(() {
-
+                                          selectAddId = snap.data?.data?[index].id ?? "";
+                                          print(" selectId $selectAddId");
                                         });
                                       },
                                       child: Container(
@@ -274,7 +281,13 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                         addressId: "${snap.data?.data?[index].id}",
                                       ))).then((value){
                                         setState(() {
-                                          AllCommonApis().getAddressOfUser();
+                                          AllCommonApis().getAddressOfUser().then((value){
+                                            if(mounted){
+                                              setState(() {
+                                                print("selectAddId $selectAddId");
+                                              });
+                                            }
+                                          });
                                         });
                                       });
                                     },
@@ -380,7 +393,17 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliveryCharges,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, addressId: selectAddId,))).then((value){
+                  setState(() {
+                    AllCommonApis().getAddressOfUser().then((value){
+                      if(mounted){
+                        setState(() {
+                          print(selectAddId);
+                        });
+                      }
+                    });
+                  });
+                });
               },
               child: Container(
                 color: Colors.transparent,

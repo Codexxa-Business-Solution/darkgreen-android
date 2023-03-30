@@ -24,6 +24,7 @@ class _CartState extends State<Cart> {
   String productVariantId = "";
   int? totalCartsCount;
   int totalCartAmount = 0;
+  String isType = "0";
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _CartState extends State<Cart> {
     result.then((value) {
       if (mounted) {
         setState(() {
+          isType = "0";
           totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
             totalCartAmount +=
@@ -540,7 +542,7 @@ class _CartState extends State<Cart> {
             },
           ),
           Container(
-            height: SizeConfig.screenHeight * 0.07,
+            height: SizeConfig.screenHeight * 0.13,
             decoration: BoxDecoration(
               color: CommonColor.APP_BAR_COLOR,
               boxShadow: <BoxShadow>[
@@ -548,90 +550,242 @@ class _CartState extends State<Cart> {
                     color: Colors.black.withOpacity(0.3),
                     blurRadius: 7,
                     spreadRadius: 3,
-                    offset: Offset(2, 2.0))
+                    offset: Offset(2, 2.0)),
               ],
+              borderRadius: BorderRadius.only(topRight: Radius.circular(15),
+                  topLeft: Radius.circular(15))
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      top: SizeConfig.screenHeight * 0.01,
-                      left: SizeConfig.screenWidth * 0.05),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                      top: parentHeight * 0.02,
+                      left: parentWidth * 0.05,
+                      right: parentWidth * 0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Rs.$totalCartAmount",
-                        style: TextStyle(
-                            color: CommonColor.WHITE_COLOR,
-                            fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                            fontFamily: 'Roboto_Regular',
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: SizeConfig.screenHeight * 0.005),
-                        child: Text(
-                          totalCartsCount != null
-                              ? "$totalCartsCount Item"
-                              : "0 Items",
-                          style: TextStyle(
-                              color: CommonColor.WHITE_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal * 4.0,
-                              fontFamily: 'Roboto_Regular',
-                              fontWeight: FontWeight.w400),
+                      GestureDetector(
+                        onDoubleTap: () {},
+                        onTap: () {
+                          if (mounted) {
+                            setState(() {
+                              isType = "1";
+                              print(isType);
+                            });
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    color: Colors.transparent,
+                                    child: Icon(
+                                      Icons.circle_outlined,
+                                      color: CommonColor.WHITE_COLOR,
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isType == "1" ? true : false,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: SizeConfig.screenWidth * 0.00277),
+                                      child: Icon(
+                                        Icons.circle,
+                                        color: CommonColor.WHITE_COLOR,
+                                        size: SizeConfig.blockSizeHorizontal * 3.9,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.screenWidth * 0.02),
+                                child: Text(
+                                  "Door Step Delivery",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Roboto_Regular'),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
+                      ),
+                      GestureDetector(
+                        onDoubleTap: () {},
+                        onTap: () {
+                          if (mounted) {
+                            setState(() {
+                              isType = "2";
+                              print(isType);
+                            });
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onDoubleTap: () {},
+                                    onTap: () {
+                                      if (mounted) {
+                                        setState(() {
+                                          isType = "2";
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      child: Icon(
+                                        Icons.circle_outlined,
+                                        color: CommonColor.WHITE_COLOR,
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: isType == "2" ? true : false,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          right: SizeConfig.screenWidth * 0.0027),
+                                      child: Icon(
+                                        Icons.circle,
+                                        color: CommonColor.WHITE_COLOR,
+                                        size: SizeConfig.blockSizeHorizontal * 3.9,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: SizeConfig.screenWidth * 0.02),
+                                child: Text(
+                                  "PickUp From Store",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Roboto_Regular'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
-                  child: GestureDetector(
-                    onDoubleTap: () {},
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddCheckPayParentScreen(
-                                    index: 0,
-                                    totalAmount: totalCartAmount,
-                                    itemCount: totalCartsCount ?? 0,
-                                  ))).then((value){
-                                    if(mounted){
-                                      setState(() {
-                                        refresh();
-                                      });
-                                    }
-                      });
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: [
-                          Text(
-                            "Continue",
-                            style: TextStyle(
-                                color: CommonColor.WHITE_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal * 5.0,
-                                fontFamily: 'Roboto_Bold',
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.screenWidth * 0.01),
-                            child: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: CommonColor.WHITE_COLOR,
-                              size: SizeConfig.screenHeight * 0.02,
+                  padding: EdgeInsets.only(top: parentHeight*0.013),
+                  child: Container(
+                    height: parentHeight*0.0001,
+                    color: Colors.white,
+
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: parentHeight*0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.screenHeight * 0.01,
+                            left: SizeConfig.screenWidth * 0.05),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Rs.$totalCartAmount",
+                              style: TextStyle(
+                                  color: CommonColor.WHITE_COLOR,
+                                  fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                                  fontFamily: 'Roboto_Regular',
+                                  fontWeight: FontWeight.w400),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.screenHeight * 0.005),
+                              child: Text(
+                                totalCartsCount != null
+                                    ? "$totalCartsCount Item"
+                                    : "0 Items",
+                                style: TextStyle(
+                                    color: CommonColor.WHITE_COLOR,
+                                    fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                    fontFamily: 'Roboto_Regular',
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
+                        child: GestureDetector(
+                          onDoubleTap: () {},
+                          onTap: () {
+                            if(isType != "0"){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddCheckPayParentScreen(
+                                        index: 0,
+                                        totalAmount: totalCartAmount,
+                                        itemCount: totalCartsCount ?? 0,
+                                        orderFormat: isType, addressId: '',
+                                      ))).then((value){
+                                if(mounted){
+                                  setState(() {
+                                    refresh();
+                                  });
+                                }
+                              });
+                            }else{
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(content: Text("Please Select Your Order Format.")));
+                            }
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Continue",
+                                  style: TextStyle(
+                                      color: CommonColor.WHITE_COLOR,
+                                      fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                                      fontFamily: 'Roboto_Bold',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.01),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: CommonColor.WHITE_COLOR,
+                                    size: SizeConfig.screenHeight * 0.02,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

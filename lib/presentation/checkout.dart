@@ -13,8 +13,10 @@ import 'package:http/http.dart' as http;
 class Checkout extends StatefulWidget {
 
   final int deliverCharges;
+  final String orderFormat;
+  final String selectAddId;
 
-  const Checkout({Key? key, this.deliverCharges = 0}) : super(key: key);
+  const Checkout({Key? key, this.deliverCharges = 0, required this.orderFormat, required this.selectAddId}) : super(key: key);
 
   @override
   State<Checkout> createState() => _CheckoutState();
@@ -36,7 +38,8 @@ class _CheckoutState extends State<Checkout> {
     super.initState();
 
     refresh();
-
+    print("check ${widget.orderFormat}");
+    print("check ${widget.selectAddId}");
   }
 
 
@@ -55,11 +58,11 @@ class _CheckoutState extends State<Checkout> {
             originalAmount +=
             (int.parse(element.price) * int.parse(element.qty));
 
-            print(originalAmount);
+            // print(originalAmount);
 
             totalSavingAmount = originalAmount - totalCartAmount;
 
-            print(totalSavingAmount);
+            // print(totalSavingAmount);
           }
         });
       }
@@ -267,8 +270,8 @@ class _CheckoutState extends State<Checkout> {
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Container(
-                                                          width: SizeConfig.screenWidth*0.36,
-                                                          color: Colors.transparent,
+                                                          width: SizeConfig.screenWidth*0.45,
+                                                          // color: Colors.red,
                                                           child: Row(
                                                             children: [
                                                               Padding(
@@ -328,157 +331,153 @@ class _CheckoutState extends State<Checkout> {
                                                                   0.02,
                                                               left:
                                                               SizeConfig.screenWidth *
-                                                                  0.13),
-                                                          child: Column(
+                                                                  0.0),
+                                                          child: Row(
                                                             children: [
-                                                              Row(
-                                                                children: [
-                                                                  GestureDetector(
-                                                                    onDoubleTap: () {},
-                                                                    onTap: () {
-                                                                      productId =
-                                                                      "${snap.data?.data[index].productId}";
-                                                                      productVariantId =
-                                                                      "${snap.data?.data[index].productVariantId}";
+                                                              GestureDetector(
+                                                                onDoubleTap: () {},
+                                                                onTap: () {
+                                                                  productId =
+                                                                  "${snap.data?.data[index].productId}";
+                                                                  productVariantId =
+                                                                  "${snap.data?.data[index].productVariantId}";
 
-                                                                      cartCount = int.parse(
-                                                                          "${snap.data?.data[index].qty}");
+                                                                  cartCount = int.parse(
+                                                                      "${snap.data?.data[index].qty}");
 
-                                                                      cartCount--;
+                                                                  cartCount--;
 
-                                                                      snap.data?.data[index]
-                                                                          .qty =
-                                                                          cartCount
-                                                                              .toString();
+                                                                  snap.data?.data[index]
+                                                                      .qty =
+                                                                      cartCount
+                                                                          .toString();
 
-                                                                      AllCommonApis()
-                                                                          .addToCartApi(
-                                                                          productId,
-                                                                          productVariantId,
-                                                                          cartCount
-                                                                              .toString())
-                                                                          .then((value) {
-                                                                        if (mounted) {
-                                                                          setState(() {
-                                                                            print("hhuihuhuihhui");
-                                                                            refresh();
-                                                                          });
-                                                                        }
+                                                                  AllCommonApis()
+                                                                      .addToCartApi(
+                                                                      productId,
+                                                                      productVariantId,
+                                                                      cartCount
+                                                                          .toString())
+                                                                      .then((value) {
+                                                                    if (mounted) {
+                                                                      setState(() {
+                                                                        print("hhuihuhuihhui");
+                                                                        refresh();
                                                                       });
-                                                                    },
-                                                                    child: Container(
-                                                                      height: SizeConfig
-                                                                          .screenHeight *
-                                                                          0.035,
-                                                                      width: SizeConfig
-                                                                          .screenWidth *
-                                                                          0.07,
-                                                                      decoration: BoxDecoration(
+                                                                    }
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  height: SizeConfig
+                                                                      .screenHeight *
+                                                                      0.035,
+                                                                  width: SizeConfig
+                                                                      .screenWidth *
+                                                                      0.07,
+                                                                  decoration: BoxDecoration(
+                                                                      color: CommonColor
+                                                                          .APP_BAR_COLOR,
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          5)),
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                        "-",
+                                                                        style: TextStyle(
+                                                                            color: CommonColor
+                                                                                .WHITE_COLOR,
+                                                                            fontSize: SizeConfig
+                                                                                .blockSizeHorizontal *
+                                                                                5.6),
+                                                                        textScaleFactor: 1.0,
+                                                                      )),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                height: SizeConfig
+                                                                    .screenHeight *
+                                                                    0.035,
+                                                                width: SizeConfig
+                                                                    .screenWidth *
+                                                                    0.07,
+                                                                decoration: BoxDecoration(
+                                                                    color: CommonColor
+                                                                        .WHITE_COLOR,
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(5)),
+                                                                child: Center(
+                                                                    child: Text(
+                                                                      "${snap.data?.data[index].qty}",
+                                                                      style: TextStyle(
                                                                           color: CommonColor
-                                                                              .APP_BAR_COLOR,
-                                                                          borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              5)),
-                                                                      child: Center(
-                                                                          child: Text(
-                                                                            "-",
-                                                                            style: TextStyle(
-                                                                                color: CommonColor
-                                                                                    .WHITE_COLOR,
-                                                                                fontSize: SizeConfig
-                                                                                    .blockSizeHorizontal *
-                                                                                    5.6),
-                                                                            textScaleFactor: 1.0,
-                                                                          )),
-                                                                    ),
-                                                                  ),
-                                                                  Container(
-                                                                    height: SizeConfig
-                                                                        .screenHeight *
-                                                                        0.035,
-                                                                    width: SizeConfig
-                                                                        .screenWidth *
-                                                                        0.07,
-                                                                    decoration: BoxDecoration(
-                                                                        color: CommonColor
-                                                                            .WHITE_COLOR,
-                                                                        borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(5)),
-                                                                    child: Center(
-                                                                        child: Text(
-                                                                          "${snap.data?.data[index].qty}",
-                                                                          style: TextStyle(
-                                                                              color: CommonColor
-                                                                                  .BLACK_COLOR,
-                                                                              fontSize: SizeConfig
-                                                                                  .blockSizeHorizontal *
-                                                                                  3.5),
-                                                                          textScaleFactor: 1.0,
-                                                                        )),
-                                                                  ),
-                                                                  GestureDetector(
-                                                                    onDoubleTap: () {},
-                                                                    onTap: () {
-                                                                      productId =
-                                                                      "${snap.data?.data[index].productId}";
-                                                                      productVariantId =
-                                                                      "${snap.data?.data[index].productVariantId}";
+                                                                              .BLACK_COLOR,
+                                                                          fontSize: SizeConfig
+                                                                              .blockSizeHorizontal *
+                                                                              3.5),
+                                                                      textScaleFactor: 1.0,
+                                                                    )),
+                                                              ),
+                                                              GestureDetector(
+                                                                onDoubleTap: () {},
+                                                                onTap: () {
+                                                                  productId =
+                                                                  "${snap.data?.data[index].productId}";
+                                                                  productVariantId =
+                                                                  "${snap.data?.data[index].productVariantId}";
 
-                                                                      cartCount = int.parse(
-                                                                          "${snap.data?.data[index].qty}");
+                                                                  cartCount = int.parse(
+                                                                      "${snap.data?.data[index].qty}");
 
-                                                                      cartCount++;
+                                                                  cartCount++;
 
-                                                                      snap.data?.data[index]
-                                                                          .qty =
-                                                                          cartCount
-                                                                              .toString();
+                                                                  snap.data?.data[index]
+                                                                      .qty =
+                                                                      cartCount
+                                                                          .toString();
 
-                                                                      AllCommonApis()
-                                                                          .addToCartApi(
-                                                                          productId,
-                                                                          productVariantId,
-                                                                          cartCount
-                                                                              .toString())
-                                                                          .then((value) {
-                                                                        if (mounted) {
-                                                                          setState(() {
-                                                                            refresh();
-                                                                          });
-                                                                        }
+                                                                  AllCommonApis()
+                                                                      .addToCartApi(
+                                                                      productId,
+                                                                      productVariantId,
+                                                                      cartCount
+                                                                          .toString())
+                                                                      .then((value) {
+                                                                    if (mounted) {
+                                                                      setState(() {
+                                                                        refresh();
                                                                       });
-                                                                    },
-                                                                    child: Container(
-                                                                      height: SizeConfig
-                                                                          .screenHeight *
-                                                                          0.035,
-                                                                      width: SizeConfig
-                                                                          .screenWidth *
-                                                                          0.07,
-                                                                      decoration: BoxDecoration(
-                                                                          color: CommonColor
-                                                                              .APP_BAR_COLOR,
-                                                                          borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              5)),
-                                                                      child: Center(
-                                                                          child: Text(
-                                                                            "+",
-                                                                            style: TextStyle(
-                                                                                color: CommonColor
-                                                                                    .WHITE_COLOR,
-                                                                                fontSize: SizeConfig
-                                                                                    .blockSizeHorizontal *
-                                                                                    5.0),
-                                                                            textScaleFactor: 1.0,
-                                                                          )),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )
+                                                                    }
+                                                                  });
+                                                                },
+                                                                child: Container(
+                                                                  height: SizeConfig
+                                                                      .screenHeight *
+                                                                      0.035,
+                                                                  width: SizeConfig
+                                                                      .screenWidth *
+                                                                      0.07,
+                                                                  decoration: BoxDecoration(
+                                                                      color: CommonColor
+                                                                          .APP_BAR_COLOR,
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          5)),
+                                                                  child: Center(
+                                                                      child: Text(
+                                                                        "+",
+                                                                        style: TextStyle(
+                                                                            color: CommonColor
+                                                                                .WHITE_COLOR,
+                                                                            fontSize: SizeConfig
+                                                                                .blockSizeHorizontal *
+                                                                                5.0),
+                                                                        textScaleFactor: 1.0,
+                                                                      )),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -1111,7 +1110,9 @@ class _CheckoutState extends State<Checkout> {
       padding: EdgeInsets.only(bottom: parentHeight * 0.08),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2,)));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2, orderFormat: widget.orderFormat, addressId: widget.selectAddId,))).then((value){
+            refresh();
+          });
         },
         child: Container(
           height: parentHeight * 0.06,
