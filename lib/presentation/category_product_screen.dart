@@ -46,8 +46,10 @@ class _CategoryProductState extends State<CategoryProduct> {
                     Container(
                       width: SizeConfig.screenWidth*0.12,
                       decoration: BoxDecoration(
-                          color: CommonColor.CIRCLE_COLOR,
-                          shape: BoxShape.circle
+                        color: CommonColor.CIRCLE_COLOR,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(image: AssetImage("assets/images/appLogo.jpeg",),
+                          fit: BoxFit.contain,),
                       ),
                     ),
                     Padding(
