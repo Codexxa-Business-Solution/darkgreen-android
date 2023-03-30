@@ -1020,7 +1020,18 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                           builder: (context) => ViewAllProductsAndNeeds(
                             catId: widget.catId,
                             proId: widget.productId,
-                          )));
+                          ))).then((value){
+                    AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
+                      price = int.parse("${value.data[0].variants[0].price}");
+                      discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                      savingPrice = price - discountPrice;
+                    });
+
+                    AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
+
+
+                    refresh();
+                  });
                 },
                 child: Text(
                   "View All",
