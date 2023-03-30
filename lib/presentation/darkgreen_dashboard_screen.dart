@@ -1,3 +1,4 @@
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/darkgreen_screen_constant.dart';
 import 'package:darkgreen/constant/size_config.dart';
@@ -159,7 +160,19 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                  GestureDetector(
                    onDoubleTap: (){},
                    onTap: (){
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
+                       if(mounted){
+                         setState(() {
+                           print("dashFav");
+                           isShow = true;
+                           addNewScreen(
+                               FavoriteScreen(
+                                 mListener: this,
+                               ),
+                               ScreenConstant.FAVORITE_FRAGMENT);
+                         });
+                       }
+                     });
                    },
                    child: Container(
                      color: Colors.transparent,

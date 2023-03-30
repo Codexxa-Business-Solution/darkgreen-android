@@ -148,7 +148,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               builder: (context) => ProductInfoScreen(
                                     productId: "${snap.data?.data[index].id}",
                                     catId: '',
-                                  )));
+                                  ))).then((value){
+                                    if(mounted){
+                                      setState(() {
+                                        AllCommonApis().getAllFavoriteProductsApi();
+                                      });
+                                    }
+                      });
                     },
                     child: Container(
                       height: parentHeight * 0.17,
