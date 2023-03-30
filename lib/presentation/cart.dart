@@ -163,6 +163,12 @@ class _CartState extends State<Cart> {
 
                     print("aaaaaaaaa $totalCartAmount");
 
+                    final img = data.data[index].image.isNotEmpty
+                        ? Image.network(
+                      "${data.data[index].image}",
+                    )
+                        : Image.network("");
+
                     return Padding(
                       padding: EdgeInsets.only(
                           top: parentHeight * 0.01,
@@ -203,21 +209,14 @@ class _CartState extends State<Cart> {
                                     height: parentWidth * 0.23,
                                     width: parentWidth * 0.22,
                                     decoration: BoxDecoration(
-                                        color: CommonColor.GRAY_COLOR,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/dark.jpg"),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
+                                        color: CommonColor.WHITE_COLOR,
+                                        borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.black, width: parentWidth*0.0005)
                                     ),
-                                  ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: img,
+                                    )),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -739,21 +738,40 @@ class _CartState extends State<Cart> {
                           onDoubleTap: () {},
                           onTap: () {
                             if(isType != "0"){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddCheckPayParentScreen(
-                                        index: 0,
-                                        totalAmount: totalCartAmount,
-                                        itemCount: totalCartsCount ?? 0,
-                                        orderFormat: isType, addressId: '',
-                                      ))).then((value){
-                                if(mounted){
-                                  setState(() {
-                                    refresh();
-                                  });
-                                }
-                              });
+                              if(isType == "1"){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddCheckPayParentScreen(
+                                          index: 0,
+                                          totalAmount: totalCartAmount,
+                                          itemCount: totalCartsCount ?? 0,
+                                          orderFormat: isType, addressId: '',
+                                        ))).then((value){
+                                  if(mounted){
+                                    setState(() {
+                                      refresh();
+                                    });
+                                  }
+                                });
+                              }else if(isType == "2"){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddCheckPayParentScreen(
+                                          index: 1,
+                                          totalAmount: totalCartAmount,
+                                          itemCount: totalCartsCount ?? 0,
+                                          orderFormat: isType, addressId: '',
+                                        ))).then((value){
+                                  if(mounted){
+                                    setState(() {
+                                      refresh();
+                                    });
+                                  }
+                                });
+                              }
+
                             }else{
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(content: Text("Please Select Your Order Format.")));

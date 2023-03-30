@@ -11,12 +11,8 @@ import 'package:darkgreen/presentation/track_order_parent_screen.dart';
 import 'package:darkgreen/presentation/wallet_history_screen.dart';
 import 'package:flutter/material.dart';
 
-
-
 class ProfileScreen extends StatefulWidget {
-
   final ProfileScreenInterface mListener;
-
 
   const ProfileScreen({Key? key, required this.mListener}) : super(key: key);
 
@@ -32,14 +28,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: CommonColor.ORDER_PLACED_COLOR.withOpacity(0.5),
       body: ListView(
         shrinkWrap: true,
-        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.03),
+        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.03),
         children: [
-
           getMyAccount(SizeConfig.screenHeight, SizeConfig.screenWidth),
           getOtherThingsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
 
-
-            /*Padding(
+          /*Padding(
               padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.04,
               right: SizeConfig.screenWidth*0.04),
               child: Container(
@@ -68,94 +62,185 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget getProfileInfoLayout(double parentHeight, double parentWidth){
+  Widget getProfileInfoLayout(double parentHeight, double parentWidth) {
     return Row(
       children: [
-
         Padding(
-          padding: EdgeInsets.only(left: parentWidth*0.03),
+          padding: EdgeInsets.only(left: parentWidth * 0.03),
           child: Container(
-            height: parentHeight*0.1,
-            width: parentHeight*0.1,
+            height: parentHeight * 0.1,
+            width: parentHeight * 0.1,
             decoration: BoxDecoration(
-              color: CommonColor.CIRCLE_COLOR,
-              borderRadius: BorderRadius.circular(10)
+                color: CommonColor.CIRCLE_COLOR,
+                borderRadius: BorderRadius.circular(10)),
+            child: Icon(
+              Icons.person,
+              size: parentHeight * 0.09,
+              color: Colors.white,
             ),
-            child: Icon(Icons.person,
-            size: parentHeight*0.09,
-            color: Colors.white,),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.02),
+          padding: EdgeInsets.only(
+              left: parentWidth * 0.03, top: parentHeight * 0.02),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 color: Colors.transparent,
-                width: parentWidth*0.6,
+                width: parentWidth * 0.6,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Ash",
-                    style: TextStyle(
-                      color: CommonColor.WHITE_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                      fontFamily: 'Roboto_Medium',
-                      fontWeight: FontWeight.w500
+                    Text(
+                      "Ash",
+                      style: TextStyle(
+                          color: CommonColor.WHITE_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                          fontFamily: 'Roboto_Medium',
+                          fontWeight: FontWeight.w500),
                     ),
-                    ),
-                    Icon(Icons.edit,
-                    size: parentHeight*0.025,
-                    color: Colors.white,)
+                    Icon(
+                      Icons.edit,
+                      size: parentHeight * 0.025,
+                      color: Colors.white,
+                    )
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: parentHeight*0.015),
-                child: Text("1234567890",
+                padding: EdgeInsets.only(top: parentHeight * 0.015),
+                child: Text(
+                  "1234567890",
                   style: TextStyle(
                       color: CommonColor.WHITE_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                       fontFamily: 'Roboto-Light',
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: parentHeight*0.005),
-                child: Text("Wallet : \u20B90",
+                padding: EdgeInsets.only(top: parentHeight * 0.005),
+                child: Text(
+                  "Wallet : \u20B90",
                   style: TextStyle(
                       color: CommonColor.WHITE_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                       fontFamily: 'Roboto-Light',
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
               ),
             ],
           ),
         ),
-
       ],
     );
   }
 
-  Widget getAllOptionsLayout(double parentHeight, double parentWidth){
+  Widget getAllOptionsLayout(double parentHeight, double parentWidth) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.of(context)
-                  .pushAndRemoveUntil(
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const Dashboard()),
+                  (Route route) => false);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.home_outlined,
+                        size: parentHeight * 0.035,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Home",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
+          child: GestureDetector(
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Cart()));
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: parentHeight * 0.035,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Cart",
+                          style: TextStyle(
+                              color: CommonColor.GRAY_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
+                              fontFamily: 'Roboto-Light',
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
+          child: GestureDetector(
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                      const Dashboard()),
-                      (Route route) =>
-                  false);
+                      builder: (context) => NotificationScreen()));
             },
             child: Container(
               color: Colors.transparent,
@@ -164,95 +249,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.home_outlined,
-                      size: parentHeight*0.035,),
+                      Icon(
+                        Icons.notifications_none_rounded,
+                        size: parentHeight * 0.035,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Home",
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Notifications",
                           style: TextStyle(
                               color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                               fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios,
-                  size: parentHeight*0.02,)
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
-          child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.shopping_cart_outlined,
-                      size: parentHeight*0.035,),
-                      Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Cart",
-                          style: TextStyle(
-                              color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
-                              fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Icon(Icons.arrow_forward_ios,
-                  size: parentHeight*0.02,)
-                ],
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
-          child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.notifications_none_rounded,
-                      size: parentHeight*0.035,),
-                      Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Notifications",
-                          style: TextStyle(
-                              color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
-                              fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Icon(Icons.arrow_forward_ios,
-                  size: parentHeight*0.02,)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
                 ],
               ),
             ),
@@ -271,11 +288,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderParentScreen()));
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TrackOrderParentScreen()));
             },
             child: Container(
               color: Colors.transparent,
@@ -284,34 +307,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.delivery_dining_outlined,
-                        size: parentHeight*0.035,),
+                      Icon(
+                        Icons.delivery_dining_outlined,
+                        size: parentHeight * 0.035,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Your Orders",
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Your Orders",
                           style: TextStyle(
                               color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                               fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios,
-                    size: parentHeight*0.02,)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
                 ],
               ),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
-          child:  GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletHistory()));
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
+          child: GestureDetector(
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => WalletHistory()));
             },
             child: Container(
               color: Colors.transparent,
@@ -320,64 +351,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.account_balance_wallet_outlined,
-                        size: parentHeight*0.035,),
+                      Icon(
+                        Icons.account_balance_wallet_outlined,
+                        size: parentHeight * 0.035,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Wallet History",
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Wallet History",
                           style: TextStyle(
                               color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                               fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios,
-                    size: parentHeight*0.02,)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
                 ],
               ),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.import_export,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.import_export,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Transaction History",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Transaction History",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onDoubleTap: (){},
-                onTap: (){
-                  showModalBottomSheet(
+                onDoubleTap: () {},
+                onTap: () {
+                  /*showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.transparent,
                       elevation: 20,
@@ -386,40 +431,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       enableDrag: true,
                       builder: (BuildContext bc) {
                         return ChangePassword();
+                      });*/
+                  showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      elevation: 10,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      builder: (BuildContext bc) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: Container(
+                              height: SizeConfig.screenHeight * 0.45,
+                              //height or you can use Get.width-100 to set height
+                              child: ChangePassword()),
+                        );
                       });
                 },
                 child: Container(
                   color: Colors.transparent,
                   child: Row(
                     children: [
-                      Icon(Icons.lock_outline,
-                        size: parentHeight*0.035,),
+                      Icon(
+                        Icons.lock_outline,
+                        size: parentHeight * 0.035,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Change Password",
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Change Password",
                           style: TextStyle(
                               color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                               fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: (){},
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
+            onDoubleTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddCheckPayParentScreen(
+                            index: 0,
+                            orderFormat: '',
+                            addressId: '',
+                          )));
             },
             child: Container(
               color: Colors.transparent,
@@ -428,79 +507,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.manage_accounts_rounded,
-                        size: parentHeight*0.035,),
+                      Icon(
+                        Icons.manage_accounts_rounded,
+                        size: parentHeight * 0.035,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: parentWidth*0.05),
-                        child: Text("Manage Addresses",
+                        padding: EdgeInsets.only(left: parentWidth * 0.05),
+                        child: Text(
+                          "Manage Addresses",
                           style: TextStyle(
                               color: CommonColor.GRAY_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                               fontFamily: 'Roboto-Light',
-                              fontWeight: FontWeight.w400
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
-                  Icon(Icons.arrow_forward_ios,
-                    size: parentHeight*0.02,)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: parentHeight * 0.02,
+                  )
                 ],
               ),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.support_agent_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.support_agent_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Support",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Support",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.person_add_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.person_add_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Refer & Earn",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Refer & Earn",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
@@ -517,309 +614,375 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.edit_note_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.edit_note_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Blog",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Blog",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.perm_contact_cal_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.perm_contact_cal_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Contact Us",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Contact Us",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.info_outline_rounded,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.info_outline_rounded,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("About Us",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "About Us",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.star_border_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.star_border_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Rate Us",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Rate Us",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.share,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.share,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Share App",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Share App",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.question_answer_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.question_answer_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("FAQ",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "FAQ",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.event_note,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.event_note,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Terms and Conditions",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Terms and Conditions",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.security_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.security_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Privacy Policy",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Privacy Policy",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(Icons.logout_outlined,
-                    size: parentHeight*0.035,),
+                  Icon(
+                    Icons.logout_outlined,
+                    size: parentHeight * 0.035,
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(left: parentWidth*0.05),
-                    child: Text("Logout",
+                    padding: EdgeInsets.only(left: parentWidth * 0.05),
+                    child: Text(
+                      "Logout",
                       style: TextStyle(
                           color: CommonColor.GRAY_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.5,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.5,
                           fontFamily: 'Roboto-Light',
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                size: parentHeight*0.02,)
+              Icon(
+                Icons.arrow_forward_ios,
+                size: parentHeight * 0.02,
+              )
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: parentHeight*0.02, left: parentWidth*0.05, right: parentWidth*0.05),
+          padding: EdgeInsets.only(
+              top: parentHeight * 0.02,
+              left: parentWidth * 0.05,
+              right: parentWidth * 0.05),
           child: Container(),
         ),
-
       ],
     );
   }
 
-  Widget getMyAccount(double parentHeight, double parentWidth){
+  Widget getMyAccount(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(left: parentWidth*0.05, top: parentHeight*0.03, right: parentWidth*0.05),
+      padding: EdgeInsets.only(
+          left: parentWidth * 0.05,
+          top: parentHeight * 0.03,
+          right: parentWidth * 0.05),
       child: Column(
         children: [
-
           Row(
             children: [
-              Text("My Account",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                fontFamily: 'Roboto_Medium',
-                fontWeight: FontWeight.w500
-              ),
+              Text(
+                "My Account",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                    fontFamily: 'Roboto_Medium',
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),
           Padding(
-            padding:  EdgeInsets.only(top: parentHeight*0.01),
+            padding: EdgeInsets.only(top: parentHeight * 0.01),
             child: Row(
               children: [
-                Text("Log in or sign up to view your complete profile",
+                Text(
+                  "Log in or sign up to view your complete profile",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                      fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                       fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
               ],
             ),
           ),
           Padding(
-            padding:  EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: Container(
-              width: parentWidth*0.9,
-              height: parentHeight*0.05,
+              width: parentWidth * 0.9,
+              height: parentHeight * 0.05,
               decoration: BoxDecoration(
-                color: CommonColor.APP_BAR_COLOR,
-                borderRadius: BorderRadius.circular(10)
-              ),
+                  color: CommonColor.APP_BAR_COLOR,
+                  borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Continue",
+                  Text(
+                    "Continue",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                        fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                         fontFamily: 'Roboto_Medium',
-                        fontWeight: FontWeight.w500
-                    ),
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -840,67 +1003,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
           //     ],
           //   ),
           // ),
-
         ],
       ),
     );
   }
 
-  Widget getOtherThingsLayout(double parentHeight, double parentWidth){
+  Widget getOtherThingsLayout(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(left: parentWidth*0.05, top: parentHeight*0.03, right: parentWidth*0.05),
+      padding: EdgeInsets.only(
+          left: parentWidth * 0.05,
+          top: parentHeight * 0.03,
+          right: parentWidth * 0.05),
       child: Column(
         children: [
           Container(
-            height: parentHeight*0.07,
-            width: parentWidth*0.9,
+            height: parentHeight * 0.07,
+            width: parentWidth * 0.9,
             decoration: BoxDecoration(
-              color: CommonColor.CIRCLE_COLOR,
-              borderRadius: BorderRadius.circular(10)
-            ),
+                color: CommonColor.CIRCLE_COLOR,
+                borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
                 Container(
                   color: Colors.transparent,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.account_balance_wallet_outlined,
-                        size: parentHeight*0.03,),
+                      Icon(
+                        Icons.account_balance_wallet_outlined,
+                        size: parentHeight * 0.03,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: parentHeight*0.005),
-                        child: Text("Wallet",
+                        padding: EdgeInsets.only(top: parentHeight * 0.005),
+                        child: Text(
+                          "Wallet",
                           style: TextStyle(
                               color: CommonColor.BLACK_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3.0,
                               fontFamily: 'Roboto_Regular',
-                              fontWeight: FontWeight.w500
-                          ),
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: parentWidth*0.07),
+                  padding: EdgeInsets.only(left: parentWidth * 0.07),
                   child: Container(
                     color: Colors.transparent,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.support_agent_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.support_agent_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(top: parentHeight*0.005),
-                          child: Text("Support",
+                          padding: EdgeInsets.only(top: parentHeight * 0.005),
+                          child: Text(
+                            "Support",
                             style: TextStyle(
                                 color: CommonColor.BLACK_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 3.0,
                                 fontFamily: 'Roboto_Regular',
-                                fontWeight: FontWeight.w500
-                            ),
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -912,17 +1079,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.import_export,
-                        size: parentHeight*0.03,),
+                      Icon(
+                        Icons.import_export,
+                        size: parentHeight * 0.03,
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: parentHeight*0.005),
-                        child: Text("Transaction",
+                        padding: EdgeInsets.only(top: parentHeight * 0.005),
+                        child: Text(
+                          "Transaction",
                           style: TextStyle(
                               color: CommonColor.BLACK_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*3.0,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3.0,
                               fontFamily: 'Roboto_Regular',
-                              fontWeight: FontWeight.w500
-                          ),
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],
@@ -932,26 +1101,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.03),
+            padding: EdgeInsets.only(top: parentHeight * 0.03),
             child: Row(
               children: [
-                Text("Your Information",
+                Text(
+                  "Your Information",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                      fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                       fontFamily: 'Roboto_Medium',
-                      fontWeight: FontWeight.w500
-                  ),
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>TrackOrderParentScreen()));
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TrackOrderParentScreen()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -961,33 +1133,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: [
                         Icon(Icons.delivery_dining_outlined,
-                          size: parentHeight*0.03),
+                            size: parentHeight * 0.03),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Your Orders",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Your Orders",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCheckPayParentScreen(
+                              index: 0,
+                              orderFormat: '',
+                              addressId: '',
+                            )));
               },
               child: Container(
                 color: Colors.transparent,
@@ -996,33 +1177,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.manage_accounts_rounded,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.manage_accounts_rounded,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Manage Addresses",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Manage Addresses",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
+              onDoubleTap: () {},
+              onTap: () {
                 showModalBottomSheet(
                     context: context,
                     backgroundColor: Colors.transparent,
@@ -1041,34 +1226,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.lock_outline,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.lock_outline,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Change Password",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Change Password",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 0, orderFormat: '', addressId: '',)));
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>Cart()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1077,34 +1269,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.shopping_cart_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.shopping_cart_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Cart",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Cart",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationScreen()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1113,50 +1312,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.notifications_none_rounded,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.notifications_none_rounded,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Notification",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Notification",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.03),
+            padding: EdgeInsets.only(top: parentHeight * 0.03),
             child: Row(
               children: [
-                Text("Other Information",
+                Text(
+                  "Other Information",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                      fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                       fontFamily: 'Roboto_Medium',
-                      fontWeight: FontWeight.w500
-                  ),
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1164,35 +1365,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.person_add_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.person_add_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Refer & Earn",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Refer & Earn",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1200,35 +1403,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.edit_note_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.edit_note_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Blog",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Blog",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1236,35 +1441,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.perm_contact_cal_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.perm_contact_cal_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Contact Us",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Contact Us",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1272,35 +1479,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.info_outline_rounded,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.info_outline_rounded,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("About Us",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "About Us",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1308,35 +1517,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.star_border_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.star_border_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Rate Us",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Rate Us",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1344,35 +1555,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.share,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.share,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Share App",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Share App",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1380,35 +1593,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.question_answer_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.question_answer_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("FAQ",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "FAQ",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1416,35 +1631,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.event_note,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.event_note,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Terms and Conditions",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Terms and Conditions",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1452,35 +1669,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.security_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.security_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Privacy Policy",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Privacy Policy",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: parentHeight*0.02),
+            padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-
-              },
+              onDoubleTap: () {},
+              onTap: () {},
               child: Container(
                 color: Colors.transparent,
                 child: Row(
@@ -1488,23 +1707,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.logout_outlined,
-                          size: parentHeight*0.03,),
+                        Icon(
+                          Icons.logout_outlined,
+                          size: parentHeight * 0.03,
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(left: parentWidth*0.05),
-                          child: Text("Logout",
+                          padding: EdgeInsets.only(left: parentWidth * 0.05),
+                          child: Text(
+                            "Logout",
                             style: TextStyle(
                                 color: CommonColor.GRAY_COLOR,
-                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                                 fontFamily: 'Roboto-Light',
-                                fontWeight: FontWeight.w400
-                            ),
+                                fontWeight: FontWeight.w400),
                           ),
                         ),
                       ],
                     ),
-                    Icon(Icons.arrow_forward_ios,
-                      size: parentHeight*0.02,)
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: parentHeight * 0.02,
+                    )
                   ],
                 ),
               ),
@@ -1516,7 +1739,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
-abstract class ProfileScreenInterface{
-
-}
+abstract class ProfileScreenInterface {}

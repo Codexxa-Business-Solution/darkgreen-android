@@ -40,114 +40,114 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
   }
 
   Widget getOrderDetails(double parentHeight, double parentWidth){
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: CommonColor.CIRCLE_COLOR,width: 3.0)
-      ),
-      child: Column(
-        children: [
+    return GestureDetector(
+      onDoubleTap: (){},
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DoorStepOrder()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: CommonColor.CIRCLE_COLOR,width: 3.0)
+        ),
+        child: Column(
+          children: [
 
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03, right: parentWidth*0.03,
-                top: parentHeight*0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Order No : 10",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: SizeConfig.blockSizeHorizontal*4.5,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Roboto_Medium'
-                ),),
-                Text("\u20B9240.00",
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, right: parentWidth*0.03,
+                  top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Order No : 10",
                   style: TextStyle(
+                    color: Colors.black,
+                    fontSize: SizeConfig.blockSizeHorizontal*4.5,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Roboto_Medium'
+                  ),),
+                  Text("\u20B9240.00",
+                    style: TextStyle(
+                        color: CommonColor.APP_BAR_COLOR,
+                        fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Roboto_Medium'
+                    ),)
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("1 Item",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto_Regular'
+                    ),),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Moong Dal Yellow",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto_Medium'
+                    ),),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Placed order on 27-2-2023",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto_Medium'
+                    ),),
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, right: parentWidth*0.03, top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: parentHeight*0.04,
+                    width: parentWidth*0.2,
+                    decoration: BoxDecoration(
                       color: CommonColor.APP_BAR_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Roboto_Medium'
-                  ),)
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("1 Item",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Roboto_Regular'
-                  ),),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Moong Dal Yellow",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Roboto_Medium'
-                  ),),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Placed order on 27-2-2023",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Roboto_Medium'
-                  ),),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(left: parentWidth*0.03, right: parentWidth*0.03, top: parentHeight*0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: parentHeight*0.04,
-                  width: parentWidth*0.2,
-                  decoration: BoxDecoration(
-                    color: CommonColor.APP_BAR_COLOR,
-                    borderRadius: BorderRadius.circular(7),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Center(
+                      child: Text("Received",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Roboto_Medium'
+                        ),),
+                    ),
                   ),
-                  child: Center(
-                    child: Text("Received",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Roboto_Medium'
-                      ),),
-                  ),
-                ),
-                GestureDetector(
-                  onDoubleTap: (){},
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DoorStepOrder()));
-                  },
-                  child: Container(
+                  Container(
                     height: parentHeight*0.04,
                     width: parentWidth*0.4,
                     decoration: BoxDecoration(
@@ -181,18 +181,18 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                         ),
                       ],
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
 
-          SizedBox(
-            height: parentHeight*0.012,
-          )
+            SizedBox(
+              height: parentHeight*0.012,
+            )
 
 
-        ],
+          ],
+        ),
       ),
     );
   }

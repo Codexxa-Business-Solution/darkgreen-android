@@ -146,6 +146,12 @@ class _CheckoutState extends State<Checkout> {
                               childCount: snap.data?.data.length,
                                   (context, index) {
 
+                                    final img = data.data[index].image.isNotEmpty
+                                        ? Image.network(
+                                      "${data.data[index].image}",
+                                    )
+                                        : Image.network("");
+
                                 return Padding(
                                   padding: EdgeInsets.only(
                                     left: SizeConfig.screenWidth * 0.025,
@@ -171,23 +177,14 @@ class _CheckoutState extends State<Checkout> {
                                                   height: SizeConfig.screenWidth * 0.20,
                                                   width: SizeConfig.screenWidth * 0.19,
                                                   decoration: BoxDecoration(
-                                                      color: CommonColor.GRAY_COLOR,
-                                                      borderRadius:
-                                                      BorderRadius.circular(8)),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                    BorderRadius.circular(8),
-                                                    child: Container(
-                                                      decoration: const BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/dark.jpg"),
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                      color: CommonColor.WHITE_COLOR,
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      border: Border.all(color: Colors.black, width: SizeConfig.screenWidth*0.0005)
                                                   ),
-                                                ),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: img,
+                                                    )),
                                               ),
                                               Column(
                                                 crossAxisAlignment:
