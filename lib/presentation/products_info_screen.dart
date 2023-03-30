@@ -191,7 +191,18 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                       onDoubleTap: () {},
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const Cart()));
+                            MaterialPageRoute(builder: (context) => const Cart())).then((value){
+                          AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
+                            price = int.parse("${value.data[0].variants[0].price}");
+                            discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                            savingPrice = price - discountPrice;
+                          });
+
+                          AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
+
+
+                          refresh();
+                        });
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -1076,7 +1087,18 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                       productId:
                                       "${snap.data?.data[index].id}",
                                       catId: "",
-                                    )));
+                                    ))).then((value){
+                              AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
+                                price = int.parse("${value.data[0].variants[0].price}");
+                                discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                                savingPrice = price - discountPrice;
+                              });
+
+                              AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
+
+
+                              refresh();
+                            });
                           },
                           child: Container(
                             height: parentHeight * 0.17,
