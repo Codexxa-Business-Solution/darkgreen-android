@@ -62,7 +62,7 @@ class _RegistrationState extends State<Registration> {
                         EdgeInsets.only(top: SizeConfig.screenHeight * 0.02),
                     child: const Image(
                       image: AssetImage(
-                        "assets/images/appLogo.jpg",
+                        "assets/images/appLogo.png",
                       ),
                       height: 70,
                     ),

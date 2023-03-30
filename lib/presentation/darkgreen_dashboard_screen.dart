@@ -124,7 +124,9 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
             width: parentWidth*0.12,
             decoration: BoxDecoration(
               color: CommonColor.CIRCLE_COLOR,
-              shape: BoxShape.circle
+              shape: BoxShape.circle,
+              image: DecorationImage(image: AssetImage("assets/images/appLogo.jpeg",),
+                fit: BoxFit.contain,),
             ),
           ),
           Padding(
