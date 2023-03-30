@@ -40,7 +40,6 @@ class _SearchProductState extends State<SearchProduct> {
         setState(() {
           showCancle = true;
           _searchFocus.hasFocus;
-          print("callll controlle 11");
         });
       }
     } else {
@@ -48,7 +47,6 @@ class _SearchProductState extends State<SearchProduct> {
         setState(() {
           showCancle = false;
           _searchFocus.hasFocus;
-          print("callll controlle 22");
         });
       }
     }
@@ -192,7 +190,14 @@ class _SearchProductState extends State<SearchProduct> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Cart()));
+                              builder: (context) => const Cart())).then((value){
+                                if(mounted){
+                                  setState(() {
+                                    refreshList();
+                                    // AllCommonApis().getAllSearchingProductsApi(searchController.text.trim());
+                                  });
+                                }
+                      });
                     },
                     child: Container(
                       color: Colors.transparent,

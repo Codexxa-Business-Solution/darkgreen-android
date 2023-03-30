@@ -7,7 +7,9 @@ import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/constant/top_header_layout.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
+import 'package:darkgreen/presentation/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -67,9 +69,78 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
           Container(
               color: CommonColor.APP_BAR_COLOR,
               height: SizeConfig.screenHeight * 0.12,
-              child: ToHeadLayout(
-                title: widget.subProName,
-              )),
+              child: Padding(
+                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.05, left: SizeConfig.screenWidth*0.035),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: SizeConfig.screenWidth*0.12,
+                      decoration: BoxDecoration(
+                          color: CommonColor.CIRCLE_COLOR,
+                          shape: BoxShape.circle
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
+                      child: Container(
+                        color: Colors.transparent,
+                        width: SizeConfig.screenWidth*0.6,
+                        child: Center(
+                          child: Text(widget.subProName,
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                                fontFamily: "Roboto_Medium",
+                                fontWeight: FontWeight.w500,
+                                color: CommonColor.WHITE_COLOR
+                            ),textAlign: TextAlign.center,),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.035),
+                      child: Container(
+                        width: SizeConfig.screenWidth*0.18,
+                        // color: Colors.blue,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onDoubleTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Icon(Icons.search,
+                                  color: Colors.white,
+                                  size: SizeConfig.screenHeight*0.035,),
+                              ),
+                            ),
+                            GestureDetector(
+                              onDoubleTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
+                                  if(mounted){
+                                    setState(() {
+                                      AllCommonApis().productByCategoriesApi(widget.subCatId);
+                                    });
+                                  }
+                                });
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Image(image: AssetImage("assets/images/trolly.png"),
+                                  height: SizeConfig.screenHeight*0.03,),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),),
           RefreshIndicator(
             color: CommonColor.REFRESH_INDICATOR_COLOR,
             onRefresh: () async {
@@ -139,7 +210,13 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                               productId:
                                                   "${snap.data?.data[index].id}",
                                               catId: "",
-                                            )));
+                                            ))).then((value){
+                                  if(mounted){
+                                    setState(() {
+                                      AllCommonApis().productByCategoriesApi(widget.subCatId);
+                                    });
+                                  }
+                                });
                               },
                               child: Container(
                                 height: SizeConfig.screenHeight * 0.17,

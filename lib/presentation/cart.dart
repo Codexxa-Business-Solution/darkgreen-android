@@ -643,7 +643,6 @@ class _CartState extends State<Cart> {
   }
 
   Future<GetUserCartResponseModel> getAllCarts() async {
-    print("HIiiiiiiiiiiiiiiiiiiii");
 
     String? id = await AppPreferences.getIds();
 

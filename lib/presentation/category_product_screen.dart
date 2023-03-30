@@ -6,6 +6,7 @@ import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/constant/top_header_layout.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/category_product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -37,8 +38,62 @@ class _CategoryProductState extends State<CategoryProduct> {
           Container(
               color: CommonColor.APP_BAR_COLOR,
               height: SizeConfig.screenHeight * 0.12,
-              child: ToHeadLayout(
-                title: widget.proName,
+              child: Padding(
+                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.05, left: SizeConfig.screenWidth*0.035),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: SizeConfig.screenWidth*0.12,
+                      decoration: BoxDecoration(
+                          color: CommonColor.CIRCLE_COLOR,
+                          shape: BoxShape.circle
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
+                      child: Container(
+                        color: Colors.transparent,
+                        width: SizeConfig.screenWidth*0.6,
+                        child: Center(
+                          child: Text(widget.proName,
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                                fontFamily: "Roboto_Medium",
+                                fontWeight: FontWeight.w500,
+                                color: CommonColor.WHITE_COLOR
+                            ),textAlign: TextAlign.center,),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.035),
+                      child: Container(
+                        width: SizeConfig.screenWidth*0.18,
+                        // color: Colors.blue,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.search,
+                              color: Colors.white,
+                              size: SizeConfig.screenHeight*0.035,),
+                            GestureDetector(
+                              onDoubleTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Image(image: AssetImage("assets/images/trolly.png"),
+                                  height: SizeConfig.screenHeight*0.03,),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               )),
           Container(
               color: CommonColor.WHITE_COLOR,
