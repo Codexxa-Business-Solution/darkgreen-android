@@ -566,6 +566,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemBuilder: (context, _) => const Icon(
                     Icons.star,

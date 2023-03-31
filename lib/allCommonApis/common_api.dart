@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
+import 'package:darkgreen/api_model/cart/delete_save_for_later_response_model.dart';
+import 'package:darkgreen/api_model/cart/get_save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
+import 'package:darkgreen/api_model/cart/save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
@@ -10,7 +13,6 @@ import 'package:darkgreen/api_model/search/search.dart';
 import 'package:http/http.dart' as http;
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
-import 'package:http/http.dart';
 
 class AllCommonApis {
   Future<GetProductsByCategoriesResponseModel> productByCategoriesApi(
@@ -382,6 +384,94 @@ class AllCommonApis {
       throw e;
     }
   }
+
+
+
+  Future<GetAddSaveForLaterResponseModel> addSaveForLater(String pvi) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "add_save_for_later": "1",
+          "user_id": id,
+          "product_variant_id": pvi
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAddSaveForLaterResponse -->  $body");
+
+      return getAddSaveForLaterResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+
+  Future<GetSaveForLaterResponseModel> getSaveForLater() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_save_for_later": "1",
+          "user_id": id,
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAddSaveForLaterResponse -->  $body");
+
+      return getSaveForLaterResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+
+  Future<DeleteSaveForLaterResponseModel> deleteSaveForLater(String pvi) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "remove_save_for_later": "1",
+          "user_id": id,
+          "product_variant_id": pvi
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAddSaveForLaterResponse -->  $body");
+
+      return deleteSaveForLaterResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
 
 
 }
