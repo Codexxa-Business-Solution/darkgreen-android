@@ -19,6 +19,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   bool isFav = false;
   int count = 0;
   int currentIndex = 0;
+  int totalCartCount = 0;
   String productId = "";
   String productVariantId = "";
 
@@ -152,6 +153,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     if(mounted){
                                       setState(() {
                                         AllCommonApis().getAllFavoriteProductsApi();
+                                        AllCommonApis().getAllCarts().then((value) {
+                                          if (mounted) {
+                                            setState(() {
+                                              totalCartCount = value.data.length;
+                                              print(cartCount);
+                                            });
+                                          }
+                                        });
                                       });
                                     }
                       });
@@ -494,7 +503,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                             cartCount
                                                                 .toString())
                                                         .then((value) {
-                                                      setState(() {});
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          AllCommonApis().getAllCarts().then((value) {
+                                                            if (mounted) {
+                                                              setState(() {
+                                                                totalCartCount = value.data.length;
+                                                                print(totalCartCount);
+                                                              });
+                                                            }
+                                                          });
+                                                        });
+                                                      }
                                                     });
                                                   },
                                                   child: Container(

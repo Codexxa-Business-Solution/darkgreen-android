@@ -232,7 +232,7 @@ class _CartState extends State<Cart> {
                           left: parentWidth * 0.03,
                           right: parentWidth * 0.03),
                       child: Container(
-                        height: parentHeight * 0.17,
+                        height: parentHeight * 0.19,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),

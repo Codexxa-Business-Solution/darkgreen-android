@@ -191,45 +191,64 @@ class _SearchProductState extends State<SearchProduct> {
           ),
           Padding(
             padding: EdgeInsets.only(right: parentWidth * 0.02),
-            child: Container(
-              color: Colors.transparent,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.0),
-                    child: Container(
-                      height: SizeConfig.screenHeight*0.05,
-                      color: Colors.transparent,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image(image: AssetImage("assets/images/trolly.png"),
-                          color: Colors.white,
-                          height: SizeConfig.screenHeight*0.03,),
+            child: GestureDetector(
+              onDoubleTap: (){},
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
+                  if(mounted){
+                    setState(() {
+                      AllCommonApis().getAllCarts().then((value) {
+                        if (mounted) {
+                          setState(() {
+                            totalCartCount = value.data.length;
+                            print(cartCount);
+                          });
+                        }
+                      });
+                    });
+                  }
+                });
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.0),
+                      child: Container(
+                        height: SizeConfig.screenHeight*0.05,
+                        color: Colors.transparent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image(image: AssetImage("assets/images/trolly.png"),
+                            color: Colors.white,
+                            height: SizeConfig.screenHeight*0.03,),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.025,
-                        right: SizeConfig.screenWidth*0.005),
-                    child: Container(
-                      height: SizeConfig.screenHeight*0.05,
-                      width: SizeConfig.screenWidth*0.05,
-                      decoration: BoxDecoration(
-                          color: CommonColor.WHITE_COLOR,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.025,
+                          right: SizeConfig.screenWidth*0.005),
+                      child: Container(
+                        height: SizeConfig.screenHeight*0.05,
+                        width: SizeConfig.screenWidth*0.05,
+                        decoration: BoxDecoration(
+                            color: CommonColor.WHITE_COLOR,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                        ),
+                        child: Center(
+                          child: Text("$totalCartCount",
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                color: Colors.black
+                            ),),
+                        ),
                       ),
-                      child: Center(
-                        child: Text("$totalCartCount",
-                          style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                              color: Colors.black
-                          ),),
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           )
