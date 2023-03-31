@@ -15,7 +15,11 @@ import 'package:flutter/material.dart';
 
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+
+  final int cartCount;
+  final String comeFrom;
+
+  const Dashboard({Key? key, this.cartCount = 0, this.comeFrom = "0"}) : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -28,6 +32,8 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
   Widget? widDashboardScreen, widMenuScreen;
   bool isShow = true;
 
+  int cartCount = 0;
+
   Future<bool> _onBackPressed() {
     return showExitDialog(context);
   }
@@ -35,6 +41,18 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
   @override
   void initState() {
     super.initState();
+
+    if(mounted){
+      setState(() {
+        if(widget.comeFrom == "1"){
+          cartCount = widget.cartCount;
+        }
+        AllCommonApis().getAllCarts().then((value){
+          cartCount = value.data.length;
+          print(cartCount);
+        });
+      });
+    }
     addNewScreen(
         HomeScreen(
           mListener: this,
@@ -142,8 +160,8 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           Padding(
             padding: EdgeInsets.only(right: parentWidth*0.035),
             child: Container(
-              width: parentWidth*0.18,
-              // color: Colors.blue,
+              width: parentWidth*0.19,
+              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -168,18 +186,52 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                            print("dashFav");
                            isShow = true;
                            addNewScreen(
-                               FavoriteScreen(
+                               HomeScreen(
                                  mListener: this,
                                ),
-                               ScreenConstant.FAVORITE_FRAGMENT);
+                               ScreenConstant.HOME_PAGE);
                          });
                        }
                      });
                    },
                    child: Container(
                      color: Colors.transparent,
-                     child: Image(image: AssetImage("assets/images/trolly.png"),
-                     height: parentHeight*0.03,),
+                     child: Stack(
+                       alignment: Alignment.topRight,
+                       children: [
+                         Padding(
+                           padding: EdgeInsets.only(top: parentHeight*0.01),
+                           child: Container(
+                             height: parentHeight*0.05,
+                             color: Colors.transparent,
+                             child: Padding(
+                               padding: const EdgeInsets.all(8.0),
+                               child: Image(image: AssetImage("assets/images/trolly.png"),
+                               height: parentHeight*0.03,),
+                             ),
+                           ),
+                         ),
+                         Padding(
+                           padding: EdgeInsets.only(bottom: parentHeight*0.04, right: parentWidth*0.005),
+                           child: Container(
+                             height: parentHeight*0.05,
+                             width: parentWidth*0.05,
+                             decoration: BoxDecoration(
+                                 color: CommonColor.WHITE_COLOR,
+                                 shape: BoxShape.circle,
+                                 border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                             ),
+                             child: Center(
+                               child: Text("$cartCount",
+                                 style: TextStyle(
+                                     fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                     color: Colors.black
+                                 ),),
+                             ),
+                           ),
+                         )
+                       ],
+                     ),
                    ),
                  )
                 ],

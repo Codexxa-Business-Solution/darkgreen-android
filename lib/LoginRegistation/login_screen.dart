@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:darkgreen/LoginRegistation/otp_base_register.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/login/login_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -23,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _oldPasswordFocus = FocusNode();
 
   bool oldPaswordShow = true;
+
+  int cartCount = 0;
 
   void _toggle() {
     setState(() {
@@ -341,8 +344,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
         print(AppPreferences.getIds().toString());
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Dashboard()));
+        if(mounted){
+          setState(() {
+            AllCommonApis().getAllCarts().then((value){
+              cartCount = value.data.length;
+              print(cartCount);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Dashboard(cartCount: cartCount, comeFrom: "1",)));
+            });
+          });
+        }
+
+
+
       }
 
 
