@@ -24,8 +24,8 @@ class GetSaveForLaterResponseModel {
   factory GetSaveForLaterResponseModel.fromJson(Map<String, dynamic> json) => GetSaveForLaterResponseModel(
     error: json["error"],
     message: json["message"],
-    total: json["total"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    total: json["total"] ?? 0,
+    data: List<Datum>.from(json["data"] != null ? json["data"].map((x) => Datum.fromJson(x)) :[]),
   );
 
   Map<String, dynamic> toJson() => {

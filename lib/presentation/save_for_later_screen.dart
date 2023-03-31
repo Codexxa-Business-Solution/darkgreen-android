@@ -134,9 +134,9 @@ class _SaveForLaterState extends State<SaveForLater> {
 
           final data = snap.data;
 
-          if (data == null) {
+          if (data?.message == "Data not found!") {
             return const Center(
-              child: Text("No items found in user cart!"),
+              child: Text("No later items found in user cart!"),
             );
           }
           return ListView.builder(
@@ -145,9 +145,9 @@ class _SaveForLaterState extends State<SaveForLater> {
               itemBuilder: (context, index) {
                 print("lent ${snap.data?.data.length}");
 
-                final img = data.data[index].image.isNotEmpty
+                final img = data?.data[index].image != null
                     ? Image.network(
-                  "${data.data[index].image}",
+                  "${data?.data[index].image}",
                 )
                     : Image.network("");
 
@@ -158,7 +158,7 @@ class _SaveForLaterState extends State<SaveForLater> {
                       left: parentWidth * 0.03,
                       right: parentWidth * 0.03),
                   child: Container(
-                    height: parentHeight * 0.15,
+                    height: parentHeight * 0.16,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
