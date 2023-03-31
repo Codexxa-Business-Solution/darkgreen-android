@@ -96,7 +96,22 @@ class _CategoryProductState extends State<CategoryProduct> {
                             GestureDetector(
                               onDoubleTap: (){},
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
+                                  setState(() {
+                                    if(mounted){
+                                      setState(() {
+                                        AllCommonApis().getAllCarts().then((value) {
+                                          if (mounted) {
+                                            setState(() {
+                                              cartCount = value.data.length;
+                                              print(cartCount);
+                                            });
+                                          }
+                                        });
+                                      });
+                                    }
+                                  });
+                                });
                               },
                               child: Container(
                                 color: Colors.transparent,
@@ -108,7 +123,22 @@ class _CategoryProductState extends State<CategoryProduct> {
                             GestureDetector(
                               onDoubleTap: (){},
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
+                                  setState(() {
+                                    if(mounted){
+                                      setState(() {
+                                        AllCommonApis().getAllCarts().then((value) {
+                                          if (mounted) {
+                                            setState(() {
+                                              cartCount = value.data.length;
+                                              print(cartCount);
+                                            });
+                                          }
+                                        });
+                                      });
+                                    }
+                                  });
+                                });
                               },
                               child: Container(
                                 color: Colors.transparent,
@@ -264,7 +294,22 @@ class _CategoryProductState extends State<CategoryProduct> {
                             builder: (context) => ProductPriceDetails(
                                   subProName: data.data[index].name,
                                   subCatId: data.data[index].id,
-                                )));
+                                ))).then((value){
+                      setState(() {
+                        if(mounted){
+                          setState(() {
+                            AllCommonApis().getAllCarts().then((value) {
+                              if (mounted) {
+                                setState(() {
+                                  cartCount = value.data.length;
+                                  print(cartCount);
+                                });
+                              }
+                            });
+                          });
+                        }
+                      });
+                    });
                   },
                   child: Container(
                     width: parentWidth * 0.35,

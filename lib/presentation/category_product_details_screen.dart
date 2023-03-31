@@ -122,7 +122,22 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                             GestureDetector(
                               onDoubleTap: (){},
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
+                                  setState(() {
+                                    if(mounted){
+                                      setState(() {
+                                        AllCommonApis().getAllCarts().then((value) {
+                                          if (mounted) {
+                                            setState(() {
+                                              totalCartCount = value.data.length;
+                                              print(cartCount);
+                                            });
+                                          }
+                                        });
+                                      });
+                                    }
+                                  });
+                                });
                               },
                               child: Container(
                                 color: Colors.transparent,
@@ -138,6 +153,14 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                   if(mounted){
                                     setState(() {
                                       AllCommonApis().productByCategoriesApi(widget.subCatId);
+                                      AllCommonApis().getAllCarts().then((value) {
+                                        if (mounted) {
+                                          setState(() {
+                                            totalCartCount = value.data.length;
+                                            print(cartCount);
+                                          });
+                                        }
+                                      });
                                     });
                                   }
                                 });
@@ -262,6 +285,14 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                   if(mounted){
                                     setState(() {
                                       AllCommonApis().productByCategoriesApi(widget.subCatId);
+                                      AllCommonApis().getAllCarts().then((value) {
+                                        if (mounted) {
+                                          setState(() {
+                                            totalCartCount = value.data.length;
+                                            print(cartCount);
+                                          });
+                                        }
+                                      });
                                     });
                                   }
                                 });

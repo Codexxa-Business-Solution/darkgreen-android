@@ -735,14 +735,18 @@ class _SearchProductState extends State<SearchProduct> {
                                                               productVariantId,
                                                               cartCount
                                                                   .toString()).then((value){
-                                                        AllCommonApis().getAllCarts().then((value) {
-                                                          if (mounted) {
-                                                            setState(() {
-                                                              totalCartCount = value.data.length;
-                                                              print(totalCartCount);
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            AllCommonApis().getAllCarts().then((value) {
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  totalCartCount = value.data.length;
+                                                                  print(totalCartCount);
+                                                                });
+                                                              }
                                                             });
-                                                          }
-                                                        });
+                                                          });
+                                                        }
                                                       });
 
                                                       if (mounted) {
@@ -818,14 +822,18 @@ class _SearchProductState extends State<SearchProduct> {
                                                               productVariantId,
                                                               cartCount
                                                                   .toString()).then((value){
-                                                        AllCommonApis().getAllCarts().then((value) {
-                                                          if (mounted) {
-                                                            setState(() {
-                                                              totalCartCount = value.data.length;
-                                                              print(totalCartCount);
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            AllCommonApis().getAllCarts().then((value) {
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  totalCartCount = value.data.length;
+                                                                  print(totalCartCount);
+                                                                });
+                                                              }
                                                             });
-                                                          }
-                                                        });
+                                                          });
+                                                        }
                                                       });
 
                                                       if (mounted) {
@@ -887,14 +895,18 @@ class _SearchProductState extends State<SearchProduct> {
                                           productId,
                                           productVariantId,
                                           cartCount.toString()).then((value){
-                                        AllCommonApis().getAllCarts().then((value) {
-                                          if (mounted) {
-                                            setState(() {
-                                              totalCartCount = value.data.length;
-                                              print(totalCartCount);
+                                        if (mounted) {
+                                          setState(() {
+                                            AllCommonApis().getAllCarts().then((value) {
+                                              if (mounted) {
+                                                setState(() {
+                                                  totalCartCount = value.data.length;
+                                                  print(totalCartCount);
+                                                });
+                                              }
                                             });
-                                          }
-                                        });
+                                          });
+                                        }
                                       });
 
                                       if (mounted) {
