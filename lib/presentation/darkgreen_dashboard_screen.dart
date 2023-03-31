@@ -168,7 +168,20 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   GestureDetector(
                     onDoubleTap: (){},
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
+                        if(mounted){
+                          setState(() {
+                            AllCommonApis().getAllCarts().then((value) {
+                              if (mounted) {
+                                setState(() {
+                                  cartCount = value.data.length;
+                                  print(cartCount);
+                                });
+                              }
+                            });
+                          });
+                        }
+                      });
                     },
                     child: Container(
                       color: Colors.transparent,
@@ -184,6 +197,16 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                        if(mounted){
                          setState(() {
                            print("dashFav");
+
+                           AllCommonApis().getAllCarts().then((value) {
+                             if (mounted) {
+                               setState(() {
+                                 cartCount = value.data.length;
+                                 print(cartCount);
+                               });
+                             }
+                           });
+
                            isShow = true;
                            addNewScreen(
                                HomeScreen(
@@ -192,6 +215,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                                ScreenConstant.HOME_PAGE);
                          });
                        }
+
                      });
                    },
                    child: Container(
@@ -257,6 +281,21 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
         children: [
           GestureDetector(
             onTap: () {
+
+              if(mounted){
+                setState(() {
+                  AllCommonApis().getAllCarts().then((value) {
+                    if (mounted) {
+                      setState(() {
+                        cartCount = value.data.length;
+                        print(cartCount);
+                      });
+                    }
+                  });
+                });
+              }
+
+
               addNewScreen(
                   HomeScreen(
                     mListener: this,
@@ -300,6 +339,20 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
+
+              if(mounted){
+                setState(() {
+                  AllCommonApis().getAllCarts().then((value) {
+                    if (mounted) {
+                      setState(() {
+                        cartCount = value.data.length;
+                        print(cartCount);
+                      });
+                    }
+                  });
+                });
+              }
+
               isShow = true;
               addNewScreen(
                   CategoryScreen(
@@ -344,6 +397,20 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
+
+              if(mounted){
+                setState(() {
+                  AllCommonApis().getAllCarts().then((value) {
+                    if (mounted) {
+                      setState(() {
+                        cartCount = value.data.length;
+                        print(cartCount);
+                      });
+                    }
+                  });
+                });
+              }
+
               isShow = true;
               addNewScreen(
                   FavoriteScreen(
@@ -388,6 +455,20 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
+
+              if(mounted){
+                setState(() {
+                  AllCommonApis().getAllCarts().then((value) {
+                    if (mounted) {
+                      setState(() {
+                        cartCount = value.data.length;
+                        print(cartCount);
+                      });
+                    }
+                  });
+                });
+              }
+
               isShow = true;
               addNewScreen(
                   ProfileScreen(

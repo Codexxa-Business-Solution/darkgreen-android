@@ -6,7 +6,6 @@ import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/constant/top_header_layout.dart';
 import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/products_info_screen.dart';
 import 'package:darkgreen/presentation/search_screen.dart';
@@ -36,6 +35,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
   int savingPrice = 0;
 
   int cartCount = 0;
+  int totalCartCount = 0;
   int addCartValue = 0;
 
   int favTap = 0;
@@ -46,6 +46,18 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
   void initState() {
     super.initState();
     AllCommonApis().productByCategoriesApi(widget.subCatId);
+    if(mounted){
+      setState(() {
+        AllCommonApis().getAllCarts().then((value){
+          if(mounted){
+            setState(() {
+              totalCartCount = value.data.length;
+              print(totalCartCount);
+            });
+          }
+        });
+      });
+    }
   }
 
   Future<Null> refreshList() async {
@@ -100,9 +112,9 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.035),
+                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.033),
                       child: Container(
-                        width: SizeConfig.screenWidth*0.18,
+                        width: SizeConfig.screenWidth*0.19,
                         // color: Colors.blue,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,8 +144,42 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                               },
                               child: Container(
                                 color: Colors.transparent,
-                                child: Image(image: AssetImage("assets/images/trolly.png"),
-                                  height: SizeConfig.screenHeight*0.03,),
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight*0.05,
+                                        color: Colors.transparent,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image(image: AssetImage("assets/images/trolly.png"),
+                                            height: SizeConfig.screenHeight*0.03,),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight*0.05,
+                                        width: SizeConfig.screenWidth*0.05,
+                                        decoration: BoxDecoration(
+                                            color: CommonColor.WHITE_COLOR,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                                        ),
+                                        child: Center(
+                                          child: Text("$totalCartCount",
+                                            style: TextStyle(
+                                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                                color: Colors.black
+                                            ),),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -623,7 +669,20 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                           .toString())
                                                                   .then(
                                                                       (value) {
-                                                                setState(() {});
+                                                                setState(() {
+                                                                  if(mounted){
+                                                                    setState(() {
+                                                                      AllCommonApis().getAllCarts().then((value) {
+                                                                        if (mounted) {
+                                                                          setState(() {
+                                                                            totalCartCount = value.data.length;
+                                                                            print(totalCartCount);
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    });
+                                                                  }
+                                                                });
                                                               });
                                                             },
                                                             child: Container(
@@ -711,7 +770,20 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                           .toString())
                                                                   .then(
                                                                       (value) {
-                                                                setState(() {});
+                                                                setState(() {
+                                                                  if(mounted){
+                                                                    setState(() {
+                                                                      AllCommonApis().getAllCarts().then((value) {
+                                                                        if (mounted) {
+                                                                          setState(() {
+                                                                            totalCartCount = value.data.length;
+                                                                            print(cartCount);
+                                                                          });
+                                                                        }
+                                                                      });
+                                                                    });
+                                                                  }
+                                                                });
                                                               });
                                                             },
                                                             child: Container(
@@ -781,7 +853,20 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       productVariantId,
                                                       cartCount.toString())
                                                   .then((value) {
-                                                setState(() {});
+                                                setState(() {
+                                                  if(mounted){
+                                                    setState(() {
+                                                      AllCommonApis().getAllCarts().then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            totalCartCount = value.data.length;
+                                                            print(totalCartCount);
+                                                          });
+                                                        }
+                                                      });
+                                                    });
+                                                  }
+                                                });
                                               });
                                             },
                                             child: Container(

@@ -1,15 +1,17 @@
 import 'dart:convert';
 
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/categories/get_sub_categories_by_id_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/constant/top_header_layout.dart';
 import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/category_product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'search_screen.dart';
 
 class CategoryProduct extends StatefulWidget {
   final String proName;
@@ -23,9 +25,24 @@ class CategoryProduct extends StatefulWidget {
 }
 
 class _CategoryProductState extends State<CategoryProduct> {
+
+  int cartCount = 0;
+
   @override
   void initState() {
     super.initState();
+    if(mounted){
+      setState(() {
+        AllCommonApis().getAllCarts().then((value){
+          if(mounted){
+            setState(() {
+              cartCount = value.data.length;
+              print(cartCount);
+            });
+          }
+        });
+      });
+    }
     subCategoriesApi();
   }
 
@@ -69,16 +86,25 @@ class _CategoryProductState extends State<CategoryProduct> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.035),
+                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.02),
                       child: Container(
-                        width: SizeConfig.screenWidth*0.18,
-                        // color: Colors.blue,
+                        width: SizeConfig.screenWidth*0.19,
+                        color: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(Icons.search,
-                              color: Colors.white,
-                              size: SizeConfig.screenHeight*0.035,),
+                            GestureDetector(
+                              onDoubleTap: (){},
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct()));
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Icon(Icons.search,
+                                  color: Colors.white,
+                                  size: SizeConfig.screenHeight*0.035,),
+                              ),
+                            ),
                             GestureDetector(
                               onDoubleTap: (){},
                               onTap: (){
@@ -86,8 +112,42 @@ class _CategoryProductState extends State<CategoryProduct> {
                               },
                               child: Container(
                                 color: Colors.transparent,
-                                child: Image(image: AssetImage("assets/images/trolly.png"),
-                                  height: SizeConfig.screenHeight*0.03,),
+                                child: Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight*0.05,
+                                        color: Colors.transparent,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image(image: AssetImage("assets/images/trolly.png"),
+                                            height: SizeConfig.screenHeight*0.03,),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight*0.05,
+                                        width: SizeConfig.screenWidth*0.05,
+                                        decoration: BoxDecoration(
+                                            color: CommonColor.WHITE_COLOR,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                                        ),
+                                        child: Center(
+                                          child: Text("$cartCount",
+                                            style: TextStyle(
+                                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                                color: Colors.black
+                                            ),),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             )
                           ],

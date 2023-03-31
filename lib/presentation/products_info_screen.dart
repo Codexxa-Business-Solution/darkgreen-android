@@ -32,6 +32,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
   int discountPrice = 0;
   int savingPrice = 0;
   int cartCount = 0;
+  int totalCartCount = 0;
 
   String productId = "";
   String productVariantId = "";
@@ -68,6 +69,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
     result.then((value) {
       if (mounted) {
         setState(() {
+          totalCartCount = value.data.length;
           totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
             totalCartAmount +=
@@ -277,7 +279,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
       padding: EdgeInsets.only(
           top: parentHeight * .05,
           left: parentWidth * 0.05,
-          right: parentWidth * 0.05),
+          right: parentWidth * 0.03),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -313,11 +315,44 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
               });
             },
             child: Container(
-                color: Colors.transparent,
-                child: Image(
-                  image: const AssetImage("assets/images/trolly.png"),
-                  height: parentHeight * 0.03,
-                )),
+              color: Colors.transparent,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
+                    child: Container(
+                      height: SizeConfig.screenHeight*0.05,
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image(image: AssetImage("assets/images/trolly.png"),
+                          height: SizeConfig.screenHeight*0.03,),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                    child: Container(
+                      height: SizeConfig.screenHeight*0.05,
+                      width: SizeConfig.screenWidth*0.05,
+                      decoration: BoxDecoration(
+                          color: CommonColor.WHITE_COLOR,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                      ),
+                      child: Center(
+                        child: Text("$totalCartCount",
+                          style: TextStyle(
+                              fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                              color: Colors.black
+                          ),),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),
