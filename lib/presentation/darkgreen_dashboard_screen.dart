@@ -196,8 +196,6 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
                        if(mounted){
                          setState(() {
-                           print("dashFav");
-
                            AllCommonApis().getAllCarts().then((value) {
                              if (mounted) {
                                setState(() {
@@ -235,22 +233,25 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                              ),
                            ),
                          ),
-                         Padding(
-                           padding: EdgeInsets.only(bottom: parentHeight*0.04, right: parentWidth*0.005),
-                           child: Container(
-                             height: parentHeight*0.05,
-                             width: parentWidth*0.05,
-                             decoration: BoxDecoration(
-                                 color: CommonColor.WHITE_COLOR,
-                                 shape: BoxShape.circle,
-                                 border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                             ),
-                             child: Center(
-                               child: Text("$cartCount",
-                                 style: TextStyle(
-                                     fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                     color: Colors.black
-                                 ),),
+                         Visibility(
+                           visible: cartCount == 0 ? false : true,
+                           child: Padding(
+                             padding: EdgeInsets.only(bottom: parentHeight*0.04, right: parentWidth*0.005),
+                             child: Container(
+                               height: parentHeight*0.05,
+                               width: parentWidth*0.05,
+                               decoration: BoxDecoration(
+                                   color: CommonColor.WHITE_COLOR,
+                                   shape: BoxShape.circle,
+                                   border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                               ),
+                               child: Center(
+                                 child: Text("$cartCount",
+                                   style: TextStyle(
+                                       fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                       color: Colors.black
+                                   ),),
+                               ),
                              ),
                            ),
                          )

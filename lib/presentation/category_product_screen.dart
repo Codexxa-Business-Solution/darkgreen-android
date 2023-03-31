@@ -157,22 +157,25 @@ class _CategoryProductState extends State<CategoryProduct> {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
-                                      child: Container(
-                                        height: SizeConfig.screenHeight*0.05,
-                                        width: SizeConfig.screenWidth*0.05,
-                                        decoration: BoxDecoration(
-                                            color: CommonColor.WHITE_COLOR,
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                                        ),
-                                        child: Center(
-                                          child: Text("$cartCount",
-                                            style: TextStyle(
-                                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                                color: Colors.black
-                                            ),),
+                                    Visibility(
+                                      visible: cartCount == 0 ? false : true,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                                        child: Container(
+                                          height: SizeConfig.screenHeight*0.05,
+                                          width: SizeConfig.screenWidth*0.05,
+                                          decoration: BoxDecoration(
+                                              color: CommonColor.WHITE_COLOR,
+                                              shape: BoxShape.circle,
+                                              border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                                          ),
+                                          child: Center(
+                                            child: Text("$cartCount",
+                                              style: TextStyle(
+                                                  fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                                  color: Colors.black
+                                              ),),
+                                          ),
                                         ),
                                       ),
                                     )

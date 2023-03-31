@@ -25,10 +25,10 @@ class GetUserCartResponseModel {
 
   factory GetUserCartResponseModel.fromJson(Map<String, dynamic> json) => GetUserCartResponseModel(
     error: json["error"],
-    total: json["total"],
+    total: json["total"] ?? 0,
     message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    saveForLater: List<dynamic>.from(json["save_for_later"].map((x) => x)),
+    data: List<Datum>.from(json["data"] != null ? json["data"].map((x) => Datum.fromJson(x)) : []),
+    saveForLater: List<dynamic>.from(json["save_for_later"] != null ? json["save_for_later"].map((x) => x) : []),
   );
 
   Map<String, dynamic> toJson() => {

@@ -5,7 +5,6 @@ import 'package:darkgreen/api_model/categories/get_similar_product_response_mode
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/cart.dart';
-import 'package:darkgreen/presentation/fedfeded.dart';
 import 'package:darkgreen/presentation/view_all_product_needs_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -331,22 +330,25 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
-                    child: Container(
-                      height: SizeConfig.screenHeight*0.05,
-                      width: SizeConfig.screenWidth*0.05,
-                      decoration: BoxDecoration(
-                          color: CommonColor.WHITE_COLOR,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                      ),
-                      child: Center(
-                        child: Text("$totalCartCount",
-                          style: TextStyle(
-                              fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                              color: Colors.black
-                          ),),
+                  Visibility(
+                    visible: totalCartCount == 0 ? false : true,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                      child: Container(
+                        height: SizeConfig.screenHeight*0.05,
+                        width: SizeConfig.screenWidth*0.05,
+                        decoration: BoxDecoration(
+                            color: CommonColor.WHITE_COLOR,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
+                        ),
+                        child: Center(
+                          child: Text("$totalCartCount",
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
+                                color: Colors.black
+                            ),),
+                        ),
                       ),
                     ),
                   )
@@ -391,33 +393,25 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     bottom: parentHeight * 0.02),
                 child: Stack(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AutoHideAlertDialog()));
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 3,
-                                blurRadius: 5,
-                                offset: const Offset(1, 1),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                    color: Colors.white, child: imgs)),
-                          )),
-                    ),
+                    Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: const Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                  color: Colors.white, child: imgs)),
+                        )),
                     Padding(
                       padding: EdgeInsets.only(
                           top: parentHeight * 0.02, left: parentWidth * 0.03),
@@ -793,6 +787,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                       result.then((value) {
                                         setState(() {
                                           refresh();
+                                          totalCartCount = value.data.length;
                                         });
                                       });
                                     });

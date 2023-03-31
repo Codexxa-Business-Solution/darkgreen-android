@@ -595,7 +595,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                             cartCount
                                                                 .toString())
                                                         .then((value) {
-                                                      setState(() {});
+                                                      setState(() {
+                                                        var result = AllCommonApis().getAllCarts();
+
+                                                        result.then((value) {
+                                                          setState(() {
+                                                            totalCartCount = value.data.length;
+                                                          });
+                                                        });
+                                                      });
                                                     });
                                                   },
                                                   child: Container(
@@ -663,7 +671,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         productVariantId,
                                         cartCount.toString())
                                         .then((value) {
-                                      setState(() {});
+                                      setState(() {
+                                        var result = AllCommonApis().getAllCarts();
+
+                                        result.then((value) {
+                                          setState(() {
+                                            totalCartCount = value.data.length;
+                                          });
+                                        });
+                                      });
                                     });
                                   },
                                   child: Container(

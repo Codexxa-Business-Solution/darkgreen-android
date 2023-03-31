@@ -7,7 +7,7 @@ class ApiConstants {
 
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODAyNjM2MjksImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjgwMjY1NDI5LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.RHRoA1tVqfta3EnOq6JhpewCw2J4yFWOOxFO0zdpoZk";
+  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODAyNjU1NDcsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjgwMjY3MzQ3LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.SiLfkLK-ZvXgX_7yMM-Bph7ZKxH08ljsP70BoN7ibnQ";
 
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
