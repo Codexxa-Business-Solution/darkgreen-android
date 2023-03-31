@@ -415,7 +415,20 @@ class _SearchProductState extends State<SearchProduct> {
                                 builder: (context) => ProductInfoScreen(
                                       productId: "${snap.data?.data[index].id}",
                                       catId: '',
-                                    )));
+                                    ))).then((value){
+                          if(mounted){
+                            setState(() {
+                              AllCommonApis().getAllCarts().then((value) {
+                                if (mounted) {
+                                  setState(() {
+                                    totalCartCount = value.data.length;
+                                    print(cartCount);
+                                  });
+                                }
+                              });
+                            });
+                          }
+                        });
                       },
                       child: Container(
                         height: parentHeight * 0.17,
