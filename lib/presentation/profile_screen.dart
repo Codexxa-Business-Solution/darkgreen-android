@@ -1025,27 +1025,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  color: Colors.transparent,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_balance_wallet_outlined,
-                        size: parentHeight * 0.03,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: parentHeight * 0.005),
-                        child: Text(
-                          "Wallet",
-                          style: TextStyle(
-                              color: CommonColor.BLACK_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal * 3.0,
-                              fontFamily: 'Roboto_Regular',
-                              fontWeight: FontWeight.w500),
+                GestureDetector(
+                  onDoubleTap: (){},
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>WalletHistory()));
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.account_balance_wallet_outlined,
+                          size: parentHeight * 0.03,
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: EdgeInsets.only(top: parentHeight * 0.005),
+                          child: Text(
+                            "Wallet",
+                            style: TextStyle(
+                                color: CommonColor.BLACK_COLOR,
+                                fontSize: SizeConfig.blockSizeHorizontal * 3.0,
+                                fontFamily: 'Roboto_Regular',
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Padding(

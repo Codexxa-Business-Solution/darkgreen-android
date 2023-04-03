@@ -158,9 +158,9 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
             ),),
           ),
           Padding(
-            padding: EdgeInsets.only(right: parentWidth*0.035),
+            padding: EdgeInsets.only(right: parentWidth*0.01),
             child: Container(
-              width: parentWidth*0.19,
+              width: parentWidth*0.2,
               color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
