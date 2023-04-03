@@ -88,7 +88,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                     Padding(
                       padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.02),
                       child: Container(
-                        width: SizeConfig.screenWidth*0.19,
+                        width: SizeConfig.screenWidth*0.2,
                         color: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

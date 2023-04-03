@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
 import 'package:darkgreen/api_model/cart/delete_save_for_later_response_model.dart';
@@ -10,6 +11,7 @@ import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_m
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
+import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
@@ -472,6 +474,37 @@ class AllCommonApis {
     }
   }
 
+
+  Future<GetWalletHistoryResponseModel> getWalletHistory() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getUserWallet),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_user_transactions": "1",
+          "user_id": id,
+          "type":"wallet_transactions",
+          "offset":"0",
+          "limit":"5"
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      // Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      // print("getWalletHistory -->  $body");
+
+      return getWalletHistoryResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
 
 
 }

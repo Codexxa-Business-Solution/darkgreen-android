@@ -112,9 +112,9 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.033),
+                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.01),
                       child: Container(
-                        width: SizeConfig.screenWidth*0.19,
+                        width: SizeConfig.screenWidth*0.2,
                         // color: Colors.blue,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

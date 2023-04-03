@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import geolocator_apple
-import package_info_plus
+import package_info_plus_macos
 import shared_preferences_foundation
 import smart_auth
 import wakelock_macos

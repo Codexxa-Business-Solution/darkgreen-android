@@ -7,7 +7,7 @@ class ApiConstants {
 
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODAyNjU1NDcsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjgwMjY3MzQ3LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.SiLfkLK-ZvXgX_7yMM-Bph7ZKxH08ljsP70BoN7ibnQ";
+  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODA1MjM3ODQsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjgwNTI1NTg0LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.JQicqM5T6BujOHhrs_76pdH6wZjJ-LGvA6juv0DRr-0";
 
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
@@ -22,6 +22,7 @@ class ApiConstants {
   String getProductInfoById = "get-product-by-id.php";
   String getSimilarProductById = "get-similar-products.php";
   String getAddUserAddress = "user-addresses.php";
+  String getUserWallet = "get-user-transactions.php";
 
 
 
