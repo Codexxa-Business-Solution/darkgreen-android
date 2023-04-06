@@ -14,8 +14,10 @@ class AddCheckPayParentScreen extends StatefulWidget {
   final int deliveryCharges;
   final String orderFormat;
   final String addressId;
+  final String promoCode;
+  final String promoDiscount;
 
-  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.addressId}) : super(key: key);
+  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.addressId, this.promoCode = "", this.promoDiscount = ""}) : super(key: key);
 
   @override
   State<AddCheckPayParentScreen> createState() => _AddCheckPayParentScreenState();
@@ -35,6 +37,8 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
 
     print("parent ${widget.orderFormat}");
     print("parent ${widget.addressId}");
+    print("dc ${widget.promoCode}");
+    print("dc ${widget.promoDiscount}");
   }
 
 
@@ -134,8 +138,8 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
             physics: NeverScrollableScrollPhysics(),
             children: [
               AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount, orderFormat: widget.orderFormat,),
-              Checkout(deliverCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, selectAddId: widget.addressId),
-              PaymentScreen(orderFormat: widget.orderFormat, selectAddId: widget.addressId)
+              Checkout(deliverCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,),
+              PaymentScreen(orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,)
             ],
           ),
         ),
