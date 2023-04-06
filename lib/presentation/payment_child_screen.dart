@@ -9,8 +9,10 @@ class PaymentScreen extends StatefulWidget {
 
   final String orderFormat;
   final String selectAddId;
+  final String promoCode;
+  final String promoDiscount;
 
-  const PaymentScreen({Key? key, required this.orderFormat, required this.selectAddId}) : super(key: key);
+  const PaymentScreen({Key? key, required this.orderFormat, required this.selectAddId, this.promoCode = "", this.promoDiscount = ""}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -28,6 +30,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     print("pay ${widget.orderFormat}");
     print("pay ${widget.selectAddId}");
+    print("pay ${widget.promoCode}");
+    print("pay ${widget.promoDiscount}");
   }
 
   void _resetSelectedDate() {

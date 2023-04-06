@@ -7,6 +7,8 @@ import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
+import 'package:darkgreen/presentation/get_promo_offer_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,8 +17,10 @@ class Checkout extends StatefulWidget {
   final int deliverCharges;
   final String orderFormat;
   final String selectAddId;
+  final String promoCode;
+  final String promoDiscount;
 
-  const Checkout({Key? key, this.deliverCharges = 0, required this.orderFormat, required this.selectAddId}) : super(key: key);
+  const Checkout({Key? key, this.deliverCharges = 0, required this.orderFormat, required this.selectAddId, this.promoCode = "", this.promoDiscount = ""}) : super(key: key);
 
   @override
   State<Checkout> createState() => _CheckoutState();
@@ -32,6 +36,10 @@ class _CheckoutState extends State<Checkout> {
   int originalAmount = 0;
   int totalSavingAmount = 0;
   int cartCount = 0;
+  int total = 0;
+  int grandTotal = 0;
+  String promoCode = "";
+  String promoDiscount = "";
 
   @override
   void initState() {
@@ -40,6 +48,14 @@ class _CheckoutState extends State<Checkout> {
     refresh();
     print("check ${widget.orderFormat}");
     print("check ${widget.selectAddId}");
+    print("dc ${widget.deliverCharges}");
+    print("dc ${widget.promoCode}");
+    print("dc ${widget.promoDiscount}");
+
+
+    promoCode = widget.promoCode;
+    promoDiscount = widget.promoDiscount;
+
   }
 
 
@@ -883,66 +899,199 @@ class _CheckoutState extends State<Checkout> {
   }
 
   Widget getCoupanCode(double parentHeight, double parentWidth) {
-    return Padding(
-      padding: EdgeInsets.only(
-        top: parentHeight * 0.03,
-        left: parentWidth * 0.03,
-        right: parentWidth * 0.03,
-      ),
-      child: Container(
-        height: parentHeight * 0.06,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: parentWidth * 0.02),
-                  child: Container(
-                    height: parentHeight * 0.07,
-                    width: parentWidth * 0.07,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: CommonColor.OFFER_COLOR,
-                    ),
-                    child: Text(
-                      "Hii",
-                      style: TextStyle(color: Colors.transparent),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: parentWidth * 0.03),
-                  child: Text(
-                    "Use Coupons",
-                    style: TextStyle(
-                        color: CommonColor.BLACK_COLOR,
-                        fontSize: SizeConfig.blockSizeHorizontal * 4.0,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Roboto_Medium'),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: parentWidth * 0.03),
-              child: Icon(
-                Icons.arrow_forward_ios,
-                size: SizeConfig.screenHeight * 0.02,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+            top: parentHeight * 0.03,
+            left: parentWidth * 0.03,
+            right: parentWidth * 0.03,
+          ),
+          child: GestureDetector(
+            onDoubleTap: (){},
+            onTap: (){
+              showCupertinoDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) {
+                  return AnimatedOpacity(
+                      opacity: 1.0,
+                      duration: Duration(seconds: 2),
+                      child: PromoCodeScreen(
+                        orderFormat: widget.orderFormat,
+                        selectAddId: widget.selectAddId,
+                        deliverCharges: widget.deliverCharges,
+                      ));
+                },
+              );
+            },
+            child: Container(
+              height: parentHeight * 0.06,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
-            )
-          ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth * 0.02),
+                        child: Container(
+                          height: parentHeight * 0.07,
+                          width: parentWidth * 0.07,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: CommonColor.OFFER_COLOR,
+                          ),
+                          child: Text(
+                            "Hii",
+                            style: TextStyle(color: Colors.transparent),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: parentWidth * 0.03),
+                        child: Text(
+                          "Use Coupons",
+                          style: TextStyle(
+                              color: CommonColor.BLACK_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Roboto_Medium'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: parentWidth * 0.03),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: SizeConfig.screenHeight * 0.02,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
+        Visibility(
+          visible: promoCode.isNotEmpty ? true : false,
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: parentHeight * 0.01,
+              left: parentWidth * 0.03,
+              right: parentWidth * 0.03,
+            ),
+            child: Container(
+              height: parentHeight * 0.1,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+
+                  Padding(
+                    padding: EdgeInsets.only(top: parentHeight * 0.02, left: parentWidth*0.03),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Offers",
+                          style: TextStyle(
+                              color: CommonColor.APP_BAR_COLOR,
+                              fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Roboto_Medium'),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: parentHeight * 0.02,left: parentWidth * 0.02),
+                            child: Icon(Icons.discount,
+                                color: CommonColor.APP_BAR_COLOR),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: parentHeight * 0.02,left: parentWidth * 0.03),
+                            child: Text(
+                              promoCode,
+                              style: TextStyle(
+                                  color: CommonColor.APP_BAR_COLOR,
+                                  fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Roboto_Medium'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: parentWidth * 0.03),
+                        child: GestureDetector(
+                          onDoubleTap: (){},
+                          onTap: (){
+
+                            if(mounted){
+                              setState(() {
+                                promoDiscount = "";
+                                promoCode = "";
+
+                                if(promoDiscount.isNotEmpty){
+                                  grandTotal = total + int.parse(widget.promoDiscount);
+                                }
+
+
+                              });
+                            }
+
+
+                          },
+                          child: Container(
+                            height: parentHeight*0.04,
+                            width: parentWidth*0.25,
+                            decoration: BoxDecoration(
+                              color: CommonColor.APP_BAR_COLOR,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Center(
+                              child:  Text(
+                                "Remove Offer",
+                                style: TextStyle(
+                                    color: CommonColor.WHITE_COLOR,
+                                    fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'Roboto_Medium'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget getBillDetails(double parentHeight, double parentWidth) {
-    int grandTotal = totalCartAmount + widget.deliverCharges;
+    int total = totalCartAmount + widget.deliverCharges;
+    grandTotal = total;
+    if(promoDiscount.isNotEmpty){
+      grandTotal = total - int.parse(promoDiscount);
+    }
+
+
     return Padding(
       padding: EdgeInsets.only(
         top: parentHeight * 0.03,
@@ -1033,6 +1182,38 @@ class _CheckoutState extends State<Checkout> {
                 ),
               ],
             ),
+            Visibility(
+              visible: promoDiscount.isNotEmpty ? true : false,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: parentWidth * 0.03, top: parentHeight * 0.01),
+                    child: Text(
+                      "Promo Discount",
+                      style: TextStyle(
+                          color: CommonColor.BLACK_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Roboto_Regular'),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        right: parentWidth * 0.05, top: parentHeight * 0.01),
+                    child: Text(
+                      "-$promoDiscount",
+                      style: TextStyle(
+                          color: CommonColor.BLACK_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'Roboto_Regular'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1107,7 +1288,7 @@ class _CheckoutState extends State<Checkout> {
       padding: EdgeInsets.only(bottom: parentHeight * 0.08),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2, orderFormat: widget.orderFormat, addressId: widget.selectAddId,))).then((value){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2, orderFormat: widget.orderFormat, addressId: widget.selectAddId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,))).then((value){
             refresh();
           });
         },
