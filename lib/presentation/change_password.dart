@@ -81,7 +81,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: oldPaswordShow
                                 ? GestureDetector(
-                                    onDoubleTap: () {},
+                                    
                                     onTap: () {
                                       _toggle();
                                     },
@@ -97,7 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     padding: EdgeInsets.only(
                                         right: SizeConfig.screenWidth * 0.01),
                                     child: GestureDetector(
-                                      onDoubleTap: () {},
+                                      
                                       onTap: () {
                                         _toggle();
                                       },
@@ -124,7 +124,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: newPaswordShow
                                 ? GestureDetector(
-                                    onDoubleTap: () {},
+                                    
                                     onTap: () {
                                       _newToggle();
                                     },
@@ -140,7 +140,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     padding: EdgeInsets.only(
                                         right: SizeConfig.screenWidth * 0.01),
                                     child: GestureDetector(
-                                      onDoubleTap: () {},
+                                      
                                       onTap: () {
                                         _newToggle();
                                       },
@@ -167,7 +167,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: confirmPaswordShow
                                 ? GestureDetector(
-                                    onDoubleTap: () {},
+                                    
                                     onTap: () {
                                       _confirmToggle();
                                     },
@@ -183,7 +183,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     padding: EdgeInsets.only(
                                         right: SizeConfig.screenWidth * 0.01),
                                     child: GestureDetector(
-                                      onDoubleTap: () {},
+                                      
                                       onTap: () {
                                         _confirmToggle();
                                       },

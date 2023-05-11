@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               // Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   suffixIcon: oldPaswordShow
                       ? GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             _toggle();
                           },
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               _toggle();
                             },
@@ -218,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 userLogin();
               },
@@ -250,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onDoubleTap: () {},
+                  
                   onTap: () {
                     Navigator.push(
                         context,
@@ -279,7 +279,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
-              onDoubleTap: () {},
               onTap: () {
                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
 
@@ -342,7 +341,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         AppPreferences.setIds(jsonData["user_id"]);
 
-        print(AppPreferences.getIds().toString());
+        AppPreferences.setUserName(jsonData["name"]);
+
+        print(AppPreferences.setUserName(jsonData["name"]));
+        print( AppPreferences.setIds(jsonData["user_id"]));
 
         if(mounted){
           setState(() {

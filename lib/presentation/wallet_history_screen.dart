@@ -18,20 +18,48 @@ class _WalletHistoryState extends State<WalletHistory> {
   final TextEditingController _amount = TextEditingController();
   final TextEditingController _notes = TextEditingController();
 
-  int? totalWalletAmount = 0;
+  int totalWalletAmount = 0;
 
   final _razorpay = Razorpay();
 
   @override
   void initState() {
     super.initState();
+    // totalWalletAmount = 0;
+    // AllCommonApis().getWalletHistory().then((value){
+    //   if (mounted) {
+    //     setState(() {
+    //       totalWalletAmount = value.data.isNotEmpty ? value.data.length : 0;
+    //       for (var element in value.data) {
+    //         totalWalletAmount += int.parse(element.amount);
+    //         print(totalWalletAmount);
+    //       }
+    //     });
+    //   }
+    // });
 
-    AllCommonApis().getWalletHistory();
-
+    // refresh();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccessResponse);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
 
+  }
+
+
+  void refresh() {
+    var result = AllCommonApis().getWalletHistory();
+    totalWalletAmount = 0;
+    result.then((value) {
+      if (mounted) {
+        setState(() {
+          totalWalletAmount = value.data.isNotEmpty ? value.data.length : 0;
+          for (var element in value.data) {
+            totalWalletAmount += int.parse(element.amount);
+            print(totalWalletAmount);
+          }
+        });
+      }
+    });
   }
 
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
@@ -117,6 +145,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                     child: Text("No items found in user cart!"),
                   );
                 }
+
                 return CustomScrollView(
                   slivers: <Widget>[
                     SliverList(
@@ -136,6 +165,11 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                         delegate: SliverChildBuilderDelegate(
                           childCount: snap.data?.data.length,
                               (context, index) {
+
+
+                                totalWalletAmount += int.parse("${snap.data?.data[index].amount}");
+                                print(totalWalletAmount);
+
                             return Padding(
                               padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
                                   bottom: SizeConfig.screenHeight*0.02),
@@ -303,7 +337,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.pop(context);
             },
@@ -372,7 +406,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
               padding: EdgeInsets.only(
                   top: parentHeight * 0.02, left: parentWidth * 0.05),
               child: Text(
-                "\u20B90",
+                "\u20B9$totalWalletAmount",
                 style: TextStyle(
                     color: CommonColor.APP_BAR_COLOR,
                     fontSize: SizeConfig.blockSizeHorizontal * 12.0,
@@ -384,7 +418,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
               padding: EdgeInsets.only(
                   top: parentHeight * 0.02, left: parentWidth * 0.05),
               child: GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   print("${_amount.text.trim()}");
                   showDialog<String>(
@@ -509,7 +543,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              onDoubleTap: () {},
+                              
                               onTap: () {
                                 Navigator.pop(context);
                               },
@@ -532,7 +566,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                               ),
                             ),
                             GestureDetector(
-                              onDoubleTap: () {},
+                              
                               onTap: () {
 
                                 int amount = int.parse(_amount.text);

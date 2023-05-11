@@ -1,6 +1,7 @@
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/darkgreen_screen_constant.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/category_screen.dart';
@@ -32,18 +33,29 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
   Widget? widDashboardScreen, widMenuScreen;
   bool isShow = true;
 
+  String? userName;
+
   int cartCount = 0;
 
   Future<bool> _onBackPressed() {
     return showExitDialog(context);
   }
 
+  Future<void> init() async {
+    userName = await AppPreferences.getUserName();
+  }
+
   @override
   void initState() {
     super.initState();
 
+
+
     if(mounted){
       setState(() {
+
+        init();
+
         if(widget.comeFrom == "1"){
           cartCount = widget.cartCount;
         }
@@ -149,7 +161,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           Padding(
             padding: EdgeInsets.only(left: parentHeight * 0.01),
-            child: Text("Dark Green",
+            child: Text(userName != null ? "$userName" : "",
             style: TextStyle(
                 fontSize: SizeConfig.blockSizeHorizontal*7.0,
                 fontFamily: "Roboto_Medium",
@@ -303,7 +315,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.HOME_PAGE);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               height: parentHeight*0.07,
               width: parentWidth*0.17,
@@ -361,7 +373,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.CATEGORY_FRAGMENT);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               height: parentHeight*0.07,
               width: parentWidth*0.17,
@@ -419,7 +431,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.FAVORITE_FRAGMENT);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               height: parentHeight*0.07,
               width: parentWidth*0.17,
@@ -477,7 +489,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.PROFILE_FRAGMENT);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               height: parentHeight*0.07,
               width: parentWidth*0.17,

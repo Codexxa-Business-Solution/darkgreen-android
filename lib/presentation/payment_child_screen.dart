@@ -23,6 +23,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
   late DateTime _selectedDate;
   TextEditingController _notes = TextEditingController();
 
+  int selectTime = 0;
+
+  bool afternoonTime = false;
+  bool eveningTime = false;
+
+  bool cashOnDelivery = false;
+  bool razorPay = false;
+
+  int selectPaymentMethod = 0;
+
   @override
   void initState() {
     super.initState();
@@ -99,7 +109,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             initialDate: _selectedDate,
                             firstDate: DateTime.now(),
                             lastDate: DateTime.now().add(const Duration(days: 365 * 4)),
-                            onDateSelected: (date) => setState(() => _selectedDate = date),
+                            onDateSelected: (date) => setState(() {
+                              _selectedDate = date;
+                              print(_selectedDate);
+                            }
+                            ),
                             leftMargin: 20,
                             monthColor: Colors.transparent,
                             dayColor: CommonColor.CIRCLE_COLOR,
@@ -113,24 +127,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("12 PM TO 3 PM"),
-                            Stack(
-                              alignment: Alignment.center,
+                        child: GestureDetector(
+                          onDoubleTap: (){},
+                          onTap: (){
+                            if(mounted){
+                              setState(() {
+                                selectTime = 1;
+                                afternoonTime = !afternoonTime;
+                                eveningTime = false;
+                                print("$selectTime");
+                              });
+                            }
+                          },
+                          child: Container(
+                             color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.circle_outlined,
-                                  color: CommonColor.APP_BAR_COLOR,),
-                                Padding(
-                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                  child: Icon(Icons.circle,
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    size: SizeConfig.blockSizeHorizontal*4.0,),
+                                Text("12 PM TO 3 PM"),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(Icons.circle_outlined,
+                                      color: CommonColor.APP_BAR_COLOR,),
+                                    Visibility(
+                                      visible: afternoonTime,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                        child: Icon(Icons.circle,
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -147,24 +180,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("9 AM TO 12 PM"),
-                            Stack(
-                              alignment: Alignment.center,
+                        child: GestureDetector(
+                          onDoubleTap: (){},
+                          onTap: (){
+                           if(mounted){
+                             setState(() {
+                               selectTime = 2;
+                               eveningTime = !eveningTime;
+                               afternoonTime = false;
+                               print("$selectTime");
+                             });
+                           }
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.circle_outlined,
-                                  color: CommonColor.APP_BAR_COLOR,),
-                                Padding(
-                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                  child: Icon(Icons.circle,
-                                    color: CommonColor.APP_BAR_COLOR,
-                                    size: SizeConfig.blockSizeHorizontal*4.0,),
+                                Text("9 AM TO 12 PM"),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(Icons.circle_outlined,
+                                      color: CommonColor.APP_BAR_COLOR,),
+                                    Visibility(
+                                      visible: eveningTime,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                        child: Icon(Icons.circle,
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          size: SizeConfig.blockSizeHorizontal*4.0,),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       Padding(

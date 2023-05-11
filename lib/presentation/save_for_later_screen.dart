@@ -78,7 +78,7 @@ class _SaveForLaterState extends State<SaveForLater> {
               onTap: () {
                 Navigator.pop(context);
               },
-              onDoubleTap: () {},
+              
               child: Padding(
                 padding: EdgeInsets.only(left: parentWidth * .04),
                 child: Container(

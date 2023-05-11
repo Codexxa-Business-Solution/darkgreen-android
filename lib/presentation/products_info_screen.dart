@@ -189,7 +189,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     padding:
                         EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
                     child: GestureDetector(
-                      onDoubleTap: () {},
+                      
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => const Cart())).then((value){
@@ -286,7 +286,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               color: Colors.transparent,
               child: Icon(
@@ -297,7 +297,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             ),
           ),
           GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => const Cart())).then((value){
@@ -499,7 +499,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             padding: EdgeInsets.only(
                                 right: SizeConfig.screenWidth * 0.02),
                             child: GestureDetector(
-                              onDoubleTap: () {},
+                              
                               onTap: () {
                                 productId =
                                     "${model?.data[0].variants[0].productId}";
@@ -538,7 +538,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             padding: EdgeInsets.only(
                                 right: SizeConfig.screenWidth * 0.02),
                             child: GestureDetector(
-                              onDoubleTap: () {},
+                              
                               onTap: () {
                                 productId =
                                     "${model?.data[0].variants[0].productId}";
@@ -697,7 +697,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                           ? true
                           : false,
                       child: GestureDetector(
-                        onDoubleTap: () {},
+                        
                         onTap: () {
                           productId = "${model?.data[0].variants[0].productId}";
 
@@ -755,7 +755,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               productId =
                               "${model?.data[0].variants[0].productId}";
@@ -827,7 +827,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             )),
                           ),
                           GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               productId =
                               "${model?.data[0].variants[0].productId}";
@@ -1043,7 +1043,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     fontFamily: 'Roboto_Medium'),
               ),
               GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   Navigator.push(
                       context,
@@ -1120,7 +1120,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             bottom: parentHeight * 0.01,
                             left: parentWidth * 0.05),
                         child: GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -1216,7 +1216,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                     .screenWidth *
                                                     0.02),
                                             child: GestureDetector(
-                                              onDoubleTap: () {},
+                                              
                                               onTap: () {
                                                 productId =
                                                 "${snap.data?.data[index].variants[0].productId}";
@@ -1262,7 +1262,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                     .screenWidth *
                                                     0.02),
                                             child: GestureDetector(
-                                              onDoubleTap: () {},
+                                              
                                               onTap: () {
                                                 productId =
                                                 "${snap.data?.data[index].variants[0].productId}";
@@ -1455,7 +1455,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                   child: Row(
                                                     children: [
                                                       GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -1546,7 +1546,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                             )),
                                                       ),
                                                       GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -1623,7 +1623,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                           ? true
                                           : false,
                                       child: GestureDetector(
-                                        onDoubleTap: () {},
+                                        
                                         onTap: () {
                                           productId =
                                           "${snap.data?.data[index].variants[0].productId}";

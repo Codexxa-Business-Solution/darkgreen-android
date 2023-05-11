@@ -33,7 +33,7 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      onDoubleTap: () {},
+      
       child: WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -108,7 +108,7 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
           onTap: () {
             exit(0);
           },
-          onDoubleTap: () {},
+          
           child: Container(
             height: 50,
             width: 150,
@@ -138,7 +138,7 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
           onTap: () {
             Navigator.pop(context);
           },
-          onDoubleTap: () {},
+          
           child: Container(
             height: 50,
             width: 150,

@@ -164,7 +164,7 @@ class _AddressState extends State<Address> {
             onTap: () {
               Navigator.pop(context, AllCommonApis().getAddressOfUser());
             },
-            onDoubleTap: () {},
+            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -215,7 +215,7 @@ class _AddressState extends State<Address> {
               left: parentHeight * 0.07,
               right: parentWidth * 0.14),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               showCupertinoDialog(
                 context: context,
@@ -529,7 +529,7 @@ class _AddressState extends State<Address> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   if (mounted) {
                     setState(() {
@@ -582,7 +582,7 @@ class _AddressState extends State<Address> {
                 ),
               ),
               GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   if (mounted) {
                     setState(() {
@@ -598,7 +598,7 @@ class _AddressState extends State<Address> {
                         alignment: Alignment.center,
                         children: [
                           GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               if (mounted) {
                                 setState(() {

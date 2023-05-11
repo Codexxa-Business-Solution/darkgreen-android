@@ -146,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const Dashboard()),
@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Cart()));
@@ -235,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(
                   context,
@@ -293,7 +293,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(
                   context,
@@ -339,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => WalletHistory()));
@@ -420,7 +420,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   /*showModalBottomSheet(
                       context: context,
@@ -489,7 +489,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: parentWidth * 0.05,
               right: parentWidth * 0.05),
           child: GestureDetector(
-            onDoubleTap: () {},
+            
             onTap: () {
               Navigator.push(
                   context,
@@ -1124,7 +1124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 Navigator.push(
                     context,
@@ -1165,7 +1165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 Navigator.push(
                     context,
@@ -1212,7 +1212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 showModalBottomSheet(
                     context: context,
@@ -1261,7 +1261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 Navigator.push(
                     context,
@@ -1304,7 +1304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
                 Navigator.push(
                     context,
@@ -1362,7 +1362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1400,7 +1400,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1438,7 +1438,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1476,7 +1476,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1514,7 +1514,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1552,7 +1552,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1590,7 +1590,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1628,7 +1628,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1666,7 +1666,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,
@@ -1704,7 +1704,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {},
               child: Container(
                 color: Colors.transparent,

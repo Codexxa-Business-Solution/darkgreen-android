@@ -97,7 +97,7 @@ class _CartState extends State<Cart> {
               onTap: () {
                 Navigator.pop(context);
               },
-              onDoubleTap: () {},
+              
               child: Padding(
                 padding: EdgeInsets.only(left: parentWidth * .04),
                 child: Container(
@@ -396,7 +396,7 @@ class _CartState extends State<Cart> {
                                                   Row(
                                                     children: [
                                                       GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].productId}";
@@ -481,7 +481,7 @@ class _CartState extends State<Cart> {
                                                         )),
                                                       ),
                                                       GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].productId}";
@@ -647,7 +647,7 @@ class _CartState extends State<Cart> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                        onDoubleTap: () {},
+                        
                         onTap: () {
                           if (mounted) {
                             setState(() {
@@ -701,7 +701,7 @@ class _CartState extends State<Cart> {
                         ),
                       ),
                       GestureDetector(
-                        onDoubleTap: () {},
+                        
                         onTap: () {
                           if (mounted) {
                             setState(() {
@@ -718,7 +718,7 @@ class _CartState extends State<Cart> {
                                 alignment: Alignment.center,
                                 children: [
                                   GestureDetector(
-                                    onDoubleTap: () {},
+                                    
                                     onTap: () {
                                       if (mounted) {
                                         setState(() {
@@ -817,7 +817,7 @@ class _CartState extends State<Cart> {
                         padding:
                             EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
                         child: GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             if(isType != "0"){
                               if(isType == "1"){
@@ -903,16 +903,32 @@ class _CartState extends State<Cart> {
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
+    // var response = await http.post(
+    //     Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+    //     body: {
+    //       "accesskey": "90336",
+    //       "get_user_cart": "1",
+    //       "user_id": id,
+    //       "offset": "0",
+    //       "limit": "10"
+    //     },
+    //     headers: headersList);
+
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
-        body: {
-          "accesskey": "90336",
-          "get_user_cart": "1",
-          "user_id": id,
-          "offset": "0",
-          "limit": "10"
-        },
-        headers: headersList);
+      body: {
+        "accesskey": "90336",
+        "get_user_cart": "1",
+        "user_id": id,
+        "offset": "0",
+        "limit": "10"
+      },
+        headers: headersList).timeout(
+      const Duration(seconds: 60),
+      onTimeout: () {
+        return http.Response('Error', 408);
+      },
+    );
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);

@@ -99,7 +99,7 @@ class _RegistrationState extends State<Registration> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -355,7 +355,7 @@ class _RegistrationState extends State<Registration> {
                       MaterialPageRoute(
                           builder: (context) => const Dashboard()));
                 },
-                onDoubleTap: () {},
+                
                 child: Padding(
                   padding:  EdgeInsets.only(top: parentHeight*0.02,left: parentWidth*0.04,right: parentWidth*0.04),
                   child: Container(

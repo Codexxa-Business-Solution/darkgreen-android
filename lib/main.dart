@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:darkgreen/LoginRegistation/login_screen.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,18 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    // Future.delayed(Duration(seconds: 0)).then((_) {
-    //   showModalBottomSheet(
-    //       context: context,
-    //       backgroundColor: Colors.transparent,
-    //       elevation: 0,
-    //       isScrollControlled: true,
-    //       isDismissible: false,
-    //       enableDrag: true,
-    //       builder: (BuildContext bc) {
-    //         return LoginScreen();
-    //       });
-    // });
+    super.initState();
     startTimer();
   }
 
@@ -81,13 +71,15 @@ class _MyHomePageState extends State<MyHomePage> {
   startTimer() async {
     var durtaion = const Duration(seconds: 2);
 
+    String? id = await AppPreferences.getIds();
+
     try {
 
-      // if (accessToken == null) {
+      if (id == null) {
          Timer(durtaion, navigateParentPage);
-      // } else if (accessToken != null) {
-      //   return Timer(durtaion, navigateHomePage);
-      // }
+      } else if (id.isNotEmpty) {
+        return Timer(durtaion, navigateHomePage);
+      }
     } catch (e) {
       print("eeeeeeee  $e");
     }

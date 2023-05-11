@@ -109,7 +109,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                               bottom: SizeConfig.screenHeight * 0.01,
                               left: SizeConfig.screenWidth * 0.05),
                           child: GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -210,7 +210,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                                                       .screenWidth *
                                                       0.02),
                                               child: GestureDetector(
-                                                onDoubleTap: () {},
+                                                
                                                 onTap: () {
                                                   productId =
                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -256,7 +256,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                                                       .screenWidth *
                                                       0.02),
                                               child: GestureDetector(
-                                                onDoubleTap: () {},
+                                                
                                                 onTap: () {
                                                   productId =
                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -494,7 +494,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                                                     child: Row(
                                                       children: [
                                                         GestureDetector(
-                                                          onDoubleTap: () {},
+                                                          
                                                           onTap: () {
                                                             productId =
                                                             "${snap.data?.data[index].variants[0].productId}";
@@ -583,7 +583,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                                                               )),
                                                         ),
                                                         GestureDetector(
-                                                          onDoubleTap: () {},
+                                                          
                                                           onTap: () {
                                                             productId =
                                                             "${snap.data?.data[index].variants[0].productId}";
@@ -658,7 +658,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                                             ? true
                                             : false,
                                         child: GestureDetector(
-                                          onDoubleTap: () {},
+                                          
                                           onTap: () {
                                             productId =
                                             "${snap.data?.data[index].variants[0].productId}";
@@ -768,7 +768,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               child: Icon(
                 Icons.arrow_back_ios,
@@ -792,7 +792,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onDoubleTap: () {},
+                  
                   onTap: () {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => const SearchProduct()));
@@ -807,7 +807,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
                   ),
                 ),
                 GestureDetector(
-                  onDoubleTap: () {},
+                  
                   onTap: () {
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => const Cart()));
@@ -872,7 +872,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                   bottom: parentHeight * 0.01,
   //                   left: parentWidth * 0.05),
   //               child: GestureDetector(
-  //                 onDoubleTap: () {},
+  //                 
   //                 onTap: () {
   //                   Navigator.push(
   //                       context,
@@ -957,7 +957,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                                           .screenWidth *
   //                                           0.02),
   //                                   child: GestureDetector(
-  //                                     onDoubleTap: () {},
+  //                                     
   //                                     onTap: () {
   //                                       productId =
   //                                       "${snap.data?.data[index].variants[0].productId}";
@@ -1003,7 +1003,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                                           .screenWidth *
   //                                           0.02),
   //                                   child: GestureDetector(
-  //                                     onDoubleTap: () {},
+  //                                     
   //                                     onTap: () {
   //                                       productId =
   //                                       "${snap.data?.data[index].variants[0].productId}";
@@ -1196,7 +1196,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                                         child: Row(
   //                                           children: [
   //                                             GestureDetector(
-  //                                               onDoubleTap: () {},
+  //                                               
   //                                               onTap: () {
   //                                                 productId =
   //                                                 "${snap.data?.data[index].variants[0].productId}";
@@ -1285,7 +1285,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                                                   )),
   //                                             ),
   //                                             GestureDetector(
-  //                                               onDoubleTap: () {},
+  //                                               
   //                                               onTap: () {
   //                                                 productId =
   //                                                 "${snap.data?.data[index].variants[0].productId}";
@@ -1360,7 +1360,7 @@ class _ViewAllProductsAndNeeds extends State<ViewAllProductsAndNeeds> {
   //                                 ? true
   //                                 : false,
   //                             child: GestureDetector(
-  //                               onDoubleTap: () {},
+  //                               
   //                               onTap: () {
   //                                 productId =
   //                                 "${snap.data?.data[index].variants[0].productId}";

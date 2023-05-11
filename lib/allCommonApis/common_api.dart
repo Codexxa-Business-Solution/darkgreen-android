@@ -10,6 +10,8 @@ import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
+import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
+import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
 import 'package:http/http.dart' as http;
@@ -501,6 +503,71 @@ class AllCommonApis {
       // print("getWalletHistory -->  $body");
 
       return getWalletHistoryResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetPromoCodeResponseModel> getPromoCode(String amount) async {
+    print(amount);
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllPromoCodes),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_promo_codes": "1",
+          "user_id": id,
+          "type":"wallet_transactions",
+          "offset":"0",
+          "limit":"5",
+          "sort":"",
+          "amount":"10"
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      print("getPromoCode -->  $body");
+
+      return getPromoCodeResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+
+  Future<GetPromoCodeValidResponseModel> getPromoCodeValid(String amount, String prmoCode) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllPromoCodes),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "validate_promo_code": "1",
+          "user_id": id,
+          "promo_code":prmoCode,
+          "total":amount
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      print("getPromoCode -->  $body");
+
+      return getPromoCodeValidResponseModelFromJson(response.body);
     } else {
       throw Exception('Failed to create album.');
     }

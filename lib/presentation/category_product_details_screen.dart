@@ -275,7 +275,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                 bottom: SizeConfig.screenHeight * 0.01,
                                 left: SizeConfig.screenWidth * 0.05),
                             child: GestureDetector(
-                              onDoubleTap: () {},
+                              
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -390,7 +390,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .screenWidth *
                                                               0.02),
                                                       child: GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].variants[0].productId}";
@@ -436,7 +436,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .screenWidth *
                                                               0.02),
                                                       child: GestureDetector(
-                                                        onDoubleTap: () {},
+                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].variants[0].productId}";
@@ -674,7 +674,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       child: Row(
                                                         children: [
                                                           GestureDetector(
-                                                            onDoubleTap: () {},
+                                                            
                                                             onTap: () {
                                                               productId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -776,7 +776,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                             )),
                                                           ),
                                                           GestureDetector(
-                                                            onDoubleTap: () {},
+                                                            
                                                             onTap: () {
                                                               productId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -864,7 +864,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                               ? true
                                               : false,
                                           child: GestureDetector(
-                                            onDoubleTap: () {},
+                                            
                                             onTap: () {
                                               productId =
                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -988,7 +988,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               color: Colors.transparent,
               child: Icon(

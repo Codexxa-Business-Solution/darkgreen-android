@@ -201,7 +201,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   suffixIcon: paswordShow
                       ? GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             _toggle();
                           },
@@ -217,7 +217,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               _toggle();
                             },
@@ -260,7 +260,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   suffixIcon: confirmPasswordShow
                       ? GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             _toggles();
                           },
@@ -276,7 +276,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            onDoubleTap: () {},
+                            
                             onTap: () {
                               _toggles();
                             },
@@ -398,7 +398,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
-              onDoubleTap: () {},
+              
               onTap: () {
 
                 if(nameController.text.isNotEmpty){

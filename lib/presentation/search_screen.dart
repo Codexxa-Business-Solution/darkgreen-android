@@ -298,7 +298,7 @@ class _SearchProductState extends State<SearchProduct> {
                 suffixIcon: Visibility(
                     visible: showCancle || _searchFocus.hasFocus,
                     child: GestureDetector(
-                      onDoubleTap: () {},
+                      
                       onTap: () {
                         if (mounted) {
                           setState(() {
@@ -410,7 +410,7 @@ class _SearchProductState extends State<SearchProduct> {
                         bottom: parentHeight * 0.01,
                         left: parentWidth * 0.05),
                     child: GestureDetector(
-                      onDoubleTap: () {},
+                      
                       onTap: () {
                         Navigator.push(
                             context,
@@ -505,7 +505,7 @@ class _SearchProductState extends State<SearchProduct> {
                                               padding: EdgeInsets.only(
                                                   right: parentWidth * 0.02),
                                               child: GestureDetector(
-                                                onDoubleTap: () {},
+                                                
                                                 onTap: () {
                                                   productId =
                                                       "${snap.data?.data[index].variants[0].productId}";
@@ -551,7 +551,7 @@ class _SearchProductState extends State<SearchProduct> {
                                               padding: EdgeInsets.only(
                                                   right: parentWidth * 0.02),
                                               child: GestureDetector(
-                                                onDoubleTap: () {},
+                                                
                                                 onTap: () {
                                                   productId =
                                                       "${snap.data?.data[index].variants[0].productId}";
@@ -748,7 +748,7 @@ class _SearchProductState extends State<SearchProduct> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                    onDoubleTap: () {},
+                                                    
                                                     onTap: () {
                                                       productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -835,7 +835,7 @@ class _SearchProductState extends State<SearchProduct> {
                                                     )),
                                                   ),
                                                   GestureDetector(
-                                                    onDoubleTap: () {},
+                                                    
                                                     onTap: () {
                                                       productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -914,7 +914,7 @@ class _SearchProductState extends State<SearchProduct> {
                                       ? true
                                       : false,
                                   child: GestureDetector(
-                                    onDoubleTap: () {},
+                                    
                                     onTap: () {
                                       productId =
                                           "${snap.data?.data[index].variants[0].productId}";

@@ -41,6 +41,10 @@ class _CheckoutState extends State<Checkout> {
   String promoCode = "";
   String promoDiscount = "";
 
+  int removeOffer = 0;
+
+  bool showOffers = false;
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +60,20 @@ class _CheckoutState extends State<Checkout> {
     promoCode = widget.promoCode;
     promoDiscount = widget.promoDiscount;
 
+  }
+
+  void remove(){
+    int total = totalCartAmount + widget.deliverCharges;
+    grandTotal = total;
+
+    print("$grandTotal");
+
+    if(mounted) {
+      setState(() {
+        refresh();
+        showOffers = !showOffers;
+    });
+    }
   }
 
 
@@ -348,7 +366,7 @@ class _CheckoutState extends State<Checkout> {
                                                           child: Row(
                                                             children: [
                                                               GestureDetector(
-                                                                onDoubleTap: () {},
+                                                                
                                                                 onTap: () {
                                                                   productId =
                                                                   "${snap.data?.data[index].productId}";
@@ -433,7 +451,7 @@ class _CheckoutState extends State<Checkout> {
                                                                     )),
                                                               ),
                                                               GestureDetector(
-                                                                onDoubleTap: () {},
+                                                                
                                                                 onTap: () {
                                                                   productId =
                                                                   "${snap.data?.data[index].productId}";
@@ -589,7 +607,7 @@ class _CheckoutState extends State<Checkout> {
               onTap: () {
                 Navigator.pop(context);
               },
-              onDoubleTap: () {},
+              
               child: Padding(
                 padding: EdgeInsets.only(left: parentWidth * .04),
                 child: Container(
@@ -776,7 +794,7 @@ class _CheckoutState extends State<Checkout> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                    onDoubleTap: () {},
+                                                    
                                                     onTap: () {
                                                       if (mounted) {
                                                         setState(() {
@@ -831,7 +849,7 @@ class _CheckoutState extends State<Checkout> {
                                                     )),
                                                   ),
                                                   GestureDetector(
-                                                    onDoubleTap: () {},
+                                                    
                                                     onTap: () {
                                                       if (mounted) {
                                                         setState(() {
@@ -921,6 +939,7 @@ class _CheckoutState extends State<Checkout> {
                         orderFormat: widget.orderFormat,
                         selectAddId: widget.selectAddId,
                         deliverCharges: widget.deliverCharges,
+                        amount: grandTotal,
                       ));
                 },
               );
@@ -977,7 +996,7 @@ class _CheckoutState extends State<Checkout> {
           ),
         ),
         Visibility(
-          visible: promoCode.isNotEmpty ? true : false,
+          visible: promoCode.isNotEmpty ? !showOffers : showOffers,
           child: Padding(
             padding: EdgeInsets.only(
               top: parentHeight * 0.01,
@@ -1036,20 +1055,12 @@ class _CheckoutState extends State<Checkout> {
                         padding: EdgeInsets.only(right: parentWidth * 0.03),
                         child: GestureDetector(
                           onDoubleTap: (){},
-                          onTap: (){
+                          onTap: () async {
 
-                            if(mounted){
-                              setState(() {
-                                promoDiscount = "";
-                                promoCode = "";
+                            removeOffer = 1;
 
-                                if(promoDiscount.isNotEmpty){
-                                  grandTotal = total + int.parse(widget.promoDiscount);
-                                }
+                            remove();
 
-
-                              });
-                            }
 
 
                           },
@@ -1088,7 +1099,9 @@ class _CheckoutState extends State<Checkout> {
     int total = totalCartAmount + widget.deliverCharges;
     grandTotal = total;
     if(promoDiscount.isNotEmpty){
-      grandTotal = total - int.parse(promoDiscount);
+      if(removeOffer == 0){
+        grandTotal = total - int.parse(promoDiscount);
+      }
     }
 
 
@@ -1183,7 +1196,7 @@ class _CheckoutState extends State<Checkout> {
               ],
             ),
             Visibility(
-              visible: promoDiscount.isNotEmpty ? true : false,
+              visible: promoDiscount.isNotEmpty ? !showOffers : showOffers,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

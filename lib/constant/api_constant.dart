@@ -7,7 +7,7 @@ class ApiConstants {
 
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODA1MjM3ODQsImlzcyI6ImVLYXJ0IiwiZXhwIjoxNjgwNTI1NTg0LCJzdWIiOiJlS2FydCBBdXRoZW50aWNhdGlvbiIsIndlYiI6IjI5MjYwNDE4IiwiY3VzdCI6IjIyMDE1OTExIiwiYWRtaW4iOiIzMDI4ODQ0MiJ9.JQicqM5T6BujOHhrs_76pdH6wZjJ-LGvA6juv0DRr-0";
+  String token = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwNTM5MTksInN1YiI6ImVLYXJ0IEF1dGhlbnRpY2F0aW9uIiwiaXNzIjoiZUthcnQifQ.RR_BOfUyVQVxgQIVPhE8uMG9W2czEQOXcdJlzILjVjg";
 
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
@@ -23,6 +23,7 @@ class ApiConstants {
   String getSimilarProductById = "get-similar-products.php";
   String getAddUserAddress = "user-addresses.php";
   String getUserWallet = "get-user-transactions.php";
+  String getAllPromoCodes = "validate-promo-code.php";
 
 
 

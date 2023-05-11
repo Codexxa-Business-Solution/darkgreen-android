@@ -141,7 +141,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       bottom: parentHeight * 0.01,
                       left: parentWidth * 0.05),
                   child: GestureDetector(
-                    onDoubleTap: () {},
+                    
                     onTap: () {
                       Navigator.push(
                           context,
@@ -239,7 +239,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               .screenWidth *
                                               0.02),
                                       child: GestureDetector(
-                                        onDoubleTap: () {},
+                                        
                                         onTap: () {
                                           productId =
                                           "${snap.data?.data[index].variants[0].productId}";
@@ -285,7 +285,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                               .screenWidth *
                                               0.02),
                                       child: GestureDetector(
-                                        onDoubleTap: () {},
+                                        
                                         onTap: () {
                                           productId =
                                           "${snap.data?.data[index].variants[0].productId}";
@@ -476,7 +476,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     productId =
                                                         "${snap.data?.data[index].variants[0].productId}";
@@ -569,7 +569,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     productId =
                                                         "${snap.data?.data[index].variants[0].productId}";
@@ -648,7 +648,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     ? true
                                     : false,
                                 child: GestureDetector(
-                                  onDoubleTap: () {},
+                                  
                                   onTap: () {
                                     productId =
                                     "${snap.data?.data[index].variants[0].productId}";

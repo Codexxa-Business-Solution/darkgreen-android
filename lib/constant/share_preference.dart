@@ -8,15 +8,15 @@ class AppPreferences {
     return await SharedPreferences.getInstance();
   }
 
-  // static Future<String?> getToken() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString("token");
-  // }
-  //
-  // static setToken(String token) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString("token", token);
-  // }
+  static Future<String?> getUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("name");
+  }
+
+  static setUserName(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("name", name);
+  }
 
   static Future<String?> getIds() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

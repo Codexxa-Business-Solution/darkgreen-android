@@ -80,7 +80,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   left: parentWidth * 0.03,
                 ),
                 child: GestureDetector(
-                  onDoubleTap: () {},
+                  
                   onTap: () {
                     Navigator.push(
                         context,

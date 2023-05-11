@@ -213,7 +213,7 @@ class _CategoryProductState extends State<CategoryProduct> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Container(
               child: Icon(
                 Icons.arrow_back_ios,
@@ -289,7 +289,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                   left: parentWidth * 0.03,
                 ),
                 child: GestureDetector(
-                  onDoubleTap: () {},
+                  
                   onTap: () {
                     Navigator.push(
                         context,

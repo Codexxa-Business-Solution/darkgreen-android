@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontFamily: 'Roboto_Medium'),
               ),
               GestureDetector(
-                onDoubleTap: () {},
+                
                 onTap: () {
                   widget.mListener.getAddCategoriesLayout();
                 },
@@ -227,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             bottom: parentHeight * 0.01,
                             left: parentWidth * 0.05),
                         child: GestureDetector(
-                          onDoubleTap: () {},
+                          
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -577,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -630,7 +630,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -673,7 +673,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  onDoubleTap: () {},
+                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {
@@ -1014,7 +1014,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1067,7 +1067,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1110,7 +1110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  onDoubleTap: () {},
+                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {
@@ -1420,7 +1420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1473,7 +1473,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  onDoubleTap: () {},
+                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1516,7 +1516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  onDoubleTap: () {},
+                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {

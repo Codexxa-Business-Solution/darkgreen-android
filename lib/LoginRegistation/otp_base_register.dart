@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onTap: () {
               Navigator.pop(context);
             },
-            onDoubleTap: () {},
+            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
