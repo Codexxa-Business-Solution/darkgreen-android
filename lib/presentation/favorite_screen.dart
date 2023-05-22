@@ -647,59 +647,62 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     "0"
                                     ? true
                                     : false,
-                                child: GestureDetector(
-                                  
-                                  onTap: () {
-                                    productId =
-                                    "${snap.data?.data[index].variants[0].productId}";
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
+                                      bottom: SizeConfig.screenHeight*0.011),
+                                  child: GestureDetector(
 
-                                    productVariantId =
-                                    "${snap.data?.data[index].variants[0].id}";
+                                    onTap: () {
+                                      productId =
+                                      "${snap.data?.data[index].variants[0].productId}";
 
-                                    cartCount = int.parse(
-                                        "${snap.data?.data[index].variants[0].cartCount}");
+                                      productVariantId =
+                                      "${snap.data?.data[index].variants[0].id}";
 
-                                    cartCount++;
+                                      cartCount = int.parse(
+                                          "${snap.data?.data[index].variants[0].cartCount}");
 
-                                    snap.data?.data[index].variants[0]
-                                        .cartCount =
-                                        cartCount.toString();
+                                      cartCount++;
 
-                                    AllCommonApis()
-                                        .addToCartApi(
-                                        productId,
-                                        productVariantId,
-                                        cartCount.toString())
-                                        .then((value) {
-                                      setState(() {
-                                        var result = AllCommonApis().getAllCarts();
+                                      snap.data?.data[index].variants[0]
+                                          .cartCount =
+                                          cartCount.toString();
 
-                                        result.then((value) {
-                                          setState(() {
-                                            totalCartCount = value.data.length;
+                                      AllCommonApis()
+                                          .addToCartApi(
+                                          productId,
+                                          productVariantId,
+                                          cartCount.toString())
+                                          .then((value) {
+                                            if(mounted) {
+                                              setState(() {
+                                          var result = AllCommonApis().getAllCarts();
+                                          result.then((value) {
+                                            if(mounted) {
+                                              setState(() {
+                                              totalCartCount = value.data.length;
+                                            });
+                                            }
                                           });
                                         });
+                                            }
                                       });
-                                    });
-                                  },
-                                  child: Container(
-                                    height: SizeConfig.screenHeight *
-                                        0.06,
-                                    width:
-                                    SizeConfig.screenWidth * 0.13,
-                                    decoration: const BoxDecoration(
-                                        color:
-                                        CommonColor.APP_BAR_COLOR,
-                                        borderRadius:
-                                        BorderRadius.only(
-                                          bottomRight:
-                                          Radius.circular(10),
-                                          topLeft:
-                                          Radius.circular(10),
-                                        )),
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
+                                    },
+                                    child:Container(
+                                      height: SizeConfig.screenHeight *
+                                          0.04,
+                                      width:
+                                      SizeConfig.screenWidth * 0.09,
+                                      decoration: BoxDecoration(
+                                          color:
+                                          CommonColor.APP_BAR_COLOR,
+                                          borderRadius:
+                                          BorderRadius.circular(10)),
+                                      child:  Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: SizeConfig.screenHeight*0.025,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -565,7 +565,11 @@ class AllCommonApis {
 
       Map<String, dynamic> body = jsonDecode(response.body);
       //
-      print("getPromoCode -->  $body");
+      print("getPromoCodeValid -->  $body");
+
+      if(body != null){
+        print(body['message']);
+      }
 
       return getPromoCodeValidResponseModelFromJson(response.body);
     } else {

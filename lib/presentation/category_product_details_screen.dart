@@ -262,6 +262,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                           final img = snap.data?.data[index].image != null
                               ? Image.network(
                                   "${snap.data?.data[index].image}",
+                            fit: BoxFit.fill,
                                 )
                               : Image.network("");
 
@@ -330,11 +331,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                             width:
                                                 SizeConfig.screenWidth * 0.47,
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10),
-                                              ),
+                                              borderRadius: BorderRadius.circular(10),
                                               child: img,
                                             )),
                                         Padding(
@@ -863,64 +860,59 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                   "0"
                                               ? true
                                               : false,
-                                          child: GestureDetector(
-                                            
-                                            onTap: () {
-                                              productId =
-                                                  "${snap.data?.data[index].variants[0].productId}";
+                                          child: Padding(
+                                            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
+                                            bottom: SizeConfig.screenHeight*0.01),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                productId =
+                                                    "${snap.data?.data[index].variants[0].productId}";
 
-                                              productVariantId =
-                                                  "${snap.data?.data[index].variants[0].id}";
+                                                productVariantId =
+                                                    "${snap.data?.data[index].variants[0].id}";
 
-                                              cartCount = int.parse(
-                                                  "${snap.data?.data[index].variants[0].cartCount}");
+                                                cartCount = int.parse(
+                                                    "${snap.data?.data[index].variants[0].cartCount}");
 
-                                              cartCount++;
+                                                cartCount++;
 
-                                              snap.data?.data[index].variants[0]
-                                                      .cartCount =
-                                                  cartCount.toString();
+                                                snap.data?.data[index].variants[0]
+                                                        .cartCount =
+                                                    cartCount.toString();
 
-                                              AllCommonApis()
-                                                  .addToCartApi(
-                                                      productId,
-                                                      productVariantId,
-                                                      cartCount.toString())
-                                                  .then((value) {
-                                                setState(() {
-                                                  if(mounted){
-                                                    setState(() {
-                                                      AllCommonApis().getAllCarts().then((value) {
-                                                        if (mounted) {
-                                                          setState(() {
-                                                            totalCartCount = value.data.length;
-                                                            print(totalCartCount);
-                                                          });
-                                                        }
-                                                      });
+                                                AllCommonApis()
+                                                    .addToCartApi(
+                                                        productId,
+                                                        productVariantId,
+                                                        cartCount.toString())
+                                                    .then((value) {
+                                                  setState(() {
+                                                    AllCommonApis().getAllCarts().then((value) {
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          totalCartCount = value.data.length;
+                                                          print(totalCartCount);
+                                                        });
+                                                      }
                                                     });
-                                                  }
+                                                  });
                                                 });
-                                              });
-                                            },
-                                            child: Container(
-                                              height: SizeConfig.screenHeight *
-                                                  0.06,
-                                              width:
-                                                  SizeConfig.screenWidth * 0.13,
-                                              decoration: const BoxDecoration(
-                                                  color:
-                                                      CommonColor.APP_BAR_COLOR,
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(10),
-                                                    topLeft:
-                                                        Radius.circular(10),
-                                                  )),
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: Colors.white,
+                                              },
+                                              child: Container(
+                                                height: SizeConfig.screenHeight *
+                                                    0.04,
+                                                width:
+                                                    SizeConfig.screenWidth * 0.09,
+                                                decoration: BoxDecoration(
+                                                    color:
+                                                        CommonColor.APP_BAR_COLOR,
+                                                    borderRadius:
+                                                        BorderRadius.circular(10)),
+                                                child:  Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                  size: SizeConfig.screenHeight*0.025,
+                                                ),
                                               ),
                                             ),
                                           ),

@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: img,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
@@ -238,56 +238,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                         )));
                           },
                           child: Container(
-                            height: parentHeight * 0.17,
+                            height: parentHeight * 0.18,
                             width: parentWidth * 0.35,
-                            decoration: BoxDecoration(
-                              color: CommonColor.WHITE_COLOR,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.17),
-                                  spreadRadius: 3,
-                                  blurRadius: 5,
-                                  offset: const Offset(2, 1),
-                                ),
-                              ],
-                            ),
                             child: Column(
                               children: [
                                 Container(
+                                    height: parentHeight * 0.14,
+                                    width: parentWidth * 0.32,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    height: parentHeight * 0.14,
-                                    width: parentWidth * 0.35,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(0.1, 1),
+                                          blurRadius: 5,
+                                          color: Colors.black.withOpacity(0.1),
                                         ),
+                                      ],
+                                    ),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
                                         child: img)),
-                                Container(
-                                  height: parentHeight * 0.05,
-                                  width: parentWidth * 0.35,
-                                  decoration: BoxDecoration(
-                                    color: CommonColor.LAYOUT_BACKGROUND_COLOR,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "${data.data[index].name}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  3.7,
-                                          fontFamily: 'Roboto_Normal',
-                                          fontWeight: FontWeight.w400),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: parentHeight*0.01),
+                                  child: Text(
+                                    "${data.data[index].name}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal *
+                                                3.5,
+                                        fontFamily: 'Roboto_Normal',
+                                        fontWeight: FontWeight.w400),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ],

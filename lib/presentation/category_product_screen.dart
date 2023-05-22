@@ -191,7 +191,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                 ),
               )),
           Container(
-              color: CommonColor.WHITE_COLOR,
+              color: CommonColor.LAYOUT_BACKGROUND_COLOR,
               height: SizeConfig.screenHeight * 0.88,
               child: getCategoryProductGridLayout(
                   SizeConfig.screenHeight, SizeConfig.screenWidth))
@@ -263,7 +263,7 @@ class _CategoryProductState extends State<CategoryProduct> {
         return GridView.builder(
             padding: EdgeInsets.only(
               bottom: parentHeight * 0.05,
-              top: parentHeight * 0.03,
+              top: parentHeight * 0.02,
               left: parentWidth * 0.03,
               right: parentWidth * 0.03,
             ),
@@ -272,8 +272,7 @@ class _CategoryProductState extends State<CategoryProduct> {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                     crossAxisCount: 2,
-                    mainAxisSpacing: 5,
-                    height: parentHeight * 0.27),
+                    height: parentHeight * 0.25),
             itemBuilder: (context, index) {
               final img = data.data[index].image.isNotEmpty
                   ? Image.network(
@@ -283,13 +282,12 @@ class _CategoryProductState extends State<CategoryProduct> {
 
               return Padding(
                 padding: EdgeInsets.only(
-                  top: parentHeight * 0.01,
+                  top: parentHeight * 0.0,
                   bottom: parentHeight * 0.01,
                   right: parentWidth * 0.03,
                   left: parentWidth * 0.03,
                 ),
                 child: GestureDetector(
-                  
                   onTap: () {
                     Navigator.push(
                         context,
@@ -314,59 +312,39 @@ class _CategoryProductState extends State<CategoryProduct> {
                       });
                     });
                   },
-                  child: Container(
-                    width: parentWidth * 0.35,
-                    decoration: BoxDecoration(
-                      color: CommonColor.WHITE_COLOR,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.17),
-                          spreadRadius: 3,
-                          blurRadius: 5,
-                          offset: const Offset(2, 1),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              // color: Colors.blue
-                            ),
-                            height: parentHeight * 0.19,
-                            width: parentWidth * 0.41,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                ),
-                                child: img)),
-                        Container(
-                          height: parentHeight * 0.06,
+                  child: Column(
+                    children: [
+                      Container(
                           decoration: BoxDecoration(
-                            color: CommonColor.LAYOUT_BACKGROUND_COLOR,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0.1, 1),
+                                blurRadius: 5,
+                                color: Colors.black.withOpacity(0.1),
+                              ),
+                            ],
                           ),
-                          child: Center(
-                            child: Text(
-                              "${data.data[index].name}",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3.7,
-                                  fontFamily: 'Roboto_Normal',
-                                  fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                          height: parentHeight * 0.17,
+                          width: parentWidth * 0.4,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: img)),
+                      Padding(
+                        padding: EdgeInsets.only(top: parentHeight*0.02),
+                        child: Text(
+                          "${data.data[index].name}",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize:
+                              SizeConfig.blockSizeHorizontal * 3.7,
+                              fontFamily: 'Roboto_Normal',
+                              fontWeight: FontWeight.w400),
+                          textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
