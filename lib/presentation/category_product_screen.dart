@@ -43,7 +43,7 @@ class _CategoryProductState extends State<CategoryProduct> {
         });
       });
     }
-    subCategoriesApi();
+    // subCategoriesApi();
   }
 
   @override

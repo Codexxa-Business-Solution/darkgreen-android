@@ -497,7 +497,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => AddCheckPayParentScreen(
                             index: 0,
                             orderFormat: '',
-                            addressId: '',
+                            addressId: '', productVariantList: [], productVariantQtyList: [],
                           )));
             },
             child: Container(
@@ -1173,7 +1173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         builder: (context) => AddCheckPayParentScreen(
                               index: 0,
                               orderFormat: '',
-                              addressId: '',
+                              addressId: '', productVariantList: [], productVariantQtyList: [],
                             )));
               },
               child: Container(

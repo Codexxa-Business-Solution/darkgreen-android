@@ -1,7 +1,10 @@
+import 'package:darkgreen/allCommonApis/common_api.dart';
+import 'package:darkgreen/api_model/order/get_all_orders_status_response_model.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/door_step_order.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AllOrderScreen extends StatefulWidget {
   const AllOrderScreen({Key? key}) : super(key: key);
@@ -11,6 +14,16 @@ class AllOrderScreen extends StatefulWidget {
 }
 
 class _AllOrderScreenState extends State<AllOrderScreen> {
+
+  String? pickUpDate;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AllCommonApis().getAllOrdersStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -18,28 +31,55 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
       body: Column(
         children: [
 
-          Container(
-            // color: Colors.red,
-            height: SizeConfig.screenHeight*0.83,
-            child: ListView.builder(
-                padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
-                    left: SizeConfig.screenWidth*0.03),
-                scrollDirection: Axis.vertical,
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, bottom: SizeConfig.screenHeight*0.01),
-                    child: getOrderDetails(SizeConfig.screenHeight, SizeConfig.screenWidth),
-                  );
-                }),
+
+          FutureBuilder<GetOredersStatusResponseModel>(
+            future: AllCommonApis().getAllOrdersStatus(),
+            builder: (context, snap) {
+              if (!snap.hasData && !snap.hasError) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final data = snap.data;
+
+              if (data == null) {
+                return const Center(
+                  child: Text("Something Went Wrong!"),
+                );
+              }
+
+              return Container(
+                // color: Colors.red,
+                height: SizeConfig.screenHeight*0.83,
+                child: ListView.builder(
+                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
+                        left: SizeConfig.screenWidth*0.03),
+                    scrollDirection: Axis.vertical,
+                    itemCount: snap.data?.data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, bottom: SizeConfig.screenHeight*0.01),
+                        child: getOrderDetails(SizeConfig.screenHeight, SizeConfig.screenWidth,data, index),
+                      );
+                    }),
+              );
+            },
           ),
+
+
+
 
         ],
       ),
     );
   }
 
-  Widget getOrderDetails(double parentHeight, double parentWidth){
+  Widget getOrderDetails(double parentHeight, double parentWidth,GetOredersStatusResponseModel model, int index ){
+
+    pickUpDate =
+        DateFormat('dd-MM-yyyy').format(model.data[index].orderTime);
+
     return GestureDetector(
       onDoubleTap: (){},
       onTap: (){
@@ -59,14 +99,14 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Order No : 10",
+                  Text("Order No : ${model.data[index].items[0].orderId}",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: SizeConfig.blockSizeHorizontal*4.5,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Roboto_Medium'
                   ),),
-                  Text("\u20B9240.00",
+                  Text("\u20B9${model.data[index].finalTotal}",
                     style: TextStyle(
                         color: CommonColor.APP_BAR_COLOR,
                         fontSize: SizeConfig.blockSizeHorizontal*5.0,
@@ -82,7 +122,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("1 Item",
+                  Text("${model.data[index].items.length} Item",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: SizeConfig.blockSizeHorizontal*3.5,
@@ -93,28 +133,34 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Moong Dal Yellow",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Roboto_Medium'
-                    ),),
-                ],
-              ),
-            ),
+
 
             Padding(
               padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Placed order on 27-2-2023",
+
+                  for(int i = 0; i < model.data[index].items.length; i++)
+
+                  Text(" ${model.data[index].items[i].productName},",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Roboto_Regular'
+                    ),),
+                ],
+              ),
+            ),
+
+
+            Padding(
+              padding: EdgeInsets.only(left: parentWidth*0.03, top: parentHeight*0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Placed order on $pickUpDate",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: SizeConfig.blockSizeHorizontal*4.0,
@@ -132,16 +178,16 @@ class _AllOrderScreenState extends State<AllOrderScreen> {
                 children: [
                   Container(
                     height: parentHeight*0.04,
-                    width: parentWidth*0.2,
+                    width: model.data[index].activeStatus == "awaiting_payment" ? parentWidth*0.32 : parentWidth*0.2,
                     decoration: BoxDecoration(
                       color: CommonColor.APP_BAR_COLOR,
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: Center(
-                      child: Text("Received",
+                      child: Text(model.data[index].activeStatus == "awaiting_payment" ? "AWAITING PAYMENT" : model.data[index].activeStatus.toUpperCase(),
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                            fontSize:model.data[index].activeStatus == "awaiting_payment" ? SizeConfig.blockSizeHorizontal*3.0 : SizeConfig.blockSizeHorizontal*3.0,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Roboto_Medium'
                         ),),

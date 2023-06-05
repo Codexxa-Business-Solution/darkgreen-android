@@ -45,7 +45,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
   @override
   void initState() {
     super.initState();
-    AllCommonApis().productByCategoriesApi(widget.subCatId);
+    // AllCommonApis().productByCategoriesApi(widget.subCatId);
     if(mounted){
       setState(() {
         AllCommonApis().getAllCarts().then((value){

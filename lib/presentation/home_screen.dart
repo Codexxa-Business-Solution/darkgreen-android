@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:darkgreen/api_model/categories/get_all_categories_response_model.dart';
+import 'package:darkgreen/api_model/home/get_all_section_response_model.dart';
 import 'package:darkgreen/api_model/home/home_image_slider_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -25,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    sliderImages();
-    allCategoriesApi();
+    // sliderImages();
+    // allCategoriesApi();
+    getAllSectionApi();
   }
 
   @override
@@ -60,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           final data = snap.data;
+
 
           if (data == null) {
             return const Center(
@@ -1608,6 +1611,66 @@ class _HomeScreenState extends State<HomeScreen> {
       throw Exception('Failed to create album.');
     }
   }
+
+  /*Future<GetAllSectionsResponseModel> getAllSectionApi() async {
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllSections),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get-all-sections":"1",
+          "user_id": "369",
+          "section_id":"99",
+          "limit":"0",
+          "offset":"0",
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("allSectionsResponse -->  $body");
+
+      return getAllSectionsResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }*/
+
+  Future<GetAllSectionResponseModel> getAllSectionApi() async {
+
+    print("Hiii");
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    final response = await http.post(
+      Uri.parse('https://darkgreen.in/app-admin/api-firebase/sections.php'),
+      headers: headersList,
+      body: {
+        "accesskey": ApiConstants().accessKey,
+        "get-all-sections":"1",
+        "user_id": "369",
+        "section_id":"99",
+        "limit":"0",
+        "offset":"0",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print("allSectionsResponse --> ${jsonDecode(response.body)}");
+      return GetAllSectionResponseModel.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+  }
+
+
 }
 
 abstract class HomeScreenInterface {

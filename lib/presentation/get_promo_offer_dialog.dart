@@ -15,8 +15,10 @@ class PromoCodeScreen extends StatefulWidget {
   final String selectAddId;
   final int deliverCharges;
   final int amount;
+  final List productVariantList;
+  final List productVariantQtyList;
 
-  const PromoCodeScreen({Key? key, required this.orderFormat, required this.selectAddId, required this.deliverCharges, required this.amount}) : super(key: key);
+  const PromoCodeScreen({Key? key, required this.orderFormat, required this.selectAddId, required this.deliverCharges, required this.amount, required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
 
   @override
   State<PromoCodeScreen> createState() => _PromoCodeScreenState();
@@ -32,7 +34,7 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
     print("diOF ${widget.orderFormat}");
     print("diOF ${widget.selectAddId}");
     print("diDC ${widget.deliverCharges}");
-    AllCommonApis().getPromoCode("${widget.amount}");
+    // AllCommonApis().getPromoCode("${widget.amount}");
   }
 
 
@@ -147,7 +149,7 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                                     orderFormat: widget.orderFormat,
                                                     addressId:  widget.selectAddId,
                                                     promoDiscount: value.discount,
-                                                    promoCode: value.promoCode,)));
+                                                    promoCode: value.promoCode, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList)));
                                                 });
 
 

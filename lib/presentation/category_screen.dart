@@ -21,7 +21,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   void initState() {
     super.initState();
-    allCategoriesApi();
+    // allCategoriesApi();
   }
 
   @override

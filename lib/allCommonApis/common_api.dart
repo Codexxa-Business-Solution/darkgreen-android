@@ -10,6 +10,9 @@ import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
+import 'package:darkgreen/api_model/home/get_all_section_response_model.dart';
+import 'package:darkgreen/api_model/order/get_all_orders_status_response_model.dart';
+import 'package:darkgreen/api_model/order/get_order_placed.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
@@ -576,6 +579,44 @@ class AllCommonApis {
       throw Exception('Failed to create album.');
     }
   }
+
+  Future<GetOredersStatusResponseModel> getAllOrdersStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"2",
+          "user_id":"1",
+          "order_id":"54",
+          "pickup": "1",
+          "limit":"10",
+          "offset":"5",
+          "status":"cancelled",
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllOrderStatus -->  $body");
+
+      // if(body != null){
+      //   print(body['message']);
+      // }
+
+      return getOrdersStatusResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+
+
 
 
 }

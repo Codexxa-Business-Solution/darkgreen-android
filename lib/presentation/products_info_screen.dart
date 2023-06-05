@@ -56,7 +56,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
       savingPrice = price - discountPrice;
     });
 
-    AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
+    // AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
 
 
     refresh();

@@ -9,6 +9,8 @@ class ApiConstants {
 
   String token = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwNTM5MTksInN1YiI6ImVLYXJ0IEF1dGhlbnRpY2F0aW9uIiwiaXNzIjoiZUthcnQifQ.RR_BOfUyVQVxgQIVPhE8uMG9W2czEQOXcdJlzILjVjg";
 
+
+
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
   String offerImages = "offer-images.php";
@@ -24,6 +26,8 @@ class ApiConstants {
   String getAddUserAddress = "user-addresses.php";
   String getUserWallet = "get-user-transactions.php";
   String getAllPromoCodes = "validate-promo-code.php";
+  String getAllSections = "sections.php";
+  String getAllOrdersStatus = "order-process.php";
 
 
 

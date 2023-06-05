@@ -16,8 +16,16 @@ class AddCheckPayParentScreen extends StatefulWidget {
   final String addressId;
   final String promoCode;
   final String promoDiscount;
+  final String selectAddress;
+  final String selectLat;
+  final String selectLong;
+  final List productVariantList;
+  final List productVariantQtyList;
 
-  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.addressId, this.promoCode = "", this.promoDiscount = ""}) : super(key: key);
+  const AddCheckPayParentScreen({Key? key, required this.index, this.totalAmount = 0, this.itemCount = 0,
+    this.deliveryCharges = 0, required this.orderFormat, required this.addressId,
+    this.promoCode = "", this.promoDiscount = "", this.selectAddress = "",
+    this.selectLat = "", this.selectLong = "", required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
 
   @override
   State<AddCheckPayParentScreen> createState() => _AddCheckPayParentScreenState();
@@ -137,9 +145,9 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen> with 
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount, orderFormat: widget.orderFormat,),
-              Checkout(deliverCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,),
-              PaymentScreen(orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,)
+              AddressSelectScreen(totalAmount: widget.totalAmount, itemCount: widget.itemCount, orderFormat: widget.orderFormat, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList),
+              Checkout(deliverCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount, selectAddress: widget.selectAddress, selectLat: widget.selectLat, selectLong: widget.selectLong,  productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList,),
+              PaymentScreen(orderFormat: widget.orderFormat, selectAddId: widget.addressId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount, selectAddress: widget.selectAddress, selectLat: widget.selectLat, selectLong: widget.selectLong, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList, totalAmount: widget.totalAmount, deliveryCharges: widget.deliveryCharges,)
             ],
           ),
         ),

@@ -28,6 +28,16 @@ class AppPreferences {
     prefs.setString("id", idss);
   }
 
+  static Future<String?> getUserNumber() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("userNumber");
+  }
+
+  static setUserNumber(String userNumber) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("userNumber", userNumber);
+  }
+
   // static Future<String?> getMasjidName() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   return prefs.getString("masjid_name");

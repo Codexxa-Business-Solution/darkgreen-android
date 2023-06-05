@@ -828,7 +828,8 @@ class _CartState extends State<Cart> {
                                           index: 0,
                                           totalAmount: totalCartAmount,
                                           itemCount: totalCartsCount ?? 0,
-                                          orderFormat: isType, addressId: '',
+                                          orderFormat: isType, addressId: '', productVariantList: [],
+                                          productVariantQtyList: [],
                                         ))).then((value){
                                   if(mounted){
                                     setState(() {
@@ -844,7 +845,7 @@ class _CartState extends State<Cart> {
                                           index: 1,
                                           totalAmount: totalCartAmount,
                                           itemCount: totalCartsCount ?? 0,
-                                          orderFormat: isType, addressId: '',
+                                          orderFormat: isType, addressId: '', productVariantList: [], productVariantQtyList: [],
                                         ))).then((value){
                                   if(mounted){
                                     setState(() {

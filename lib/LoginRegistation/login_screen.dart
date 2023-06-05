@@ -343,8 +343,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
         AppPreferences.setUserName(jsonData["name"]);
 
+        AppPreferences.setUserNumber(jsonData["mobile"]);
+
         print(AppPreferences.setUserName(jsonData["name"]));
         print( AppPreferences.setIds(jsonData["user_id"]));
+        print( AppPreferences.getUserNumber());
 
         if(mounted){
           setState(() {

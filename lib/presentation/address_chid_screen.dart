@@ -13,8 +13,10 @@ class AddressSelectScreen extends StatefulWidget {
   final int itemCount;
   final int deliveryCharges;
   final String orderFormat;
+  final List productVariantList;
+  final List productVariantQtyList;
 
-  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat}) : super(key: key);
+  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
 
   @override
   State<AddressSelectScreen> createState() => _AddressSelectScreenState();
@@ -29,6 +31,9 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
 
   String selectAddId = "";
 
+  String selectAddress = "";
+  String selectLat = "";
+  String selectLong = "";
 
   @override
   void initState() {
@@ -117,6 +122,8 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
 
         final data = snap.data;
 
+        print(data);
+
         if (data == null) {
           return const Center(
             child: Text("Something Went Wrong!"),
@@ -153,6 +160,11 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                     setState(() {
                       selectAddId = snap.data?.data?[index].id ?? "";
                       print(" selectId $selectAddId");
+
+                      selectAddress = "${snap.data?.data?[index].address}";
+                      selectLat = "${snap.data?.data?[index].latitude}";
+                      selectLong = "${snap.data?.data?[index].longitude}";
+
                     });
                   },
                   child: Container(
@@ -182,20 +194,10 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                   Stack(
                                     alignment: Alignment.center,
                                     children: [
-                                      GestureDetector(
-                                        onDoubleTap: (){},
-                                        onTap: (){
-                                          // selectedIndex = index;
-                                          // setState(() {
-                                          //   selectAddId = snap.data?.data?[index].id ?? "";
-                                          //   print(" selectId $selectAddId");
-                                          // });
-                                        },
-                                        child: Container(
-                                          color: Colors.transparent,
-                                          child: Icon(Icons.circle_outlined,
-                                            color: CommonColor.APP_BAR_COLOR,),
-                                        ),
+                                      Container(
+                                        color: Colors.transparent,
+                                        child: Icon(Icons.circle_outlined,
+                                          color: CommonColor.APP_BAR_COLOR,),
                                       ),
                                       Visibility(
                                         visible: index == selectedIndex,
@@ -403,7 +405,11 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
             child: GestureDetector(
               onDoubleTap: (){},
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliveryCharges, orderFormat: widget.orderFormat, addressId: selectAddId,))).then((value){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1,
+                  deliveryCharges: widget.deliveryCharges,
+                  orderFormat: widget.orderFormat,
+                  addressId: selectAddId, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList,)
+                )).then((value){
                   setState(() {
                     AllCommonApis().getAddressOfUser().then((value){
                       if(mounted){

@@ -19,8 +19,15 @@ class Checkout extends StatefulWidget {
   final String selectAddId;
   final String promoCode;
   final String promoDiscount;
+  final String selectAddress;
+  final String selectLat;
+  final String selectLong;
+  final List productVariantList;
+  final List productVariantQtyList;
 
-  const Checkout({Key? key, this.deliverCharges = 0, required this.orderFormat, required this.selectAddId, this.promoCode = "", this.promoDiscount = ""}) : super(key: key);
+  const Checkout({Key? key, this.deliverCharges = 0, required this.orderFormat,
+    required this.selectAddId, this.promoCode = "", this.promoDiscount = "", this.selectAddress = "",
+    this.selectLat = "", this.selectLong = "", required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
 
   @override
   State<Checkout> createState() => _CheckoutState();
@@ -44,6 +51,9 @@ class _CheckoutState extends State<Checkout> {
   int removeOffer = 0;
 
   bool showOffers = false;
+
+  List productVariantIdList = [];
+  List productQuantityList = [];
 
   @override
   void initState() {
@@ -96,8 +106,13 @@ class _CheckoutState extends State<Checkout> {
 
             totalSavingAmount = originalAmount - totalCartAmount;
 
-            // print(totalSavingAmount);
+            productVariantIdList.add(element.productVariantId);
+            productQuantityList.add(element.qty);
+
+
           }
+          print(productVariantIdList);
+          print(productQuantityList);
         });
       }
     });
@@ -940,6 +955,7 @@ class _CheckoutState extends State<Checkout> {
                         selectAddId: widget.selectAddId,
                         deliverCharges: widget.deliverCharges,
                         amount: grandTotal,
+                          productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList
                       ));
                 },
               );
@@ -1301,7 +1317,14 @@ class _CheckoutState extends State<Checkout> {
       padding: EdgeInsets.only(bottom: parentHeight * 0.08),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2, orderFormat: widget.orderFormat, addressId: widget.selectAddId, promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,))).then((value){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 2,
+            orderFormat: widget.orderFormat, addressId: widget.selectAddId,
+            promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,
+          selectAddress: widget.selectAddress, selectLat: widget.selectLat,
+            selectLong: widget.selectLong, productVariantList: widget.productVariantList,
+            productVariantQtyList: widget.productVariantQtyList,
+            totalAmount: grandTotal,
+          ))).then((value){
             refresh();
           });
         },
