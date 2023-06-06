@@ -16,6 +16,7 @@ import 'package:darkgreen/api_model/order/get_order_placed.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
+import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:darkgreen/constant/api_constant.dart';
@@ -605,11 +606,34 @@ class AllCommonApis {
 
       print("getAllOrderStatus -->  $body");
 
-      // if(body != null){
-      //   print(body['message']);
-      // }
 
       return getOrdersStatusResponseModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetPaymentMethodResponseModel> getAllPaymentMethodShow() async {
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getSettingsData),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "settings":"1",
+          "get_payment_methods":"1"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllPaymentMethodShow -->  $body");
+
+
+      return getPaymentMethodResponseModelFromJson(response.body);
     } else {
       throw Exception('Failed to create album.');
     }

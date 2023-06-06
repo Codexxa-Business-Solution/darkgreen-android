@@ -1,7 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/order/get_order_placed.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -42,7 +41,7 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
 
   late DateTime _selectedDate;
-  TextEditingController _notes = TextEditingController();
+  final TextEditingController _notes = TextEditingController();
 
   int selectTime = 0;
 
@@ -83,6 +82,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("pay ${widget.selectAddId}");
     print("pay ${widget.promoCode}");
     print("pay ${widget.promoDiscount}");
+
+    print("Hii ${widget.productVariantList}");
+    print("Hii ${widget.productVariantQtyList}");
+    print("Hii ${widget.selectAddress}");
+    print("Hii ${widget.selectLat}");
+    print("Hii ${widget.selectLong}");
+    print("Hii ${widget.promoCode}");
+    print("Hii ${widget.promoDiscount}");
+
+    String cod = "";
+    String pap = "";
+    String paum = "";
+    String razr = "";
+    String pays = "";
+    String flutterWave = "";
+    String midTrans = "";
+    String stripe = "";
+    String paytm = "";
+    String ssl = "";
+    String bankTransfer = "";
+
+    AllCommonApis().getAllPaymentMethodShow().then((value){
+
+      cod = value.paymentMethods.codPaymentMethod;
+      pap = value.paymentMethods.paypalPaymentMethod;
+      paum = value.paymentMethods.payumoneyPaymentMethod;
+      razr = value.paymentMethods.razorpayPaymentMethod;
+      pays = value.paymentMethods.paystackPaymentMethod;
+      flutterWave = value.paymentMethods.flutterwavePaymentMethod;
+      midTrans = value.paymentMethods.midtransPaymentMethod;
+      stripe = value.paymentMethods.stripePaymentMethod;
+      paytm = value.paymentMethods.paytmPaymentMethod;
+      ssl = value.paymentMethods.sslMethod;
+      bankTransfer = value.paymentMethods.directBankTransferMethod;
+
+    });
+
   }
 
   void _resetSelectedDate() {
@@ -110,7 +146,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           color: Colors.black.withOpacity(0.3),
                           blurRadius: 7,
                           spreadRadius: 1,
-                          offset: Offset(2, 2.0))
+                          offset: const Offset(2, 2.0))
                     ],
                   ),
                   child: Column(
@@ -142,7 +178,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   color: Colors.black.withOpacity(0.2),
                                   blurRadius: 5,
                                   spreadRadius: 1,
-                                  offset: Offset(2, 2.0))
+                                  offset: const Offset(2, 2.0))
                             ],
                           ),
                           child: CalendarTimeline(
@@ -191,11 +227,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("12 PM TO 3 PM"),
+                                const Text("12 PM TO 3 PM"),
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Icon(Icons.circle_outlined,
+                                    const Icon(Icons.circle_outlined,
                                       color: CommonColor.APP_BAR_COLOR,),
                                     Visibility(
                                       visible: afternoonTime,
@@ -219,7 +255,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           height: SizeConfig.screenHeight * 0.001,
                           width: SizeConfig.screenWidth * 0.9,
                           color: CommonColor.CIRCLE_COLOR,
-                          child: Text(
+                          child: const Text(
                             "Hii",
                             style: TextStyle(color: Colors.transparent),
                           ),
@@ -244,11 +280,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("9 AM TO 12 PM"),
+                                const Text("9 AM TO 12 PM"),
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Icon(Icons.circle_outlined,
+                                    const Icon(Icons.circle_outlined,
                                       color: CommonColor.APP_BAR_COLOR,),
                                     Visibility(
                                       visible: eveningTime,
@@ -272,7 +308,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           height: SizeConfig.screenHeight * 0.001,
                           width: SizeConfig.screenWidth * 0.9,
                           color: CommonColor.CIRCLE_COLOR,
-                          child: Text(
+                          child: const Text(
                             "Hii",
                             style: TextStyle(color: Colors.transparent),
                           ),
@@ -316,7 +352,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           color: Colors.black.withOpacity(0.3),
                           blurRadius: 7,
                           spreadRadius: 1,
-                          offset: Offset(2, 2.0))
+                          offset: const Offset(2, 2.0))
                     ],
                   ),
                   child: Column(
@@ -336,6 +372,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
+
                       Padding(
                         padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
                         child: GestureDetector(
@@ -359,7 +396,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        Icon(Icons.circle_outlined,
+                                        const Icon(Icons.circle_outlined,
                                           color: CommonColor.APP_BAR_COLOR,),
                                         Visibility(
                                           visible: cashMethod,
@@ -384,7 +421,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     ),
                                   ],
                                 ),
-                                Image(image: AssetImage("assets/images/cash_delivery.png"),)
+                                const Image(image: AssetImage("assets/images/cash_delivery.png"),)
                               ],
                             ),
                           ),
@@ -396,7 +433,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           height: SizeConfig.screenHeight * 0.001,
                           width: SizeConfig.screenWidth * 0.9,
                           color: CommonColor.CIRCLE_COLOR,
-                          child: Text(
+                          child: const Text(
                             "Hii",
                             style: TextStyle(color: Colors.transparent),
                           ),
@@ -426,7 +463,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        Icon(Icons.circle_outlined,
+                                        const Icon(Icons.circle_outlined,
                                           color: CommonColor.APP_BAR_COLOR,),
                                         Visibility(
                                           visible: razorMethod,
@@ -452,7 +489,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   ],
                                 ),
 
-                                Image(image: AssetImage("assets/images/razorpay-icon.png"),
+                                Image(image: const AssetImage("assets/images/razorpay-icon.png"),
                                 height: SizeConfig.screenHeight*0.015,)
 
                               ],
@@ -460,6 +497,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                        child: Container(
+                          height: SizeConfig.screenHeight * 0.001,
+                          width: SizeConfig.screenWidth * 0.9,
+                          color: CommonColor.CIRCLE_COLOR,
+                          child: const Text(
+                            "Hii",
+                            style: TextStyle(color: Colors.transparent),
+                          ),
+                        ),
+                      ),
+
                       SizedBox(
                         height: SizeConfig.screenHeight*0.03,
                       )
@@ -489,7 +539,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               color: Colors.black.withOpacity(0.3),
               blurRadius: 7,
               spreadRadius: 3,
-              offset: Offset(2, 2.0))
+              offset: const Offset(2, 2.0))
         ],
       ),
       child: Row(
@@ -533,7 +583,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                 if(selectPaymentMethod == 0){
                   ScaffoldMessenger.of(context)
-                      .showSnackBar( SnackBar(content: Text("Please Select Payment Method")));
+                      .showSnackBar( const SnackBar(content: Text("Please Select Payment Method")));
                 }else{
                   showDialog<String>(
                     context: context,
@@ -545,7 +595,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Text('Confirm Order Amount'),
                             ],
                           ),
@@ -555,7 +605,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               height: SizeConfig.screenHeight * 0.001,
                               width: SizeConfig.screenWidth * 0.9,
                               color: CommonColor.CIRCLE_COLOR,
-                              child: Text(
+                              child: const Text(
                                 "Hii",
                                 style: TextStyle(color: Colors.transparent),
                               ),
@@ -576,7 +626,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Roboto-Light'
                                 ),),
-                              Text('\u20B9${amount}',
+                              Text('\u20B9$amount',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: SizeConfig.blockSizeHorizontal*4.0,
@@ -595,7 +645,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Roboto-Light'
                                 ),),
-                              Text('\u20B9${dc}',
+                              Text('\u20B9$dc',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: SizeConfig.blockSizeHorizontal*4.0,
@@ -646,10 +696,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             padding:
                             const EdgeInsets.only(left: 15, right: 15),
                             child: Container(
-                              // color: Colors.red,
+                              color: Colors.transparent,
                               child: TextFormField(
                                 controller: _notes,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Special Note',
                                     labelStyle: TextStyle(
                                         color: Colors.black26
@@ -704,13 +754,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         title: Column(
                                           children: [
                                             Image(
-                                              image: AssetImage(("assets/images/confirm.gif")
+                                              image: const AssetImage(("assets/images/confirm.gif")
                                               ),
                                               height:parentHeight*0.15,
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                                              child: Text(
+                                              child: const Text(
                                                 "Order Placed!",
                                                 style: TextStyle(color: Colors.black),
                                               ),
@@ -818,13 +868,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           title: Column(
                                             children: [
                                               Image(
-                                                image: AssetImage(("assets/images/confirm.gif")
+                                                image: const AssetImage(("assets/images/confirm.gif")
                                                 ),
                                                 height:parentHeight*0.15,
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                                                child: Text(
+                                                child: const Text(
                                                   "Order Placed!",
                                                   style: TextStyle(color: Colors.black),
                                                 ),
@@ -968,6 +1018,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
     String? userNumber = await AppPreferences.getUserNumber();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+
+    print(id);
+    print(userNumber);
+    print(widget.productVariantList);
+    print(widget.productVariantQtyList);
+    print(widget.deliveryCharges == 0 ? "Free" : widget.deliveryCharges.toString());
+    print(widget.totalAmount);
+    print(widget.selectAddress);
+    print(widget.selectLat);
+    print(widget.selectLong);
+    print(selectPaymentMethod == 1 ? "Cash Method" : selectPaymentMethod == 2 ? "Razorpay" : "");
+    print(_notes.text.trim());
+    print(widget.promoCode);
+    print(widget.promoDiscount);
+    print(widget.orderFormat == "1" ? "Door Step Delivery" : widget.orderFormat == "2" ? "Pick Up From Store" : "");
+    print("$dates - ${selectTime == 1 ? "12PM To 3PM" : selectTime == 2 ? "9AM To 12PM" : ""}");
+
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),

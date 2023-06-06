@@ -43,7 +43,11 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       if(mounted){
         setState(() {
           selectAddId = value.data?.elementAt(0).id ?? "";
-          print(" initId $selectAddId");
+
+          selectAddress = "${value.data?.elementAt(0).address}";
+          selectLat = "${value.data?.elementAt(0).latitude}";
+          selectLong = "${value.data?.elementAt(0).longitude}";
+          print(" initId $selectAddId $selectAddress $selectLat $selectLong");
         });
       }
     });
@@ -408,7 +412,13 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1,
                   deliveryCharges: widget.deliveryCharges,
                   orderFormat: widget.orderFormat,
-                  addressId: selectAddId, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList,)
+                  addressId: selectAddId,
+                  productVariantList: widget.productVariantList,
+                  productVariantQtyList: widget.productVariantQtyList,
+                  selectAddress: selectAddress,
+                  selectLat: selectLat,
+                  selectLong: selectLong,
+                )
                 )).then((value){
                   setState(() {
                     AllCommonApis().getAddressOfUser().then((value){

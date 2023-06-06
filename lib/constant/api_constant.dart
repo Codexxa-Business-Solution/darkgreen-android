@@ -28,6 +28,7 @@ class ApiConstants {
   String getAllPromoCodes = "validate-promo-code.php";
   String getAllSections = "sections.php";
   String getAllOrdersStatus = "order-process.php";
+  String getSettingsData = "settings.php";
 
 
 

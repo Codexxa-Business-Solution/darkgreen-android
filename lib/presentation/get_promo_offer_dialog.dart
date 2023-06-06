@@ -148,8 +148,8 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                                       AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliverCharges,
                                                     orderFormat: widget.orderFormat,
                                                     addressId:  widget.selectAddId,
-                                                    promoDiscount: value.discount,
-                                                    promoCode: value.promoCode, productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList)));
+                                                    promoDiscount: /*value.discount*/"50",
+                                                    promoCode: /*value.promoCode*/"1KGFREE", productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList)));
                                                 });
 
 

@@ -65,6 +65,9 @@ class _CheckoutState extends State<Checkout> {
     print("dc ${widget.deliverCharges}");
     print("dc ${widget.promoCode}");
     print("dc ${widget.promoDiscount}");
+    print("dc ${widget.selectAddress}");
+    print("dc ${widget.selectLat}");
+    print("dc ${widget.selectLong}");
 
 
     promoCode = widget.promoCode;
@@ -1321,8 +1324,8 @@ class _CheckoutState extends State<Checkout> {
             orderFormat: widget.orderFormat, addressId: widget.selectAddId,
             promoCode: widget.promoCode, promoDiscount: widget.promoDiscount,
           selectAddress: widget.selectAddress, selectLat: widget.selectLat,
-            selectLong: widget.selectLong, productVariantList: widget.productVariantList,
-            productVariantQtyList: widget.productVariantQtyList,
+            selectLong: widget.selectLong, productVariantList: productVariantIdList,
+            productVariantQtyList: productQuantityList,
             totalAmount: grandTotal,
           ))).then((value){
             refresh();
