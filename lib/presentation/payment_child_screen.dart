@@ -113,7 +113,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
        setState(() {
          cod = value.paymentMethods.codPaymentMethod;
          pap = value.paymentMethods.paypalPaymentMethod;
-         paum = value.paymentMethods.payumoneyPaymentMethod;
+         // paum = value.paymentMethods.pay;
          razr = value.paymentMethods.razorpayPaymentMethod;
          pays = value.paymentMethods.paystackPaymentMethod;
          flutterWave = value.paymentMethods.flutterwavePaymentMethod;
@@ -142,1022 +142,262 @@ class _PaymentScreenState extends State<PaymentScreen> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Column(
-            // shrinkWrap: true,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.03,right: SizeConfig.screenWidth*0.03,),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 7,
-                          spreadRadius: 1,
-                          offset: const Offset(2, 2.0))
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.03),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text("Preferred Delivery Date/Time",
-                            style: TextStyle(
-                              color: CommonColor.APP_BAR_COLOR,
-                              fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Roboto_Medium"
-                            ),),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.02, right: SizeConfig.screenWidth*0.02),
-                        child: Container(
-                          height: SizeConfig.screenHeight*0.15,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 5,
-                                  spreadRadius: 1,
-                                  offset: const Offset(2, 2.0))
+          Container(
+            color: Colors.transparent,
+            height: SizeConfig.screenHeight*0.85,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.03,right: SizeConfig.screenWidth*0.03,),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 7,
+                            spreadRadius: 1,
+                            offset: const Offset(2, 2.0))
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("Preferred Delivery Date/Time",
+                              style: TextStyle(
+                                color: CommonColor.APP_BAR_COLOR,
+                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Roboto_Medium"
+                              ),),
                             ],
                           ),
-                          child: CalendarTimeline(
-                            showYears: false,
-                            initialDate: _selectedDate,
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(const Duration(days: 365 * 4)),
-                            onDateSelected: (date) => setState(() {
-                              _selectedDate = date;
-                              print(_selectedDate);
-
-                              var datesss = _selectedDate;
-
-                              dates = DateFormat('dd-MM-yyyy').format(datesss);
-                              print(dates);
-
-                            }
-                            ),
-                            leftMargin: 20,
-                            monthColor: Colors.transparent,
-                            dayColor: CommonColor.CIRCLE_COLOR,
-                            dayNameColor: CommonColor.WHITE_COLOR,
-                            activeDayColor: Colors.white,
-                            activeBackgroundDayColor: CommonColor.APP_BAR_COLOR,
-                            dotsColor: Colors.transparent,
-                            locale: 'en',
-                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: GestureDetector(
-                          onDoubleTap: (){},
-                          onTap: (){
-                            if(mounted){
-                              setState(() {
-                                selectTime = 1;
-                                afternoonTime = !afternoonTime;
-                                eveningTime = false;
-                                print("$selectTime");
-                              });
-                            }
-                          },
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.02, right: SizeConfig.screenWidth*0.02),
                           child: Container(
-                             color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("12 PM TO 3 PM"),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    const Icon(Icons.circle_outlined,
-                                      color: CommonColor.APP_BAR_COLOR,),
-                                    Visibility(
-                                      visible: afternoonTime,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                        child: Icon(Icons.circle,
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          size: SizeConfig.blockSizeHorizontal*4.0,),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            height: SizeConfig.screenHeight*0.15,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 5,
+                                    spreadRadius: 1,
+                                    offset: const Offset(2, 2.0))
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                        child: Container(
-                          height: SizeConfig.screenHeight * 0.001,
-                          width: SizeConfig.screenWidth * 0.9,
-                          color: CommonColor.CIRCLE_COLOR,
-                          child: const Text(
-                            "Hii",
-                            style: TextStyle(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: GestureDetector(
-                          onDoubleTap: (){},
-                          onTap: (){
-                           if(mounted){
-                             setState(() {
-                               selectTime = 2;
-                               eveningTime = !eveningTime;
-                               afternoonTime = false;
-                               print("$selectTime");
-                             });
-                           }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("9 AM TO 12 PM"),
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    const Icon(Icons.circle_outlined,
-                                      color: CommonColor.APP_BAR_COLOR,),
-                                    Visibility(
-                                      visible: eveningTime,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                        child: Icon(Icons.circle,
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          size: SizeConfig.blockSizeHorizontal*4.0,),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            child: CalendarTimeline(
+                              showYears: false,
+                              initialDate: _selectedDate,
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime.now().add(const Duration(days: 365 * 4)),
+                              onDateSelected: (date) => setState(() {
+                                _selectedDate = date;
+                                print(_selectedDate);
+
+                                var datesss = _selectedDate;
+
+                                dates = DateFormat('dd-MM-yyyy').format(datesss);
+                                print(dates);
+
+                              }
+                              ),
+                              leftMargin: 20,
+                              monthColor: Colors.transparent,
+                              dayColor: CommonColor.CIRCLE_COLOR,
+                              dayNameColor: CommonColor.WHITE_COLOR,
+                              activeDayColor: Colors.white,
+                              activeBackgroundDayColor: CommonColor.APP_BAR_COLOR,
+                              dotsColor: Colors.transparent,
+                              locale: 'en',
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                        child: Container(
-                          height: SizeConfig.screenHeight * 0.001,
-                          width: SizeConfig.screenWidth * 0.9,
-                          color: CommonColor.CIRCLE_COLOR,
-                          child: const Text(
-                            "Hii",
-                            style: TextStyle(color: Colors.transparent),
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                          child: GestureDetector(
+                            onDoubleTap: (){},
+                            onTap: (){
+                              if(mounted){
+                                setState(() {
+                                  selectTime = 1;
+                                  afternoonTime = !afternoonTime;
+                                  eveningTime = false;
+                                  print("$selectTime");
+                                });
+                              }
+                            },
+                            child: Container(
+                               color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text("12 PM TO 3 PM"),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      const Icon(Icons.circle_outlined,
+                                        color: CommonColor.APP_BAR_COLOR,),
+                                      Visibility(
+                                        visible: afternoonTime,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                          child: Icon(Icons.circle,
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            size: SizeConfig.blockSizeHorizontal*4.0,),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.screenHeight*0.01,
-                      )
-                    ],
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.001,
+                            width: SizeConfig.screenWidth * 0.9,
+                            color: CommonColor.CIRCLE_COLOR,
+                            child: const Text(
+                              "Hii",
+                              style: TextStyle(color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                          child: GestureDetector(
+                            onDoubleTap: (){},
+                            onTap: (){
+                             if(mounted){
+                               setState(() {
+                                 selectTime = 2;
+                                 eveningTime = !eveningTime;
+                                 afternoonTime = false;
+                                 print("$selectTime");
+                               });
+                             }
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text("9 AM TO 12 PM"),
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      const Icon(Icons.circle_outlined,
+                                        color: CommonColor.APP_BAR_COLOR,),
+                                      Visibility(
+                                        visible: eveningTime,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                          child: Icon(Icons.circle,
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            size: SizeConfig.blockSizeHorizontal*4.0,),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.001,
+                            width: SizeConfig.screenWidth * 0.9,
+                            color: CommonColor.CIRCLE_COLOR,
+                            child: const Text(
+                              "Hii",
+                              style: TextStyle(color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.screenHeight*0.01,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 16),
-              //   child: TextButton(
-              //     style: ButtonStyle(
-              //       backgroundColor: MaterialStateProperty.all(Colors.teal[200]),
-              //     ),
-              //     child: const Text(
-              //       'RESET',
-              //       style: TextStyle(color: Color(0xFF333A47)),
-              //     ),
-              //     onPressed: () => setState(() => _resetSelectedDate()),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // Center(
-              //   child: Text(
-              //     'Selected date is $_selectedDate',
-              //     style: const TextStyle(color: Colors.black54),
-              //   ),
-              // )
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.03,right: SizeConfig.screenWidth*0.03,),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 7,
-                          spreadRadius: 1,
-                          offset: const Offset(2, 2.0))
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.03),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text("Payment Method",
-                              style: TextStyle(
-                                  color: CommonColor.APP_BAR_COLOR,
-                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "Roboto_Medium"
-                              ),),
-                          ],
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: GestureDetector(
-                          onTap: (){
-                            if(mounted){
-                              setState(() {
-                                selectPaymentMethod = 1;
-                                cashMethod = !cashMethod;
-                                razorMethod = false;
-                                print("$cashMethod");
-                              });
-                            }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        const Icon(Icons.circle_outlined,
-                                          color: CommonColor.APP_BAR_COLOR,),
-                                        Visibility(
-                                          visible: cashMethod,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                            child: Icon(Icons.circle,
-                                              color: CommonColor.APP_BAR_COLOR,
-                                              size: SizeConfig.blockSizeHorizontal*4.0,),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                      child: Text("Cash On Delivery",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'Roboto_Regular'
-                                      ),),
-                                    ),
-                                  ],
-                                ),
-                                const Image(image: AssetImage("assets/images/cash_delivery.png"),)
-                              ],
-                            ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 16),
+                //   child: TextButton(
+                //     style: ButtonStyle(
+                //       backgroundColor: MaterialStateProperty.all(Colors.teal[200]),
+                //     ),
+                //     child: const Text(
+                //       'RESET',
+                //       style: TextStyle(color: Color(0xFF333A47)),
+                //     ),
+                //     onPressed: () => setState(() => _resetSelectedDate()),
+                //   ),
+                // ),
+                // const SizedBox(height: 20),
+                // Center(
+                //   child: Text(
+                //     'Selected date is $_selectedDate',
+                //     style: const TextStyle(color: Colors.black54),
+                //   ),
+                // )
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.015, left: SizeConfig.screenWidth*0.03,right: SizeConfig.screenWidth*0.03,),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 7,
+                            spreadRadius: 1,
+                            offset: const Offset(2, 2.0))
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("Payment Method",
+                                style: TextStyle(
+                                    color: CommonColor.APP_BAR_COLOR,
+                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto_Medium"
+                                ),),
+                            ],
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                        child: Container(
-                          height: SizeConfig.screenHeight * 0.001,
-                          width: SizeConfig.screenWidth * 0.9,
-                          color: CommonColor.CIRCLE_COLOR,
-                          child: const Text(
-                            "Hii",
-                            style: TextStyle(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
 
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                        child: GestureDetector(
-                          onTap: (){
-                            if(mounted){
-                              setState(() {
-                                selectPaymentMethod = 2;
-                                razorMethod = !razorMethod;
-                                cashMethod = false;
-                                print("$razorMethod");
-                              });
-                            }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        const Icon(Icons.circle_outlined,
-                                          color: CommonColor.APP_BAR_COLOR,),
-                                        Visibility(
-                                          visible: razorMethod,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                            child: Icon(Icons.circle,
-                                              color: CommonColor.APP_BAR_COLOR,
-                                              size: SizeConfig.blockSizeHorizontal*4.0,),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                      child: Text("RazorPay",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'Roboto_Regular'
-                                        ),),
-                                    ),
-                                  ],
-                                ),
-
-                                Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                height: SizeConfig.screenHeight*0.015,)
-
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                        child: Container(
-                          height: SizeConfig.screenHeight * 0.001,
-                          width: SizeConfig.screenWidth * 0.9,
-                          color: CommonColor.CIRCLE_COLOR,
-                          child: const Text(
-                            "Hii",
-                            style: TextStyle(color: Colors.transparent),
-                          ),
-                        ),
-                      ),
-
-                      Visibility(
-                        visible: pap == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-                                                visible: pap == "1" ? true : false,
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("PayPal",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: paum == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("PauMoney",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: pays == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("PayStack",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: flutterWave == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("FlutterWaves",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: midTrans == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("MidTrans",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: stripe == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("Stripe",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: paytm == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("PayTm",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: ssl == "1" ? true : false,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
-                              child: GestureDetector(
-                                onTap: (){
-                                  // if(mounted){
-                                  //   setState(() {
-                                  //     selectPaymentMethod = 2;
-                                  //     razorMethod = !razorMethod;
-                                  //     cashMethod = false;
-                                  //     print("$razorMethod");
-                                  //   });
-                                  // }
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              const Icon(Icons.circle_outlined,
-                                                color: CommonColor.APP_BAR_COLOR,),
-                                              Visibility(
-
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
-                                                  child: Icon(Icons.circle,
-                                                    color: CommonColor.APP_BAR_COLOR,
-                                                    size: SizeConfig.blockSizeHorizontal*4.0,),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                            child: Text("SSL",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                      //   height: SizeConfig.screenHeight*0.015,)
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                              child: Container(
-                                height: SizeConfig.screenHeight * 0.001,
-                                width: SizeConfig.screenWidth * 0.9,
-                                color: CommonColor.CIRCLE_COLOR,
-                                child: const Text(
-                                  "Hii",
-                                  style: TextStyle(color: Colors.transparent),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Visibility(
-                        visible: bankTransfer == "1" ? true : false,
-                        child: Padding(
+                        Padding(
                           padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
                           child: GestureDetector(
                             onTap: (){
-                              // if(mounted){
-                              //   setState(() {
-                              //     selectPaymentMethod = 2;
-                              //     razorMethod = !razorMethod;
-                              //     cashMethod = false;
-                              //     print("$razorMethod");
-                              //   });
-                              // }
+                              if(mounted){
+                                setState(() {
+                                  selectPaymentMethod = 1;
+                                  cashMethod = !cashMethod;
+                                  razorMethod = false;
+                                  print("$cashMethod");
+                                });
+                              }
                             },
                             child: Container(
                               color: Colors.transparent,
@@ -1172,7 +412,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           const Icon(Icons.circle_outlined,
                                             color: CommonColor.APP_BAR_COLOR,),
                                           Visibility(
-
+                                            visible: cashMethod,
                                             child: Padding(
                                               padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
                                               child: Icon(Icons.circle,
@@ -1184,7 +424,74 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
-                                        child: Text("Direct Bank Transfer",
+                                        child: Text("Cash On Delivery",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Roboto_Regular'
+                                        ),),
+                                      ),
+                                    ],
+                                  ),
+                                  const Image(image: AssetImage("assets/images/cash_delivery.png"),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.001,
+                            width: SizeConfig.screenWidth * 0.9,
+                            color: CommonColor.CIRCLE_COLOR,
+                            child: const Text(
+                              "Hii",
+                              style: TextStyle(color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                          child: GestureDetector(
+                            onTap: (){
+                              if(mounted){
+                                setState(() {
+                                  selectPaymentMethod = 2;
+                                  razorMethod = !razorMethod;
+                                  cashMethod = false;
+                                  print("$razorMethod");
+                                });
+                              }
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          const Icon(Icons.circle_outlined,
+                                            color: CommonColor.APP_BAR_COLOR,),
+                                          Visibility(
+                                            visible: razorMethod,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                              child: Icon(Icons.circle,
+                                                color: CommonColor.APP_BAR_COLOR,
+                                                size: SizeConfig.blockSizeHorizontal*4.0,),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                        child: Text("RazorPay",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: SizeConfig.blockSizeHorizontal*4.0,
@@ -1195,39 +502,736 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     ],
                                   ),
 
-                                  // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
-                                  //   height: SizeConfig.screenHeight*0.015,)
+                                  Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                  height: SizeConfig.screenHeight*0.015,)
 
                                 ],
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
-                      //   child: Container(
-                      //     height: SizeConfig.screenHeight * 0.001,
-                      //     width: SizeConfig.screenWidth * 0.9,
-                      //     color: CommonColor.CIRCLE_COLOR,
-                      //     child: const Text(
-                      //       "Hii",
-                      //       style: TextStyle(color: Colors.transparent),
-                      //     ),
-                      //   ),
-                      // ),
+                        Padding(
+                          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.001,
+                            width: SizeConfig.screenWidth * 0.9,
+                            color: CommonColor.CIRCLE_COLOR,
+                            child: const Text(
+                              "Hii",
+                              style: TextStyle(color: Colors.transparent),
+                            ),
+                          ),
+                        ),
 
-                      SizedBox(
-                        height: SizeConfig.screenHeight*0.02,
-                      )
-                    ],
+                        Visibility(
+                          visible: pap == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+                                                  visible: pap == "1" ? true : false,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("PayPal",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                      /*  Visibility(
+                          visible: paum == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("PauMoney",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),*/
+
+
+                        Visibility(
+                          visible: pays == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("PayStack",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: flutterWave == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("FlutterWaves",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: midTrans == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("MidTrans",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: stripe == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("Stripe",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: paytm == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("PayTm",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: ssl == "1" ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    // if(mounted){
+                                    //   setState(() {
+                                    //     selectPaymentMethod = 2;
+                                    //     razorMethod = !razorMethod;
+                                    //     cashMethod = false;
+                                    //     print("$razorMethod");
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                const Icon(Icons.circle_outlined,
+                                                  color: CommonColor.APP_BAR_COLOR,),
+                                                Visibility(
+
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                    child: Icon(Icons.circle,
+                                                      color: CommonColor.APP_BAR_COLOR,
+                                                      size: SizeConfig.blockSizeHorizontal*4.0,),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                              child: Text("SSL",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'Roboto_Regular'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+
+                                        // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                        //   height: SizeConfig.screenHeight*0.015,)
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                                child: Container(
+                                  height: SizeConfig.screenHeight * 0.001,
+                                  width: SizeConfig.screenWidth * 0.9,
+                                  color: CommonColor.CIRCLE_COLOR,
+                                  child: const Text(
+                                    "Hii",
+                                    style: TextStyle(color: Colors.transparent),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+
+                        Visibility(
+                          visible: bankTransfer == "1" ? true : false,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03),
+                            child: GestureDetector(
+                              onTap: (){
+                                // if(mounted){
+                                //   setState(() {
+                                //     selectPaymentMethod = 2;
+                                //     razorMethod = !razorMethod;
+                                //     cashMethod = false;
+                                //     print("$razorMethod");
+                                //   });
+                                // }
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            const Icon(Icons.circle_outlined,
+                                              color: CommonColor.APP_BAR_COLOR,),
+                                            Visibility(
+
+                                              child: Padding(
+                                                padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027),
+                                                child: Icon(Icons.circle,
+                                                  color: CommonColor.APP_BAR_COLOR,
+                                                  size: SizeConfig.blockSizeHorizontal*4.0,),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.02),
+                                          child: Text("Direct Bank Transfer",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: 'Roboto_Regular'
+                                            ),),
+                                        ),
+                                      ],
+                                    ),
+
+                                    // Image(image: const AssetImage("assets/images/razorpay-icon.png"),
+                                    //   height: SizeConfig.screenHeight*0.015,)
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.015),
+                        //   child: Container(
+                        //     height: SizeConfig.screenHeight * 0.001,
+                        //     width: SizeConfig.screenWidth * 0.9,
+                        //     color: CommonColor.CIRCLE_COLOR,
+                        //     child: const Text(
+                        //       "Hii",
+                        //       style: TextStyle(color: Colors.transparent),
+                        //     ),
+                        //   ),
+                        // ),
+
+                        SizedBox(
+                          height: SizeConfig.screenHeight*0.02,
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: SizeConfig.screenHeight*0.1,
-              )
-            ],
+                SizedBox(
+                  height: SizeConfig.screenHeight*0.1,
+                )
+              ],
+            ),
           ),
           getBottomText(SizeConfig.screenHeight, SizeConfig.screenWidth)
         ],

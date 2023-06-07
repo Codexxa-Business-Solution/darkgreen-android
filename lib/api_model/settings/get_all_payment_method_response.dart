@@ -36,11 +36,6 @@ class PaymentMethods {
   String paypalMode;
   String paypalCurrencyCode;
   String paypalBusinessEmail;
-  String payumoneyPaymentMethod;
-  String payumoneyMode;
-  String payumoneyMerchantKey;
-  String payumoneyMerchantId;
-  String payumoneySalt;
   String razorpayPaymentMethod;
   String razorpayKey;
   String razorpaySecretKey;
@@ -85,11 +80,6 @@ class PaymentMethods {
     required this.paypalMode,
     required this.paypalCurrencyCode,
     required this.paypalBusinessEmail,
-    required this.payumoneyPaymentMethod,
-    required this.payumoneyMode,
-    required this.payumoneyMerchantKey,
-    required this.payumoneyMerchantId,
-    required this.payumoneySalt,
     required this.razorpayPaymentMethod,
     required this.razorpayKey,
     required this.razorpaySecretKey,
@@ -135,11 +125,6 @@ class PaymentMethods {
     paypalMode: json["paypal_mode"],
     paypalCurrencyCode: json["paypal_currency_code"],
     paypalBusinessEmail: json["paypal_business_email"],
-    payumoneyPaymentMethod: json["payumoney_payment_method"],
-    payumoneyMode: json["payumoney_mode"],
-    payumoneyMerchantKey: json["payumoney_merchant_key"],
-    payumoneyMerchantId: json["payumoney_merchant_id"],
-    payumoneySalt: json["payumoney_salt"],
     razorpayPaymentMethod: json["razorpay_payment_method"],
     razorpayKey: json["razorpay_key"],
     razorpaySecretKey: json["razorpay_secret_key"],
@@ -185,11 +170,6 @@ class PaymentMethods {
     "paypal_mode": paypalMode,
     "paypal_currency_code": paypalCurrencyCode,
     "paypal_business_email": paypalBusinessEmail,
-    "payumoney_payment_method": payumoneyPaymentMethod,
-    "payumoney_mode": payumoneyMode,
-    "payumoney_merchant_key": payumoneyMerchantKey,
-    "payumoney_merchant_id": payumoneyMerchantId,
-    "payumoney_salt": payumoneySalt,
     "razorpay_payment_method": razorpayPaymentMethod,
     "razorpay_key": razorpayKey,
     "razorpay_secret_key": razorpaySecretKey,
