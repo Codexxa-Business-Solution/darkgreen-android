@@ -55,8 +55,8 @@ class Datum {
   String deliveryTime;
   String sellerNotes;
   String localPickup;
-  int pickupTime;
-  List<List<String>> status;
+  String pickupTime;
+  List<dynamic> status;
   String activeStatus;
   String dateAdded;
   String orderFrom;
@@ -67,8 +67,8 @@ class Datum {
   String userName;
   String discountRupees;
   DateTime orderTime;
-  List<String> statusName;
-  List<String> statusTime;
+  List<dynamic> statusName;
+  List<dynamic> statusTime;
   List<Item> items;
 
   Datum({
@@ -135,7 +135,7 @@ class Datum {
     sellerNotes: json["seller_notes"],
     localPickup: json["local_pickup"],
     pickupTime: json["pickup_time"],
-    status: List<List<String>>.from(json["status"].map((x) => List<String>.from(x.map((x) => x)))),
+    status: List<dynamic>.from(json["status"].map((x) => x)),
     activeStatus: json["active_status"],
     dateAdded: json["date_added"],
     orderFrom: json["order_from"],
@@ -146,8 +146,8 @@ class Datum {
     userName: json["user_name"],
     discountRupees: json["discount_rupees"],
     orderTime: DateTime.parse(json["order_time"]),
-    statusName: List<String>.from(json["status_name"].map((x) => x)),
-    statusTime: List<String>.from(json["status_time"].map((x) => x)),
+    statusName: List<dynamic>.from(json["status_name"].map((x) => x)),
+    statusTime: List<dynamic>.from(json["status_time"].map((x) => x)),
     items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
   );
 
@@ -175,7 +175,7 @@ class Datum {
     "seller_notes": sellerNotes,
     "local_pickup": localPickup,
     "pickup_time": pickupTime,
-    "status": List<dynamic>.from(status.map((x) => List<dynamic>.from(x.map((x) => x)))),
+    "status": List<dynamic>.from(status.map((x) => x)),
     "active_status": activeStatus,
     "date_added": dateAdded,
     "order_from": orderFrom,
@@ -208,9 +208,10 @@ class Item {
   String discount;
   String subTotal;
   String deliverBy;
-  List<List<String>> status;
+  List<dynamic> status;
   String activeStatus;
   DateTime dateAdded;
+  dynamic hsnCode;
   String variantId;
   String rate;
   String review;
@@ -245,6 +246,7 @@ class Item {
     required this.status,
     required this.activeStatus,
     required this.dateAdded,
+    this.hsnCode,
     required this.variantId,
     required this.rate,
     required this.review,
@@ -277,9 +279,10 @@ class Item {
     discount: json["discount"],
     subTotal: json["sub_total"],
     deliverBy: json["deliver_by"],
-    status: List<List<String>>.from(json["status"].map((x) => List<String>.from(x.map((x) => x)))),
+    status: List<dynamic>.from(json["status"].map((x) => x)),
     activeStatus: json["active_status"],
     dateAdded: DateTime.parse(json["date_added"]),
+    hsnCode: json["hsn_code"],
     variantId: json["variant_id"],
     rate: json["rate"],
     review: json["review"],
@@ -312,9 +315,10 @@ class Item {
     "discount": discount,
     "sub_total": subTotal,
     "deliver_by": deliverBy,
-    "status": List<dynamic>.from(status.map((x) => List<dynamic>.from(x.map((x) => x)))),
+    "status": List<dynamic>.from(status.map((x) => x)),
     "active_status": activeStatus,
     "date_added": dateAdded.toIso8601String(),
+    "hsn_code": hsnCode,
     "variant_id": variantId,
     "rate": rate,
     "review": review,

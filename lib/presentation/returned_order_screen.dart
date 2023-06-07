@@ -40,16 +40,24 @@ class _ReturnedOrderScreenState extends State<ReturnedOrderScreen> {
             future: AllCommonApis().getAllReturnedStatus(),
             builder: (context, snap) {
               if (!snap.hasData && !snap.hasError) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  height: SizeConfig.screenHeight*0.83,
+                  color: Colors.transparent,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
 
               final data = snap.data;
 
               if (data == null) {
-                return const Center(
-                  child: Text("Something Went Wrong!"),
+                return Container(
+                  height: SizeConfig.screenHeight*0.83,
+                  color: Colors.transparent,
+                  child: const Center(
+                    child: Text("No Returned Order Available"),
+                  ),
                 );
               }
 

@@ -40,18 +40,30 @@ class _GetAllPickUpOrdersState extends State<GetAllPickUpOrders> {
             future: AllCommonApis().getAllShippedStatus(),
             builder: (context, snap) {
               if (!snap.hasData && !snap.hasError) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  height: SizeConfig.screenHeight*0.83,
+                  color: Colors.transparent,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
 
               final data = snap.data;
 
+              print(snap.data?.data.length);
+
+
               if (data == null) {
-                return const Center(
-                  child: Text("Something Went Wrong!"),
+                return Container(
+                  height: SizeConfig.screenHeight*0.83,
+                  color: Colors.transparent,
+                  child: const Center(
+                    child: Text("No Pick Up Order Available"),
+                  ),
                 );
               }
+
 
               return Container(
                 // color: Colors.red,
