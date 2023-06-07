@@ -7,6 +7,7 @@ import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/change_password.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
 import 'package:darkgreen/presentation/get_about_us_screen.dart';
+import 'package:darkgreen/presentation/get_blog_categories_screen.dart';
 import 'package:darkgreen/presentation/get_contact_us.dart';
 import 'package:darkgreen/presentation/get_privacy_policy.dart';
 import 'package:darkgreen/presentation/get_terms_condition.dart';
@@ -1308,7 +1309,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              
               onTap: () {
                 Navigator.push(
                     context,
@@ -1404,8 +1404,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GetBlogCategories()));
+              },
               child: Container(
                 color: Colors.transparent,
                 child: Row(

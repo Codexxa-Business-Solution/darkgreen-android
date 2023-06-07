@@ -15,6 +15,7 @@ import 'package:darkgreen/api_model/order/get_order_delete_resonse_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
+import 'package:darkgreen/api_model/settings/blog_categories_response_model.dart';
 import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
 import 'package:darkgreen/api_model/settings/get_privcy_policy_response_model.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
@@ -940,17 +941,15 @@ class AllCommonApis {
     }
   }
 
-  Future<GetPrivacyResponseModel> getPrivacyPolicy(String password) async {
-    String? id = await AppPreferences.getIds();
+  Future<GetBlogCatergoriesResponseModel> getBlogCategoriesApi() async {
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getBlogsData),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "settings":"1",
-          "get_privacy":"1"
+          "get_blog_categories":"1",
         },
         headers: headersList);
 
@@ -958,14 +957,11 @@ class AllCommonApis {
 
     if (response.statusCode == 200) {
 
-      // Map<String, dynamic> body = jsonDecode(response.body);
-      //
-      // print("getWalletHistory -->  $body");
-
-      return getPrivacyResponseModelFromJson(response.body.jsonBody());
+      return getBlogCatergoriesResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
   }
+
 
 }

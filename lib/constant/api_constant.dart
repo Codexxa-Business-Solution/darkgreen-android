@@ -29,6 +29,7 @@ class ApiConstants {
   String getAllSections = "sections.php";
   String getAllOrdersStatus = "order-process.php";
   String getSettingsData = "settings.php";
+  String getBlogsData = "get-blogs.php";
 
 
 
