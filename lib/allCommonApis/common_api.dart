@@ -9,12 +9,14 @@ import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
+import 'package:darkgreen/api_model/login/change_pasword_response_model.dart';
 import 'package:darkgreen/api_model/order/get_all_orders_status_response_model.dart';
 import 'package:darkgreen/api_model/order/get_order_delete_resonse_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
+import 'package:darkgreen/api_model/settings/get_privcy_policy_response_model.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
 import 'package:darkgreen/utils.dart';
 import 'package:http/http.dart' as http;
@@ -493,7 +495,7 @@ class AllCommonApis {
           "user_id": id,
           "type":"wallet_transactions",
           "offset":"0",
-          "limit":"5"
+          "limit":"0"
         },
         headers: headersList);
 
@@ -873,6 +875,94 @@ class AllCommonApis {
 
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetWalletHistoryResponseModel> getTransactionHistory() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getUserWallet),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_user_transactions": "1",
+          "user_id": id,
+          "type":"transactions",
+          "offset":"0",
+          "limit":"0"
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      // Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      // print("getWalletHistory -->  $body");
+
+      return getWalletHistoryResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<ChangePasswordResponseModel> getChangePassword(String password) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "type":"change-password",
+          "id": id,
+          "password":password,
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      // Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      // print("getWalletHistory -->  $body");
+
+      return changePasswordResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetPrivacyResponseModel> getPrivacyPolicy(String password) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "settings":"1",
+          "get_privacy":"1"
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+
+      // Map<String, dynamic> body = jsonDecode(response.body);
+      //
+      // print("getWalletHistory -->  $body");
+
+      return getPrivacyResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }

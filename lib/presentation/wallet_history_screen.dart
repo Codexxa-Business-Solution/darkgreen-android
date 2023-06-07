@@ -42,6 +42,7 @@ class _WalletHistoryState extends State<WalletHistory> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccessResponse);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
+    refresh();
 
   }
 
@@ -52,10 +53,15 @@ class _WalletHistoryState extends State<WalletHistory> {
     result.then((value) {
       if (mounted) {
         setState(() {
-          totalWalletAmount = value.data.isNotEmpty ? value.data.length : 0;
+          // totalWalletAmount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
-            totalWalletAmount += int.parse(element.amount);
-            print(totalWalletAmount);
+            if(mounted){
+              setState(() {
+                totalWalletAmount += int.parse(element.amount);
+                print(totalWalletAmount);
+              });
+            }
+
           }
         });
       }
@@ -165,10 +171,6 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                         delegate: SliverChildBuilderDelegate(
                           childCount: snap.data?.data.length,
                               (context, index) {
-
-
-                                totalWalletAmount += int.parse("${snap.data?.data[index].amount}");
-                                print(totalWalletAmount);
 
                             return Padding(
                               padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
