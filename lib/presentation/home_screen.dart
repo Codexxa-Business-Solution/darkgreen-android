@@ -7,6 +7,7 @@ import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/category_product_screen.dart';
+import 'package:darkgreen/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -1585,7 +1586,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       print("sliderResponse -->  ${body}");
 
-      return sliderImageResponseModelFromJson(response.body);
+      return sliderImageResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -1606,7 +1607,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       print("allCategoriesResponse -->  ${body}");
 
-      return getAllCategoriesResponseModelFromJson(response.body);
+      return getAllCategoriesResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -1662,7 +1663,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print("allSectionsResponse --> ${jsonDecode(response.body)}");
-      return GetAllSectionResponseModel.fromJson(jsonDecode(response.body));
+      return GetAllSectionResponseModel.fromJson(jsonDecode(response.body.jsonBody()));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

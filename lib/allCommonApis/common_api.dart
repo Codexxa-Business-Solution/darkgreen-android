@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
 import 'package:darkgreen/api_model/cart/delete_save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/cart/get_save_for_later_response_model.dart';
@@ -10,14 +9,14 @@ import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model
 import 'package:darkgreen/api_model/categories/get_product_info_by_id_response_model.dart';
 import 'package:darkgreen/api_model/categories/get_similar_product_response_model.dart';
 import 'package:darkgreen/api_model/favorite/fav_products_response_model.dart';
-import 'package:darkgreen/api_model/home/get_all_section_response_model.dart';
 import 'package:darkgreen/api_model/order/get_all_orders_status_response_model.dart';
-import 'package:darkgreen/api_model/order/get_order_placed.dart';
+import 'package:darkgreen/api_model/order/get_order_delete_resonse_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
+import 'package:darkgreen/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
@@ -47,7 +46,7 @@ class AllCommonApis {
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body);
 
-      Map<String, dynamic> body = jsonDecode(response.body);
+      Map<String, dynamic> body = jsonDecode(response.body.jsonBody());
 
       print("productBySubCategoriesResponse -->  $body");
 
@@ -79,7 +78,7 @@ class AllCommonApis {
 
       print("getProductInfoByIdResponse -->  $body");
 
-      return getProductByIdResponseModelFromJson(response.body);
+      return getProductByIdResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -111,7 +110,7 @@ class AllCommonApis {
 
       print("getSimilarProductResponse -->  $body");
 
-      return getSimilarProductResponseModelFromJson(response.body);
+      return getSimilarProductResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -134,9 +133,9 @@ class AllCommonApis {
         headers: headersList);
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
+      var jsonData = json.decode(response.body.jsonBody());
 
-      Map<String, dynamic> body = jsonDecode(response.body);
+      Map<String, dynamic> body = jsonDecode(response.body.jsonBody());
 
       print("getAllCartsOfUser -->  $body");
       print("getAllCartsOfUsersssss -->  ${jsonData['message']}");
@@ -148,7 +147,7 @@ class AllCommonApis {
         // totalCartsCount = 0;
       }
 
-      return getUserCartResponseModelFromJson(response.body);
+      return getUserCartResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -298,7 +297,7 @@ class AllCommonApis {
 
       print("getAllFavoriteProducts -->  $body");
 
-      return getAllFavProductsResponseModelFromJson(response.body);
+      return getAllFavProductsResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -331,7 +330,7 @@ class AllCommonApis {
 
       print("getAllSearchingProducts -->  $body");
 
-      return getSearchProductResponseModelFromJson(response.body);
+      return getSearchProductResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -361,7 +360,7 @@ class AllCommonApis {
 
       print("getAllUsersAddress-->  $body");
 
-      return getAddressOfUserResponseModelFromJson(response.body);
+      return getAddressOfUserResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -417,7 +416,7 @@ class AllCommonApis {
 
       print("getAddSaveForLaterResponse -->  $body");
 
-      return getAddSaveForLaterResponseModelFromJson(response.body);
+      return getAddSaveForLaterResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -445,7 +444,7 @@ class AllCommonApis {
 
       print("getAddSaveForLaterResponse -->  $body");
 
-      return getSaveForLaterResponseModelFromJson(response.body);
+      return getSaveForLaterResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -474,7 +473,7 @@ class AllCommonApis {
 
       print("getAddSaveForLaterResponse -->  $body");
 
-      return deleteSaveForLaterResponseModelFromJson(response.body);
+      return deleteSaveForLaterResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -506,7 +505,7 @@ class AllCommonApis {
       //
       // print("getWalletHistory -->  $body");
 
-      return getWalletHistoryResponseModelFromJson(response.body);
+      return getWalletHistoryResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -536,18 +535,18 @@ class AllCommonApis {
 
     if (response.statusCode == 200) {
 
-      Map<String, dynamic> body = jsonDecode(response.body);
+      // Map<String, dynamic> body = jsonDecode(response.body);
       //
-      print("getPromoCode -->  $body");
+      // print("getPromoCode -->  $body");
 
-      return getPromoCodeResponseModelFromJson(response.body);
+      return getPromoCodeResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
   }
 
 
-  Future<GetPromoCodeValidResponseModel> getPromoCodeValid(String amount, String prmoCode) async {
+  Future<GetPromoCodeValidResponseModel> getPromoCodeValid(String amount, String promoCode) async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -558,24 +557,20 @@ class AllCommonApis {
           "accesskey": ApiConstants().accessKey,
           "validate_promo_code": "1",
           "user_id": id,
-          "promo_code":prmoCode,
+          "promo_code": promoCode,
           "total":amount
         },
         headers: headersList);
 
     log(response.body);
 
+
+
     if (response.statusCode == 200) {
 
-      Map<String, dynamic> body = jsonDecode(response.body);
-      //
-      print("getPromoCodeValid -->  $body");
+      print("getPromoCodeValid -->  ${response.body.jsonBody()}");
 
-      if(body != null){
-        print(body['message']);
-      }
-
-      return getPromoCodeValidResponseModelFromJson(response.body);
+      return getPromoCodeValidResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -590,13 +585,8 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"2",
-          "user_id":"1",
-          "order_id":"54",
-          "pickup": "1",
-          "limit":"10",
-          "offset":"5",
-          "status":"cancelled",
+          "get_orders":"1",
+          "user_id":id,
         },
         headers: headersList);
 
@@ -607,7 +597,7 @@ class AllCommonApis {
       print("getAllOrderStatus -->  $body");
 
 
-      return getOrdersStatusResponseModelFromJson(response.body);
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
@@ -633,14 +623,259 @@ class AllCommonApis {
       print("getAllPaymentMethodShow -->  $body");
 
 
-      return getPaymentMethodResponseModelFromJson(response.body);
+      return getPaymentMethodResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
   }
 
 
+  Future<GetOrderDeleteResponseModel> getOrderDelete(String orderId) async {
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "delete_order":"1",
+          "order_id":orderId
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllPaymentMethodShow -->  $body");
 
 
+      return getOrderDeleteResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<String> getInvoiceOrder(String orderId) async {
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_order_invoice":"1",
+          "order_id":orderId
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllPaymentMethodShow -->  $body");
+
+
+      return response.body.jsonBody();
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllRecieverStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"received"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllRecievedStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllProcessedStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"processed"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllProcessedStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllShippedStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"shipped"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllShippedStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllDeliveredStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"delivered"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllDeliveredStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllCancelledStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"cancelled"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllCancelledStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllReturnedStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"returned"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllReturnedStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<GetOredersStatusResponseModel> getAllPickUpStatus() async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_orders":"1",
+          "user_id":id,
+          "status":"ready_to_pickup"
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+
+      Map<String, dynamic> body = jsonDecode(response.body);
+
+      print("getAllReturnedStatus -->  $body");
+
+
+      return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
 
 }

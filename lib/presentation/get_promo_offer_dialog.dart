@@ -143,13 +143,21 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                               onDoubleTap: (){},
                                               onTap: (){
 
-                                                AllCommonApis().getPromoCodeValid("${widget.amount}", "${snap.data?.data[index].promoCode}").then((value){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                                                      AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliverCharges,
-                                                    orderFormat: widget.orderFormat,
-                                                    addressId:  widget.selectAddId,
-                                                    promoDiscount: /*value.discount*/"50",
-                                                    promoCode: /*value.promoCode*/"1KGFREE", productVariantList: widget.productVariantList, productVariantQtyList: widget.productVariantQtyList)));
+                                                print(snap.data?.data[index].promoCode);
+
+                                                AllCommonApis().getPromoCodeValid("${widget.amount}",
+                                                    "${snap.data?.data[index].promoCode}").then((value){
+
+                                                      print(value.message);
+
+                                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                                  //     AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliverCharges,
+                                                  //   orderFormat: widget.orderFormat,
+                                                  //   addressId:  widget.selectAddId,
+                                                  //   promoDiscount: /*value.discount*/"50",
+                                                  //   promoCode: /*value.promoCode*/"1KGFREE",
+                                                  //         productVariantList: widget.productVariantList,
+                                                  //         productVariantQtyList: widget.productVariantQtyList)));
                                                 });
 
 
