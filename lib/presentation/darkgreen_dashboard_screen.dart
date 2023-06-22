@@ -12,23 +12,23 @@ import 'package:darkgreen/presentation/profile_screen.dart';
 import 'package:darkgreen/presentation/search_screen.dart';
 import 'package:flutter/material.dart';
 
-
-
-
 class Dashboard extends StatefulWidget {
-
   final int cartCount;
   final String comeFrom;
 
-  const Dashboard({Key? key, this.cartCount = 0, this.comeFrom = "0"}) : super(key: key);
+  const Dashboard({Key? key, this.cartCount = 0, this.comeFrom = "0"})
+      : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> with HomeScreenInterface, CategoryScreenInterface,
-    FavoriteScreenInterface, ProfileScreenInterface{
-
+class _DashboardState extends State<Dashboard>
+    with
+        HomeScreenInterface,
+        CategoryScreenInterface,
+        FavoriteScreenInterface,
+        ProfileScreenInterface {
   String currentScreen = "Dashboard";
   Widget? widDashboardScreen, widMenuScreen;
   bool isShow = true;
@@ -49,17 +49,14 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
   void initState() {
     super.initState();
 
-
-
-    if(mounted){
+    if (mounted) {
       setState(() {
-
         init();
 
-        if(widget.comeFrom == "1"){
+        if (widget.comeFrom == "1") {
           cartCount = widget.cartCount;
         }
-        AllCommonApis().getAllCarts().then((value){
+        AllCommonApis().getAllCarts().then((value) {
           cartCount = value.data.length;
           print(cartCount);
         });
@@ -80,7 +77,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: WillPopScope(
-        onWillPop:  _onBackPressed,
+        onWillPop: _onBackPressed,
         child: Material(
           child: Column(
             children: [
@@ -89,7 +86,8 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                 child: Container(
                   color: CommonColor.APP_BAR_COLOR,
                   height: SizeConfig.safeUsedHeight * .12,
-                  child: getTopText(SizeConfig.screenHeight, SizeConfig.screenWidth),
+                  child: getTopText(
+                      SizeConfig.screenHeight, SizeConfig.screenWidth),
                 ),
               ),
               Container(
@@ -98,7 +96,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
               ),
               Container(
                 height: SizeConfig.safeUsedHeight * .08,
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -120,7 +118,6 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
       ),
     );
   }
-
 
   Widget getContainer() {
     return Container(
@@ -146,42 +143,52 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
 
   Widget getTopText(double parentHeight, double parentWidth) {
     return Padding(
-      padding: EdgeInsets.only(top: parentHeight * 0.05, left: parentWidth*0.035),
+      padding:
+          EdgeInsets.only(top: parentHeight * 0.05, left: parentWidth * 0.035),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: parentWidth*0.12,
+            width: parentWidth * 0.12,
             decoration: BoxDecoration(
               color: CommonColor.CIRCLE_COLOR,
               shape: BoxShape.circle,
-              image: DecorationImage(image: AssetImage("assets/images/appLogo.jpeg",),
-                fit: BoxFit.contain,),
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/appLogo.jpeg",
+                ),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(left: parentHeight * 0.01),
-            child: Text(userName != null ? "$userName" : "",
-            style: TextStyle(
-                fontSize: SizeConfig.blockSizeHorizontal*7.0,
-                fontFamily: "Roboto_Medium",
-                fontWeight: FontWeight.w500,
-              color: CommonColor.WHITE_COLOR
-            ),),
+            child: Text(
+              userName != null ? "$userName" : "",
+              style: TextStyle(
+                  fontSize: SizeConfig.blockSizeHorizontal * 7.0,
+                  fontFamily: "Roboto_Medium",
+                  fontWeight: FontWeight.w500,
+                  color: CommonColor.WHITE_COLOR),
+            ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: parentWidth*0.01),
+            padding: EdgeInsets.only(right: parentWidth * 0.01),
             child: Container(
-              width: parentWidth*0.2,
+              width: parentWidth * 0.2,
               color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onDoubleTap: (){},
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
-                        if(mounted){
+                    onDoubleTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchProduct()))
+                          .then((value) {
+                        if (mounted) {
                           setState(() {
                             AllCommonApis().getAllCarts().then((value) {
                               if (mounted) {
@@ -197,80 +204,90 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                     },
                     child: Container(
                       color: Colors.transparent,
-                      child: Icon(Icons.search,
-                      color: Colors.white,
-                      size: parentHeight*0.035,),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: parentHeight * 0.035,
+                      ),
                     ),
                   ),
-                 GestureDetector(
-                   onDoubleTap: (){},
-                   onTap: (){
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
-                       if(mounted){
-                         setState(() {
-                           AllCommonApis().getAllCarts().then((value) {
-                             if (mounted) {
-                               setState(() {
-                                 cartCount = value.data.length;
-                                 print(cartCount);
-                               });
-                             }
-                           });
+                  GestureDetector(
+                    onDoubleTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Cart()))
+                          .then((value) {
+                        if (mounted) {
+                          setState(() {
+                            AllCommonApis().getAllCarts().then((value) {
+                              if (mounted) {
+                                setState(() {
+                                  cartCount = value.data.length;
+                                  print(cartCount);
+                                });
+                              }
+                            });
 
-                           isShow = true;
-                           addNewScreen(
-                               HomeScreen(
-                                 mListener: this,
-                               ),
-                               ScreenConstant.HOME_PAGE);
-                         });
-                       }
-
-                     });
-                   },
-                   child: Container(
-                     color: Colors.transparent,
-                     child: Stack(
-                       alignment: Alignment.topRight,
-                       children: [
-                         Padding(
-                           padding: EdgeInsets.only(top: parentHeight*0.01),
-                           child: Container(
-                             height: parentHeight*0.05,
-                             color: Colors.transparent,
-                             child: Padding(
-                               padding: const EdgeInsets.all(8.0),
-                               child: Image(image: AssetImage("assets/images/trolly.png"),
-                               height: parentHeight*0.03,),
-                             ),
-                           ),
-                         ),
-                         Visibility(
-                           visible: cartCount == 0 ? false : true,
-                           child: Padding(
-                             padding: EdgeInsets.only(bottom: parentHeight*0.04, right: parentWidth*0.005),
-                             child: Container(
-                               height: parentHeight*0.05,
-                               width: parentWidth*0.05,
-                               decoration: BoxDecoration(
-                                   color: CommonColor.WHITE_COLOR,
-                                   shape: BoxShape.circle,
-                                   border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                               ),
-                               child: Center(
-                                 child: Text("$cartCount",
-                                   style: TextStyle(
-                                       fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                       color: Colors.black
-                                   ),),
-                               ),
-                             ),
-                           ),
-                         )
-                       ],
-                     ),
-                   ),
-                 )
+                            isShow = true;
+                            addNewScreen(
+                                HomeScreen(
+                                  mListener: this,
+                                ),
+                                ScreenConstant.HOME_PAGE);
+                          });
+                        }
+                      });
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: parentHeight * 0.01),
+                            child: Container(
+                              height: parentHeight * 0.05,
+                              color: Colors.transparent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image(
+                                  image: AssetImage("assets/images/trolly.png"),
+                                  height: parentHeight * 0.03,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: cartCount == 0 ? false : true,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: parentHeight * 0.04,
+                                  right: parentWidth * 0.005),
+                              child: Container(
+                                height: parentHeight * 0.05,
+                                width: parentWidth * 0.05,
+                                decoration: BoxDecoration(
+                                    color: CommonColor.WHITE_COLOR,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: CommonColor.APP_BAR_COLOR)),
+                                child: Center(
+                                  child: Text(
+                                    "$cartCount",
+                                    style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal *
+                                                2.5,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -294,8 +311,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
         children: [
           GestureDetector(
             onTap: () {
-
-              if(mounted){
+              if (mounted) {
                 setState(() {
                   AllCommonApis().getAllCarts().then((value) {
                     if (mounted) {
@@ -308,42 +324,39 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                 });
               }
 
-
               addNewScreen(
                   HomeScreen(
                     mListener: this,
                   ),
                   ScreenConstant.HOME_PAGE);
             },
-            
             child: Container(
-              height: parentHeight*0.07,
-              width: parentWidth*0.17,
+              height: parentHeight * 0.07,
+              width: parentWidth * 0.17,
               decoration: BoxDecoration(
-                color: CommonColor.ICON_BACKGROUND_COLOR,
-                borderRadius: BorderRadius.circular(10)
-              ),
+                  color: CommonColor.ICON_BACKGROUND_COLOR,
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage("assets/images/home.png"),
+                  Image(
+                    image: AssetImage("assets/images/home.png"),
                     color: currentScreen == ScreenConstant.HOME_PAGE
                         ? CommonColor.APP_BAR_COLOR
                         : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                    height: parentHeight*0.025,
+                    height: parentHeight * 0.025,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.003),
+                    padding: EdgeInsets.only(top: parentHeight * 0.003),
                     child: Text(
                       "Home",
                       style: TextStyle(
                           color: currentScreen == ScreenConstant.HOME_PAGE
                               ? CommonColor.APP_BAR_COLOR
                               : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*3.5,
-                      fontFamily: "Roboto_Bold",
-                      fontWeight: FontWeight.w400),
-
+                          fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+                          fontFamily: "Roboto_Bold",
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -352,8 +365,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
-
-              if(mounted){
+              if (mounted) {
                 setState(() {
                   AllCommonApis().getAllCarts().then((value) {
                     if (mounted) {
@@ -373,35 +385,34 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.CATEGORY_FRAGMENT);
             },
-            
             child: Container(
-              height: parentHeight*0.07,
-              width: parentWidth*0.17,
+              height: parentHeight * 0.07,
+              width: parentWidth * 0.17,
               decoration: BoxDecoration(
                   color: CommonColor.ICON_BACKGROUND_COLOR,
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage("assets/images/category.png"),
+                  Image(
+                    image: AssetImage("assets/images/category.png"),
                     color: currentScreen == ScreenConstant.CATEGORY_FRAGMENT
                         ? CommonColor.APP_BAR_COLOR
                         : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                    height: parentHeight*0.025,
+                    height: parentHeight * 0.025,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.003),
+                    padding: EdgeInsets.only(top: parentHeight * 0.003),
                     child: Text(
                       "Category",
                       style: TextStyle(
-                          color: currentScreen == ScreenConstant.CATEGORY_FRAGMENT
-                              ? CommonColor.APP_BAR_COLOR
-                              : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                          color:
+                              currentScreen == ScreenConstant.CATEGORY_FRAGMENT
+                                  ? CommonColor.APP_BAR_COLOR
+                                  : CommonColor.DASHBOARD_UNSELECTED_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                           fontFamily: "Roboto_Bold",
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -410,8 +421,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
-
-              if(mounted){
+              if (mounted) {
                 setState(() {
                   AllCommonApis().getAllCarts().then((value) {
                     if (mounted) {
@@ -431,35 +441,34 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.FAVORITE_FRAGMENT);
             },
-            
             child: Container(
-              height: parentHeight*0.07,
-              width: parentWidth*0.17,
+              height: parentHeight * 0.07,
+              width: parentWidth * 0.17,
               decoration: BoxDecoration(
                   color: CommonColor.ICON_BACKGROUND_COLOR,
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage("assets/images/favorite.png"),
+                  Image(
+                    image: AssetImage("assets/images/favorite.png"),
                     color: currentScreen == ScreenConstant.FAVORITE_FRAGMENT
                         ? CommonColor.APP_BAR_COLOR
                         : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                    height: parentHeight*0.025,
+                    height: parentHeight * 0.025,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.003),
+                    padding: EdgeInsets.only(top: parentHeight * 0.003),
                     child: Text(
                       "Favorite",
                       style: TextStyle(
-                          color: currentScreen == ScreenConstant.FAVORITE_FRAGMENT
-                              ? CommonColor.APP_BAR_COLOR
-                              : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                          color:
+                              currentScreen == ScreenConstant.FAVORITE_FRAGMENT
+                                  ? CommonColor.APP_BAR_COLOR
+                                  : CommonColor.DASHBOARD_UNSELECTED_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                           fontFamily: "Roboto_Bold",
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -468,8 +477,7 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
           ),
           GestureDetector(
             onTap: () {
-
-              if(mounted){
+              if (mounted) {
                 setState(() {
                   AllCommonApis().getAllCarts().then((value) {
                     if (mounted) {
@@ -489,35 +497,34 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
                   ),
                   ScreenConstant.PROFILE_FRAGMENT);
             },
-            
             child: Container(
-              height: parentHeight*0.07,
-              width: parentWidth*0.17,
+              height: parentHeight * 0.07,
+              width: parentWidth * 0.17,
               decoration: BoxDecoration(
                   color: CommonColor.ICON_BACKGROUND_COLOR,
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: AssetImage("assets/images/profile.png"),
+                  Image(
+                    image: AssetImage("assets/images/profile.png"),
                     color: currentScreen == ScreenConstant.PROFILE_FRAGMENT
                         ? CommonColor.APP_BAR_COLOR
                         : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                    height: parentHeight*0.025,
+                    height: parentHeight * 0.025,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.003),
+                    padding: EdgeInsets.only(top: parentHeight * 0.003),
                     child: Text(
                       "Profile",
                       style: TextStyle(
-                          color: currentScreen == ScreenConstant.PROFILE_FRAGMENT
-                              ? CommonColor.APP_BAR_COLOR
-                              : CommonColor.DASHBOARD_UNSELECTED_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*3.5,
+                          color:
+                              currentScreen == ScreenConstant.PROFILE_FRAGMENT
+                                  ? CommonColor.APP_BAR_COLOR
+                                  : CommonColor.DASHBOARD_UNSELECTED_COLOR,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                           fontFamily: "Roboto_Bold",
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -528,7 +535,6 @@ class _DashboardState extends State<Dashboard> with HomeScreenInterface, Categor
       ),
     );
   }
-
 
   static showExitDialog(BuildContext context) {
     if (context != null) {

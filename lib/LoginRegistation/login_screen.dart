@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:darkgreen/LoginRegistation/otp_base_register.dart';
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/login/login_response_model.dart';
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   TextEditingController numberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -42,14 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.zero,
         children: [
           Container(
-              height: SizeConfig.screenHeight * 0.5,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                ),
-              ),),
+            height: SizeConfig.screenHeight * 0.5,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+            ),
+          ),
           Container(
               height: SizeConfig.screenHeight * 0.5,
               decoration: const BoxDecoration(
@@ -73,7 +76,6 @@ class _LoginScreenState extends State<LoginScreen> {
             onTap: () {
               // Navigator.pop(context);
             },
-            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -178,7 +180,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   suffixIcon: oldPaswordShow
                       ? GestureDetector(
-                          
                           onTap: () {
                             _toggle();
                           },
@@ -194,7 +195,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            
                             onTap: () {
                               _toggle();
                             },
@@ -218,7 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
-              
               onTap: () {
                 userLogin();
               },
@@ -250,7 +249,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  
                   onTap: () {
                     Navigator.push(
                         context,
@@ -326,7 +324,7 @@ class _LoginScreenState extends State<LoginScreen> {
           "accesskey": ApiConstants().accessKey,
           "mobile": numberController.text.trim(),
           "password": passwordController.text,
-          "login":"1"
+          "login": "1"
         },
         headers: headersList);
 
@@ -338,7 +336,6 @@ class _LoginScreenState extends State<LoginScreen> {
       print("loginResponse -->  ${body}");
 
       if (jsonData["message"] == "Successfully logged in!") {
-
         AppPreferences.setIds(jsonData["user_id"]);
 
         AppPreferences.setUserName(jsonData["name"]);
@@ -346,25 +343,25 @@ class _LoginScreenState extends State<LoginScreen> {
         AppPreferences.setUserNumber(jsonData["mobile"]);
 
         print(AppPreferences.setUserName(jsonData["name"]));
-        print( AppPreferences.setIds(jsonData["user_id"]));
-        print( AppPreferences.getUserNumber());
+        print(AppPreferences.setIds(jsonData["user_id"]));
+        print(AppPreferences.getUserNumber());
 
-        if(mounted){
+        if (mounted) {
           setState(() {
-            AllCommonApis().getAllCarts().then((value){
+            AllCommonApis().getAllCarts().then((value) {
               cartCount = value.data.length;
               print(cartCount);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Dashboard(cartCount: cartCount, comeFrom: "1",)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Dashboard(
+                            cartCount: cartCount,
+                            comeFrom: "1",
+                          )));
             });
           });
         }
-
-
-
       }
-
-
 
       return userLoginResponseModelFromJson(response.body);
     } else {

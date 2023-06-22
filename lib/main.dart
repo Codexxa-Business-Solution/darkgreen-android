@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DarkGreen',
-      home:  MyHomePage(),
-      debugShowCheckedModeBanner: false,
+        title: 'DarkGreen',
+        home: const MyHomePage(),
+        debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/userLoginScreen': (BuildContext context) => const LoginScreen(),
           '/homeScreen': (BuildContext context) => const Dashboard(),
@@ -34,20 +34,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void initState() {
     super.initState();
     startTimer();
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.screenBottom),
-      child:  Scaffold(
+      child: Scaffold(
         backgroundColor: Colors.white,
         body: splash(SizeConfig.screenHeight, SizeConfig.screenWidth),
       ),
@@ -58,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return const Center(
         child: Image(image: AssetImage("assets/images/welcome.gif")));
   }
-
 
   void navigateParentPage() {
     Navigator.of(context).pushReplacementNamed('/userLoginScreen');
@@ -74,9 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     String? id = await AppPreferences.getIds();
 
     try {
-
       if (id == null) {
-         Timer(durtaion, navigateParentPage);
+        Timer(durtaion, navigateParentPage);
       } else if (id.isNotEmpty) {
         return Timer(durtaion, navigateHomePage);
       }
@@ -85,5 +81,4 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     return Timer(durtaion, navigateParentPage);
   }
-
 }

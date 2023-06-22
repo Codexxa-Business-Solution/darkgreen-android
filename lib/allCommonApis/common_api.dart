@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
 import 'package:darkgreen/api_model/cart/delete_save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/cart/get_save_for_later_response_model.dart';
@@ -17,12 +18,11 @@ import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.da
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/api_model/settings/blog_categories_response_model.dart';
 import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
-import 'package:darkgreen/api_model/settings/get_privcy_policy_response_model.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
-import 'package:darkgreen/utils.dart';
-import 'package:http/http.dart' as http;
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/share_preference.dart';
+import 'package:darkgreen/utils.dart';
+import 'package:http/http.dart' as http;
 
 class AllCommonApis {
   Future<GetProductsByCategoriesResponseModel> productByCategoriesApi(
@@ -176,7 +176,7 @@ class AllCommonApis {
 
       var pdfText = await json.decode(json.encode(result.body.toString()));
 
-      if(result.statusCode == 200){
+      if (result.statusCode == 200) {
         var data = json.decode(json.encode(result.body.toString()));
         print(data);
       }
@@ -339,7 +339,6 @@ class AllCommonApis {
     }
   }
 
-
   Future<GetAddressOfUserResponseModel> getAddressOfUser() async {
     String? id = await AppPreferences.getIds();
 
@@ -348,11 +347,11 @@ class AllCommonApis {
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAddUserAddress),
         body: {
-          "accesskey":"90336",
-          "get_addresses":"1",
-          "user_id":id,
-          "offset":"0",
-          "limit":"5"
+          "accesskey": "90336",
+          "get_addresses": "1",
+          "user_id": id,
+          "offset": "0",
+          "limit": "5"
         },
         headers: headersList);
 
@@ -368,7 +367,6 @@ class AllCommonApis {
       throw Exception('Failed to create album.');
     }
   }
-
 
   Future removeAddress(String addId) async {
     String? id = await AppPreferences.getIds();
@@ -394,8 +392,6 @@ class AllCommonApis {
       throw e;
     }
   }
-
-
 
   Future<GetAddSaveForLaterResponseModel> addSaveForLater(String pvi) async {
     String? id = await AppPreferences.getIds();
@@ -425,7 +421,6 @@ class AllCommonApis {
     }
   }
 
-
   Future<GetSaveForLaterResponseModel> getSaveForLater() async {
     String? id = await AppPreferences.getIds();
 
@@ -452,7 +447,6 @@ class AllCommonApis {
       throw Exception('Failed to create album.');
     }
   }
-
 
   Future<DeleteSaveForLaterResponseModel> deleteSaveForLater(String pvi) async {
     String? id = await AppPreferences.getIds();
@@ -482,7 +476,6 @@ class AllCommonApis {
     }
   }
 
-
   Future<GetWalletHistoryResponseModel> getWalletHistory() async {
     String? id = await AppPreferences.getIds();
 
@@ -494,16 +487,15 @@ class AllCommonApis {
           "accesskey": ApiConstants().accessKey,
           "get_user_transactions": "1",
           "user_id": id,
-          "type":"wallet_transactions",
-          "offset":"0",
-          "limit":"0"
+          "type": "wallet_transactions",
+          "offset": "0",
+          "limit": "0"
         },
         headers: headersList);
 
     log(response.body);
 
     if (response.statusCode == 200) {
-
       // Map<String, dynamic> body = jsonDecode(response.body);
       //
       // print("getWalletHistory -->  $body");
@@ -526,18 +518,17 @@ class AllCommonApis {
           "accesskey": ApiConstants().accessKey,
           "get_promo_codes": "1",
           "user_id": id,
-          "type":"wallet_transactions",
-          "offset":"0",
-          "limit":"5",
-          "sort":"",
-          "amount":"10"
+          "type": "wallet_transactions",
+          "offset": "0",
+          "limit": "5",
+          "sort": "",
+          "amount": "10"
         },
         headers: headersList);
 
     log(response.body);
 
     if (response.statusCode == 200) {
-
       // Map<String, dynamic> body = jsonDecode(response.body);
       //
       // print("getPromoCode -->  $body");
@@ -548,8 +539,8 @@ class AllCommonApis {
     }
   }
 
-
-  Future<GetPromoCodeValidResponseModel> getPromoCodeValid(String amount, String promoCode) async {
+  Future<GetPromoCodeValidResponseModel> getPromoCodeValid(
+      String amount, String promoCode) async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -561,16 +552,13 @@ class AllCommonApis {
           "validate_promo_code": "1",
           "user_id": id,
           "promo_code": promoCode,
-          "total":amount
+          "total": amount
         },
         headers: headersList);
 
     log(response.body);
 
-
-
     if (response.statusCode == 200) {
-
       print("getPromoCodeValid -->  ${response.body.jsonBody()}");
 
       return getPromoCodeValidResponseModelFromJson(response.body.jsonBody());
@@ -588,17 +576,15 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
+          "get_orders": "1",
+          "user_id": id,
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllOrderStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -607,24 +593,21 @@ class AllCommonApis {
   }
 
   Future<GetPaymentMethodResponseModel> getAllPaymentMethodShow() async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getSettingsData),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "settings":"1",
-          "get_payment_methods":"1"
+          "settings": "1",
+          "get_payment_methods": "1"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllPaymentMethodShow -->  $body");
-
 
       return getPaymentMethodResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -632,26 +615,22 @@ class AllCommonApis {
     }
   }
 
-
   Future<GetOrderDeleteResponseModel> getOrderDelete(String orderId) async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "delete_order":"1",
-          "order_id":orderId
+          "delete_order": "1",
+          "order_id": orderId
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllPaymentMethodShow -->  $body");
-
 
       return getOrderDeleteResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -660,24 +639,21 @@ class AllCommonApis {
   }
 
   Future<String> getInvoiceOrder(String orderId) async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_order_invoice":"1",
-          "order_id":orderId
+          "get_order_invoice": "1",
+          "order_id": orderId
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllPaymentMethodShow -->  $body");
-
 
       return response.body.jsonBody();
     } else {
@@ -694,18 +670,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"received"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "received"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllRecievedStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -722,18 +696,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"processed"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "processed"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllProcessedStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -750,18 +722,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"shipped"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "shipped"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllShippedStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -778,18 +748,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"delivered"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "delivered"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllDeliveredStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -806,18 +774,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"cancelled"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "cancelled"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllCancelledStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -834,18 +800,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"returned"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "returned"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllReturnedStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -862,18 +826,16 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_orders":"1",
-          "user_id":id,
-          "status":"ready_to_pickup"
+          "get_orders": "1",
+          "user_id": id,
+          "status": "ready_to_pickup"
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-
       Map<String, dynamic> body = jsonDecode(response.body);
 
       print("getAllReturnedStatus -->  $body");
-
 
       return getOrdersStatusResponseModelFromJson(response.body.jsonBody());
     } else {
@@ -892,16 +854,15 @@ class AllCommonApis {
           "accesskey": ApiConstants().accessKey,
           "get_user_transactions": "1",
           "user_id": id,
-          "type":"transactions",
-          "offset":"0",
-          "limit":"0"
+          "type": "transactions",
+          "offset": "0",
+          "limit": "0"
         },
         headers: headersList);
 
     log(response.body);
 
     if (response.statusCode == 200) {
-
       // Map<String, dynamic> body = jsonDecode(response.body);
       //
       // print("getWalletHistory -->  $body");
@@ -921,16 +882,15 @@ class AllCommonApis {
         Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "type":"change-password",
+          "type": "change-password",
           "id": id,
-          "password":password,
+          "password": password,
         },
         headers: headersList);
 
     log(response.body);
 
     if (response.statusCode == 200) {
-
       // Map<String, dynamic> body = jsonDecode(response.body);
       //
       // print("getWalletHistory -->  $body");
@@ -942,26 +902,22 @@ class AllCommonApis {
   }
 
   Future<GetBlogCatergoriesResponseModel> getBlogCategoriesApi() async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getBlogsData),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "get_blog_categories":"1",
+          "get_blog_categories": "1",
         },
         headers: headersList);
 
     log(response.body);
 
     if (response.statusCode == 200) {
-
       return getBlogCatergoriesResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
     }
   }
-
-
 }

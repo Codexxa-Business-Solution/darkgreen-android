@@ -1,29 +1,30 @@
 class AddAddressReponseModel {
   AddAddressReponseModel({
-      this.error, 
-      this.message, 
-      this.id, 
-      this.userId, 
-      this.type, 
-      this.name, 
-      this.countryCode, 
-      this.mobile, 
-      this.alternateMobile, 
-      this.address, 
-      this.landmark, 
-      this.areaId, 
-      this.cityId, 
-      this.pincode, 
-      this.state, 
-      this.country, 
-      this.latitude, 
-      this.longitude, 
-      this.isDefault, 
-      this.minimumFreeDeliveryOrderAmount, 
-      this.minimumOrderAmount, 
-      this.cityName, 
-      this.areaName, 
-      this.deliveryCharges,});
+    this.error,
+    this.message,
+    this.id,
+    this.userId,
+    this.type,
+    this.name,
+    this.countryCode,
+    this.mobile,
+    this.alternateMobile,
+    this.address,
+    this.landmark,
+    this.areaId,
+    this.cityId,
+    this.pincode,
+    this.state,
+    this.country,
+    this.latitude,
+    this.longitude,
+    this.isDefault,
+    this.minimumFreeDeliveryOrderAmount,
+    this.minimumOrderAmount,
+    this.cityName,
+    this.areaName,
+    this.deliveryCharges,
+  });
 
   AddAddressReponseModel.fromJson(dynamic json) {
     error = json['error'];
@@ -51,6 +52,7 @@ class AddAddressReponseModel {
     areaName = json['area_name'];
     deliveryCharges = json['delivery_charges'];
   }
+
   bool? error;
   String? message;
   String? id;
@@ -104,5 +106,4 @@ class AddAddressReponseModel {
     map['delivery_charges'] = deliveryCharges;
     return map;
   }
-
 }
