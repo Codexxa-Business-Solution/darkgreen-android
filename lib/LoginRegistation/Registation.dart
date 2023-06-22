@@ -18,17 +18,17 @@ class _RegistrationState extends State<Registration> {
   TextEditingController _ReferralCode = TextEditingController();
 
   // So all this four controller's is for th_passe textfield we're creating
-  var _formKey = GlobalKey<ScaffoldState>(); // a scaffold Globalkey
+  final _formKey = GlobalKey<ScaffoldState>(); // a scaffold Globalkey
   bool hidePass = true;
   bool isChecked = false;
 
   @override
   void initState() {
-   _name = TextEditingController();
+    _name = TextEditingController();
     _email = TextEditingController();
-   _password = TextEditingController();
-   _confrimPassword = TextEditingController();
-   _ReferralCode = TextEditingController();
+    _password = TextEditingController();
+    _confrimPassword = TextEditingController();
+    _ReferralCode = TextEditingController();
     super.initState();
   }
 
@@ -99,7 +99,6 @@ class _RegistrationState extends State<Registration> {
             onTap: () {
               Navigator.pop(context);
             },
-            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -148,7 +147,6 @@ class _RegistrationState extends State<Registration> {
             padding: EdgeInsets.zero,
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // Padding(
               //   padding: EdgeInsets.only(left: parentHeight * 0.02,top: parentHeight*0.04),
               //   child: Text(
@@ -166,10 +164,11 @@ class _RegistrationState extends State<Registration> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15,top: 12),
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 12),
                       child: TextFormField(
                         controller: _name,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           icon: Icon(Icons.person),
                           labelText: 'Name',
                         ),
@@ -186,8 +185,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only( left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15),
                       child: TextFormField(
                         controller: _email,
                         decoration: const InputDecoration(
@@ -207,11 +205,10 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15),
                       child: TextFormField(
                         controller: _password,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           icon: Icon(Icons.local_mall_outlined),
                           labelText: 'Password',
                         ),
@@ -228,8 +225,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15),
                       child: TextFormField(
                         controller: _confrimPassword,
                         decoration: const InputDecoration(
@@ -249,8 +245,7 @@ class _RegistrationState extends State<Registration> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15),
+                      padding: const EdgeInsets.only(left: 15, right: 15),
                       child: TextFormField(
                         controller: _ReferralCode,
                         decoration: InputDecoration(
@@ -269,9 +264,7 @@ class _RegistrationState extends State<Registration> {
                         },
                       ),
                     ),
-
                   ],
-
                 ),
               ),
               Padding(
@@ -279,13 +272,14 @@ class _RegistrationState extends State<Registration> {
                     left: parentWidth * 0.04, top: parentHeight * 0.02),
                 child: Row(
                   children: [
-
                     Container(
                       height: parentHeight * 0.07,
                       width: parentWidth * 0.069,
                       child: Column(
                         children: <Widget>[
-                          const SizedBox(height: 0,),
+                          const SizedBox(
+                            height: 0,
+                          ),
                           Checkbox(
                             checkColor: Colors.white,
                             value: isChecked,
@@ -295,7 +289,8 @@ class _RegistrationState extends State<Registration> {
                               });
                             },
                           ),
-                        ],),
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -311,31 +306,31 @@ class _RegistrationState extends State<Registration> {
                                       fontFamily: 'Roboto-Regular',
                                       fontSize: 14),
                                   children: [
-                                    TextSpan(
-                                        text: " Privacy Policy ",
-                                        style: TextStyle(
-                                            color: CommonColor.APP_BAR_COLOR,
-                                            fontWeight: FontWeight.w500,
-                                            decoration: TextDecoration.underline,
-                                            fontFamily: 'Roboto-Regular',
-                                            fontSize: 14)),
-                                    TextSpan(
-                                        text: "and\n",
-                                        style: TextStyle(
-                                            color: CommonColor.BLACK_COLOR,
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'Roboto-Regular',
-                                            fontSize: 13)),
-                                    TextSpan(
-                                      text: "Terms of Conditions.\n",
-                                      style: TextStyle(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          fontWeight: FontWeight.w500,
-                                          decoration: TextDecoration.underline,
-                                          fontFamily: 'Roboto-Regular',
-                                          fontSize: 14),
-                                    )
-                                  ])),
+                                TextSpan(
+                                    text: " Privacy Policy ",
+                                    style: TextStyle(
+                                        color: CommonColor.APP_BAR_COLOR,
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.underline,
+                                        fontFamily: 'Roboto-Regular',
+                                        fontSize: 14)),
+                                TextSpan(
+                                    text: "and\n",
+                                    style: TextStyle(
+                                        color: CommonColor.BLACK_COLOR,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'Roboto-Regular',
+                                        fontSize: 13)),
+                                TextSpan(
+                                  text: "Terms of Conditions.\n",
+                                  style: TextStyle(
+                                      color: CommonColor.APP_BAR_COLOR,
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline,
+                                      fontFamily: 'Roboto-Regular',
+                                      fontSize: 14),
+                                )
+                              ])),
                         ),
                       ],
                     )
@@ -344,7 +339,6 @@ class _RegistrationState extends State<Registration> {
               ),
               GestureDetector(
                 onTap: () {
-
                   // index == 1 ?
                   // Navigator.push(
                   //     context,
@@ -355,42 +349,40 @@ class _RegistrationState extends State<Registration> {
                       MaterialPageRoute(
                           builder: (context) => const Dashboard()));
                 },
-                
                 child: Padding(
-                  padding:  EdgeInsets.only(top: parentHeight*0.02,left: parentWidth*0.04,right: parentWidth*0.04),
+                  padding: EdgeInsets.only(
+                      top: parentHeight * 0.02,
+                      left: parentWidth * 0.04,
+                      right: parentWidth * 0.04),
                   child: Container(
                       width: parentWidth * 0.77,
                       height: parentHeight * 0.065,
                       decoration: BoxDecoration(
                         color: CommonColor.APP_BAR_COLOR,
                         border: Border.all(
-                            width: 1, color: CommonColor.APP_BAR_COLOR), //Border.
+                            width: 1, color: CommonColor.APP_BAR_COLOR),
+                        //Border.
                         borderRadius: const BorderRadius.all(
                           Radius.circular(11),
                         ),
                       ),
                       child: Center(
                           child: Text(
-                            "Submit",
-                            style: TextStyle(
-                                color: CommonColor.WHITE_COLOR,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Roboto-Regular',
-                                fontSize: SizeConfig.blockSizeHorizontal * 4.3),
-                          ))),
+                        "Submit",
+                        style: TextStyle(
+                            color: CommonColor.WHITE_COLOR,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Roboto-Regular',
+                            fontSize: SizeConfig.blockSizeHorizontal * 4.3),
+                      ))),
                 ),
-              ),// textfield for the name session and so on
+              ),
+              // textfield for the name session and so on
               //  SizedBox(height: 10),
             ],
           ),
         ),
       ],
     );
-
   }
-
-
-
-
-
 }

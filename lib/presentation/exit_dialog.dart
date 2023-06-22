@@ -1,14 +1,12 @@
 import 'dart:io';
+
 import 'package:darkgreen/constant/color.dart';
 import 'package:flutter/material.dart';
-
 
 class ExitAppDialog extends StatefulWidget {
   final String message;
 
-
-  const ExitAppDialog(
-      {required this.message});
+  const ExitAppDialog({required this.message});
 
   @override
   _ExitAppDialogState createState() => _ExitAppDialogState();
@@ -19,7 +17,6 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
 
   bool _isDialogShow = true;
   bool isLoaderShow = false;
-
 
   @override
   void initState() {
@@ -33,7 +30,6 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      
       child: WillPopScope(
         onWillPop: () {
           return Future.value(false);
@@ -43,8 +39,7 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding:
-                    EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: 10),
                 child: Center(
                   child: Card(
                     shape: const RoundedRectangleBorder(
@@ -108,7 +103,6 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
           onTap: () {
             exit(0);
           },
-          
           child: Container(
             height: 50,
             width: 150,
@@ -138,7 +132,6 @@ class _ExitAppDialogState extends State<ExitAppDialog> {
           onTap: () {
             Navigator.pop(context);
           },
-          
           child: Container(
             height: 50,
             width: 150,

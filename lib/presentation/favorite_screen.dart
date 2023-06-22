@@ -57,35 +57,35 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       floatingActionButton: _isDialogVisible == true
           ? Padding(
-        padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
-        child: AlertDialog(
-            backgroundColor: Colors.white,
-            elevation: 9,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            title: Text(favTap == 0
-                ? "Removed From Favorites"
-                : "Added To Favorites"),
-            content: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: productName,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: CommonColor.APP_BAR_COLOR)),
-                  TextSpan(
-                      text: favTap == 0
-                          ? " remove this product from favorite list."
-                          : " add this product from favorite list.",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: CommonColor.BLACK_COLOR)),
-                ],
-              ),
-            )),
-      )
+              padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.1),
+              child: AlertDialog(
+                  backgroundColor: Colors.white,
+                  elevation: 9,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  title: Text(favTap == 0
+                      ? "Removed From Favorites"
+                      : "Added To Favorites"),
+                  content: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: productName,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: CommonColor.APP_BAR_COLOR)),
+                        TextSpan(
+                            text: favTap == 0
+                                ? " remove this product from favorite list."
+                                : " add this product from favorite list.",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: CommonColor.BLACK_COLOR)),
+                      ],
+                    ),
+                  )),
+            )
           : null,
     );
   }
@@ -131,8 +131,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       )
                     : Image.network("");
 
-                price = int.parse("${snap.data?.data[index].variants[0].price}");
-                discountPrice = int.parse("${snap.data?.data[index].variants[0].discountedPrice}");
+                price =
+                    int.parse("${snap.data?.data[index].variants[0].price}");
+                discountPrice = int.parse(
+                    "${snap.data?.data[index].variants[0].discountedPrice}");
                 savingPrice = price - discountPrice;
 
                 return Padding(
@@ -141,7 +143,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       bottom: parentHeight * 0.01,
                       left: parentWidth * 0.05),
                   child: GestureDetector(
-                    
                     onTap: () {
                       Navigator.push(
                           context,
@@ -149,20 +150,20 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               builder: (context) => ProductInfoScreen(
                                     productId: "${snap.data?.data[index].id}",
                                     catId: '',
-                                  ))).then((value){
-                                    if(mounted){
-                                      setState(() {
-                                        AllCommonApis().getAllFavoriteProductsApi();
-                                        AllCommonApis().getAllCarts().then((value) {
-                                          if (mounted) {
-                                            setState(() {
-                                              totalCartCount = value.data.length;
-                                              print(cartCount);
-                                            });
-                                          }
-                                        });
-                                      });
-                                    }
+                                  ))).then((value) {
+                        if (mounted) {
+                          setState(() {
+                            AllCommonApis().getAllFavoriteProductsApi();
+                            AllCommonApis().getAllCarts().then((value) {
+                              if (mounted) {
+                                setState(() {
+                                  totalCartCount = value.data.length;
+                                  print(cartCount);
+                                });
+                              }
+                            });
+                          });
+                        }
                       });
                     },
                     child: Container(
@@ -230,101 +231,95 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                         ],
                                       ),
                                     ),
-                                    snap.data?.data[index]
-                                        .isFavorite ==
-                                        true
+                                    snap.data?.data[index].isFavorite == true
                                         ? Padding(
-                                      padding: EdgeInsets.only(
-                                          right: SizeConfig
-                                              .screenWidth *
-                                              0.02),
-                                      child: GestureDetector(
-                                        
-                                        onTap: () {
-                                          productId =
-                                          "${snap.data?.data[index].variants[0].productId}";
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig.screenWidth *
+                                                    0.02),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                productId =
+                                                    "${snap.data?.data[index].variants[0].productId}";
 
-                                          productName = "${snap.data?.data[0].name}";
+                                                productName =
+                                                    "${snap.data?.data[0].name}";
 
-                                          favTap = 0;
+                                                favTap = 0;
 
-                                          var result =
-                                          AllCommonApis()
-                                              .removeToFavorite(
-                                              productId);
+                                                var result = AllCommonApis()
+                                                    .removeToFavorite(
+                                                        productId);
 
-                                          result.then((value) {
-                                            if (mounted) {
-                                              setState(() {
-                                                _isDialogVisible = true;
+                                                result.then((value) {
+                                                  if (mounted) {
+                                                    setState(() {
+                                                      _isDialogVisible = true;
 
-                                                Future.delayed(const Duration(seconds: 2), () {
-                                                  setState(() {
-                                                    _isDialogVisible = false;
-                                                  });
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              seconds: 2), () {
+                                                        setState(() {
+                                                          _isDialogVisible =
+                                                              false;
+                                                        });
+                                                      });
+                                                    });
+                                                  }
                                                 });
-                                              });
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          color: Colors
-                                              .transparent,
-                                          child: const Icon(
-                                            Icons
-                                                .favorite_rounded,
-                                            color: CommonColor
-                                                .LIKE_COLOR,
-                                          ),
-                                        ),
-                                      ),
-                                    )
+                                              },
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                child: const Icon(
+                                                  Icons.favorite_rounded,
+                                                  color: CommonColor.LIKE_COLOR,
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         : Padding(
-                                      padding: EdgeInsets.only(
-                                          right: SizeConfig
-                                              .screenWidth *
-                                              0.02),
-                                      child: GestureDetector(
-                                        
-                                        onTap: () {
-                                          productId =
-                                          "${snap.data?.data[index].variants[0].productId}";
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig.screenWidth *
+                                                    0.02),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                productId =
+                                                    "${snap.data?.data[index].variants[0].productId}";
 
-                                          productName = "${snap.data?.data[0].name}";
+                                                productName =
+                                                    "${snap.data?.data[0].name}";
 
-                                          favTap = 1;
+                                                favTap = 1;
 
-                                          var result =
-                                          AllCommonApis()
-                                              .addToFavorite(
-                                              productId);
+                                                var result = AllCommonApis()
+                                                    .addToFavorite(productId);
 
-                                          result.then((value) {
-                                            if (mounted) {
-                                              setState(() {
-                                                _isDialogVisible = true;
+                                                result.then((value) {
+                                                  if (mounted) {
+                                                    setState(() {
+                                                      _isDialogVisible = true;
 
-                                                Future.delayed(const Duration(seconds: 2), () {
-                                                  setState(() {
-                                                    _isDialogVisible = false;
-                                                  });
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              seconds: 2), () {
+                                                        setState(() {
+                                                          _isDialogVisible =
+                                                              false;
+                                                        });
+                                                      });
+                                                    });
+                                                  }
                                                 });
-                                              });
-                                            }
-                                          });
-                                        },
-                                        child: Container(
-                                          color: Colors
-                                              .transparent,
-                                          child: const Icon(
-                                            Icons
-                                                .favorite_outline_rounded,
-                                            color: CommonColor
-                                                .LIKE_COLOR,
+                                              },
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                child: const Icon(
+                                                  Icons
+                                                      .favorite_outline_rounded,
+                                                  color: CommonColor.LIKE_COLOR,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               )
@@ -339,9 +334,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 decoration: const BoxDecoration(
                                     color: CommonColor.LAYOUT_BACKGROUND_COLOR,
                                     borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10),
-                                )),
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    )),
                                 child: Column(
                                   children: [
                                     Padding(
@@ -476,7 +471,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     productId =
                                                         "${snap.data?.data[index].variants[0].productId}";
@@ -505,11 +499,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                         .then((value) {
                                                       if (mounted) {
                                                         setState(() {
-                                                          AllCommonApis().getAllCarts().then((value) {
+                                                          AllCommonApis()
+                                                              .getAllCarts()
+                                                              .then((value) {
                                                             if (mounted) {
                                                               setState(() {
-                                                                totalCartCount = value.data.length;
-                                                                print(totalCartCount);
+                                                                totalCartCount =
+                                                                    value.data
+                                                                        .length;
+                                                                print(
+                                                                    totalCartCount);
                                                               });
                                                             }
                                                           });
@@ -569,7 +568,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     productId =
                                                         "${snap.data?.data[index].variants[0].productId}";
@@ -596,11 +594,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                                 .toString())
                                                         .then((value) {
                                                       setState(() {
-                                                        var result = AllCommonApis().getAllCarts();
+                                                        var result =
+                                                            AllCommonApis()
+                                                                .getAllCarts();
 
                                                         result.then((value) {
                                                           setState(() {
-                                                            totalCartCount = value.data.length;
+                                                            totalCartCount =
+                                                                value.data
+                                                                    .length;
                                                           });
                                                         });
                                                       });
@@ -642,22 +644,22 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 ),
                               ),
                               Visibility(
-                                visible: snap.data?.data[index]
-                                    .variants[0].cartCount ==
-                                    "0"
+                                visible: snap.data?.data[index].variants[0]
+                                            .cartCount ==
+                                        "0"
                                     ? true
                                     : false,
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
-                                      bottom: SizeConfig.screenHeight*0.011),
+                                  padding: EdgeInsets.only(
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      bottom: SizeConfig.screenHeight * 0.011),
                                   child: GestureDetector(
-
                                     onTap: () {
                                       productId =
-                                      "${snap.data?.data[index].variants[0].productId}";
+                                          "${snap.data?.data[index].variants[0].productId}";
 
                                       productVariantId =
-                                      "${snap.data?.data[index].variants[0].id}";
+                                          "${snap.data?.data[index].variants[0].id}";
 
                                       cartCount = int.parse(
                                           "${snap.data?.data[index].variants[0].cartCount}");
@@ -665,43 +667,41 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                       cartCount++;
 
                                       snap.data?.data[index].variants[0]
-                                          .cartCount =
-                                          cartCount.toString();
+                                          .cartCount = cartCount.toString();
 
                                       AllCommonApis()
                                           .addToCartApi(
-                                          productId,
-                                          productVariantId,
-                                          cartCount.toString())
+                                              productId,
+                                              productVariantId,
+                                              cartCount.toString())
                                           .then((value) {
-                                            if(mounted) {
-                                              setState(() {
-                                          var result = AllCommonApis().getAllCarts();
-                                          result.then((value) {
-                                            if(mounted) {
-                                              setState(() {
-                                              totalCartCount = value.data.length;
+                                        if (mounted) {
+                                          setState(() {
+                                            var result =
+                                                AllCommonApis().getAllCarts();
+                                            result.then((value) {
+                                              if (mounted) {
+                                                setState(() {
+                                                  totalCartCount =
+                                                      value.data.length;
+                                                });
+                                              }
                                             });
-                                            }
                                           });
-                                        });
-                                            }
+                                        }
                                       });
                                     },
-                                    child:Container(
-                                      height: SizeConfig.screenHeight *
-                                          0.04,
-                                      width:
-                                      SizeConfig.screenWidth * 0.09,
+                                    child: Container(
+                                      height: SizeConfig.screenHeight * 0.04,
+                                      width: SizeConfig.screenWidth * 0.09,
                                       decoration: BoxDecoration(
-                                          color:
-                                          CommonColor.APP_BAR_COLOR,
+                                          color: CommonColor.APP_BAR_COLOR,
                                           borderRadius:
-                                          BorderRadius.circular(10)),
-                                      child:  Icon(
+                                              BorderRadius.circular(10)),
+                                      child: Icon(
                                         Icons.add,
                                         color: Colors.white,
-                                        size: SizeConfig.screenHeight*0.025,
+                                        size: SizeConfig.screenHeight * 0.025,
                                       ),
                                     ),
                                   ),

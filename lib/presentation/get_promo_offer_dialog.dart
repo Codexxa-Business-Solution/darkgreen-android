@@ -2,15 +2,10 @@ import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
-import 'package:darkgreen/presentation/checkout.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-
-
 class PromoCodeScreen extends StatefulWidget {
-
   final String orderFormat;
   final String selectAddId;
   final int deliverCharges;
@@ -18,16 +13,21 @@ class PromoCodeScreen extends StatefulWidget {
   final List productVariantList;
   final List productVariantQtyList;
 
-  const PromoCodeScreen({Key? key, required this.orderFormat, required this.selectAddId, required this.deliverCharges, required this.amount, required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
+  const PromoCodeScreen(
+      {Key? key,
+      required this.orderFormat,
+      required this.selectAddId,
+      required this.deliverCharges,
+      required this.amount,
+      required this.productVariantList,
+      required this.productVariantQtyList})
+      : super(key: key);
 
   @override
   State<PromoCodeScreen> createState() => _PromoCodeScreenState();
 }
 
 class _PromoCodeScreenState extends State<PromoCodeScreen> {
-
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -37,11 +37,10 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
     // AllCommonApis().getPromoCode("${widget.amount}");
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return  Align(
+    return Align(
       alignment: Alignment.center,
       child: Padding(
         padding: EdgeInsets.only(
@@ -51,17 +50,16 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child:  Container(
-            height: SizeConfig.screenHeight*0.6,
-            decoration:  const BoxDecoration(
-              borderRadius:  BorderRadius.all(Radius.circular(25.0)),
+          child: Container(
+            height: SizeConfig.screenHeight * 0.6,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
               color: CommonColor.LAYOUT_BACKGROUND_COLOR,
             ),
             child: Stack(
               alignment: Alignment.topRight,
               children: [
-
-              FutureBuilder<GetPromoCodeResponseModel>(
+                FutureBuilder<GetPromoCodeResponseModel>(
                   future: AllCommonApis().getPromoCode("${widget.amount}"),
                   builder: (context, snap) {
                     if (!snap.hasData && !snap.hasError) {
@@ -79,76 +77,98 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                     }
 
                     return ListView.builder(
-                        padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03, bottom: SizeConfig.screenHeight*0.05),
+                        padding: EdgeInsets.only(
+                            top: SizeConfig.screenHeight * 0.03,
+                            bottom: SizeConfig.screenHeight * 0.05),
                         scrollDirection: Axis.vertical,
                         itemCount: snap.data?.data.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03, left: SizeConfig.screenWidth*0.05,
-                                right: SizeConfig.screenWidth*0.05),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.screenHeight * 0.03,
+                                left: SizeConfig.screenWidth * 0.05,
+                                right: SizeConfig.screenWidth * 0.05),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)
-                              ),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Padding(
-                                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.02, left: SizeConfig.screenWidth*0.03,
-                                    right: SizeConfig.screenWidth*0.03),
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.screenHeight * 0.02,
+                                    left: SizeConfig.screenWidth * 0.03,
+                                    right: SizeConfig.screenWidth * 0.03),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       color: Colors.transparent,
-                                      width: SizeConfig.screenWidth*0.6,
-                                      child: Text("${snap.data?.data[index].message}",
+                                      width: SizeConfig.screenWidth * 0.6,
+                                      child: Text(
+                                        "${snap.data?.data[index].message}",
                                         style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
                                             fontWeight: FontWeight.w400,
-                                            fontFamily: 'Roboto_Regular'
-                                        ),),
+                                            fontFamily: 'Roboto_Regular'),
+                                      ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
-                                      child: Text("You will save \u{20B9}${snap.data?.data[index].discount} with this code.",
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.01),
+                                      child: Text(
+                                        "You will save \u{20B9}${snap.data?.data[index].discount} with this code.",
                                         style: TextStyle(
                                             color: CommonColor.APP_BAR_COLOR,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.2,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3.2,
                                             fontWeight: FontWeight.w400,
-                                            fontFamily: 'Roboto_Regular'
-                                        ),),
+                                            fontFamily: 'Roboto_Regular'),
+                                      ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.013),
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.013),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           DottedBorder(
                                             padding: EdgeInsets.all(7),
                                             color: CommonColor.APP_BAR_COLOR,
                                             radius: const Radius.circular(200),
                                             strokeWidth: 1,
-                                            dashPattern: [5,5],
-                                            child: Text("${snap.data?.data[index].promoCode}",
+                                            dashPattern: [5, 5],
+                                            child: Text(
+                                              "${snap.data?.data[index].promoCode}",
                                               style: TextStyle(
-                                                  color: CommonColor.CIRCLE_COLOR,
-                                                  fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                  color:
+                                                      CommonColor.CIRCLE_COLOR,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4.0,
                                                   fontWeight: FontWeight.w400,
-                                                  fontFamily: 'Roboto_Regular'
-                                              ),),
+                                                  fontFamily: 'Roboto_Regular'),
+                                            ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.01),
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig.screenWidth *
+                                                    0.01),
                                             child: GestureDetector(
-                                              onDoubleTap: (){},
-                                              onTap: (){
+                                              onDoubleTap: () {},
+                                              onTap: () {
+                                                print(snap.data?.data[index]
+                                                    .promoCode);
 
-                                                print(snap.data?.data[index].promoCode);
-
-                                                AllCommonApis().getPromoCodeValid("${widget.amount}",
-                                                    "${snap.data?.data[index].promoCode}").then((value){
-
-                                                      print(value.message);
+                                                AllCommonApis()
+                                                    .getPromoCodeValid(
+                                                        "${widget.amount}",
+                                                        "${snap.data?.data[index].promoCode}")
+                                                    .then((value) {
+                                                  print(value.message);
 
                                                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>
                                                   //     AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliverCharges,
@@ -159,18 +179,22 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                                   //         productVariantList: widget.productVariantList,
                                                   //         productVariantQtyList: widget.productVariantQtyList)));
                                                 });
-
-
                                               },
                                               child: Container(
                                                 color: Colors.transparent,
-                                                child: Text("Apply",
+                                                child: Text(
+                                                  "Apply",
                                                   style: TextStyle(
-                                                      color: CommonColor.APP_BAR_COLOR,
-                                                      fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                      fontWeight: FontWeight.w400,
-                                                      fontFamily: 'Roboto_Medium'
-                                                  ),),
+                                                      color: CommonColor
+                                                          .APP_BAR_COLOR,
+                                                      fontSize: SizeConfig
+                                                              .blockSizeHorizontal *
+                                                          4.0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily:
+                                                          'Roboto_Medium'),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -178,7 +202,7 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.screenHeight*0.02,
+                                      height: SizeConfig.screenHeight * 0.02,
                                     )
                                   ],
                                 ),
@@ -188,19 +212,19 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                         });
                   },
                 ),
-
-
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: GestureDetector(
-                    onDoubleTap: (){},
-                    onTap: (){
+                    onDoubleTap: () {},
+                    onTap: () {
                       Navigator.pop(context);
                     },
                     child: Container(
                       color: Colors.transparent,
-                      child: Icon(Icons.clear,
-                      color: Colors.red,),
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 )

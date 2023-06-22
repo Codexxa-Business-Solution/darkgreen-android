@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-GetWalletHistoryResponseModel getWalletHistoryResponseModelFromJson(String str) => GetWalletHistoryResponseModel.fromJson(json.decode(str));
+GetWalletHistoryResponseModel getWalletHistoryResponseModelFromJson(
+        String str) =>
+    GetWalletHistoryResponseModel.fromJson(json.decode(str));
 
-String getWalletHistoryResponseModelToJson(GetWalletHistoryResponseModel data) => json.encode(data.toJson());
+String getWalletHistoryResponseModelToJson(
+        GetWalletHistoryResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetWalletHistoryResponseModel {
   GetWalletHistoryResponseModel({
@@ -19,17 +23,18 @@ class GetWalletHistoryResponseModel {
   String total;
   List<Datum> data;
 
-  factory GetWalletHistoryResponseModel.fromJson(Map<String, dynamic> json) => GetWalletHistoryResponseModel(
-    error: json["error"],
-    total: json["total"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+  factory GetWalletHistoryResponseModel.fromJson(Map<String, dynamic> json) =>
+      GetWalletHistoryResponseModel(
+        error: json["error"],
+        total: json["total"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "total": total,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "error": error,
+        "total": total,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
@@ -60,30 +65,30 @@ class Datum {
   String txnId;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    orderId: json["order_id"],
-    userId: json["user_id"],
-    type: json["type"],
-    amount: json["amount"],
-    message: json["message"],
-    status: json["status"],
-    dateCreated: DateTime.parse(json["date_created"]),
-    lastUpdated: json["last_updated"],
-    payuTxnId: json["payu_txn_id"],
-    txnId: json["txn_id"],
-  );
+        id: json["id"],
+        orderId: json["order_id"],
+        userId: json["user_id"],
+        type: json["type"],
+        amount: json["amount"],
+        message: json["message"],
+        status: json["status"],
+        dateCreated: DateTime.parse(json["date_created"]),
+        lastUpdated: json["last_updated"],
+        payuTxnId: json["payu_txn_id"],
+        txnId: json["txn_id"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "order_id": orderId,
-    "user_id": userId,
-    "type": type,
-    "amount": amount,
-    "message": message,
-    "status": status,
-    "date_created": dateCreated.toIso8601String(),
-    "last_updated": lastUpdated,
-    "payu_txn_id": payuTxnId,
-    "txn_id": txnId,
-  };
+        "id": id,
+        "order_id": orderId,
+        "user_id": userId,
+        "type": type,
+        "amount": amount,
+        "message": message,
+        "status": status,
+        "date_created": dateCreated.toIso8601String(),
+        "last_updated": lastUpdated,
+        "payu_txn_id": payuTxnId,
+        "txn_id": txnId,
+      };
 }

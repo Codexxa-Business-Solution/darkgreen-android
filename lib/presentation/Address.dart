@@ -87,8 +87,7 @@ class _AddressState extends State<Address> {
 
     print("${widget.lat}, ${widget.long} ${widget.isCome}");
 
-
-    if(mounted){
+    if (mounted) {
       setState(() {
         fullName.text = widget.fullName;
         phoneNumber.text = widget.phoneNumber;
@@ -106,8 +105,6 @@ class _AddressState extends State<Address> {
     }
 
     isDefault == "1" ? isChecked = true : isChecked = false;
-
-
   }
 
   @override
@@ -141,7 +138,9 @@ class _AddressState extends State<Address> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 title: Text(
-                  widget.isCome == "1" ? "Address Added Successfully." : "Address Updated Successfully.",
+                  widget.isCome == "1"
+                      ? "Address Added Successfully."
+                      : "Address Updated Successfully.",
                   style: TextStyle(
                       fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                       fontFamily: 'Roboto_Medium',
@@ -164,7 +163,6 @@ class _AddressState extends State<Address> {
             onTap: () {
               Navigator.pop(context, AllCommonApis().getAddressOfUser());
             },
-            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -215,7 +213,6 @@ class _AddressState extends State<Address> {
               left: parentHeight * 0.07,
               right: parentWidth * 0.14),
           child: GestureDetector(
-            
             onTap: () {
               showCupertinoDialog(
                 context: context,
@@ -529,7 +526,6 @@ class _AddressState extends State<Address> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                
                 onTap: () {
                   if (mounted) {
                     setState(() {
@@ -582,7 +578,6 @@ class _AddressState extends State<Address> {
                 ),
               ),
               GestureDetector(
-                
                 onTap: () {
                   if (mounted) {
                     setState(() {
@@ -598,7 +593,6 @@ class _AddressState extends State<Address> {
                         alignment: Alignment.center,
                         children: [
                           GestureDetector(
-                            
                             onTap: () {
                               if (mounted) {
                                 setState(() {
@@ -740,7 +734,7 @@ class _AddressState extends State<Address> {
                               if (state.text.isNotEmpty) {
                                 if (pinCode.text.isNotEmpty) {
                                   if (isType != "0") {
-                                    if(widget.isCome == "1"){
+                                    if (widget.isCome == "1") {
                                       AddAddress(
                                           fullName.text.trim(),
                                           phoneNumber.text.trim(),
@@ -754,7 +748,7 @@ class _AddressState extends State<Address> {
                                           pinCode.text.trim(),
                                           widget.lat,
                                           widget.long);
-                                    }else{
+                                    } else {
                                       updateAddress(
                                         fullName.text.trim(),
                                         phoneNumber.text.trim(),
@@ -771,7 +765,6 @@ class _AddressState extends State<Address> {
                                         widget.long,
                                       );
                                     }
-
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
@@ -923,7 +916,6 @@ class _AddressState extends State<Address> {
     }
   }
 
-
   void updateAddress(
       String name,
       String number,
@@ -952,7 +944,7 @@ class _AddressState extends State<Address> {
           body: {
             "accesskey": "90336",
             "update_address": "1",
-            "id":addressId,
+            "id": addressId,
             "user_id": id,
             "type": isType,
             "name": name,

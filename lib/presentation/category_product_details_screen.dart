@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
@@ -46,10 +47,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
   void initState() {
     super.initState();
     // AllCommonApis().productByCategoriesApi(widget.subCatId);
-    if(mounted){
+    if (mounted) {
       setState(() {
-        AllCommonApis().getAllCarts().then((value){
-          if(mounted){
+        AllCommonApis().getAllCarts().then((value) {
+          if (mounted) {
             setState(() {
               totalCartCount = value.data.length;
               print(totalCartCount);
@@ -79,81 +80,70 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
       body: Column(
         children: [
           Container(
-              color: CommonColor.APP_BAR_COLOR,
-              height: SizeConfig.screenHeight * 0.12,
-              child: Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.05, left: SizeConfig.screenWidth*0.035),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: SizeConfig.screenWidth*0.12,
-                      decoration: BoxDecoration(
-                        color: CommonColor.CIRCLE_COLOR,
-                        shape: BoxShape.circle,
-                        image: DecorationImage(image: AssetImage("assets/images/appLogo.jpeg",),
-                          fit: BoxFit.contain,),
+            color: CommonColor.APP_BAR_COLOR,
+            height: SizeConfig.screenHeight * 0.12,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: SizeConfig.screenHeight * 0.05,
+                  left: SizeConfig.screenWidth * 0.035),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: SizeConfig.screenWidth * 0.12,
+                    decoration: BoxDecoration(
+                      color: CommonColor.CIRCLE_COLOR,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/images/appLogo.jpeg",
+                        ),
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
-                      child: Container(
-                        color: Colors.transparent,
-                        width: SizeConfig.screenWidth*0.6,
-                        child: Center(
-                          child: Text(widget.subProName,
-                            style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                                fontFamily: "Roboto_Medium",
-                                fontWeight: FontWeight.w500,
-                                color: CommonColor.WHITE_COLOR
-                            ),textAlign: TextAlign.center,),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
+                    child: Container(
+                      color: Colors.transparent,
+                      width: SizeConfig.screenWidth * 0.6,
+                      child: Center(
+                        child: Text(
+                          widget.subProName,
+                          style: TextStyle(
+                              fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                              fontFamily: "Roboto_Medium",
+                              fontWeight: FontWeight.w500,
+                              color: CommonColor.WHITE_COLOR),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.01),
-                      child: Container(
-                        width: SizeConfig.screenWidth*0.2,
-                        // color: Colors.blue,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onDoubleTap: (){},
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
-                                  setState(() {
-                                    if(mounted){
-                                      setState(() {
-                                        AllCommonApis().getAllCarts().then((value) {
-                                          if (mounted) {
-                                            setState(() {
-                                              totalCartCount = value.data.length;
-                                              print(cartCount);
-                                            });
-                                          }
-                                        });
-                                      });
-                                    }
-                                  });
-                                });
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                                child: Icon(Icons.search,
-                                  color: Colors.white,
-                                  size: SizeConfig.screenHeight*0.035,),
-                              ),
-                            ),
-                            GestureDetector(
-                              onDoubleTap: (){},
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
-                                  if(mounted){
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: SizeConfig.screenWidth * 0.01),
+                    child: Container(
+                      width: SizeConfig.screenWidth * 0.2,
+                      // color: Colors.blue,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onDoubleTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchProduct())).then((value) {
+                                setState(() {
+                                  if (mounted) {
                                     setState(() {
-                                      AllCommonApis().productByCategoriesApi(widget.subCatId);
-                                      AllCommonApis().getAllCarts().then((value) {
+                                      AllCommonApis()
+                                          .getAllCarts()
+                                          .then((value) {
                                         if (mounted) {
                                           setState(() {
                                             totalCartCount = value.data.length;
@@ -164,57 +154,105 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                     });
                                   }
                                 });
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                                child: Stack(
-                                  alignment: Alignment.topRight,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
-                                      child: Container(
-                                        height: SizeConfig.screenHeight*0.05,
-                                        color: Colors.transparent,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Image(image: AssetImage("assets/images/trolly.png"),
-                                            height: SizeConfig.screenHeight*0.03,),
+                              });
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                                size: SizeConfig.screenHeight * 0.035,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onDoubleTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Cart()))
+                                  .then((value) {
+                                if (mounted) {
+                                  setState(() {
+                                    AllCommonApis().productByCategoriesApi(
+                                        widget.subCatId);
+                                    AllCommonApis().getAllCarts().then((value) {
+                                      if (mounted) {
+                                        setState(() {
+                                          totalCartCount = value.data.length;
+                                          print(cartCount);
+                                        });
+                                      }
+                                    });
+                                  });
+                                }
+                              });
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: SizeConfig.screenHeight * 0.01),
+                                    child: Container(
+                                      height: SizeConfig.screenHeight * 0.05,
+                                      color: Colors.transparent,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image(
+                                          image: AssetImage(
+                                              "assets/images/trolly.png"),
+                                          height:
+                                              SizeConfig.screenHeight * 0.03,
                                         ),
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: totalCartCount == 0 ? false : true,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
-                                        child: Container(
-                                          height: SizeConfig.screenHeight*0.05,
-                                          width: SizeConfig.screenWidth*0.05,
-                                          decoration: BoxDecoration(
-                                              color: CommonColor.WHITE_COLOR,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                                          ),
-                                          child: Center(
-                                            child: Text("$totalCartCount",
-                                              style: TextStyle(
-                                                  fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                                  color: Colors.black
-                                              ),),
+                                  ),
+                                  Visibility(
+                                    visible: totalCartCount == 0 ? false : true,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom:
+                                              SizeConfig.screenHeight * 0.04,
+                                          right:
+                                              SizeConfig.screenWidth * 0.005),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight * 0.05,
+                                        width: SizeConfig.screenWidth * 0.05,
+                                        decoration: BoxDecoration(
+                                            color: CommonColor.WHITE_COLOR,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color:
+                                                    CommonColor.APP_BAR_COLOR)),
+                                        child: Center(
+                                          child: Text(
+                                            "$totalCartCount",
+                                            style: TextStyle(
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    2.5,
+                                                color: Colors.black),
                                           ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
           RefreshIndicator(
             color: CommonColor.REFRESH_INDICATOR_COLOR,
             onRefresh: () async {
@@ -262,12 +300,14 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                           final img = snap.data?.data[index].image != null
                               ? Image.network(
                                   "${snap.data?.data[index].image}",
-                            fit: BoxFit.fill,
+                                  fit: BoxFit.fill,
                                 )
                               : Image.network("");
 
-                          price = int.parse("${snap.data?.data[index].variants[0].price}");
-                          discountPrice = int.parse("${snap.data?.data[index].variants[0].discountedPrice}");
+                          price = int.parse(
+                              "${snap.data?.data[index].variants[0].price}");
+                          discountPrice = int.parse(
+                              "${snap.data?.data[index].variants[0].discountedPrice}");
                           savingPrice = price - discountPrice;
 
                           return Padding(
@@ -276,7 +316,6 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                 bottom: SizeConfig.screenHeight * 0.01,
                                 left: SizeConfig.screenWidth * 0.05),
                             child: GestureDetector(
-                              
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -285,11 +324,14 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                               productId:
                                                   "${snap.data?.data[index].id}",
                                               catId: "",
-                                            ))).then((value){
-                                  if(mounted){
+                                            ))).then((value) {
+                                  if (mounted) {
                                     setState(() {
-                                      AllCommonApis().productByCategoriesApi(widget.subCatId);
-                                      AllCommonApis().getAllCarts().then((value) {
+                                      AllCommonApis().productByCategoriesApi(
+                                          widget.subCatId);
+                                      AllCommonApis()
+                                          .getAllCarts()
+                                          .then((value) {
                                         if (mounted) {
                                           setState(() {
                                             totalCartCount = value.data.length;
@@ -331,7 +373,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                             width:
                                                 SizeConfig.screenWidth * 0.47,
                                             child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                               child: img,
                                             )),
                                         Padding(
@@ -387,12 +430,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .screenWidth *
                                                               0.02),
                                                       child: GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].variants[0].productId}";
 
-                                                          productName = "${snap.data?.data[0].name}";
+                                                          productName =
+                                                              "${snap.data?.data[0].name}";
 
                                                           favTap = 0;
 
@@ -404,11 +447,17 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           result.then((value) {
                                                             if (mounted) {
                                                               setState(() {
-                                                                _isDialogVisible = true;
+                                                                _isDialogVisible =
+                                                                    true;
 
-                                                                Future.delayed(const Duration(seconds: 2), () {
+                                                                Future.delayed(
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            2),
+                                                                    () {
                                                                   setState(() {
-                                                                    _isDialogVisible = false;
+                                                                    _isDialogVisible =
+                                                                        false;
                                                                   });
                                                                 });
                                                               });
@@ -433,12 +482,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .screenWidth *
                                                               0.02),
                                                       child: GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].variants[0].productId}";
 
-                                                          productName = "${snap.data?.data[0].name}";
+                                                          productName =
+                                                              "${snap.data?.data[0].name}";
 
                                                           favTap = 1;
 
@@ -450,11 +499,17 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           result.then((value) {
                                                             if (mounted) {
                                                               setState(() {
-                                                                _isDialogVisible = true;
+                                                                _isDialogVisible =
+                                                                    true;
 
-                                                                Future.delayed(const Duration(seconds: 2), () {
+                                                                Future.delayed(
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            2),
+                                                                    () {
                                                                   setState(() {
-                                                                    _isDialogVisible = false;
+                                                                    _isDialogVisible =
+                                                                        false;
                                                                   });
                                                                 });
                                                               });
@@ -671,7 +726,6 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       child: Row(
                                                         children: [
                                                           GestureDetector(
-                                                            
                                                             onTap: () {
                                                               productId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -701,12 +755,18 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .then(
                                                                       (value) {
                                                                 setState(() {
-                                                                  if(mounted){
-                                                                    setState(() {
-                                                                      AllCommonApis().getAllCarts().then((value) {
+                                                                  if (mounted) {
+                                                                    setState(
+                                                                        () {
+                                                                      AllCommonApis()
+                                                                          .getAllCarts()
+                                                                          .then(
+                                                                              (value) {
                                                                         if (mounted) {
-                                                                          setState(() {
-                                                                            totalCartCount = value.data.length;
+                                                                          setState(
+                                                                              () {
+                                                                            totalCartCount =
+                                                                                value.data.length;
                                                                             print(totalCartCount);
                                                                           });
                                                                         }
@@ -773,7 +833,6 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                             )),
                                                           ),
                                                           GestureDetector(
-                                                            
                                                             onTap: () {
                                                               productId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
@@ -802,12 +861,18 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .then(
                                                                       (value) {
                                                                 setState(() {
-                                                                  if(mounted){
-                                                                    setState(() {
-                                                                      AllCommonApis().getAllCarts().then((value) {
+                                                                  if (mounted) {
+                                                                    setState(
+                                                                        () {
+                                                                      AllCommonApis()
+                                                                          .getAllCarts()
+                                                                          .then(
+                                                                              (value) {
                                                                         if (mounted) {
-                                                                          setState(() {
-                                                                            totalCartCount = value.data.length;
+                                                                          setState(
+                                                                              () {
+                                                                            totalCartCount =
+                                                                                value.data.length;
                                                                             print(cartCount);
                                                                           });
                                                                         }
@@ -861,8 +926,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                               ? true
                                               : false,
                                           child: Padding(
-                                            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
-                                            bottom: SizeConfig.screenHeight*0.01),
+                                            padding: EdgeInsets.only(
+                                                right: SizeConfig.screenWidth *
+                                                    0.03,
+                                                bottom:
+                                                    SizeConfig.screenHeight *
+                                                        0.01),
                                             child: GestureDetector(
                                               onTap: () {
                                                 productId =
@@ -876,8 +945,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
 
                                                 cartCount++;
 
-                                                snap.data?.data[index].variants[0]
-                                                        .cartCount =
+                                                snap.data?.data[index]
+                                                        .variants[0].cartCount =
                                                     cartCount.toString();
 
                                                 AllCommonApis()
@@ -887,10 +956,13 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                         cartCount.toString())
                                                     .then((value) {
                                                   setState(() {
-                                                    AllCommonApis().getAllCarts().then((value) {
+                                                    AllCommonApis()
+                                                        .getAllCarts()
+                                                        .then((value) {
                                                       if (mounted) {
                                                         setState(() {
-                                                          totalCartCount = value.data.length;
+                                                          totalCartCount =
+                                                              value.data.length;
                                                           print(totalCartCount);
                                                         });
                                                       }
@@ -899,19 +971,23 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                 });
                                               },
                                               child: Container(
-                                                height: SizeConfig.screenHeight *
-                                                    0.04,
-                                                width:
-                                                    SizeConfig.screenWidth * 0.09,
+                                                height:
+                                                    SizeConfig.screenHeight *
+                                                        0.04,
+                                                width: SizeConfig.screenWidth *
+                                                    0.09,
                                                 decoration: BoxDecoration(
-                                                    color:
-                                                        CommonColor.APP_BAR_COLOR,
+                                                    color: CommonColor
+                                                        .APP_BAR_COLOR,
                                                     borderRadius:
-                                                        BorderRadius.circular(10)),
-                                                child:  Icon(
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Icon(
                                                   Icons.add,
                                                   color: Colors.white,
-                                                  size: SizeConfig.screenHeight*0.025,
+                                                  size:
+                                                      SizeConfig.screenHeight *
+                                                          0.025,
                                                 ),
                                               ),
                                             ),
@@ -980,7 +1056,6 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
             onTap: () {
               Navigator.pop(context);
             },
-            
             child: Container(
               color: Colors.transparent,
               child: Icon(

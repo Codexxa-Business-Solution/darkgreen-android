@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
 class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
@@ -11,7 +9,7 @@ class SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight
   /// `crossAxisSpacing` arguments must not be negative. The `crossAxisCount`
   /// and `childAspectRatio` arguments must be greater than zero.
   const SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight({
-     required this.crossAxisCount,
+    required this.crossAxisCount,
     this.mainAxisSpacing = 0.0,
     this.crossAxisSpacing = 0.0,
     this.height = 56.0,

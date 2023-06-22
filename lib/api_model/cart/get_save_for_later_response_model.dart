@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-GetSaveForLaterResponseModel getSaveForLaterResponseModelFromJson(String str) => GetSaveForLaterResponseModel.fromJson(json.decode(str));
+GetSaveForLaterResponseModel getSaveForLaterResponseModelFromJson(String str) =>
+    GetSaveForLaterResponseModel.fromJson(json.decode(str));
 
-String getSaveForLaterResponseModelToJson(GetSaveForLaterResponseModel data) => json.encode(data.toJson());
+String getSaveForLaterResponseModelToJson(GetSaveForLaterResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetSaveForLaterResponseModel {
   GetSaveForLaterResponseModel({
@@ -21,19 +23,22 @@ class GetSaveForLaterResponseModel {
   int total;
   List<Datum> data;
 
-  factory GetSaveForLaterResponseModel.fromJson(Map<String, dynamic> json) => GetSaveForLaterResponseModel(
-    error: json["error"],
-    message: json["message"],
-    total: json["total"] ?? 0,
-    data: List<Datum>.from(json["data"] != null ? json["data"].map((x) => Datum.fromJson(x)) :[]),
-  );
+  factory GetSaveForLaterResponseModel.fromJson(Map<String, dynamic> json) =>
+      GetSaveForLaterResponseModel(
+        error: json["error"],
+        message: json["message"],
+        total: json["total"] ?? 0,
+        data: List<Datum>.from(json["data"] != null
+            ? json["data"].map((x) => Datum.fromJson(x))
+            : []),
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-    "total": total,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "error": error,
+        "message": message,
+        "total": total,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
@@ -86,52 +91,52 @@ class Datum {
   String saveForLater;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    productId: json["product_id"],
-    productVariantId: json["product_variant_id"],
-    isCodAllowed: json["is_cod_allowed"],
-    type: json["type"],
-    measurement: json["measurement"],
-    price: json["price"],
-    discountedPrice: json["discounted_price"],
-    serveFor: json["serve_for"],
-    stock: json["stock"],
-    name: json["name"],
-    slug: json["slug"],
-    image: json["image"],
-    taxPercentage: json["tax_percentage"],
-    taxTitle: json["tax_title"],
-    totalAllowedQuantity: json["total_allowed_quantity"],
-    images: List<dynamic>.from(json["images"].map((x) => x)),
-    unit: json["unit"],
-    stockUnitName: json["stock_unit_name"],
-    id: json["id"],
-    qty: json["qty"],
-    userId: json["user_id"],
-    saveForLater: json["save_for_later"],
-  );
+        productId: json["product_id"],
+        productVariantId: json["product_variant_id"],
+        isCodAllowed: json["is_cod_allowed"],
+        type: json["type"],
+        measurement: json["measurement"],
+        price: json["price"],
+        discountedPrice: json["discounted_price"],
+        serveFor: json["serve_for"],
+        stock: json["stock"],
+        name: json["name"],
+        slug: json["slug"],
+        image: json["image"],
+        taxPercentage: json["tax_percentage"],
+        taxTitle: json["tax_title"],
+        totalAllowedQuantity: json["total_allowed_quantity"],
+        images: List<dynamic>.from(json["images"].map((x) => x)),
+        unit: json["unit"],
+        stockUnitName: json["stock_unit_name"],
+        id: json["id"],
+        qty: json["qty"],
+        userId: json["user_id"],
+        saveForLater: json["save_for_later"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "product_id": productId,
-    "product_variant_id": productVariantId,
-    "is_cod_allowed": isCodAllowed,
-    "type": type,
-    "measurement": measurement,
-    "price": price,
-    "discounted_price": discountedPrice,
-    "serve_for": serveFor,
-    "stock": stock,
-    "name": name,
-    "slug": slug,
-    "image": image,
-    "tax_percentage": taxPercentage,
-    "tax_title": taxTitle,
-    "total_allowed_quantity": totalAllowedQuantity,
-    "images": List<dynamic>.from(images.map((x) => x)),
-    "unit": unit,
-    "stock_unit_name": stockUnitName,
-    "id": id,
-    "qty": qty,
-    "user_id": userId,
-    "save_for_later": saveForLater,
-  };
+        "product_id": productId,
+        "product_variant_id": productVariantId,
+        "is_cod_allowed": isCodAllowed,
+        "type": type,
+        "measurement": measurement,
+        "price": price,
+        "discounted_price": discountedPrice,
+        "serve_for": serveFor,
+        "stock": stock,
+        "name": name,
+        "slug": slug,
+        "image": image,
+        "tax_percentage": taxPercentage,
+        "tax_title": taxTitle,
+        "total_allowed_quantity": totalAllowedQuantity,
+        "images": List<dynamic>.from(images.map((x) => x)),
+        "unit": unit,
+        "stock_unit_name": stockUnitName,
+        "id": id,
+        "qty": qty,
+        "user_id": userId,
+        "save_for_later": saveForLater,
+      };
 }

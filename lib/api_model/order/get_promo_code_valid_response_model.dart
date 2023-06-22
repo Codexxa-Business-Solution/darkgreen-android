@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-GetPromoCodeValidResponseModel getPromoCodeValidResponseModelFromJson(String str) => GetPromoCodeValidResponseModel.fromJson(json.decode(str));
+GetPromoCodeValidResponseModel getPromoCodeValidResponseModelFromJson(
+        String str) =>
+    GetPromoCodeValidResponseModel.fromJson(json.decode(str));
 
-String getPromoCodeValidResponseModelToJson(GetPromoCodeValidResponseModel data) => json.encode(data.toJson());
+String getPromoCodeValidResponseModelToJson(
+        GetPromoCodeValidResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetPromoCodeValidResponseModel {
   bool error;
@@ -27,23 +31,24 @@ class GetPromoCodeValidResponseModel {
     required this.discountedAmount,
   });
 
-  factory GetPromoCodeValidResponseModel.fromJson(Map<String, dynamic> json) => GetPromoCodeValidResponseModel(
-    error: json["error"],
-    message: json["message"],
-    promoCode: json["promo_code"],
-    promoCodeMessage: json["promo_code_message"],
-    total: json["total"],
-    discount: json["discount"],
-    discountedAmount: json["discounted_amount"],
-  );
+  factory GetPromoCodeValidResponseModel.fromJson(Map<String, dynamic> json) =>
+      GetPromoCodeValidResponseModel(
+        error: json["error"],
+        message: json["message"],
+        promoCode: json["promo_code"],
+        promoCodeMessage: json["promo_code_message"],
+        total: json["total"],
+        discount: json["discount"],
+        discountedAmount: json["discounted_amount"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-    "promo_code": promoCode,
-    "promo_code_message": promoCodeMessage,
-    "total": total,
-    "discount": discount,
-    "discounted_amount": discountedAmount,
-  };
+        "error": error,
+        "message": message,
+        "promo_code": promoCode,
+        "promo_code_message": promoCodeMessage,
+        "total": total,
+        "discount": discount,
+        "discounted_amount": discountedAmount,
+      };
 }

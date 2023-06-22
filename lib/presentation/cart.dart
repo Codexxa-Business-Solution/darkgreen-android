@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
@@ -8,6 +9,7 @@ import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:darkgreen/presentation/save_for_later_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
 import '../constant/color.dart';
 
 class Cart extends StatefulWidget {
@@ -33,7 +35,6 @@ class _CartState extends State<Cart> {
     super.initState();
 
     refresh();
-
   }
 
   void refresh() {
@@ -46,14 +47,14 @@ class _CartState extends State<Cart> {
           totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
             totalCartAmount +=
-            (int.parse(element.discountedPrice) * int.parse(element.qty));
+                (int.parse(element.discountedPrice) * int.parse(element.qty));
           }
         });
       }
     });
 
-    AllCommonApis().getSaveForLater().then((value){
-      if(mounted){
+    AllCommonApis().getSaveForLater().then((value) {
+      if (mounted) {
         setState(() {
           laterCartCount = value.data.length;
         });
@@ -75,7 +76,8 @@ class _CartState extends State<Cart> {
           ),
           Column(
             children: [
-              getAllCartsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+              getAllCartsLayout(
+                  SizeConfig.screenHeight, SizeConfig.screenWidth),
             ],
           )
         ],
@@ -97,7 +99,6 @@ class _CartState extends State<Cart> {
               onTap: () {
                 Navigator.pop(context);
               },
-              
               child: Padding(
                 padding: EdgeInsets.only(left: parentWidth * .04),
                 child: Container(
@@ -124,10 +125,13 @@ class _CartState extends State<Cart> {
             Padding(
               padding: EdgeInsets.only(right: parentWidth * .04),
               child: GestureDetector(
-                onDoubleTap: (){},
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SaveForLater())).then((value){
-                    if(mounted){
+                onDoubleTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SaveForLater())).then((value) {
+                    if (mounted) {
                       setState(() {
                         refresh();
                       });
@@ -137,41 +141,48 @@ class _CartState extends State<Cart> {
                 child: Container(
                   color: Colors.transparent,
                   child: Padding(
-                    padding: EdgeInsets.only(top: parentHeight*0.03),
+                    padding: EdgeInsets.only(top: parentHeight * 0.03),
                     child: Stack(
                       alignment: Alignment.topRight,
                       children: [
                         Container(
-                          width: parentWidth*0.1,
-                          height: parentHeight*0.04,
+                          width: parentWidth * 0.1,
+                          height: parentHeight * 0.04,
                           color: Colors.transparent,
                           child: Padding(
                             padding: const EdgeInsets.all(7.0),
                             child: Center(
-                              child: Image(image: AssetImage("assets/images/save_later.png"),
-                              height: parentHeight*0.03,
-                              color: Colors.white,),
+                              child: Image(
+                                image:
+                                    AssetImage("assets/images/save_later.png"),
+                                height: parentHeight * 0.03,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                         Visibility(
                           visible: laterCartCount == 0 ? false : true,
                           child: Padding(
-                            padding: EdgeInsets.only(bottom: parentHeight*0.027, right: parentWidth*0.005),
+                            padding: EdgeInsets.only(
+                                bottom: parentHeight * 0.027,
+                                right: parentWidth * 0.005),
                             child: Container(
-                              height: parentHeight*0.05,
-                              width: parentWidth*0.05,
+                              height: parentHeight * 0.05,
+                              width: parentWidth * 0.05,
                               decoration: BoxDecoration(
                                   color: CommonColor.WHITE_COLOR,
                                   shape: BoxShape.circle,
-                                border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                              ),
+                                  border: Border.all(
+                                      color: CommonColor.APP_BAR_COLOR)),
                               child: Center(
-                                child: Text("$laterCartCount",
-                                style: TextStyle(
-                                  fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                  color: Colors.black
-                                ),),
+                                child: Text(
+                                  "$laterCartCount",
+                                  style: TextStyle(
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 2.5,
+                                      color: Colors.black),
+                                ),
                               ),
                             ),
                           ),
@@ -224,8 +235,8 @@ class _CartState extends State<Cart> {
 
                     final img = data.data[index].image.isNotEmpty
                         ? Image.network(
-                      "${data.data[index].image}",
-                    )
+                            "${data.data[index].image}",
+                          )
                         : Image.network("");
 
                     return Padding(
@@ -260,30 +271,32 @@ class _CartState extends State<Cart> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding:
-                                  EdgeInsets.only(top: parentHeight * 0.02, left: parentWidth*0.01),
+                              padding: EdgeInsets.only(
+                                  top: parentHeight * 0.02,
+                                  left: parentWidth * 0.01),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    height: parentWidth * 0.2,
-                                    width: parentWidth * 0.2,
-                                    decoration: BoxDecoration(
-                                      boxShadow: <BoxShadow>[
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
-                                            blurRadius: 2,
-                                            spreadRadius: 1,
-                                            offset: Offset(1, 2))
-                                      ],
+                                      height: parentWidth * 0.2,
+                                      width: parentWidth * 0.2,
+                                      decoration: BoxDecoration(
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.2),
+                                              blurRadius: 2,
+                                              spreadRadius: 1,
+                                              offset: Offset(1, 2))
+                                        ],
                                         color: CommonColor.WHITE_COLOR,
                                         borderRadius: BorderRadius.circular(8),
-                                      // border: Border.all(color: Colors.black, width: parentWidth*0.0005)
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: img,
-                                    )),
+                                        // border: Border.all(color: Colors.black, width: parentWidth*0.0005)
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: img,
+                                      )),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -292,8 +305,9 @@ class _CartState extends State<Cart> {
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                                left: parentWidth * 0.03,
-                                                right: parentWidth * 0.01,),
+                                              left: parentWidth * 0.03,
+                                              right: parentWidth * 0.01,
+                                            ),
                                             child: Container(
                                               width: parentWidth * 0.61,
                                               color: Colors.transparent,
@@ -342,52 +356,60 @@ class _CartState extends State<Cart> {
                                       ),
                                       Container(
                                         color: Colors.transparent,
-                                        width: parentWidth*0.7,
+                                        width: parentWidth * 0.7,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                           Padding(
-                                             padding: EdgeInsets.only(
-                                                 left: parentWidth * 0.03),
-                                             child: Container(
-                                               color: Colors.transparent,
-                                               width: parentWidth*0.45,
-                                               child: Row(
-                                                 children: [
-                                                   Text(
-                                                     "Rs.${snap.data?.data[index].discountedPrice}",
-                                                     style: TextStyle(
-                                                         color: Colors.black,
-                                                         fontSize: SizeConfig
-                                                             .blockSizeHorizontal *
-                                                             4.5,
-                                                         fontFamily: 'Roboto_Medium',
-                                                         fontWeight:
-                                                         FontWeight.w500),
-                                                     textAlign: TextAlign.center,
-                                                   ),
-                                                   Padding(
-                                                     padding: EdgeInsets.only(left: parentWidth*0.02),
-                                                     child: Text(
-                                                       "Rs.${snap.data?.data[index].price}",
-                                                       style: TextStyle(
-                                                           color: CommonColor
-                                                               .DISCOUNT_COLOR,
-                                                           fontSize: SizeConfig
-                                                               .blockSizeHorizontal *
-                                                               4.5,
-                                                           fontFamily: 'Roboto_Medium',
-                                                           fontWeight: FontWeight.w500,
-                                                           decoration: TextDecoration
-                                                               .lineThrough),
-                                                       textAlign: TextAlign.center,
-                                                     ),
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
-                                           ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: parentWidth * 0.03),
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                width: parentWidth * 0.45,
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "Rs.${snap.data?.data[index].discountedPrice}",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              4.5,
+                                                          fontFamily:
+                                                              'Roboto_Medium',
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: parentWidth *
+                                                              0.02),
+                                                      child: Text(
+                                                        "Rs.${snap.data?.data[index].price}",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .DISCOUNT_COLOR,
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                4.5,
+                                                            fontFamily:
+                                                                'Roboto_Medium',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
                                             Padding(
                                               padding: EdgeInsets.only(
                                                   top: parentHeight * 0.0),
@@ -396,7 +418,6 @@ class _CartState extends State<Cart> {
                                                   Row(
                                                     children: [
                                                       GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].productId}";
@@ -422,7 +443,8 @@ class _CartState extends State<Cart> {
                                                               .then((value) {
                                                             if (mounted) {
                                                               setState(() {
-                                                                print("hhuihuhuihhui");
+                                                                print(
+                                                                    "hhuihuhuihhui");
                                                                 refresh();
                                                               });
                                                             }
@@ -451,7 +473,8 @@ class _CartState extends State<Cart> {
                                                                 fontSize: SizeConfig
                                                                         .blockSizeHorizontal *
                                                                     5.6),
-                                                            textScaleFactor: 1.0,
+                                                            textScaleFactor:
+                                                                1.0,
                                                           )),
                                                         ),
                                                       ),
@@ -467,7 +490,8 @@ class _CartState extends State<Cart> {
                                                                 .WHITE_COLOR,
                                                             borderRadius:
                                                                 BorderRadius
-                                                                    .circular(5)),
+                                                                    .circular(
+                                                                        5)),
                                                         child: Center(
                                                             child: Text(
                                                           "${snap.data?.data[index].qty}",
@@ -481,7 +505,6 @@ class _CartState extends State<Cart> {
                                                         )),
                                                       ),
                                                       GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
                                                               "${snap.data?.data[index].productId}";
@@ -535,7 +558,8 @@ class _CartState extends State<Cart> {
                                                                 fontSize: SizeConfig
                                                                         .blockSizeHorizontal *
                                                                     5.0),
-                                                            textScaleFactor: 1.0,
+                                                            textScaleFactor:
+                                                                1.0,
                                                           )),
                                                         ),
                                                       ),
@@ -584,10 +608,13 @@ class _CartState extends State<Cart> {
                                         fontFamily: 'Roboto-Medium'),
                                   ),
                                   GestureDetector(
-                                    onDoubleTap: (){},
-                                    onTap: (){
-                                      AllCommonApis().addSaveForLater("${snap.data?.data[index].productVariantId}").then((value){
-                                        if(mounted){
+                                    onDoubleTap: () {},
+                                    onTap: () {
+                                      AllCommonApis()
+                                          .addSaveForLater(
+                                              "${snap.data?.data[index].productVariantId}")
+                                          .then((value) {
+                                        if (mounted) {
                                           setState(() {
                                             refresh();
                                           });
@@ -603,9 +630,9 @@ class _CartState extends State<Cart> {
                                           "Save for later",
                                           style: TextStyle(
                                               color: CommonColor.APP_BAR_COLOR,
-                                              fontSize:
-                                                  SizeConfig.blockSizeHorizontal *
-                                                      4.0,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  4.0,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: 'Roboto-Medium'),
                                         ),
@@ -625,17 +652,17 @@ class _CartState extends State<Cart> {
           Container(
             height: SizeConfig.screenHeight * 0.13,
             decoration: BoxDecoration(
-              color: CommonColor.APP_BAR_COLOR,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    blurRadius: 7,
-                    spreadRadius: 3,
-                    offset: Offset(2, 2.0)),
-              ],
-              borderRadius: BorderRadius.only(topRight: Radius.circular(15),
-                  topLeft: Radius.circular(15))
-            ),
+                color: CommonColor.APP_BAR_COLOR,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 7,
+                      spreadRadius: 3,
+                      offset: Offset(2, 2.0)),
+                ],
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(15))),
             child: Column(
               children: [
                 Padding(
@@ -647,7 +674,6 @@ class _CartState extends State<Cart> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                        
                         onTap: () {
                           if (mounted) {
                             setState(() {
@@ -674,11 +700,13 @@ class _CartState extends State<Cart> {
                                     visible: isType == "1" ? true : false,
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          right: SizeConfig.screenWidth * 0.00277),
+                                          right:
+                                              SizeConfig.screenWidth * 0.00277),
                                       child: Icon(
                                         Icons.circle,
                                         color: CommonColor.WHITE_COLOR,
-                                        size: SizeConfig.blockSizeHorizontal * 3.9,
+                                        size: SizeConfig.blockSizeHorizontal *
+                                            3.9,
                                       ),
                                     ),
                                   ),
@@ -691,7 +719,8 @@ class _CartState extends State<Cart> {
                                   "Door Step Delivery",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4.0,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: 'Roboto_Regular'),
                                 ),
@@ -701,7 +730,6 @@ class _CartState extends State<Cart> {
                         ),
                       ),
                       GestureDetector(
-                        
                         onTap: () {
                           if (mounted) {
                             setState(() {
@@ -718,7 +746,6 @@ class _CartState extends State<Cart> {
                                 alignment: Alignment.center,
                                 children: [
                                   GestureDetector(
-                                    
                                     onTap: () {
                                       if (mounted) {
                                         setState(() {
@@ -738,11 +765,13 @@ class _CartState extends State<Cart> {
                                     visible: isType == "2" ? true : false,
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          right: SizeConfig.screenWidth * 0.0027),
+                                          right:
+                                              SizeConfig.screenWidth * 0.0027),
                                       child: Icon(
                                         Icons.circle,
                                         color: CommonColor.WHITE_COLOR,
-                                        size: SizeConfig.blockSizeHorizontal * 3.9,
+                                        size: SizeConfig.blockSizeHorizontal *
+                                            3.9,
                                       ),
                                     ),
                                   ),
@@ -755,7 +784,8 @@ class _CartState extends State<Cart> {
                                   "PickUp From Store",
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4.0,
                                       fontWeight: FontWeight.w400,
                                       fontFamily: 'Roboto_Regular'),
                                 ),
@@ -768,15 +798,14 @@ class _CartState extends State<Cart> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: parentHeight*0.013),
+                  padding: EdgeInsets.only(top: parentHeight * 0.013),
                   child: Container(
-                    height: parentHeight*0.0001,
+                    height: parentHeight * 0.0001,
                     color: Colors.white,
-
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: parentHeight*0.0),
+                  padding: EdgeInsets.only(top: parentHeight * 0.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -792,7 +821,8 @@ class _CartState extends State<Cart> {
                               "Rs.$totalCartAmount",
                               style: TextStyle(
                                   color: CommonColor.WHITE_COLOR,
-                                  fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 4.5,
                                   fontFamily: 'Roboto_Regular',
                                   fontWeight: FontWeight.w400),
                             ),
@@ -805,7 +835,8 @@ class _CartState extends State<Cart> {
                                     : "0 Items",
                                 style: TextStyle(
                                     color: CommonColor.WHITE_COLOR,
-                                    fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4.0,
                                     fontFamily: 'Roboto_Regular',
                                     fontWeight: FontWeight.w400),
                               ),
@@ -814,50 +845,57 @@ class _CartState extends State<Cart> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
+                        padding: EdgeInsets.only(
+                            right: SizeConfig.screenWidth * 0.05),
                         child: GestureDetector(
-                          
                           onTap: () {
-                            if(isType != "0"){
-                              if(isType == "1"){
+                            if (isType != "0") {
+                              if (isType == "1") {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddCheckPayParentScreen(
-                                          index: 0,
-                                          totalAmount: totalCartAmount,
-                                          itemCount: totalCartsCount ?? 0,
-                                          orderFormat: "1", addressId: '', productVariantList: [],
-                                          productVariantQtyList: [],
-                                        ))).then((value){
-                                  if(mounted){
+                                        builder: (context) =>
+                                            AddCheckPayParentScreen(
+                                              index: 0,
+                                              totalAmount: totalCartAmount,
+                                              itemCount: totalCartsCount ?? 0,
+                                              orderFormat: "1",
+                                              addressId: '',
+                                              productVariantList: [],
+                                              productVariantQtyList: [],
+                                            ))).then((value) {
+                                  if (mounted) {
                                     setState(() {
                                       refresh();
                                     });
                                   }
                                 });
-                              }else if(isType == "2"){
+                              } else if (isType == "2") {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AddCheckPayParentScreen(
-                                          index: 1,
-                                          totalAmount: totalCartAmount,
-                                          itemCount: totalCartsCount ?? 0,
-                                          orderFormat: "2", addressId: '', productVariantList: [], productVariantQtyList: [],
-                                        ))).then((value){
-                                  if(mounted){
+                                        builder: (context) =>
+                                            AddCheckPayParentScreen(
+                                              index: 1,
+                                              totalAmount: totalCartAmount,
+                                              itemCount: totalCartsCount ?? 0,
+                                              orderFormat: "2",
+                                              addressId: '',
+                                              productVariantList: [],
+                                              productVariantQtyList: [],
+                                            ))).then((value) {
+                                  if (mounted) {
                                     setState(() {
                                       refresh();
                                     });
                                   }
                                 });
                               }
-
-                            }else{
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(content: Text("Please Select Your Order Format.")));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Please Select Your Order Format.")));
                             }
                           },
                           child: Container(
@@ -868,7 +906,8 @@ class _CartState extends State<Cart> {
                                   "Continue",
                                   style: TextStyle(
                                       color: CommonColor.WHITE_COLOR,
-                                      fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5.0,
                                       fontFamily: 'Roboto_Bold',
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -897,9 +936,7 @@ class _CartState extends State<Cart> {
     );
   }
 
-
   Future<GetUserCartResponseModel> getAllCarts() async {
-
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -915,16 +952,17 @@ class _CartState extends State<Cart> {
     //     },
     //     headers: headersList);
 
-    var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
-      body: {
-        "accesskey": "90336",
-        "get_user_cart": "1",
-        "user_id": id,
-        "offset": "0",
-        "limit": "10"
-      },
-        headers: headersList).timeout(
+    var response = await http
+        .post(Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+            body: {
+              "accesskey": "90336",
+              "get_user_cart": "1",
+              "user_id": id,
+              "offset": "0",
+              "limit": "10"
+            },
+            headers: headersList)
+        .timeout(
       const Duration(seconds: 60),
       onTimeout: () {
         return http.Response('Error', 408);

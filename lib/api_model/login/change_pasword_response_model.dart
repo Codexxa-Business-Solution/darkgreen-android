@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-ChangePasswordResponseModel changePasswordResponseModelFromJson(String str) => ChangePasswordResponseModel.fromJson(json.decode(str));
+ChangePasswordResponseModel changePasswordResponseModelFromJson(String str) =>
+    ChangePasswordResponseModel.fromJson(json.decode(str));
 
-String changePasswordResponseModelToJson(ChangePasswordResponseModel data) => json.encode(data.toJson());
+String changePasswordResponseModelToJson(ChangePasswordResponseModel data) =>
+    json.encode(data.toJson());
 
 class ChangePasswordResponseModel {
   bool error;
@@ -17,13 +19,14 @@ class ChangePasswordResponseModel {
     required this.message,
   });
 
-  factory ChangePasswordResponseModel.fromJson(Map<String, dynamic> json) => ChangePasswordResponseModel(
-    error: json["error"],
-    message: json["message"],
-  );
+  factory ChangePasswordResponseModel.fromJson(Map<String, dynamic> json) =>
+      ChangePasswordResponseModel(
+        error: json["error"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-  };
+        "error": error,
+        "message": message,
+      };
 }

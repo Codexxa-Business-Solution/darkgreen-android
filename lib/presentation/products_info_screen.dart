@@ -41,7 +41,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
 
   bool _isDialogVisible = false;
 
-
   int sPrice = 0;
   int sDiscountPrice = 0;
   int sSavingPrice = 0;
@@ -58,7 +57,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
 
     // AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
 
-
     refresh();
   }
 
@@ -72,7 +70,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
           totalCartsCount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
             totalCartAmount +=
-            (int.parse(element.discountedPrice) * int.parse(element.qty));
+                (int.parse(element.discountedPrice) * int.parse(element.qty));
           }
         });
       }
@@ -189,18 +187,24 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     padding:
                         EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
                     child: GestureDetector(
-                      
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const Cart())).then((value){
-                          AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
-                            price = int.parse("${value.data[0].variants[0].price}");
-                            discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Cart()))
+                            .then((value) {
+                          AllCommonApis()
+                              .getProductInfoByIdApi(widget.productId)
+                              .then((value) {
+                            price =
+                                int.parse("${value.data[0].variants[0].price}");
+                            discountPrice = int.parse(
+                                "${value.data[0].variants[0].discountedPrice}");
                             savingPrice = price - discountPrice;
                           });
 
-                          AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
-
+                          AllCommonApis().getSimilarProductByIdApi(
+                              widget.productId, widget.catId);
 
                           refresh();
                         });
@@ -286,7 +290,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             onTap: () {
               Navigator.pop(context);
             },
-            
             child: Container(
               color: Colors.transparent,
               child: Icon(
@@ -297,18 +300,21 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             ),
           ),
           GestureDetector(
-            
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Cart())).then((value){
-                AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()))
+                  .then((value) {
+                AllCommonApis()
+                    .getProductInfoByIdApi(widget.productId)
+                    .then((value) {
                   price = int.parse("${value.data[0].variants[0].price}");
-                  discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                  discountPrice =
+                      int.parse("${value.data[0].variants[0].discountedPrice}");
                   savingPrice = price - discountPrice;
                 });
 
-                AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
-
+                AllCommonApis()
+                    .getSimilarProductByIdApi(widget.productId, widget.catId);
 
                 refresh();
               });
@@ -319,35 +325,41 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                 alignment: Alignment.topRight,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
+                    padding:
+                        EdgeInsets.only(top: SizeConfig.screenHeight * 0.01),
                     child: Container(
-                      height: SizeConfig.screenHeight*0.05,
+                      height: SizeConfig.screenHeight * 0.05,
                       color: Colors.transparent,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Image(image: AssetImage("assets/images/trolly.png"),
-                          height: SizeConfig.screenHeight*0.03,),
+                        child: Image(
+                          image: AssetImage("assets/images/trolly.png"),
+                          height: SizeConfig.screenHeight * 0.03,
+                        ),
                       ),
                     ),
                   ),
                   Visibility(
                     visible: totalCartCount == 0 ? false : true,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                      padding: EdgeInsets.only(
+                          bottom: SizeConfig.screenHeight * 0.04,
+                          right: SizeConfig.screenWidth * 0.005),
                       child: Container(
-                        height: SizeConfig.screenHeight*0.05,
-                        width: SizeConfig.screenWidth*0.05,
+                        height: SizeConfig.screenHeight * 0.05,
+                        width: SizeConfig.screenWidth * 0.05,
                         decoration: BoxDecoration(
                             color: CommonColor.WHITE_COLOR,
                             shape: BoxShape.circle,
-                            border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                        ),
+                            border:
+                                Border.all(color: CommonColor.APP_BAR_COLOR)),
                         child: Center(
-                          child: Text("$totalCartCount",
+                          child: Text(
+                            "$totalCartCount",
                             style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                color: Colors.black
-                            ),),
+                                fontSize: SizeConfig.blockSizeHorizontal * 2.5,
+                                color: Colors.black),
+                          ),
                         ),
                       ),
                     ),
@@ -366,7 +378,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
     final imgs = img != null
         ? Image.network(
             img,
-      fit: BoxFit.fill,
+            fit: BoxFit.fill,
           )
         : Image.network("");
     return Column(
@@ -410,8 +422,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                         child: Center(
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                  color: Colors.white, child: imgs)),
+                              child:
+                                  Container(color: Colors.white, child: imgs)),
                         )),
                     Padding(
                       padding: EdgeInsets.only(
@@ -500,7 +512,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             padding: EdgeInsets.only(
                                 right: SizeConfig.screenWidth * 0.02),
                             child: GestureDetector(
-                              
                               onTap: () {
                                 productId =
                                     "${model?.data[0].variants[0].productId}";
@@ -517,7 +528,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                     setState(() {
                                       _isDialogVisible = true;
 
-                                      Future.delayed(const Duration(seconds: 2), () {
+                                      Future.delayed(const Duration(seconds: 2),
+                                          () {
                                         setState(() {
                                           _isDialogVisible = false;
                                         });
@@ -539,7 +551,6 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             padding: EdgeInsets.only(
                                 right: SizeConfig.screenWidth * 0.02),
                             child: GestureDetector(
-                              
                               onTap: () {
                                 productId =
                                     "${model?.data[0].variants[0].productId}";
@@ -556,7 +567,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                     setState(() {
                                       _isDialogVisible = true;
 
-                                      Future.delayed(const Duration(seconds: 2), () {
+                                      Future.delayed(const Duration(seconds: 2),
+                                          () {
                                         setState(() {
                                           _isDialogVisible = false;
                                         });
@@ -692,33 +704,26 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                 Stack(
                   children: [
                     Visibility(
-                      visible: model?.data[0]
-                          .variants[0].cartCount ==
-                          "0"
+                      visible: model?.data[0].variants[0].cartCount == "0"
                           ? true
                           : false,
                       child: GestureDetector(
-                        
                         onTap: () {
                           productId = "${model?.data[0].variants[0].productId}";
 
-                          productVariantId =
-                          "${model?.data[0].variants[0].id}";
+                          productVariantId = "${model?.data[0].variants[0].id}";
 
                           cartCount = int.parse(
                               "${model?.data[0].variants[0].cartCount}");
 
                           cartCount++;
 
-                          model?.data[0].variants[0]
-                              .cartCount =
+                          model?.data[0].variants[0].cartCount =
                               cartCount.toString();
 
                           AllCommonApis()
-                              .addToCartApi(
-                              productId,
-                              productVariantId,
-                              cartCount.toString())
+                              .addToCartApi(productId, productVariantId,
+                                  cartCount.toString())
                               .then((value) {
                             setState(() {
                               refresh();
@@ -749,50 +754,42 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                       ),
                     ),
                     Visibility(
-                      visible: model?.data[0].variants[0].cartCount !=
-                          "0"
+                      visible: model?.data[0].variants[0].cartCount != "0"
                           ? true
                           : false,
                       child: Row(
                         children: [
                           GestureDetector(
-                            
                             onTap: () {
                               productId =
-                              "${model?.data[0].variants[0].productId}";
+                                  "${model?.data[0].variants[0].productId}";
 
                               productVariantId =
-                              "${model?.data[0].variants[0].id}";
+                                  "${model?.data[0].variants[0].id}";
 
                               cartCount = int.parse(
                                   "${model?.data[0].variants[0].cartCount}");
 
                               cartCount--;
 
-                              model?.data[0].variants[0]
-                                  .cartCount =
-                                  cartCount
-                                      .toString();
+                              model?.data[0].variants[0].cartCount =
+                                  cartCount.toString();
 
                               AllCommonApis()
-                                  .addToCartApi(
-                                  productId,
-                                  productVariantId,
-                                  cartCount
-                                      .toString())
-                                  .then(
-                                      (value) {
-                                    setState(() {
-                                      var result = AllCommonApis().getAllCarts();
+                                  .addToCartApi(productId, productVariantId,
+                                      cartCount.toString())
+                                  .then((value) {
+                                setState(() {
+                                  var result = AllCommonApis().getAllCarts();
 
-                                      result.then((value) {
-                                        setState(() {
-                                          refresh();
-                                          totalCartCount = value.data.length;
-                                        });
-                                      });
+                                  result.then((value) {
+                                    setState(() {
+                                      refresh();
+                                      totalCartCount = value.data.length;
                                     });
                                   });
+                                });
+                              });
                             },
                             child: Container(
                               height: parentHeight * 0.03,
@@ -819,7 +816,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                 borderRadius: BorderRadius.circular(5)),
                             child: Center(
                                 child: Text(
-                                  "${model?.data[0].variants[0].cartCount}",
+                              "${model?.data[0].variants[0].cartCount}",
                               style: TextStyle(
                                   color: CommonColor.BLACK_COLOR,
                                   fontSize:
@@ -828,35 +825,28 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             )),
                           ),
                           GestureDetector(
-                            
                             onTap: () {
                               productId =
-                              "${model?.data[0].variants[0].productId}";
+                                  "${model?.data[0].variants[0].productId}";
                               productVariantId =
-                              "${model?.data[0].variants[0].id}";
+                                  "${model?.data[0].variants[0].id}";
 
                               cartCount = int.parse(
                                   "${model?.data[0].variants[0].cartCount}");
 
                               cartCount++;
 
-                              model?.data[0].variants[0]
-                                  .cartCount =
-                                  cartCount
-                                      .toString();
+                              model?.data[0].variants[0].cartCount =
+                                  cartCount.toString();
 
                               AllCommonApis()
-                                  .addToCartApi(
-                                  productId,
-                                  productVariantId,
-                                  cartCount
-                                      .toString())
-                                  .then(
-                                      (value) {
-                                    setState(() {
-                                      refresh();
-                                    });
-                                  });
+                                  .addToCartApi(productId, productVariantId,
+                                      cartCount.toString())
+                                  .then((value) {
+                                setState(() {
+                                  refresh();
+                                });
+                              });
                             },
                             child: Container(
                               height: parentHeight * 0.03,
@@ -1005,7 +995,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                   parsedstring3,
                   trimLines: 3,
                   textAlign: TextAlign.start,
-                  preDataTextStyle: const TextStyle(fontWeight: FontWeight.w500),
+                  preDataTextStyle:
+                      const TextStyle(fontWeight: FontWeight.w500),
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: SizeConfig.blockSizeHorizontal * 3.5,
@@ -1044,23 +1035,25 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     fontFamily: 'Roboto_Medium'),
               ),
               GestureDetector(
-                
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ViewAllProductsAndNeeds(
-                            catId: widget.catId,
-                            proId: widget.productId,
-                          ))).then((value){
-                    AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
+                                catId: widget.catId,
+                                proId: widget.productId,
+                              ))).then((value) {
+                    AllCommonApis()
+                        .getProductInfoByIdApi(widget.productId)
+                        .then((value) {
                       price = int.parse("${value.data[0].variants[0].price}");
-                      discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                      discountPrice = int.parse(
+                          "${value.data[0].variants[0].discountedPrice}");
                       savingPrice = price - discountPrice;
                     });
 
-                    AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
-
+                    AllCommonApis().getSimilarProductByIdApi(
+                        widget.productId, widget.catId);
 
                     refresh();
                   });
@@ -1083,7 +1076,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             color: Colors.transparent,
             height: parentHeight * 0.32,
             child: FutureBuilder<GetSimilarProductResponseModel>(
-              future: AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId),
+              future: AllCommonApis()
+                  .getSimilarProductByIdApi(widget.productId, widget.catId),
               builder: (context, snap) {
                 if (!snap.hasData && !snap.hasError) {
                   return const Center(
@@ -1104,15 +1098,16 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: snap.data?.data.length,
                     itemBuilder: (context, index) {
-
-                      sPrice = int.parse("${snap.data?.data[index].variants[0].price}");
-                      sDiscountPrice = int.parse("${snap.data?.data[index].variants[0].discountedPrice}");
+                      sPrice = int.parse(
+                          "${snap.data?.data[index].variants[0].price}");
+                      sDiscountPrice = int.parse(
+                          "${snap.data?.data[index].variants[0].discountedPrice}");
                       sSavingPrice = price - discountPrice;
 
                       final img = snap.data?.data[index].image != null
                           ? Image.network(
-                        "${snap.data?.data[index].image}",
-                      )
+                              "${snap.data?.data[index].image}",
+                            )
                           : Image.network("");
 
                       return Padding(
@@ -1121,24 +1116,27 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                             bottom: parentHeight * 0.01,
                             left: parentWidth * 0.05),
                         child: GestureDetector(
-                          
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductInfoScreen(
-                                      productId:
-                                      "${snap.data?.data[index].id}",
-                                      catId: "",
-                                    ))).then((value){
-                              AllCommonApis().getProductInfoByIdApi(widget.productId).then((value) {
-                                price = int.parse("${value.data[0].variants[0].price}");
-                                discountPrice = int.parse("${value.data[0].variants[0].discountedPrice}");
+                                          productId:
+                                              "${snap.data?.data[index].id}",
+                                          catId: "",
+                                        ))).then((value) {
+                              AllCommonApis()
+                                  .getProductInfoByIdApi(widget.productId)
+                                  .then((value) {
+                                price = int.parse(
+                                    "${value.data[0].variants[0].price}");
+                                discountPrice = int.parse(
+                                    "${value.data[0].variants[0].discountedPrice}");
                                 savingPrice = price - discountPrice;
                               });
 
-                              AllCommonApis().getSimilarProductByIdApi(widget.productId, widget.catId);
-
+                              AllCommonApis().getSimilarProductByIdApi(
+                                  widget.productId, widget.catId);
 
                               refresh();
                             });
@@ -1164,7 +1162,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                   children: [
                                     Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colors.white,
                                         ),
                                         height: parentHeight * 0.17,
@@ -1177,132 +1176,144 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                           child: img,
                                         )),
                                     Padding(
-                                      padding:
-                                      EdgeInsets.only(top: parentHeight * 0.015),
+                                      padding: EdgeInsets.only(
+                                          top: parentHeight * 0.015),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             width: parentWidth * 0.15,
                                             height: parentHeight * 0.027,
                                             decoration: const BoxDecoration(
-                                                color: CommonColor.APP_BAR_COLOR,
+                                                color:
+                                                    CommonColor.APP_BAR_COLOR,
                                                 borderRadius: BorderRadius.only(
-                                                    topRight: Radius.circular(5),
-                                                    bottomRight: Radius.circular(5))),
+                                                    topRight:
+                                                        Radius.circular(5),
+                                                    bottomRight:
+                                                        Radius.circular(5))),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "$sSavingPrice \u{20B9} off",
                                                   style: TextStyle(
-                                                      color: CommonColor.WHITE_COLOR,
+                                                      color: CommonColor
+                                                          .WHITE_COLOR,
                                                       fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                           3.5,
-                                                      fontWeight: FontWeight.w400,
-                                                      fontFamily: 'Roboto_Regular'),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily:
+                                                          'Roboto_Regular'),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          snap.data?.data[index]
-                                              .isFavorite ==
-                                              true
+                                          snap.data?.data[index].isFavorite ==
+                                                  true
                                               ? Padding(
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .screenWidth *
-                                                    0.02),
-                                            child: GestureDetector(
-                                              
-                                              onTap: () {
-                                                productId =
-                                                "${snap.data?.data[index].variants[0].productId}";
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                              .screenWidth *
+                                                          0.02),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${snap.data?.data[index].variants[0].productId}";
 
-                                                productName = "${snap.data?.data[0].name}";
+                                                      productName =
+                                                          "${snap.data?.data[0].name}";
 
-                                                favTap = 0;
+                                                      favTap = 0;
 
-                                                var result =
-                                                AllCommonApis()
-                                                    .removeToFavorite(
-                                                    productId);
+                                                      var result =
+                                                          AllCommonApis()
+                                                              .removeToFavorite(
+                                                                  productId);
 
-                                                result.then((value) {
-                                                  if (mounted) {
-                                                    setState(() {
-                                                      _isDialogVisible = true;
+                                                      result.then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                true;
 
-                                                      Future.delayed(const Duration(seconds: 2), () {
-                                                        setState(() {
-                                                          _isDialogVisible = false;
-                                                        });
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 2),
+                                                                () {
+                                                              setState(() {
+                                                                _isDialogVisible =
+                                                                    false;
+                                                              });
+                                                            });
+                                                          });
+                                                        }
                                                       });
-                                                    });
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                color: Colors
-                                                    .transparent,
-                                                child: const Icon(
-                                                  Icons
-                                                      .favorite_rounded,
-                                                  color: CommonColor
-                                                      .LIKE_COLOR,
-                                                ),
-                                              ),
-                                            ),
-                                          )
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      child: const Icon(
+                                                        Icons.favorite_rounded,
+                                                        color: CommonColor
+                                                            .LIKE_COLOR,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
                                               : Padding(
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig
-                                                    .screenWidth *
-                                                    0.02),
-                                            child: GestureDetector(
-                                              
-                                              onTap: () {
-                                                productId =
-                                                "${snap.data?.data[index].variants[0].productId}";
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                              .screenWidth *
+                                                          0.02),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${snap.data?.data[index].variants[0].productId}";
 
-                                                productName = "${snap.data?.data[0].name}";
+                                                      productName =
+                                                          "${snap.data?.data[0].name}";
 
-                                                favTap = 1;
+                                                      favTap = 1;
 
-                                                var result =
-                                                AllCommonApis()
-                                                    .addToFavorite(
-                                                    productId);
+                                                      var result =
+                                                          AllCommonApis()
+                                                              .addToFavorite(
+                                                                  productId);
 
-                                                result.then((value) {
-                                                  if (mounted) {
-                                                    setState(() {
-                                                      _isDialogVisible = true;
+                                                      result.then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                true;
 
-                                                      Future.delayed(const Duration(seconds: 2), () {
-                                                        setState(() {
-                                                          _isDialogVisible = false;
-                                                        });
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 2),
+                                                                () {
+                                                              setState(() {
+                                                                _isDialogVisible =
+                                                                    false;
+                                                              });
+                                                            });
+                                                          });
+                                                        }
                                                       });
-                                                    });
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                color: Colors
-                                                    .transparent,
-                                                child: const Icon(
-                                                  Icons
-                                                      .favorite_outline_rounded,
-                                                  color: CommonColor
-                                                      .LIKE_COLOR,
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      child: const Icon(
+                                                        Icons
+                                                            .favorite_outline_rounded,
+                                                        color: CommonColor
+                                                            .LIKE_COLOR,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     )
@@ -1325,38 +1336,34 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                                top: SizeConfig
-                                                    .screenHeight *
+                                                top: SizeConfig.screenHeight *
                                                     0.01,
-                                                left:
-                                                SizeConfig.screenWidth *
+                                                left: SizeConfig.screenWidth *
                                                     0.02),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  width: SizeConfig
-                                                      .screenWidth *
-                                                      0.4,
+                                                  width:
+                                                      SizeConfig.screenWidth *
+                                                          0.4,
                                                   color: Colors.transparent,
                                                   child: Text(
                                                     "${snap.data?.data[index].name}",
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                                .blockSizeHorizontal *
                                                             3.5,
                                                         fontFamily:
-                                                        'Roboto_Normal',
+                                                            'Roboto_Normal',
                                                         fontWeight:
-                                                        FontWeight
-                                                            .w400),
-                                                    textAlign:
-                                                    TextAlign.start,
+                                                            FontWeight.w400),
+                                                    textAlign: TextAlign.start,
                                                     maxLines: 2,
-                                                    overflow: TextOverflow
-                                                        .ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               ],
@@ -1368,17 +1375,19 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                 left: parentWidth * 0.02),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                           3.5,
-                                                      fontFamily: 'Roboto_Normal',
-                                                      fontWeight: FontWeight.w500),
+                                                      fontFamily:
+                                                          'Roboto_Normal',
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 Padding(
@@ -1390,12 +1399,15 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
                                                         fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                                .blockSizeHorizontal *
                                                             3.0,
-                                                        fontFamily: 'Roboto_Normal',
-                                                        fontWeight: FontWeight.w500,
-                                                        decoration: TextDecoration
-                                                            .lineThrough),
+                                                        fontFamily:
+                                                            'Roboto_Normal',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
@@ -1409,7 +1421,8 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                 right: parentWidth * 0.02),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Container(
                                                   height: parentHeight * 0.033,
@@ -1418,51 +1431,53 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                       color: CommonColor
                                                           .REVIEW_CONTAINER_COLOR,
                                                       borderRadius:
-                                                      BorderRadius.circular(7)),
+                                                          BorderRadius.circular(
+                                                              7)),
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Text(
-                                                       "${snap.data?.data[index].ratings}",
+                                                        "${snap.data?.data[index].ratings}",
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
+                                                                    .blockSizeHorizontal *
                                                                 3.5,
                                                             fontWeight:
-                                                            FontWeight.w400,
+                                                                FontWeight.w400,
                                                             fontFamily:
-                                                            'Roboto_Medium'),
+                                                                'Roboto_Medium'),
                                                       ),
                                                       Icon(
                                                         Icons.star,
-                                                        color:
-                                                        CommonColor.REVIEW_COLOR,
-                                                        size: parentHeight * 0.02,
+                                                        color: CommonColor
+                                                            .REVIEW_COLOR,
+                                                        size:
+                                                            parentHeight * 0.02,
                                                       )
                                                     ],
                                                   ),
                                                 ),
                                                 Visibility(
                                                   visible: snap
-                                                      .data
-                                                      ?.data[index]
-                                                      .variants[0]
-                                                      .cartCount !=
-                                                      "0"
+                                                              .data
+                                                              ?.data[index]
+                                                              .variants[0]
+                                                              .cartCount !=
+                                                          "0"
                                                       ? true
                                                       : false,
                                                   child: Row(
                                                     children: [
                                                       GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
-                                                          "${snap.data?.data[index].variants[0].productId}";
+                                                              "${snap.data?.data[index].variants[0].productId}";
 
                                                           productVariantId =
-                                                          "${snap.data?.data[index].variants[0].id}";
+                                                              "${snap.data?.data[index].variants[0].id}";
 
                                                           cartCount = int.parse(
                                                               "${snap.data?.data[index].variants[0].cartCount}");
@@ -1470,89 +1485,85 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                           cartCount--;
 
                                                           snap
-                                                              .data
-                                                              ?.data[index]
-                                                              .variants[0]
-                                                              .cartCount =
+                                                                  .data
+                                                                  ?.data[index]
+                                                                  .variants[0]
+                                                                  .cartCount =
                                                               cartCount
                                                                   .toString();
 
                                                           AllCommonApis()
                                                               .addToCartApi(
-                                                              productId,
-                                                              productVariantId,
-                                                              cartCount
-                                                                  .toString())
-                                                              .then(
-                                                                  (value) {
-                                                                setState(() {
-                                                                  refresh();
-                                                                });
-                                                              });
+                                                                  productId,
+                                                                  productVariantId,
+                                                                  cartCount
+                                                                      .toString())
+                                                              .then((value) {
+                                                            setState(() {
+                                                              refresh();
+                                                            });
+                                                          });
                                                         },
                                                         child: Container(
                                                           height: SizeConfig
-                                                              .screenHeight *
+                                                                  .screenHeight *
                                                               0.035,
                                                           width: SizeConfig
-                                                              .screenWidth *
+                                                                  .screenWidth *
                                                               0.07,
                                                           decoration: BoxDecoration(
                                                               color: CommonColor
                                                                   .APP_BAR_COLOR,
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  5)),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
                                                           child: Center(
                                                               child: Text(
-                                                                "-",
-                                                                style: TextStyle(
-                                                                    color: CommonColor
-                                                                        .WHITE_COLOR,
-                                                                    fontSize:
-                                                                    SizeConfig.blockSizeHorizontal *
-                                                                        5.6),
-                                                                textScaleFactor:
+                                                            "-",
+                                                            style: TextStyle(
+                                                                color: CommonColor
+                                                                    .WHITE_COLOR,
+                                                                fontSize: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    5.6),
+                                                            textScaleFactor:
                                                                 1.0,
-                                                              )),
+                                                          )),
                                                         ),
                                                       ),
                                                       Container(
                                                         height: SizeConfig
-                                                            .screenHeight *
+                                                                .screenHeight *
                                                             0.035,
                                                         width: SizeConfig
-                                                            .screenWidth *
+                                                                .screenWidth *
                                                             0.07,
                                                         decoration: BoxDecoration(
                                                             color: CommonColor
                                                                 .WHITE_COLOR,
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                5)),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5)),
                                                         child: Center(
                                                             child: Text(
-                                                              "${snap.data?.data[index].variants[0].cartCount}",
-                                                              style: TextStyle(
-                                                                  color: CommonColor
-                                                                      .BLACK_COLOR,
-                                                                  fontSize:
-                                                                  SizeConfig
+                                                          "${snap.data?.data[index].variants[0].cartCount}",
+                                                          style: TextStyle(
+                                                              color: CommonColor
+                                                                  .BLACK_COLOR,
+                                                              fontSize: SizeConfig
                                                                       .blockSizeHorizontal *
-                                                                      3.5),
-                                                              textScaleFactor:
-                                                              1.0,
-                                                            )),
+                                                                  3.5),
+                                                          textScaleFactor: 1.0,
+                                                        )),
                                                       ),
                                                       GestureDetector(
-                                                        
                                                         onTap: () {
                                                           productId =
-                                                          "${snap.data?.data[index].variants[0].productId}";
+                                                              "${snap.data?.data[index].variants[0].productId}";
                                                           productVariantId =
-                                                          "${snap.data?.data[index].variants[0].id}";
+                                                              "${snap.data?.data[index].variants[0].id}";
 
                                                           cartCount = int.parse(
                                                               "${snap.data?.data[index].variants[0].cartCount}");
@@ -1560,52 +1571,51 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                                           cartCount++;
 
                                                           snap
-                                                              .data
-                                                              ?.data[index]
-                                                              .variants[0]
-                                                              .cartCount =
+                                                                  .data
+                                                                  ?.data[index]
+                                                                  .variants[0]
+                                                                  .cartCount =
                                                               cartCount
                                                                   .toString();
 
                                                           AllCommonApis()
                                                               .addToCartApi(
-                                                              productId,
-                                                              productVariantId,
-                                                              cartCount
-                                                                  .toString())
-                                                              .then(
-                                                                  (value) {
-                                                                setState(() {
-                                                                  refresh();
-                                                                });
-                                                              });
+                                                                  productId,
+                                                                  productVariantId,
+                                                                  cartCount
+                                                                      .toString())
+                                                              .then((value) {
+                                                            setState(() {
+                                                              refresh();
+                                                            });
+                                                          });
                                                         },
                                                         child: Container(
                                                           height: SizeConfig
-                                                              .screenHeight *
+                                                                  .screenHeight *
                                                               0.035,
                                                           width: SizeConfig
-                                                              .screenWidth *
+                                                                  .screenWidth *
                                                               0.07,
                                                           decoration: BoxDecoration(
                                                               color: CommonColor
                                                                   .APP_BAR_COLOR,
                                                               borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  5)),
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5)),
                                                           child: Center(
                                                               child: Text(
-                                                                "+",
-                                                                style: TextStyle(
-                                                                    color: CommonColor
-                                                                        .WHITE_COLOR,
-                                                                    fontSize:
-                                                                    SizeConfig.blockSizeHorizontal *
-                                                                        5.0),
-                                                                textScaleFactor:
+                                                            "+",
+                                                            style: TextStyle(
+                                                                color: CommonColor
+                                                                    .WHITE_COLOR,
+                                                                fontSize: SizeConfig
+                                                                        .blockSizeHorizontal *
+                                                                    5.0),
+                                                            textScaleFactor:
                                                                 1.0,
-                                                              )),
+                                                          )),
                                                         ),
                                                       ),
                                                     ],
@@ -1619,21 +1629,23 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                     ),
                                     Visibility(
                                       visible: snap.data?.data[index]
-                                          .variants[0].cartCount ==
-                                          "0"
+                                                  .variants[0].cartCount ==
+                                              "0"
                                           ? true
                                           : false,
                                       child: Padding(
-                                        padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03,
-                                            bottom: SizeConfig.screenHeight*0.01),
+                                        padding: EdgeInsets.only(
+                                            right:
+                                                SizeConfig.screenWidth * 0.03,
+                                            bottom:
+                                                SizeConfig.screenHeight * 0.01),
                                         child: GestureDetector(
-
                                           onTap: () {
                                             productId =
-                                            "${snap.data?.data[index].variants[0].productId}";
+                                                "${snap.data?.data[index].variants[0].productId}";
 
                                             productVariantId =
-                                            "${snap.data?.data[index].variants[0].id}";
+                                                "${snap.data?.data[index].variants[0].id}";
 
                                             cartCount = int.parse(
                                                 "${snap.data?.data[index].variants[0].cartCount}");
@@ -1641,14 +1653,14 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                             cartCount++;
 
                                             snap.data?.data[index].variants[0]
-                                                .cartCount =
+                                                    .cartCount =
                                                 cartCount.toString();
 
                                             AllCommonApis()
                                                 .addToCartApi(
-                                                productId,
-                                                productVariantId,
-                                                cartCount.toString())
+                                                    productId,
+                                                    productVariantId,
+                                                    cartCount.toString())
                                                 .then((value) {
                                               setState(() {
                                                 refresh();
@@ -1656,19 +1668,20 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
                                             });
                                           },
                                           child: Container(
-                                            height: SizeConfig.screenHeight *
-                                                0.04,
+                                            height:
+                                                SizeConfig.screenHeight * 0.04,
                                             width:
-                                            SizeConfig.screenWidth * 0.09,
+                                                SizeConfig.screenWidth * 0.09,
                                             decoration: BoxDecoration(
                                                 color:
-                                                CommonColor.APP_BAR_COLOR,
+                                                    CommonColor.APP_BAR_COLOR,
                                                 borderRadius:
-                                                BorderRadius.circular(10)),
-                                            child:  Icon(
+                                                    BorderRadius.circular(10)),
+                                            child: Icon(
                                               Icons.add,
                                               color: Colors.white,
-                                              size: SizeConfig.screenHeight*0.025,
+                                              size: SizeConfig.screenHeight *
+                                                  0.025,
                                             ),
                                           ),
                                         ),

@@ -4,9 +4,13 @@
 
 import 'dart:convert';
 
-GetSubCategoriesByIdResponseModel getSubCategoriesByIdResponseModelFromJson(String str) => GetSubCategoriesByIdResponseModel.fromJson(json.decode(str));
+GetSubCategoriesByIdResponseModel getSubCategoriesByIdResponseModelFromJson(
+        String str) =>
+    GetSubCategoriesByIdResponseModel.fromJson(json.decode(str));
 
-String getSubCategoriesByIdResponseModelToJson(GetSubCategoriesByIdResponseModel data) => json.encode(data.toJson());
+String getSubCategoriesByIdResponseModelToJson(
+        GetSubCategoriesByIdResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetSubCategoriesByIdResponseModel {
   GetSubCategoriesByIdResponseModel({
@@ -19,17 +23,19 @@ class GetSubCategoriesByIdResponseModel {
   String message;
   List<Datum> data;
 
-  factory GetSubCategoriesByIdResponseModel.fromJson(Map<String, dynamic> json) => GetSubCategoriesByIdResponseModel(
-    error: json["error"],
-    message: json["message"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-  );
+  factory GetSubCategoriesByIdResponseModel.fromJson(
+          Map<String, dynamic> json) =>
+      GetSubCategoriesByIdResponseModel(
+        error: json["error"],
+        message: json["message"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-  };
+        "error": error,
+        "message": message,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
 }
 
 class Datum {
@@ -54,24 +60,24 @@ class Datum {
   String categoryName;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    rowOrder: json["row_order"],
-    categoryId: json["category_id"],
-    name: json["name"],
-    slug: json["slug"],
-    subtitle: json["subtitle"],
-    image: json["image"],
-    categoryName: json["category_name"],
-  );
+        id: json["id"],
+        rowOrder: json["row_order"],
+        categoryId: json["category_id"],
+        name: json["name"],
+        slug: json["slug"],
+        subtitle: json["subtitle"],
+        image: json["image"],
+        categoryName: json["category_name"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "row_order": rowOrder,
-    "category_id": categoryId,
-    "name": name,
-    "slug": slug,
-    "subtitle": subtitle,
-    "image": image,
-    "category_name": categoryName,
-  };
+        "id": id,
+        "row_order": rowOrder,
+        "category_id": categoryId,
+        "name": name,
+        "slug": slug,
+        "subtitle": subtitle,
+        "image": image,
+        "category_name": categoryName,
+      };
 }

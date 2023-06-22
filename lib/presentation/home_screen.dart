@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:darkgreen/api_model/categories/get_all_categories_response_model.dart';
 import 'package:darkgreen/api_model/home/get_all_section_response_model.dart';
@@ -63,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           final data = snap.data;
-
 
           if (data == null) {
             return const Center(
@@ -173,7 +173,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontFamily: 'Roboto_Medium'),
               ),
               GestureDetector(
-                
                 onTap: () {
                   widget.mListener.getAddCategoriesLayout();
                 },
@@ -231,7 +230,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             bottom: parentHeight * 0.01,
                             left: parentWidth * 0.05),
                         child: GestureDetector(
-                          
                           onTap: () {
                             Navigator.push(
                                 context,
@@ -264,7 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         child: img)),
                                 Padding(
-                                  padding: EdgeInsets.only(top: parentHeight*0.01),
+                                  padding:
+                                      EdgeInsets.only(top: parentHeight * 0.01),
                                   child: Text(
                                     "${data.data[index].name}",
                                     style: TextStyle(
@@ -564,7 +563,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -617,7 +615,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -660,7 +657,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {
@@ -1001,7 +997,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1054,7 +1049,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1097,7 +1091,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {
@@ -1407,7 +1400,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Row(
                                               children: [
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1460,7 +1452,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   )),
                                                 ),
                                                 GestureDetector(
-                                                  
                                                   onTap: () {
                                                     if (mounted) {
                                                       setState(() {
@@ -1503,7 +1494,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               Visibility(
                                 visible: count == 0 ? true : false,
                                 child: GestureDetector(
-                                  
                                   onTap: () {
                                     if (mounted) {
                                       setState(() {
@@ -1641,7 +1631,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }*/
 
   Future<GetAllSectionResponseModel> getAllSectionApi() async {
-
     print("Hiii");
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -1651,11 +1640,11 @@ class _HomeScreenState extends State<HomeScreen> {
       headers: headersList,
       body: {
         "accesskey": ApiConstants().accessKey,
-        "get-all-sections":"1",
+        "get-all-sections": "1",
         "user_id": "369",
-        "section_id":"99",
-        "limit":"0",
-        "offset":"0",
+        "section_id": "99",
+        "limit": "0",
+        "offset": "0",
       },
     );
 
@@ -1663,15 +1652,14 @@ class _HomeScreenState extends State<HomeScreen> {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       print("allSectionsResponse --> ${jsonDecode(response.body)}");
-      return GetAllSectionResponseModel.fromJson(jsonDecode(response.body.jsonBody()));
+      return GetAllSectionResponseModel.fromJson(
+          jsonDecode(response.body.jsonBody()));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to create album.');
     }
   }
-
-
 }
 
 abstract class HomeScreenInterface {

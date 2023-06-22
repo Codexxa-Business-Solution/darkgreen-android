@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-UserRegisterResponseModel userRegisterResponseModelFromJson(String str) => UserRegisterResponseModel.fromJson(json.decode(str));
+UserRegisterResponseModel userRegisterResponseModelFromJson(String str) =>
+    UserRegisterResponseModel.fromJson(json.decode(str));
 
-String userRegisterResponseModelToJson(UserRegisterResponseModel data) => json.encode(data.toJson());
+String userRegisterResponseModelToJson(UserRegisterResponseModel data) =>
+    json.encode(data.toJson());
 
 class UserRegisterResponseModel {
   UserRegisterResponseModel({
@@ -17,13 +19,14 @@ class UserRegisterResponseModel {
   bool error;
   String message;
 
-  factory UserRegisterResponseModel.fromJson(Map<String, dynamic> json) => UserRegisterResponseModel(
-    error: json["error"],
-    message: json["message"],
-  );
+  factory UserRegisterResponseModel.fromJson(Map<String, dynamic> json) =>
+      UserRegisterResponseModel(
+        error: json["error"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-  };
+        "error": error,
+        "message": message,
+      };
 }

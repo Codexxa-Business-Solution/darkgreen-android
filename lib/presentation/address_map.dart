@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:darkgreen/constant/color.dart';
@@ -12,11 +11,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 
-
-
-
 class AddressMap extends StatefulWidget {
-
   final String buttonText;
 
   const AddressMap({Key? key, required this.buttonText}) : super(key: key);
@@ -26,9 +21,6 @@ class AddressMap extends StatefulWidget {
 }
 
 class _AddressMapState extends State<AddressMap> {
-
-
-
   final Completer<GoogleMapController> _controller = Completer();
 
   GoogleMapController? controller;
@@ -48,21 +40,16 @@ class _AddressMapState extends State<AddressMap> {
 
   static const kGoogleApiKey = "AIzaSyDmKx2C1OIAxNzTeoxEH1U8getJT3hTQF4";
 
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(18.6011, 73.7641),
-    zoom: 14
-  );
-
+  static const CameraPosition _kGooglePlex =
+      CameraPosition(target: LatLng(18.6011, 73.7641), zoom: 14);
 
   final List<Marker> _markers = <Marker>[
     Marker(
-        markerId: MarkerId('1'),
+      markerId: MarkerId('1'),
       position: LatLng(28.7041, 77.1025),
       infoWindow: InfoWindow(title: 'marker'),
     )
   ];
-
 
   @override
   void initState() {
@@ -73,16 +60,11 @@ class _AddressMapState extends State<AddressMap> {
       selectLat = value?.latitude ?? 0.0;
       selectLong = value?.longitude ?? 0.0;
 
-      _markers.add(
-          Marker(
-              markerId:MarkerId('2'),
-              position: LatLng(double.parse("${value?.latitude.toString()}"), double.parse("${value?.longitude.toString()}")),
-              infoWindow: InfoWindow(
-                  title: 'Current'
-              )
-          )
-      );
-
+      _markers.add(Marker(
+          markerId: MarkerId('2'),
+          position: LatLng(double.parse("${value?.latitude.toString()}"),
+              double.parse("${value?.longitude.toString()}")),
+          infoWindow: InfoWindow(title: 'Current')));
 
       CameraPosition cameraPosition = CameraPosition(
           zoom: 14,
@@ -93,64 +75,52 @@ class _AddressMapState extends State<AddressMap> {
 
       controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-      placeMark = await placemarkFromCoordinates(double.parse("${value?.latitude.toString()}"),
+      placeMark = await placemarkFromCoordinates(
+          double.parse("${value?.latitude.toString()}"),
           double.parse("${value?.longitude.toString()}"));
 
-      print("placemark  ${placeMark?[0].name}  ${placeMark?[0].locality}  ${placeMark?[0].postalCode}");
+      print(
+          "placemark  ${placeMark?[0].name}  ${placeMark?[0].locality}  ${placeMark?[0].postalCode}");
 
-      setState(() {
-
-      });
-
+      setState(() {});
     });
   }
 
-  Future<Position?> getUserCurrentLocation() async{
-
-    await Geolocator.requestPermission().then((value){
-
-    }).onError((error, stackTrace){
-      print("error"+error.toString());
+  Future<Position?> getUserCurrentLocation() async {
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) {
+      print("error" + error.toString());
     });
 
     return await Geolocator.getCurrentPosition();
   }
 
-
   _updateAddress(LatLng target) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 100), () async {
-
       _markers.clear();
-      _markers.add(
-          Marker(
-              markerId:MarkerId('2'),
-              position: LatLng(double.parse("${target.latitude}"), double.parse("${target.longitude}")),
-              infoWindow: InfoWindow(
-                  title: 'Current'
-              )
-          )
-      );
+      _markers.add(Marker(
+          markerId: MarkerId('2'),
+          position: LatLng(double.parse("${target.latitude}"),
+              double.parse("${target.longitude}")),
+          infoWindow: InfoWindow(title: 'Current')));
 
       selectLat = double.parse("${target.latitude}");
       selectLong = double.parse("${target.longitude}");
 
-
       await placemarkFromCoordinates(double.parse("${target.latitude}"),
-          double.parse("${target.longitude}")).then((value) {
+              double.parse("${target.longitude}"))
+          .then((value) {
+        setState(() {});
 
-              setState(() {
-
-              });
-
-            name = value[0].name.toString();
-            street = value[0].street.toString();
-            subLocality = value[0].subLocality.toString();
-            locality = value[0].locality.toString();
-            postalCode = value[0].postalCode.toString();
-            administrativeArea = value[0].administrativeArea.toString();
-            country = value[0].country.toString();
-
+        name = value[0].name.toString();
+        street = value[0].street.toString();
+        subLocality = value[0].subLocality.toString();
+        locality = value[0].locality.toString();
+        postalCode = value[0].postalCode.toString();
+        administrativeArea = value[0].administrativeArea.toString();
+        country = value[0].country.toString();
       });
 
       print(placeMark);
@@ -160,25 +130,17 @@ class _AddressMapState extends State<AddressMap> {
   _updateAddressTap(double lat, double long) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 800), () async {
-
       _markers.clear();
-      _markers.add(
-          Marker(
-              markerId: MarkerId('2'),
-              position: LatLng(lat, long),
-              infoWindow: InfoWindow(
-                  title: 'Current'
-              )
-          )
-      );
+      _markers.add(Marker(
+          markerId: MarkerId('2'),
+          position: LatLng(lat, long),
+          infoWindow: InfoWindow(title: 'Current')));
 
       selectLat = lat;
       selectLong = long;
 
-      await placemarkFromCoordinates(lat, long).then((value){
-        setState(() {
-
-        });
+      await placemarkFromCoordinates(lat, long).then((value) {
+        setState(() {});
 
         print(value);
 
@@ -190,8 +152,6 @@ class _AddressMapState extends State<AddressMap> {
         administrativeArea = value[0].administrativeArea.toString();
         country = value[0].country.toString();
       });
-
-
     });
   }
 
@@ -204,19 +164,16 @@ class _AddressMapState extends State<AddressMap> {
           GoogleMap(
             initialCameraPosition: _kGooglePlex,
             markers: Set<Marker>.of(_markers),
-            onMapCreated: (GoogleMapController controller){
+            onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
             onCameraMove: (position) {
               _updateAddress(position.target);
-              setState(() {
-
-              });
+              setState(() {});
             },
-            onTap: (position){
+            onTap: (position) {
               _updateAddressTap(position.latitude, position.longitude);
-              setState(() {
-              });
+              setState(() {});
             },
           ),
           Align(
@@ -229,34 +186,43 @@ class _AddressMapState extends State<AddressMap> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child:name.isNotEmpty ? Card(
-                        elevation: 5,
-                        child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: name.isNotEmpty ? Text('$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
-                                style: TextStyle(
-                                  color: Colors.black
-                              ),) : Text(""),
-                             ),
-                            ))
+                      child: name.isNotEmpty
+                          ? Card(
+                              elevation: 5,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: name.isNotEmpty
+                                      ? Text(
+                                          '$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
+                                          style: TextStyle(color: Colors.black),
+                                        )
+                                      : Text(""),
+                                ),
+                              ))
                           : Container(),
-                      ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
                     ElevatedButton(
                       onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                           Address(isCome: widget.buttonText,
-                         address: '$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
-                         landMark: '$name, $subLocality',
-                         city: locality,
-                         area: subLocality,
-                         country: country,
-                         state: administrativeArea,
-                         postalCode: postalCode, lat: selectLat, long: selectLong,
-                       )));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Address(
+                                      isCome: widget.buttonText,
+                                      address:
+                                          '$name, $street, $subLocality, $locality, $postalCode, $administrativeArea, $country.',
+                                      landMark: '$name, $subLocality',
+                                      city: locality,
+                                      area: subLocality,
+                                      country: country,
+                                      state: administrativeArea,
+                                      postalCode: postalCode,
+                                      lat: selectLat,
+                                      long: selectLong,
+                                    )));
                       },
                       child: const Text('Save Address'),
                     )
@@ -297,16 +263,17 @@ class _AddressMapState extends State<AddressMap> {
                     right: SizeConfig.screenWidth * .01),
                 child: GestureDetector(
                   onTap: () async {
-
                     _handlePressButton();
-
                   },
-                  child: Text("Search Location",style: TextStyle(
-                    fontFamily: "Roboto_Regular",
-                    fontSize: SizeConfig.blockSizeHorizontal * 4.6,
-                    color: CommonColor.SEARCH_TEXT_COLOR,
-                    fontWeight: FontWeight.w500,
-                  ),),
+                  child: Text(
+                    "Search Location",
+                    style: TextStyle(
+                      fontFamily: "Roboto_Regular",
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.6,
+                      color: CommonColor.SEARCH_TEXT_COLOR,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
             )
@@ -315,7 +282,6 @@ class _AddressMapState extends State<AddressMap> {
       ),
     );
   }
-
 
   Future<void> _handlePressButton() async {
     // show input autocomplete with selected mode
@@ -333,23 +299,19 @@ class _AddressMapState extends State<AddressMap> {
 
     displayPrediction(p);
     setState(
-          () {
-
-      },
+      () {},
     );
-
   }
-
 
   Future<Null> displayPrediction(Prediction? p) async {
     if (p != null) {
       GoogleMapsPlaces _places = GoogleMapsPlaces(
         apiKey: kGoogleApiKey,
-
         apiHeaders: await GoogleApiHeaders().getHeaders(),
       );
 
-      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId!);
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId!);
 
       double lat = detail.result.geometry!.location.lat;
       double lng = detail.result.geometry!.location.lng;
@@ -358,37 +320,24 @@ class _AddressMapState extends State<AddressMap> {
       selectLat = double.parse('$lat');
 
       setState(() {
-
-
         if (_debounce?.isActive ?? false) _debounce?.cancel();
         _debounce = Timer(const Duration(milliseconds: 100), () async {
-
-          CameraPosition cameraPosition = CameraPosition(
-              zoom: 14,
-              target: LatLng(selectLat, selectLong));
+          CameraPosition cameraPosition =
+              CameraPosition(zoom: 14, target: LatLng(selectLat, selectLong));
 
           final GoogleMapController controller = await _controller.future;
 
-          controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+          controller
+              .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
           _markers.clear();
-          _markers.add(
-              Marker(
-                  markerId:MarkerId('2'),
-                  position: LatLng(selectLat, selectLong),
-                  infoWindow: InfoWindow(
-                      title: 'Current'
-                  )
-              )
-          );
+          _markers.add(Marker(
+              markerId: MarkerId('2'),
+              position: LatLng(selectLat, selectLong),
+              infoWindow: InfoWindow(title: 'Current')));
 
-
-          await placemarkFromCoordinates(selectLat,
-              selectLong).then((value) {
-
-            setState(() {
-
-            });
+          await placemarkFromCoordinates(selectLat, selectLong).then((value) {
+            setState(() {});
 
             name = value[0].name.toString();
             street = value[0].street.toString();
@@ -397,14 +346,11 @@ class _AddressMapState extends State<AddressMap> {
             postalCode = value[0].postalCode.toString();
             administrativeArea = value[0].administrativeArea.toString();
             country = value[0].country.toString();
-
           });
 
           print(placeMark);
         });
-
       });
-
-    }}
-
+    }
+  }
 }

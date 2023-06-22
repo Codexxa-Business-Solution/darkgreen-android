@@ -1,14 +1,12 @@
-import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
 import 'package:darkgreen/allCommonApis/common_api.dart';
+import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/Address.dart';
 import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class AddressSelectScreen extends StatefulWidget {
-
   final int totalAmount;
   final int itemCount;
   final int deliveryCharges;
@@ -16,16 +14,21 @@ class AddressSelectScreen extends StatefulWidget {
   final List productVariantList;
   final List productVariantQtyList;
 
-  const AddressSelectScreen({Key? key, this.totalAmount = 0, this.itemCount = 0, this.deliveryCharges = 0, required this.orderFormat, required this.productVariantList, required this.productVariantQtyList}) : super(key: key);
+  const AddressSelectScreen(
+      {Key? key,
+      this.totalAmount = 0,
+      this.itemCount = 0,
+      this.deliveryCharges = 0,
+      required this.orderFormat,
+      required this.productVariantList,
+      required this.productVariantQtyList})
+      : super(key: key);
 
   @override
   State<AddressSelectScreen> createState() => _AddressSelectScreenState();
 }
 
 class _AddressSelectScreenState extends State<AddressSelectScreen> {
-
-
-
   bool selectedAddress = false;
   int selectedIndex = 0;
 
@@ -39,8 +42,8 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
   void initState() {
     super.initState();
     print("Hi");
-    AllCommonApis().getAddressOfUser().then((value){
-      if(mounted){
+    AllCommonApis().getAddressOfUser().then((value) {
+      if (mounted) {
         setState(() {
           selectAddId = value.data?.elementAt(0).id ?? "";
 
@@ -54,7 +57,6 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
     print("add ${widget.orderFormat}");
   }
 
-
   Future<Null> refreshList() async {
     await Future.delayed(const Duration(seconds: 1));
 
@@ -67,8 +69,6 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
     return null;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,44 +77,55 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            height: SizeConfig.screenHeight*0.9,
+              height: SizeConfig.screenHeight * 0.9,
               color: Colors.white,
-            child: Padding(
-              padding:  EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07),
-              child: NameAddressLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-            )
-          ),
+              child: Padding(
+                padding:
+                    EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.07),
+                child: NameAddressLayout(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth),
+              )),
           getBottomText(SizeConfig.screenHeight, SizeConfig.screenWidth)
         ],
       ),
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.07, right: SizeConfig.screenWidth*0.03),
+        padding: EdgeInsets.only(
+            bottom: SizeConfig.screenHeight * 0.07,
+            right: SizeConfig.screenWidth * 0.03),
         child: FloatingActionButton(
           backgroundColor: CommonColor.APP_BAR_COLOR,
-          child: Icon(Icons.add,
-          size: SizeConfig.blockSizeHorizontal*9.0,),
+          child: Icon(
+            Icons.add,
+            size: SizeConfig.blockSizeHorizontal * 9.0,
+          ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Address(isCome: '1', lat: 0.0, long: 0.0,))).then((value){
-              if(mounted) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Address(
+                          isCome: '1',
+                          lat: 0.0,
+                          long: 0.0,
+                        ))).then((value) {
+              if (mounted) {
                 setState(() {
-                  AllCommonApis().getAddressOfUser().then((value){
-                    if(mounted){
+                  AllCommonApis().getAddressOfUser().then((value) {
+                    if (mounted) {
                       setState(() {
                         print("selectAddId $selectAddId");
                       });
                     }
                   });
-              });
+                });
               }
             });
-          },),
+          },
+        ),
       ),
     );
   }
 
-
-
-  Widget NameAddressLayout(double parentHeight, double parentWidth){
+  Widget NameAddressLayout(double parentHeight, double parentWidth) {
     return FutureBuilder<GetAddressOfUserResponseModel>(
       future: AllCommonApis().getAddressOfUser(),
       builder: (context, snap) {
@@ -144,22 +155,25 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
             itemCount: snap.data?.data?.length,
             padding: const EdgeInsets.only(bottom: 20, top: 3),
             itemBuilder: (context, index) {
+              final typeText = snap.data?.data?[index].type == "1"
+                  ? "Home"
+                  : snap.data?.data?[index].type == "2"
+                      ? "Office"
+                      : "Office";
 
-              final typeText = snap.data?.data?[index].type == "1" ? "Home"
-                  : snap.data?.data?[index].type == "2" ? "Office" : "Office";
-
-              if(snap.data?.data?[index].isDefault == "1") {
+              if (snap.data?.data?[index].isDefault == "1") {
                 selectedIndex == index;
               }
 
-
               return Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.03,
-                  left: SizeConfig.screenWidth*0.03,
-                  right: SizeConfig.screenWidth*0.03,),
+                padding: EdgeInsets.only(
+                  top: SizeConfig.screenHeight * 0.03,
+                  left: SizeConfig.screenWidth * 0.03,
+                  right: SizeConfig.screenWidth * 0.03,
+                ),
                 child: GestureDetector(
-                  onDoubleTap: (){},
-                  onTap: (){
+                  onDoubleTap: () {},
+                  onTap: () {
                     selectedIndex = index;
                     setState(() {
                       selectAddId = snap.data?.data?[index].id ?? "";
@@ -168,11 +182,10 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                       selectAddress = "${snap.data?.data?[index].address}";
                       selectLat = "${snap.data?.data?[index].latitude}";
                       selectLong = "${snap.data?.data?[index].longitude}";
-
                     });
                   },
                   child: Container(
-                    height: SizeConfig.screenHeight*0.15,
+                    height: SizeConfig.screenHeight * 0.15,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -188,8 +201,10 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: parentHeight*0.015,
-                              left: parentWidth*0.03, right: parentWidth*0.03),
+                          padding: EdgeInsets.only(
+                              top: parentHeight * 0.015,
+                              left: parentWidth * 0.03,
+                              right: parentWidth * 0.03),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -200,33 +215,46 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                     children: [
                                       Container(
                                         color: Colors.transparent,
-                                        child: Icon(Icons.circle_outlined,
-                                          color: CommonColor.APP_BAR_COLOR,),
+                                        child: Icon(
+                                          Icons.circle_outlined,
+                                          color: CommonColor.APP_BAR_COLOR,
+                                        ),
                                       ),
                                       Visibility(
                                         visible: index == selectedIndex,
                                         child: Padding(
-                                          padding: EdgeInsets.only(right: parentWidth*0.0027),
-                                          child: Icon(Icons.circle,
+                                          padding: EdgeInsets.only(
+                                              right: parentWidth * 0.0027),
+                                          child: Icon(
+                                            Icons.circle,
                                             color: CommonColor.APP_BAR_COLOR,
-                                            size: SizeConfig.blockSizeHorizontal*4.0,),
+                                            size:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(left: parentWidth*0.01),
+                                    padding: EdgeInsets.only(
+                                        left: parentWidth * 0.01),
                                     child: Container(
-                                      width: parentWidth*0.31,
+                                      width: parentWidth * 0.31,
                                       color: Colors.transparent,
-                                      child: Text("${snap.data?.data?[index].name}",
+                                      child: Text(
+                                        "${snap.data?.data?[index].name}",
                                         style: TextStyle(
                                           color: CommonColor.APP_BAR_COLOR,
-                                          fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4.0,
                                           fontFamily: 'Roboto_Medium',
                                           fontWeight: FontWeight.w400,
                                           overflow: TextOverflow.ellipsis,
-                                        ),maxLines: 1,),
+                                        ),
+                                        maxLines: 1,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -234,72 +262,107 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                               Row(
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(right: parentWidth*0.02),
+                                    padding: EdgeInsets.only(
+                                        right: parentWidth * 0.02),
                                     child: Container(
-                                      height: parentHeight*0.03,
-                                      width: parentWidth*0.14,
+                                      height: parentHeight * 0.03,
+                                      width: parentWidth * 0.14,
                                       decoration: BoxDecoration(
                                           color: CommonColor.APP_BAR_COLOR,
-                                          borderRadius: BorderRadius.circular(20)
-                                      ),
-                                      child: Center(child: Text(typeText,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Center(
+                                          child: Text(
+                                        typeText,
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Roboto_Medium',
                                             fontWeight: FontWeight.w400,
-                                            fontSize: SizeConfig.blockSizeHorizontal*3.0
-                                        ),)),
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3.0),
+                                      )),
                                     ),
                                   ),
                                   Visibility(
-                                    visible: snap.data?.data?[index].isDefault == "0" ? false : true,
+                                    visible:
+                                        snap.data?.data?[index].isDefault == "0"
+                                            ? false
+                                            : true,
                                     child: Padding(
-                                      padding: EdgeInsets.only(right: parentWidth*0.02),
+                                      padding: EdgeInsets.only(
+                                          right: parentWidth * 0.02),
                                       child: Container(
-                                        height: parentHeight*0.03,
-                                        width: parentWidth*0.17,
+                                        height: parentHeight * 0.03,
+                                        width: parentWidth * 0.17,
                                         decoration: BoxDecoration(
                                             color: CommonColor.APP_BAR_COLOR,
-                                            borderRadius: BorderRadius.circular(20)
-                                        ),
-                                        child: Center(child: Text("Default",
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Center(
+                                            child: Text(
+                                          "Default",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'Roboto_Medium',
                                               fontWeight: FontWeight.w400,
-                                              fontSize: SizeConfig.blockSizeHorizontal*3.0
-                                          ),)),
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  3.0),
+                                        )),
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(right: parentWidth*0.02),
+                                    padding: EdgeInsets.only(
+                                        right: parentWidth * 0.02),
                                     child: GestureDetector(
-                                      onDoubleTap: (){},
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Address(
-                                          isCome: '2',
-                                          lat: double.parse("${snap.data?.data?[index].latitude}"),
-                                          long: double.parse("${snap.data?.data?[index].longitude}"),
-                                          fullName: "${snap.data?.data?[index].name}",
-                                          phoneNumber: "${snap.data?.data?[index].mobile}",
-                                          alterPhoneNumber: "${snap.data?.data?[index].alternateMobile}",
-                                          address: "${snap.data?.data?[index].address}",
-                                          landMark: "${snap.data?.data?[index].landmark}",
-                                          city: "${snap.data?.data?[index].cityId}",
-                                          area: "${snap.data?.data?[index].areaId}",
-                                          country: "${snap.data?.data?[index].country}",
-                                          state: "${snap.data?.data?[index].state}",
-                                          postalCode: "${snap.data?.data?[index].pincode}",
-                                          isType: "${snap.data?.data?[index].type}",
-                                          isDefault:"${snap.data?.data?[index].isDefault}",
-                                          addressId: "${snap.data?.data?[index].id}",
-                                        ))).then((value){
+                                      onDoubleTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Address(
+                                                      isCome: '2',
+                                                      lat: double.parse(
+                                                          "${snap.data?.data?[index].latitude}"),
+                                                      long: double.parse(
+                                                          "${snap.data?.data?[index].longitude}"),
+                                                      fullName:
+                                                          "${snap.data?.data?[index].name}",
+                                                      phoneNumber:
+                                                          "${snap.data?.data?[index].mobile}",
+                                                      alterPhoneNumber:
+                                                          "${snap.data?.data?[index].alternateMobile}",
+                                                      address:
+                                                          "${snap.data?.data?[index].address}",
+                                                      landMark:
+                                                          "${snap.data?.data?[index].landmark}",
+                                                      city:
+                                                          "${snap.data?.data?[index].cityId}",
+                                                      area:
+                                                          "${snap.data?.data?[index].areaId}",
+                                                      country:
+                                                          "${snap.data?.data?[index].country}",
+                                                      state:
+                                                          "${snap.data?.data?[index].state}",
+                                                      postalCode:
+                                                          "${snap.data?.data?[index].pincode}",
+                                                      isType:
+                                                          "${snap.data?.data?[index].type}",
+                                                      isDefault:
+                                                          "${snap.data?.data?[index].isDefault}",
+                                                      addressId:
+                                                          "${snap.data?.data?[index].id}",
+                                                    ))).then((value) {
                                           setState(() {
-                                            AllCommonApis().getAddressOfUser().then((value){
-                                              if(mounted){
+                                            AllCommonApis()
+                                                .getAddressOfUser()
+                                                .then((value) {
+                                              if (mounted) {
                                                 setState(() {
-                                                  print("selectAddId $selectAddId");
+                                                  print(
+                                                      "selectAddId $selectAddId");
                                                 });
                                               }
                                             });
@@ -308,23 +371,22 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                       },
                                       child: Container(
                                           color: Colors.transparent,
-                                          child: Icon(Icons.edit)
-                                      ),
+                                          child: Icon(Icons.edit)),
                                     ),
                                   ),
                                   GestureDetector(
-                                    onDoubleTap: (){},
-                                    onTap: (){
-                                      AllCommonApis().removeAddress("${snap.data?.data?[index].id}").then((value){
-                                        setState(() {
-
-                                        });
+                                    onDoubleTap: () {},
+                                    onTap: () {
+                                      AllCommonApis()
+                                          .removeAddress(
+                                              "${snap.data?.data?[index].id}")
+                                          .then((value) {
+                                        setState(() {});
                                       });
                                     },
                                     child: Container(
-                                      color: Colors.transparent,
-                                        child: Icon(Icons.delete_forever
-                                        )),
+                                        color: Colors.transparent,
+                                        child: Icon(Icons.delete_forever)),
                                   ),
                                 ],
                               )
@@ -332,22 +394,26 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: parentHeight*0.017, left: parentWidth*0.1, right: parentWidth*0.04),
+                          padding: EdgeInsets.only(
+                              top: parentHeight * 0.017,
+                              left: parentWidth * 0.1,
+                              right: parentWidth * 0.04),
                           child: Container(
                             color: Colors.transparent,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Expanded(
-                                    child: Text("${snap.data?.data?[index].address}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Roboto_Regular',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: SizeConfig.blockSizeHorizontal*4.0
-                                      ),
-                                      maxLines: 4,)
-                                ),
+                                    child: Text(
+                                  "${snap.data?.data?[index].address}",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'Roboto_Regular',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 4.0),
+                                  maxLines: 4,
+                                )),
                               ],
                             ),
                           ),
@@ -362,9 +428,9 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
     );
   }
 
-  Widget getBottomText(double parentHeight, double parentWidth){
+  Widget getBottomText(double parentHeight, double parentWidth) {
     return Container(
-      height: SizeConfig.screenHeight*0.07,
+      height: SizeConfig.screenHeight * 0.07,
       decoration: BoxDecoration(
         color: CommonColor.APP_BAR_COLOR,
         boxShadow: <BoxShadow>[
@@ -379,50 +445,59 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01, left: SizeConfig.screenWidth*0.05),
+            padding: EdgeInsets.only(
+                top: SizeConfig.screenHeight * 0.01,
+                left: SizeConfig.screenWidth * 0.05),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Rs.${widget.totalAmount}",
+                Text(
+                  "Rs.${widget.totalAmount}",
                   style: TextStyle(
                       color: CommonColor.WHITE_COLOR,
-                      fontSize: SizeConfig.blockSizeHorizontal*4.5,
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.5,
                       fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.w400
-                  ),),
+                      fontWeight: FontWeight.w400),
+                ),
                 Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.005),
-                  child: Text("${widget.itemCount} Item",
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.screenHeight * 0.005),
+                  child: Text(
+                    "${widget.itemCount} Item",
                     style: TextStyle(
                         color: CommonColor.WHITE_COLOR,
-                        fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.0,
                         fontFamily: 'Roboto_Regular',
-                        fontWeight: FontWeight.w400
-                    ),),
+                        fontWeight: FontWeight.w400),
+                  ),
                 )
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.05),
+            padding: EdgeInsets.only(right: SizeConfig.screenWidth * 0.05),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddCheckPayParentScreen(index: 1,
-                  deliveryCharges: widget.deliveryCharges,
-                  orderFormat: widget.orderFormat,
-                  addressId: selectAddId,
-                  productVariantList: widget.productVariantList,
-                  productVariantQtyList: widget.productVariantQtyList,
-                  selectAddress: selectAddress,
-                  selectLat: selectLat,
-                  selectLong: selectLong,
-                )
-                )).then((value){
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCheckPayParentScreen(
+                              index: 1,
+                              deliveryCharges: widget.deliveryCharges,
+                              orderFormat: widget.orderFormat,
+                              addressId: selectAddId,
+                              productVariantList: widget.productVariantList,
+                              productVariantQtyList:
+                                  widget.productVariantQtyList,
+                              selectAddress: selectAddress,
+                              selectLat: selectLat,
+                              selectLong: selectLong,
+                            ))).then((value) {
                   setState(() {
-                    AllCommonApis().getAddressOfUser().then((value){
-                      if(mounted){
+                    AllCommonApis().getAddressOfUser().then((value) {
+                      if (mounted) {
                         setState(() {
                           print(selectAddId);
                         });
@@ -435,18 +510,22 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                 color: Colors.transparent,
                 child: Row(
                   children: [
-                    Text("Continue",
+                    Text(
+                      "Continue",
                       style: TextStyle(
                           color: CommonColor.WHITE_COLOR,
-                          fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                          fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                           fontFamily: 'Roboto_Bold',
-                          fontWeight: FontWeight.w500
-                      ),),
+                          fontWeight: FontWeight.w500),
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.01),
-                      child: Icon(Icons.arrow_forward_ios_outlined,
+                      padding:
+                          EdgeInsets.only(left: SizeConfig.screenWidth * 0.01),
+                      child: Icon(
+                        Icons.arrow_forward_ios_outlined,
                         color: CommonColor.WHITE_COLOR,
-                        size: SizeConfig.screenHeight*0.02,),
+                        size: SizeConfig.screenHeight * 0.02,
+                      ),
                     )
                   ],
                 ),
@@ -457,8 +536,4 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
       ),
     );
   }
-
-
-
-
 }

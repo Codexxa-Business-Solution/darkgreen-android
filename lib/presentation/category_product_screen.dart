@@ -25,16 +25,15 @@ class CategoryProduct extends StatefulWidget {
 }
 
 class _CategoryProductState extends State<CategoryProduct> {
-
   int cartCount = 0;
 
   @override
   void initState() {
     super.initState();
-    if(mounted){
+    if (mounted) {
       setState(() {
-        AllCommonApis().getAllCarts().then((value){
-          if(mounted){
+        AllCommonApis().getAllCarts().then((value) {
+          if (mounted) {
             setState(() {
               cartCount = value.data.length;
               print(cartCount);
@@ -56,51 +55,67 @@ class _CategoryProductState extends State<CategoryProduct> {
               color: CommonColor.APP_BAR_COLOR,
               height: SizeConfig.screenHeight * 0.12,
               child: Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.05, left: SizeConfig.screenWidth*0.035),
+                padding: EdgeInsets.only(
+                    top: SizeConfig.screenHeight * 0.05,
+                    left: SizeConfig.screenWidth * 0.035),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: SizeConfig.screenWidth*0.12,
+                      width: SizeConfig.screenWidth * 0.12,
                       decoration: BoxDecoration(
                         color: CommonColor.CIRCLE_COLOR,
                         shape: BoxShape.circle,
-                        image: DecorationImage(image: AssetImage("assets/images/appLogo.jpeg",),
-                          fit: BoxFit.contain,),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
-                      child: Container(
-                        color: Colors.transparent,
-                        width: SizeConfig.screenWidth*0.6,
-                        child: Center(
-                          child: Text(widget.proName,
-                            style: TextStyle(
-                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                                fontFamily: "Roboto_Medium",
-                                fontWeight: FontWeight.w500,
-                                color: CommonColor.WHITE_COLOR
-                            ),textAlign: TextAlign.center,),
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/images/appLogo.jpeg",
+                          ),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.02),
+                      padding:
+                          EdgeInsets.only(left: SizeConfig.screenHeight * 0.01),
                       child: Container(
-                        width: SizeConfig.screenWidth*0.2,
+                        color: Colors.transparent,
+                        width: SizeConfig.screenWidth * 0.6,
+                        child: Center(
+                          child: Text(
+                            widget.proName,
+                            style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+                                fontFamily: "Roboto_Medium",
+                                fontWeight: FontWeight.w500,
+                                color: CommonColor.WHITE_COLOR),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(right: SizeConfig.screenWidth * 0.02),
+                      child: Container(
+                        width: SizeConfig.screenWidth * 0.2,
                         color: Colors.transparent,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              onDoubleTap: (){},
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())).then((value){
+                              onDoubleTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SearchProduct())).then((value) {
                                   setState(() {
-                                    if(mounted){
+                                    if (mounted) {
                                       setState(() {
-                                        AllCommonApis().getAllCarts().then((value) {
+                                        AllCommonApis()
+                                            .getAllCarts()
+                                            .then((value) {
                                           if (mounted) {
                                             setState(() {
                                               cartCount = value.data.length;
@@ -115,19 +130,27 @@ class _CategoryProductState extends State<CategoryProduct> {
                               },
                               child: Container(
                                 color: Colors.transparent,
-                                child: Icon(Icons.search,
+                                child: Icon(
+                                  Icons.search,
                                   color: Colors.white,
-                                  size: SizeConfig.screenHeight*0.035,),
+                                  size: SizeConfig.screenHeight * 0.035,
+                                ),
                               ),
                             ),
                             GestureDetector(
-                              onDoubleTap: (){},
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
+                              onDoubleTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Cart()))
+                                    .then((value) {
                                   setState(() {
-                                    if(mounted){
+                                    if (mounted) {
                                       setState(() {
-                                        AllCommonApis().getAllCarts().then((value) {
+                                        AllCommonApis()
+                                            .getAllCarts()
+                                            .then((value) {
                                           if (mounted) {
                                             setState(() {
                                               cartCount = value.data.length;
@@ -146,35 +169,49 @@ class _CategoryProductState extends State<CategoryProduct> {
                                   alignment: Alignment.topRight,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.01),
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.01),
                                       child: Container(
-                                        height: SizeConfig.screenHeight*0.05,
+                                        height: SizeConfig.screenHeight * 0.05,
                                         color: Colors.transparent,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Image(image: AssetImage("assets/images/trolly.png"),
-                                            height: SizeConfig.screenHeight*0.03,),
+                                          child: Image(
+                                            image: AssetImage(
+                                                "assets/images/trolly.png"),
+                                            height:
+                                                SizeConfig.screenHeight * 0.03,
+                                          ),
                                         ),
                                       ),
                                     ),
                                     Visibility(
                                       visible: cartCount == 0 ? false : true,
                                       child: Padding(
-                                        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.04, right: SizeConfig.screenWidth*0.005),
+                                        padding: EdgeInsets.only(
+                                            bottom:
+                                                SizeConfig.screenHeight * 0.04,
+                                            right:
+                                                SizeConfig.screenWidth * 0.005),
                                         child: Container(
-                                          height: SizeConfig.screenHeight*0.05,
-                                          width: SizeConfig.screenWidth*0.05,
+                                          height:
+                                              SizeConfig.screenHeight * 0.05,
+                                          width: SizeConfig.screenWidth * 0.05,
                                           decoration: BoxDecoration(
                                               color: CommonColor.WHITE_COLOR,
                                               shape: BoxShape.circle,
-                                              border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                                          ),
+                                              border: Border.all(
+                                                  color: CommonColor
+                                                      .APP_BAR_COLOR)),
                                           child: Center(
-                                            child: Text("$cartCount",
+                                            child: Text(
+                                              "$cartCount",
                                               style: TextStyle(
-                                                  fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                                                  color: Colors.black
-                                              ),),
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      2.5,
+                                                  color: Colors.black),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -213,7 +250,6 @@ class _CategoryProductState extends State<CategoryProduct> {
             onTap: () {
               Navigator.pop(context);
             },
-            
             child: Container(
               child: Icon(
                 Icons.arrow_back_ios,
@@ -271,8 +307,7 @@ class _CategoryProductState extends State<CategoryProduct> {
             itemCount: snap.data?.data.length,
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
-                    crossAxisCount: 2,
-                    height: parentHeight * 0.25),
+                    crossAxisCount: 2, height: parentHeight * 0.25),
             itemBuilder: (context, index) {
               final img = data.data[index].image.isNotEmpty
                   ? Image.network(
@@ -295,9 +330,9 @@ class _CategoryProductState extends State<CategoryProduct> {
                             builder: (context) => ProductPriceDetails(
                                   subProName: data.data[index].name,
                                   subCatId: data.data[index].id,
-                                ))).then((value){
+                                ))).then((value) {
                       setState(() {
-                        if(mounted){
+                        if (mounted) {
                           setState(() {
                             AllCommonApis().getAllCarts().then((value) {
                               if (mounted) {
@@ -332,13 +367,12 @@ class _CategoryProductState extends State<CategoryProduct> {
                               borderRadius: BorderRadius.circular(10),
                               child: img)),
                       Padding(
-                        padding: EdgeInsets.only(top: parentHeight*0.02),
+                        padding: EdgeInsets.only(top: parentHeight * 0.02),
                         child: Text(
                           "${data.data[index].name}",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize:
-                              SizeConfig.blockSizeHorizontal * 3.7,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3.7,
                               fontFamily: 'Roboto_Normal',
                               fontWeight: FontWeight.w400),
                           textAlign: TextAlign.center,

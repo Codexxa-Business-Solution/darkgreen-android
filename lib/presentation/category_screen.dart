@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:darkgreen/api_model/categories/get_all_categories_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -70,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               final img = data.data[index].image.isNotEmpty
                   ? Image.network(
                       "${data.data[index].image}",
-                fit: BoxFit.fill,
+                      fit: BoxFit.fill,
                     )
                   : Image.network("");
 
@@ -82,7 +83,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   left: parentWidth * 0.03,
                 ),
                 child: GestureDetector(
-                  
                   onTap: () {
                     Navigator.push(
                         context,
@@ -114,17 +114,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: img,
-
                             )),
                         Padding(
-                          padding: EdgeInsets.only(top: parentHeight*0.015),
+                          padding: EdgeInsets.only(top: parentHeight * 0.015),
                           child: Text(
                             "${data.data[index].name}",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize:
-                                SizeConfig.blockSizeHorizontal *
-                                    3.5,
+                                fontSize: SizeConfig.blockSizeHorizontal * 3.5,
                                 fontFamily: 'Roboto_Normal',
                                 fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,

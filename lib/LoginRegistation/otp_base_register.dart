@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:darkgreen/constant/api_constant.dart';
-import 'package:darkgreen/presentation/personal_info_screen.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:darkgreen/api_model/register/register_request_model.dart';
+import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/personal_info_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 
@@ -17,11 +18,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
-
-  final focusedBorderColor = Color.fromRGBO(23, 171, 144, 1);
-  final fillColor = Color.fromRGBO(243, 246, 249, 0);
-  final borderColor = Color.fromRGBO(23, 171, 144, 0.4);
+  final focusedBorderColor = const Color.fromRGBO(23, 171, 144, 1);
+  final fillColor = const Color.fromRGBO(243, 246, 249, 0);
+  final borderColor = const Color.fromRGBO(23, 171, 144, 0.4);
 
   TextEditingController numberController = TextEditingController();
 
@@ -50,16 +49,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool showOtpField = false;
   bool showGetOtp = true;
 
-
   Timer? _timer;
   int _start = 120;
-
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (_start == 0) {
           setState(() {
             timer.cancel();
@@ -72,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
     );
   }
-
 
   @override
   void dispose() {
@@ -87,11 +83,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     SizeConfig().init(context);
     return Stack(
       children: [
-        Scaffold(
+        const Scaffold(
           backgroundColor: CommonColor.APP_BAR_COLOR,
         ),
         Padding(
-          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.36),
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.36),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: ListView(
@@ -128,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onTap: () {
               Navigator.pop(context);
             },
-            
             child: Padding(
               padding: EdgeInsets.only(left: parentWidth * .04),
               child: Container(
@@ -174,32 +169,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-
-
           Padding(
             padding: EdgeInsets.only(
-                top: parentHeight * 0.02,
-                right: parentWidth * 0.1),
+                top: parentHeight * 0.02, right: parentWidth * 0.1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onDoubleTap: (){},
-                  onTap: (){
+                  onDoubleTap: () {},
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Container(
                     color: Colors.transparent,
-                    child: Icon(Icons.clear,
-                    color: Colors.red,),
+                    child: Icon(
+                      Icons.clear,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
-              top: parentHeight * 0.03),
+            padding: EdgeInsets.only(top: parentHeight * 0.03),
             child: Text(
               "Verify Your Mobile Number",
               style: TextStyle(
@@ -236,22 +229,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   left: parentWidth * 0.07,
                   right: parentWidth * 0.07),
               child: GestureDetector(
-                onTap: (){
-
-
-                  if(numberController.text.isNotEmpty && numberController.text.length == 10){
-                    if(mounted){
+                onTap: () {
+                  if (numberController.text.isNotEmpty &&
+                      numberController.text.length == 10) {
+                    if (mounted) {
                       setState(() {
                         showGetOtp = !showGetOtp;
                         showOtpField = !showOtpField;
                         startTimer();
                       });
                     }
-                  }else{
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Please Enter a Valid Mobile Number")));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Please Enter a Valid Mobile Number")));
                   }
-
                 },
                 child: Container(
                   height: parentHeight * 0.06,
@@ -276,7 +267,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Visibility(
             visible: showOtpField,
             child: Padding(
-              padding: EdgeInsets.only(top: parentHeight*0.05, left: parentWidth*0.1, right: parentWidth*0.1),
+              padding: EdgeInsets.only(
+                  top: parentHeight * 0.05,
+                  left: parentWidth * 0.1,
+                  right: parentWidth * 0.1),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -336,26 +330,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Visibility(
             visible: showOtpField,
             child: Padding(
-              padding: EdgeInsets.only(top: parentHeight*0.03, left: parentWidth*0.1, right: parentWidth*0.1),
+              padding: EdgeInsets.only(
+                  top: parentHeight * 0.03,
+                  left: parentWidth * 0.1,
+                  right: parentWidth * 0.1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   Row(
                     children: [
-                      Icon(Icons.message,
-                      color: CommonColor.RS_COLOR,
-                      size: parentHeight*0.02,),
+                      Icon(
+                        Icons.message,
+                        color: CommonColor.RS_COLOR,
+                        size: parentHeight * 0.02,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(bottom: parentHeight*0.005, left: parentWidth*0.01),
+                            padding: EdgeInsets.only(
+                                bottom: parentHeight * 0.005,
+                                left: parentWidth * 0.01),
                             child: Text(
                               "Resend OTP",
                               style: TextStyle(
                                   color: CommonColor.RS_COLOR,
-                                  fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 3.5,
                                   fontFamily: 'Roboto_Regular',
                                   fontWeight: FontWeight.w400),
                             ),
@@ -364,12 +365,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-
                   Visibility(
                     visible: _start != 0 ? true : false,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: parentHeight*0.005),
-                      child: Text("$_start S",
+                      padding: EdgeInsets.only(bottom: parentHeight * 0.005),
+                      child: Text(
+                        "$_start S",
                         style: TextStyle(
                             color: CommonColor.RS_COLOR,
                             fontSize: SizeConfig.blockSizeHorizontal * 3.5,
@@ -378,7 +379,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -391,17 +391,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   left: parentWidth * 0.07,
                   right: parentWidth * 0.07),
               child: GestureDetector(
-                onDoubleTap: (){},
-                onTap: (){
-
-                  if(pinController.text.isNotEmpty){
+                onDoubleTap: () {},
+                onTap: () {
+                  if (pinController.text.isNotEmpty) {
                     userRegister();
-                  }else{
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Please Enter a Valid OTP")));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Please Enter a Valid OTP")));
                   }
-
-
                 },
                 child: Container(
                   height: parentHeight * 0.06,
@@ -423,29 +420,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
-
         ],
       ),
     );
   }
 
   Future<UserRegisterResponseModel> userRegister() async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl+ApiConstants().usersRegister),
-      body: {
-        "accesskey" : ApiConstants().accessKey,
-        "type" : "verify-user",
-        "mobile" : "8980834200",
-      },
-      headers: headersList
-    );
-
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "type": "verify-user",
+          "mobile": "8980834200",
+        },
+        headers: headersList);
 
     if (response.statusCode == 200) {
-
       print("Yess.. ${response.body}");
 
       print("Hiii");
@@ -458,7 +450,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           isDismissible: false,
           enableDrag: true,
           builder: (BuildContext bc) {
-            return PersonalInfo(userNumber: numberController.text,);
+            return PersonalInfo(
+              userNumber: numberController.text,
+            );
           });
 
       return userRegisterResponseModelFromJson(response.body);
@@ -466,5 +460,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       throw Exception('Failed to create album.');
     }
   }
-
 }

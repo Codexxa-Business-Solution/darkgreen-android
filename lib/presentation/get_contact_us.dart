@@ -14,28 +14,24 @@ class GetContactUsScreen extends StatefulWidget {
 }
 
 class _GetContactUsScreenState extends State<GetContactUsScreen> {
-
-
-  String  contact = "";
+  String contact = "";
   Widget? html;
 
   Future<GetContactResponseModel> getTerms() async {
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
         Uri.parse(ApiConstants().baseUrl + ApiConstants().getSettingsData),
         body: {
           "accesskey": ApiConstants().accessKey,
-          "settings":"1",
-          "get_contact":"1"
+          "settings": "1",
+          "get_contact": "1"
         },
         headers: headersList);
 
     // log(response.body);
 
     if (response.statusCode == 200) {
-
       return getContactResponseModelFromJson(response.body);
     } else {
       throw Exception('Failed to create album.');
@@ -46,51 +42,39 @@ class _GetContactUsScreenState extends State<GetContactUsScreen> {
   void initState() {
     super.initState();
 
-
     getTerms();
 
-
-    getTerms().then((value){
-
+    getTerms().then((value) {
       contact = value.contact;
 
       print(contact);
 
-
-      if(mounted){
-        setState(() {
-
-
-        });
+      if (mounted) {
+        setState(() {});
       }
     });
-
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
       body: Column(
-
         children: [
-
           Container(
-            height: SizeConfig.screenHeight*0.12,
+            height: SizeConfig.screenHeight * 0.12,
             color: CommonColor.APP_BAR_COLOR,
             child: Padding(
-              padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.06),
+              padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.06),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03),
-                    child:  GestureDetector(
-                      onDoubleTap: (){},
-                      onTap: (){
+                    padding:
+                        EdgeInsets.only(left: SizeConfig.screenWidth * 0.03),
+                    child: GestureDetector(
+                      onDoubleTap: () {},
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: Container(
@@ -102,16 +86,17 @@ class _GetContactUsScreenState extends State<GetContactUsScreen> {
                       ),
                     ),
                   ),
-                  Text("Contact Us",
+                  Text(
+                    "Contact Us",
                     style: TextStyle(
                         color: CommonColor.WHITE_COLOR,
-                        fontSize: SizeConfig.blockSizeHorizontal*6.0,
+                        fontSize: SizeConfig.blockSizeHorizontal * 6.0,
                         fontFamily: 'Roboto_Medium',
-                        fontWeight: FontWeight.w500
-                    ),
+                        fontWeight: FontWeight.w500),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.03),
+                    padding:
+                        EdgeInsets.only(right: SizeConfig.screenWidth * 0.03),
                     child: const Icon(
                       Icons.arrow_back_ios_sharp,
                       color: Colors.transparent,
@@ -121,9 +106,8 @@ class _GetContactUsScreenState extends State<GetContactUsScreen> {
               ),
             ),
           ),
-
           Container(
-            height: SizeConfig.screenHeight*0.88,
+            height: SizeConfig.screenHeight * 0.88,
             color: Colors.transparent,
             child: ListView(
               shrinkWrap: true,
@@ -135,7 +119,6 @@ class _GetContactUsScreenState extends State<GetContactUsScreen> {
               ],
             ),
           )
-
         ],
       ),
     );

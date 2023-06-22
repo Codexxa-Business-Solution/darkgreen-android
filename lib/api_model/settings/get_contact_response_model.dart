@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-GetContactResponseModel getContactResponseModelFromJson(String str) => GetContactResponseModel.fromJson(json.decode(str));
+GetContactResponseModel getContactResponseModelFromJson(String str) =>
+    GetContactResponseModel.fromJson(json.decode(str));
 
-String getContactResponseModelToJson(GetContactResponseModel data) => json.encode(data.toJson());
+String getContactResponseModelToJson(GetContactResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetContactResponseModel {
   bool error;
@@ -17,13 +19,14 @@ class GetContactResponseModel {
     required this.contact,
   });
 
-  factory GetContactResponseModel.fromJson(Map<String, dynamic> json) => GetContactResponseModel(
-    error: json["error"],
-    contact: json["contact"],
-  );
+  factory GetContactResponseModel.fromJson(Map<String, dynamic> json) =>
+      GetContactResponseModel(
+        error: json["error"],
+        contact: json["contact"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "contact": contact,
-  };
+        "error": error,
+        "contact": contact,
+      };
 }

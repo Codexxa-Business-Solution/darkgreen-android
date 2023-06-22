@@ -4,10 +4,6 @@ import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-
 class SaveForLater extends StatefulWidget {
   const SaveForLater({Key? key}) : super(key: key);
 
@@ -16,20 +12,14 @@ class SaveForLater extends StatefulWidget {
 }
 
 class _SaveForLaterState extends State<SaveForLater> {
-
-
-
   String productVariantId = "";
   String productId = "";
   int count = 0;
 
-
   void refresh() {
-    AllCommonApis().getSaveForLater().then((value){
-      if(mounted){
-        setState(() {
-
-        });
+    AllCommonApis().getSaveForLater().then((value) {
+      if (mounted) {
+        setState(() {});
       }
     });
   }
@@ -64,7 +54,6 @@ class _SaveForLaterState extends State<SaveForLater> {
     );
   }
 
-
   Widget getAddMainHeadingLayout(double parentHeight, double parentWidth) {
     return Container(
       height: parentHeight * 0.1,
@@ -78,7 +67,6 @@ class _SaveForLaterState extends State<SaveForLater> {
               onTap: () {
                 Navigator.pop(context);
               },
-              
               child: Padding(
                 padding: EdgeInsets.only(left: parentWidth * .04),
                 child: Container(
@@ -119,7 +107,6 @@ class _SaveForLaterState extends State<SaveForLater> {
     );
   }
 
-
   Widget getAllLaterCart(double parentHeight, double parentWidth) {
     return Container(
       height: parentHeight * 0.9,
@@ -147,8 +134,8 @@ class _SaveForLaterState extends State<SaveForLater> {
 
                 final img = data?.data[index].image != null
                     ? Image.network(
-                  "${data?.data[index].image}",
-                )
+                        "${data?.data[index].image}",
+                      )
                     : Image.network("");
 
                 return Padding(
@@ -183,8 +170,9 @@ class _SaveForLaterState extends State<SaveForLater> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding:
-                          EdgeInsets.only(top: parentHeight * 0.02, left: parentWidth*0.01),
+                          padding: EdgeInsets.only(
+                              top: parentHeight * 0.02,
+                              left: parentWidth * 0.01),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -208,29 +196,27 @@ class _SaveForLaterState extends State<SaveForLater> {
                                     child: img,
                                   )),
                               Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(
                                           left: parentWidth * 0.03,
-                                          right: parentWidth * 0.01,),
+                                          right: parentWidth * 0.01,
+                                        ),
                                         child: Container(
                                           width: parentWidth * 0.61,
                                           color: Colors.transparent,
                                           child: Text(
                                             "${snap.data?.data[index].name}",
                                             style: TextStyle(
-                                                fontFamily:
-                                                "Roboto_Regular",
+                                                fontFamily: "Roboto_Regular",
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: SizeConfig
-                                                    .blockSizeHorizontal *
+                                                        .blockSizeHorizontal *
                                                     4.0,
-                                                color: CommonColor
-                                                    .BLACK_COLOR),
+                                                color: CommonColor.BLACK_COLOR),
                                           ),
                                         ),
                                       ),
@@ -240,9 +226,11 @@ class _SaveForLaterState extends State<SaveForLater> {
                                           child: GestureDetector(
                                             onTap: () {
                                               productVariantId =
-                                              "${snap.data?.data[index].productVariantId}";
+                                                  "${snap.data?.data[index].productVariantId}";
 
-                                              var result = AllCommonApis().deleteSaveForLater(productVariantId);
+                                              var result = AllCommonApis()
+                                                  .deleteSaveForLater(
+                                                      productVariantId);
 
                                               result.then((value) {
                                                 if (mounted) {
@@ -255,25 +243,25 @@ class _SaveForLaterState extends State<SaveForLater> {
                                             child: Container(
                                               height: parentHeight * 0.03,
                                               color: Colors.transparent,
-                                              child: Icon(Icons
-                                                  .delete_forever_rounded),
+                                              child: Icon(
+                                                  Icons.delete_forever_rounded),
                                             ),
                                           )),
                                     ],
                                   ),
                                   Container(
                                     color: Colors.transparent,
-                                    width: parentWidth*0.7,
+                                    width: parentWidth * 0.7,
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
                                               left: parentWidth * 0.03),
                                           child: Container(
                                             color: Colors.transparent,
-                                            width: parentWidth*0.65,
+                                            width: parentWidth * 0.65,
                                             child: Row(
                                               children: [
                                                 Text(
@@ -281,42 +269,50 @@ class _SaveForLaterState extends State<SaveForLater> {
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
+                                                              .blockSizeHorizontal *
                                                           4.5,
-                                                      fontFamily: 'Roboto_Medium',
+                                                      fontFamily:
+                                                          'Roboto_Medium',
                                                       fontWeight:
-                                                      FontWeight.w500),
+                                                          FontWeight.w500),
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(left: parentWidth*0.02),
+                                                  padding: EdgeInsets.only(
+                                                      left: parentWidth * 0.02),
                                                   child: Text(
                                                     "Rs.${snap.data?.data[index].price}",
                                                     style: TextStyle(
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
                                                         fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                                .blockSizeHorizontal *
                                                             4.5,
-                                                        fontFamily: 'Roboto_Medium',
-                                                        fontWeight: FontWeight.w500,
-                                                        decoration: TextDecoration
-                                                            .lineThrough),
+                                                        fontFamily:
+                                                            'Roboto_Medium',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(left: parentWidth*0.02),
+                                                  padding: EdgeInsets.only(
+                                                      left: parentWidth * 0.02),
                                                   child: Text(
                                                     "${snap.data?.data[index].measurement}${snap.data?.data[index].unit}",
                                                     style: TextStyle(
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
                                                         fontSize: SizeConfig
-                                                            .blockSizeHorizontal *
+                                                                .blockSizeHorizontal *
                                                             3.0,
-                                                        fontFamily: 'Roboto_Medium',
-                                                        fontWeight: FontWeight.w500),
+                                                        fontFamily:
+                                                            'Roboto_Medium',
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
@@ -333,22 +329,19 @@ class _SaveForLaterState extends State<SaveForLater> {
                           ),
                         ),
                         Padding(
-                          padding:
-                          EdgeInsets.only(top: parentHeight * 0.0),
+                          padding: EdgeInsets.only(top: parentHeight * 0.0),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(
-                                    left: parentWidth * 0.05),
+                                padding:
+                                    EdgeInsets.only(left: parentWidth * 0.05),
                                 child: Text(
                                   "Move To Cart",
                                   style: TextStyle(
                                       color: Colors.transparent,
                                       fontSize:
-                                      SizeConfig.blockSizeHorizontal *
-                                          4.0,
+                                          SizeConfig.blockSizeHorizontal * 4.0,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: 'Roboto-Medium'),
                                 ),
@@ -358,28 +351,25 @@ class _SaveForLaterState extends State<SaveForLater> {
                                 style: TextStyle(
                                     color: Colors.transparent,
                                     fontSize:
-                                    SizeConfig.blockSizeHorizontal *
-                                        4.0,
+                                        SizeConfig.blockSizeHorizontal * 4.0,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: 'Roboto-Medium'),
                               ),
                               GestureDetector(
-                                onDoubleTap: (){},
-                                onTap: (){
+                                onDoubleTap: () {},
+                                onTap: () {
+                                  productId =
+                                      "${snap.data?.data[index].productId}";
 
-                                  productId = "${snap.data?.data[index].productId}";
-
-                                  productVariantId = "${snap.data?.data[index].productVariantId}";
+                                  productVariantId =
+                                      "${snap.data?.data[index].productVariantId}";
 
                                   count = int.parse(
                                       "${snap.data?.data[index].qty}");
 
                                   AllCommonApis()
-                                      .addToCartApi(
-                                      productId,
-                                      productVariantId,
-                                      count
-                                          .toString())
+                                      .addToCartApi(productId, productVariantId,
+                                          count.toString())
                                       .then((value) {
                                     if (mounted) {
                                       setState(() {
@@ -399,8 +389,8 @@ class _SaveForLaterState extends State<SaveForLater> {
                                       style: TextStyle(
                                           color: CommonColor.APP_BAR_COLOR,
                                           fontSize:
-                                          SizeConfig.blockSizeHorizontal *
-                                              4.0,
+                                              SizeConfig.blockSizeHorizontal *
+                                                  4.0,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: 'Roboto-Medium'),
                                     ),

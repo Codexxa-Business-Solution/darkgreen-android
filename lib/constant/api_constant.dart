@@ -1,15 +1,12 @@
-
 class ApiConstants {
-
   String baseUrl = "https://darkgreen.in/app-admin/api-firebase/";
 
   String accessKey = "90336";
 
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
-  String token = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwNTM5MTksInN1YiI6ImVLYXJ0IEF1dGhlbnRpY2F0aW9uIiwiaXNzIjoiZUthcnQifQ.RR_BOfUyVQVxgQIVPhE8uMG9W2czEQOXcdJlzILjVjg";
-
-
+  String token =
+      "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2ODIwNTM5MTksInN1YiI6ImVLYXJ0IEF1dGhlbnRpY2F0aW9uIiwiaXNzIjoiZUthcnQifQ.RR_BOfUyVQVxgQIVPhE8uMG9W2czEQOXcdJlzILjVjg";
 
   String usersRegister = "user-registration.php";
   String usersLogin = "login.php";
@@ -30,7 +27,4 @@ class ApiConstants {
   String getAllOrdersStatus = "order-process.php";
   String getSettingsData = "settings.php";
   String getBlogsData = "get-blogs.php";
-
-
-
 }

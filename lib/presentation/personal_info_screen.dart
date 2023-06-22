@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:darkgreen/api_model/register/personal_details_response_model.dart';
-import 'package:darkgreen/api_model/register/register_request_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class PersonalInfo extends StatefulWidget {
-
   final String userNumber;
 
   const PersonalInfo({Key? key, required this.userNumber}) : super(key: key);
@@ -19,16 +17,11 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
-
-
-
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController conPasswordController = TextEditingController();
   TextEditingController referralCodeController = TextEditingController();
-
-
 
   final _passwordFocus = FocusNode();
   final _confirmPasswordFocus = FocusNode();
@@ -58,7 +51,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           backgroundColor: CommonColor.APP_BAR_COLOR,
         ),
         Padding(
-          padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.36),
+          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.36),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: ListView(
@@ -201,7 +194,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   suffixIcon: paswordShow
                       ? GestureDetector(
-                          
                           onTap: () {
                             _toggle();
                           },
@@ -217,7 +209,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            
                             onTap: () {
                               _toggle();
                             },
@@ -260,7 +251,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   suffixIcon: confirmPasswordShow
                       ? GestureDetector(
-                          
                           onTap: () {
                             _toggles();
                           },
@@ -276,7 +266,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           padding: EdgeInsets.only(
                               right: SizeConfig.screenWidth * 0.01),
                           child: GestureDetector(
-                            
                             onTap: () {
                               _toggles();
                             },
@@ -398,37 +387,38 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 left: parentWidth * 0.07,
                 right: parentWidth * 0.07),
             child: GestureDetector(
-              
               onTap: () {
-
-                if(nameController.text.isNotEmpty){
-                  if(emailController.text.isNotEmpty){
-                    if(passwordController.text.isNotEmpty && conPasswordController.text.length > 6){
-                      if(conPasswordController.text.isNotEmpty && conPasswordController.text.length > 6){
-                        if(isChecked == true){
+                if (nameController.text.isNotEmpty) {
+                  if (emailController.text.isNotEmpty) {
+                    if (passwordController.text.isNotEmpty &&
+                        conPasswordController.text.length > 6) {
+                      if (conPasswordController.text.isNotEmpty &&
+                          conPasswordController.text.length > 6) {
+                        if (isChecked == true) {
                           userDetailsRegister();
-                        }else{
-                          ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                              content: Text("Please Check Privacy Policy and Terms & Conditions")));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text(
+                                  "Please Check Privacy Policy and Terms & Conditions")));
                         }
-                      }else{
-                        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                            content: Text("Please Enter 6 digit Password")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text("Please Enter 6 digit Password")));
                       }
-                    }else{
-                      ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Please Enter 6 digit Password")));
                     }
-                  }else{
-                    ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Please Enter Valid Email")));
                   }
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar( const SnackBar(
-                      content: Text("Please Enter Name")));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Please Enter Name")));
                 }
-
-
               },
               child: Container(
                 height: parentHeight * 0.06,
@@ -496,30 +486,24 @@ class _PersonalInfoState extends State<PersonalInfo> {
   //   }
   // }
 
-
   Future<UserPersonalDetailsResponseModel> userDetailsRegister() async {
-
     try {
-
       print(nameController.text.trim());
       print(emailController.text.trim());
       print(passwordController.text.trim());
 
-      var headers = {
-        'Authorization': 'Bearer ${ApiConstants().token}'
-      };
-
+      var headers = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
       final result = await http.post(
-        Uri.parse(ApiConstants().baseUrl+ApiConstants().usersRegister),
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
         headers: headers,
         body: {
-          "accesskey" : ApiConstants().accessKey,
-          "type" : "register",
-          "name" :  nameController.text.trim(),
-          "email" : emailController.text.trim(),
-          "password" : passwordController.text.trim(),
-          "referral_code" : referralCodeController.text.trim()??"",
+          "accesskey": ApiConstants().accessKey,
+          "type": "register",
+          "name": nameController.text.trim(),
+          "email": emailController.text.trim(),
+          "password": passwordController.text.trim(),
+          "referral_code": referralCodeController.text.trim() ?? "",
         },
       );
 
@@ -533,7 +517,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
       }
 
       return userPersonalDetailsResponseModelFromJson(json.decode(result.body));
-      } catch (e) {
+    } catch (e) {
       throw e;
     }
   }

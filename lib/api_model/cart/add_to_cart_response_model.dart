@@ -17,20 +17,20 @@ class Product {
 
   Product(
       {required this.id,
-        required this.name,
-        required this.indicator,
-        required this.image,
-        required this.ratings,
-        required this.numberOfRatings,
-        required this.totalAllowedQuantity,
-        required this.slug,
-        required this.description,
-        required this.status,
-        required this.categoryName,
-        required this.taxPercentage,
-        required this.price,
-        required this.isFavorite,
-        required this.variants});
+      required this.name,
+      required this.indicator,
+      required this.image,
+      required this.ratings,
+      required this.numberOfRatings,
+      required this.totalAllowedQuantity,
+      required this.slug,
+      required this.description,
+      required this.status,
+      required this.categoryName,
+      required this.taxPercentage,
+      required this.price,
+      required this.isFavorite,
+      required this.variants});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
@@ -49,15 +49,28 @@ class Product {
     final isFavorite = json['is_favorite'];
     final variants = <Variants>[];
     if (json['variants'] != null) {
-
       json['variants'].forEach((v) {
         variants.add(new Variants.fromJson(v));
       });
     }
 
-    return Product(id: id, name: name, indicator: indicator, image: image, ratings: ratings, numberOfRatings: numberOfRatings, totalAllowedQuantity: totalAllowedQuantity, slug: slug, description: description, status: status, categoryName: categoryName, taxPercentage: taxPercentage, price: price, isFavorite: isFavorite, variants: variants);
+    return Product(
+        id: id,
+        name: name,
+        indicator: indicator,
+        image: image,
+        ratings: ratings,
+        numberOfRatings: numberOfRatings,
+        totalAllowedQuantity: totalAllowedQuantity,
+        slug: slug,
+        description: description,
+        status: status,
+        categoryName: categoryName,
+        taxPercentage: taxPercentage,
+        price: price,
+        isFavorite: isFavorite,
+        variants: variants);
   }
-
 }
 
 class Variants {
@@ -77,19 +90,18 @@ class Variants {
 
   Variants(
       {this.type,
-        this.id,
-        this.productId,
-        this.price,
-        this.discountedPrice,
-        this.serveFor,
-        this.stock,
-        this.measurement,
-        this.measurementUnitName,
-        this.stockUnitName,
-        this.images,
-        this.cartCount,
-        this.isFlashSales
-      });
+      this.id,
+      this.productId,
+      this.price,
+      this.discountedPrice,
+      this.serveFor,
+      this.stock,
+      this.measurement,
+      this.measurementUnitName,
+      this.stockUnitName,
+      this.images,
+      this.cartCount,
+      this.isFlashSales});
 
   Variants.fromJson(Map<String, dynamic> json) {
     type = json['type'];
@@ -113,22 +125,22 @@ class Variants {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> Product = new Map<String, dynamic>();
-    Product['type'] = this.type;
-    Product['id'] = this.id;
-    Product['product_id'] = this.productId;
-    Product['price'] = this.price;
-    Product['discounted_price'] = this.discountedPrice;
-    Product['serve_for'] = this.serveFor;
-    Product['stock'] = this.stock;
-    Product['measurement'] = this.measurement;
-    Product['measurement_unit_name'] = this.measurementUnitName;
-    Product['stock_unit_name'] = this.stockUnitName;
-    if (this.images != null) {
-      // Product['images'] = this.images!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> product = <String, dynamic>{};
+    product['type'] = type;
+    product['id'] = id;
+    product['product_id'] = productId;
+    product['price'] = price;
+    product['discounted_price'] = discountedPrice;
+    product['serve_for'] = serveFor;
+    product['stock'] = stock;
+    product['measurement'] = measurement;
+    product['measurement_unit_name'] = measurementUnitName;
+    product['stock_unit_name'] = stockUnitName;
+    if (images != null) {
+      // product['images'] = images!.map((v) => v.toJson()).toList();
     }
-    Product['cart_count'] = this.cartCount;
-    Product['is_flash_sales'] = this.isFlashSales;
-    return Product;
+    product['cart_count'] = cartCount;
+    product['is_flash_sales'] = isFlashSales;
+    return product;
   }
 }

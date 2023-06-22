@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/search/search.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -176,8 +177,10 @@ class _SearchProductState extends State<SearchProduct> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(Icons.arrow_back_ios_new_rounded,
-          color: Colors.white,),
+          const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
           Padding(
             padding: EdgeInsets.only(left: parentHeight * 0.01),
             child: Text(
@@ -192,10 +195,12 @@ class _SearchProductState extends State<SearchProduct> {
           Padding(
             padding: EdgeInsets.only(right: parentWidth * 0.02),
             child: GestureDetector(
-              onDoubleTap: (){},
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart())).then((value){
-                  if(mounted){
+              onDoubleTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cart()))
+                    .then((value) {
+                  if (mounted) {
                     setState(() {
                       AllCommonApis().getAllCarts().then((value) {
                         if (mounted) {
@@ -215,41 +220,46 @@ class _SearchProductState extends State<SearchProduct> {
                   alignment: Alignment.topRight,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: SizeConfig.screenHeight*0.0),
+                      padding:
+                          EdgeInsets.only(top: SizeConfig.screenHeight * 0.0),
                       child: Container(
-                        height: SizeConfig.screenHeight*0.05,
+                        height: SizeConfig.screenHeight * 0.05,
                         color: Colors.transparent,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image(image: AssetImage("assets/images/trolly.png"),
+                          child: Image(
+                            image: AssetImage("assets/images/trolly.png"),
                             color: Colors.white,
-                            height: SizeConfig.screenHeight*0.03,),
+                            height: SizeConfig.screenHeight * 0.03,
+                          ),
                         ),
                       ),
                     ),
-                   Visibility(
-                     visible: totalCartCount == 0 ? false : true,
-                       child:  Padding(
-                     padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.025,
-                         right: SizeConfig.screenWidth*0.005),
-                     child: Container(
-                       height: SizeConfig.screenHeight*0.05,
-                       width: SizeConfig.screenWidth*0.05,
-                       decoration: BoxDecoration(
-                           color: CommonColor.WHITE_COLOR,
-                           shape: BoxShape.circle,
-                           border: Border.all(color: CommonColor.APP_BAR_COLOR)
-                       ),
-                       child: Center(
-                         child: Text("$totalCartCount",
-                           style: TextStyle(
-                               fontSize: SizeConfig.blockSizeHorizontal*2.5,
-                               color: Colors.black
-                           ),),
-                       ),
-                     ),
-                   )
-                   )
+                    Visibility(
+                        visible: totalCartCount == 0 ? false : true,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: SizeConfig.screenHeight * 0.025,
+                              right: SizeConfig.screenWidth * 0.005),
+                          child: Container(
+                            height: SizeConfig.screenHeight * 0.05,
+                            width: SizeConfig.screenWidth * 0.05,
+                            decoration: BoxDecoration(
+                                color: CommonColor.WHITE_COLOR,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: CommonColor.APP_BAR_COLOR)),
+                            child: Center(
+                              child: Text(
+                                "$totalCartCount",
+                                style: TextStyle(
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 2.5,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -298,7 +308,6 @@ class _SearchProductState extends State<SearchProduct> {
                 suffixIcon: Visibility(
                     visible: showCancle || _searchFocus.hasFocus,
                     child: GestureDetector(
-                      
                       onTap: () {
                         if (mounted) {
                           setState(() {
@@ -410,7 +419,6 @@ class _SearchProductState extends State<SearchProduct> {
                         bottom: parentHeight * 0.01,
                         left: parentWidth * 0.05),
                     child: GestureDetector(
-                      
                       onTap: () {
                         Navigator.push(
                             context,
@@ -418,8 +426,8 @@ class _SearchProductState extends State<SearchProduct> {
                                 builder: (context) => ProductInfoScreen(
                                       productId: "${snap.data?.data[index].id}",
                                       catId: '',
-                                    ))).then((value){
-                          if(mounted){
+                                    ))).then((value) {
+                          if (mounted) {
                             setState(() {
                               AllCommonApis().getAllCarts().then((value) {
                                 if (mounted) {
@@ -505,7 +513,6 @@ class _SearchProductState extends State<SearchProduct> {
                                               padding: EdgeInsets.only(
                                                   right: parentWidth * 0.02),
                                               child: GestureDetector(
-                                                
                                                 onTap: () {
                                                   productId =
                                                       "${snap.data?.data[index].variants[0].productId}";
@@ -551,7 +558,6 @@ class _SearchProductState extends State<SearchProduct> {
                                               padding: EdgeInsets.only(
                                                   right: parentWidth * 0.02),
                                               child: GestureDetector(
-                                                
                                                 onTap: () {
                                                   productId =
                                                       "${snap.data?.data[index].variants[0].productId}";
@@ -748,7 +754,6 @@ class _SearchProductState extends State<SearchProduct> {
                                               child: Row(
                                                 children: [
                                                   GestureDetector(
-                                                    
                                                     onTap: () {
                                                       productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -769,14 +774,20 @@ class _SearchProductState extends State<SearchProduct> {
                                                               productId,
                                                               productVariantId,
                                                               cartCount
-                                                                  .toString()).then((value){
+                                                                  .toString())
+                                                          .then((value) {
                                                         if (mounted) {
                                                           setState(() {
-                                                            AllCommonApis().getAllCarts().then((value) {
+                                                            AllCommonApis()
+                                                                .getAllCarts()
+                                                                .then((value) {
                                                               if (mounted) {
                                                                 setState(() {
-                                                                  totalCartCount = value.data.length;
-                                                                  print(totalCartCount);
+                                                                  totalCartCount =
+                                                                      value.data
+                                                                          .length;
+                                                                  print(
+                                                                      totalCartCount);
                                                                 });
                                                               }
                                                             });
@@ -785,8 +796,7 @@ class _SearchProductState extends State<SearchProduct> {
                                                       });
 
                                                       if (mounted) {
-                                                        setState(() {
-                                                        });
+                                                        setState(() {});
                                                       }
                                                     },
                                                     child: Container(
@@ -835,7 +845,6 @@ class _SearchProductState extends State<SearchProduct> {
                                                     )),
                                                   ),
                                                   GestureDetector(
-                                                    
                                                     onTap: () {
                                                       productId =
                                                           "${snap.data?.data[index].variants[0].productId}";
@@ -856,14 +865,20 @@ class _SearchProductState extends State<SearchProduct> {
                                                               productId,
                                                               productVariantId,
                                                               cartCount
-                                                                  .toString()).then((value){
+                                                                  .toString())
+                                                          .then((value) {
                                                         if (mounted) {
                                                           setState(() {
-                                                            AllCommonApis().getAllCarts().then((value) {
+                                                            AllCommonApis()
+                                                                .getAllCarts()
+                                                                .then((value) {
                                                               if (mounted) {
                                                                 setState(() {
-                                                                  totalCartCount = value.data.length;
-                                                                  print(totalCartCount);
+                                                                  totalCartCount =
+                                                                      value.data
+                                                                          .length;
+                                                                  print(
+                                                                      totalCartCount);
                                                                 });
                                                               }
                                                             });
@@ -914,7 +929,6 @@ class _SearchProductState extends State<SearchProduct> {
                                       ? true
                                       : false,
                                   child: GestureDetector(
-                                    
                                     onTap: () {
                                       productId =
                                           "${snap.data?.data[index].variants[0].productId}";
@@ -926,16 +940,21 @@ class _SearchProductState extends State<SearchProduct> {
                                       cartCount++;
                                       snap.data?.data[index].variants[0]
                                           .cartCount = cartCount.toString();
-                                      AllCommonApis().addToCartApi(
-                                          productId,
-                                          productVariantId,
-                                          cartCount.toString()).then((value){
+                                      AllCommonApis()
+                                          .addToCartApi(
+                                              productId,
+                                              productVariantId,
+                                              cartCount.toString())
+                                          .then((value) {
                                         if (mounted) {
                                           setState(() {
-                                            AllCommonApis().getAllCarts().then((value) {
+                                            AllCommonApis()
+                                                .getAllCarts()
+                                                .then((value) {
                                               if (mounted) {
                                                 setState(() {
-                                                  totalCartCount = value.data.length;
+                                                  totalCartCount =
+                                                      value.data.length;
                                                   print(totalCartCount);
                                                 });
                                               }

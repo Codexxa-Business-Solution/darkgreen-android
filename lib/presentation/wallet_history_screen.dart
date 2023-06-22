@@ -13,8 +13,6 @@ class WalletHistory extends StatefulWidget {
 }
 
 class _WalletHistoryState extends State<WalletHistory> {
-
-
   final TextEditingController _amount = TextEditingController();
   final TextEditingController _notes = TextEditingController();
 
@@ -43,9 +41,7 @@ class _WalletHistoryState extends State<WalletHistory> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWalletSelected);
     refresh();
-
   }
-
 
   void refresh() {
     var result = AllCommonApis().getWalletHistory();
@@ -55,13 +51,12 @@ class _WalletHistoryState extends State<WalletHistory> {
         setState(() {
           // totalWalletAmount = value.data.isNotEmpty ? value.data.length : 0;
           for (var element in value.data) {
-            if(mounted){
+            if (mounted) {
               setState(() {
                 totalWalletAmount += int.parse(element.amount);
                 print(totalWalletAmount);
               });
             }
-
           }
         });
       }
@@ -73,14 +68,13 @@ class _WalletHistoryState extends State<WalletHistory> {
   }
 
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
-showAlertDialog(context, "Payment Failed", "${response.message}");
+    showAlertDialog(context, "Payment Failed", "${response.message}");
   }
 
   void handleExternalWalletSelected(ExternalWalletResponse response) {
     showAlertDialog(
         context, "External Wallet Selected", "${response.walletName}");
   }
-
 
   void showAlertDialog(BuildContext context, String title, String message) {
     // set up the buttons
@@ -109,7 +103,6 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -132,9 +125,8 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
               ),
               child:
                   getTopText(SizeConfig.screenHeight, SizeConfig.screenWidth)),
-
           Container(
-            height: SizeConfig.screenHeight*0.9,
+            height: SizeConfig.screenHeight * 0.9,
             child: FutureBuilder<GetWalletHistoryResponseModel>(
               future: AllCommonApis().getWalletHistory(),
               builder: (context, snap) {
@@ -158,174 +150,211 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                       delegate: SliverChildListDelegate(
                         [
                           Padding(
-                            padding: EdgeInsets.only(bottom: SizeConfig.screenHeight*0.03),
+                            padding: EdgeInsets.only(
+                                bottom: SizeConfig.screenHeight * 0.03),
                             child: Container(
                                 height: SizeConfig.screenHeight * 0.27,
-                                child: getWalletHistory(
-                                    SizeConfig.screenHeight, SizeConfig.screenWidth)),
+                                child: getWalletHistory(SizeConfig.screenHeight,
+                                    SizeConfig.screenWidth)),
                           ),
                         ],
                       ),
                     ),
                     SliverList(
                         delegate: SliverChildBuilderDelegate(
-                          childCount: snap.data?.data.length,
-                              (context, index) {
-
-                            return Padding(
-                              padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                  bottom: SizeConfig.screenHeight*0.02),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        blurRadius: 7,
-                                        spreadRadius: 1,
-                                        offset: Offset(2, 2.0))
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.02),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("ID #${snap.data?.data[index].id}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Roboto_Bold'
-                                            ),),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: CommonColor.APP_BAR_COLOR,
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            height: SizeConfig.screenHeight*0.03,
-                                            width: SizeConfig.screenWidth*0.2,
-                                            child: Center(
-                                              child: Text("${snap.data?.data[index].type}",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: 'Roboto_Regular'
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                      childCount: snap.data?.data.length,
+                      (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.screenWidth * 0.03,
+                              right: SizeConfig.screenWidth * 0.03,
+                              bottom: SizeConfig.screenHeight * 0.02),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    blurRadius: 7,
+                                    spreadRadius: 1,
+                                    offset: Offset(2, 2.0))
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.02),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "ID #${snap.data?.data[index].id}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    5.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Roboto_Bold'),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.01),
-                                      child: Container(
-                                        color: Colors.black12,
-                                        height: SizeConfig.screenHeight*0.001,
-                                        child: Row(
-                                          children: const [
-                                            Text("hi",
-                                              style: TextStyle(
-                                                  color: Colors.transparent
-                                              ),),
-                                          ],
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.01),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Date & Time",
+                                        height: SizeConfig.screenHeight * 0.03,
+                                        width: SizeConfig.screenWidth * 0.2,
+                                        child: Center(
+                                          child: Text(
+                                            "${snap.data?.data[index].type}",
                                             style: TextStyle(
-                                                color: Colors.black38,
-                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Roboto_Bold'
-                                            ),),
-                                          Text("Amount : \u20B9${snap.data?.data[index].amount}",
-                                            style: TextStyle(
-                                                color: CommonColor.APP_BAR_COLOR,
-                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                                color: Colors.white,
+                                                fontSize: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    4.0,
                                                 fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Regular'
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.01),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text("${snap.data?.data[index].dateCreated}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Normal'
-                                            ),)
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.01),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text("Message",
-                                            style: TextStyle(
-                                                color: Colors.black38,
-                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: 'Roboto_Bold'
-                                            ),)
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: SizeConfig.screenWidth*0.03, right: SizeConfig.screenWidth*0.03,
-                                          top: SizeConfig.screenHeight*0.01),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text("# ${snap.data?.data[index].message}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig.blockSizeHorizontal*4.0,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Normal'
-                                            ),)
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.screenHeight*0.03,
-                                    )
-                                  ],
+                                                fontFamily: 'Roboto_Regular'),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.01),
+                                  child: Container(
+                                    color: Colors.black12,
+                                    height: SizeConfig.screenHeight * 0.001,
+                                    child: Row(
+                                      children: const [
+                                        Text(
+                                          "hi",
+                                          style: TextStyle(
+                                              color: Colors.transparent),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.01),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Date & Time",
+                                        style: TextStyle(
+                                            color: Colors.black38,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Roboto_Bold'),
+                                      ),
+                                      Text(
+                                        "Amount : \u20B9${snap.data?.data[index].amount}",
+                                        style: TextStyle(
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'Roboto_Regular'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.01),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${snap.data?.data[index].dateCreated}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'Roboto_Normal'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.01),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Message",
+                                        style: TextStyle(
+                                            color: Colors.black38,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: 'Roboto_Bold'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.screenWidth * 0.03,
+                                      right: SizeConfig.screenWidth * 0.03,
+                                      top: SizeConfig.screenHeight * 0.01),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "# ${snap.data?.data[index].message}",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    4.0,
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'Roboto_Normal'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.screenHeight * 0.03,
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )),
                   ],
                 );
               },
             ),
           )
-
         ],
       ),
     );
@@ -339,7 +368,6 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            
             onTap: () {
               Navigator.pop(context);
             },
@@ -361,8 +389,10 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
           ),
           Container(
             color: Colors.transparent,
-            child: Icon(Icons.arrow_back_ios_new_rounded,
-            color: Colors.transparent,),
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: Colors.transparent,
+            ),
           ),
         ],
       ),
@@ -420,7 +450,6 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
               padding: EdgeInsets.only(
                   top: parentHeight * 0.02, left: parentWidth * 0.05),
               child: GestureDetector(
-                
                 onTap: () {
                   print("${_amount.text.trim()}");
                   showDialog<String>(
@@ -457,20 +486,19 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                         children: [
                           Container(
                             // color: Colors.red,
-                            height: parentHeight*0.04,
+                            height: parentHeight * 0.04,
                             child: TextFormField(
                               controller: _amount,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                   hintText: 'Amount',
-                                  hintStyle:
-                                      TextStyle(color: Colors.black26)),
+                                  hintStyle: TextStyle(color: Colors.black26)),
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: SizeConfig.blockSizeHorizontal*5.0,
-                                fontFamily: 'Roboto_Regular',
-                                fontWeight: FontWeight.w400
-                              ),
+                                  color: Colors.black,
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 5.0,
+                                  fontFamily: 'Roboto_Regular',
+                                  fontWeight: FontWeight.w400),
                             ),
                           ),
                           Padding(
@@ -478,19 +506,19 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                                 top: SizeConfig.screenHeight * 0.02),
                             child: Container(
                               color: Colors.transparent,
-                              height: parentHeight*0.05,
+                              height: parentHeight * 0.05,
                               child: TextFormField(
                                 controller: _notes,
                                 decoration: InputDecoration(
                                     hintText: 'Message(Optional)',
                                     hintStyle:
-                                    TextStyle(color: Colors.black26)),
+                                        TextStyle(color: Colors.black26)),
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: SizeConfig.blockSizeHorizontal*4.0,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 4.0,
                                     fontFamily: 'Roboto_Regular',
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w400),
                                 maxLines: 1,
                               ),
                             ),
@@ -500,13 +528,15 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                                 top: SizeConfig.screenHeight * 0.03),
                             child: Row(
                               children: [
-                                Text("Payment Method",
+                                Text(
+                                  "Payment Method",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontSize: SizeConfig.blockSizeHorizontal*5.0,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5.0,
                                       fontFamily: 'Roboto_Medium',
-                                      fontWeight: FontWeight.w500
-                                  ),),
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ],
                             ),
                           ),
@@ -517,27 +547,35 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Image(
-                                  image: AssetImage("assets/images/razorpay-icon.png",
-                                ),
-                                  height: parentHeight*0.03,
+                                  image: AssetImage(
+                                    "assets/images/razorpay-icon.png",
+                                  ),
+                                  height: parentHeight * 0.03,
                                 ),
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Icon(Icons.circle_outlined,
-                                      color: CommonColor.APP_BAR_COLOR,),
+                                    Icon(
+                                      Icons.circle_outlined,
+                                      color: CommonColor.APP_BAR_COLOR,
+                                    ),
                                     Padding(
-                                      padding: EdgeInsets.only(right: SizeConfig.screenWidth*0.0027, bottom: parentHeight*0.001),
-                                      child: Icon(Icons.circle,
+                                      padding: EdgeInsets.only(
+                                          right:
+                                              SizeConfig.screenWidth * 0.0027,
+                                          bottom: parentHeight * 0.001),
+                                      child: Icon(
+                                        Icons.circle,
                                         color: CommonColor.APP_BAR_COLOR,
-                                        size: SizeConfig.blockSizeHorizontal*4.0,),
+                                        size: SizeConfig.blockSizeHorizontal *
+                                            4.0,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                       actions: <Widget>[
@@ -545,7 +583,6 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
-                              
                               onTap: () {
                                 Navigator.pop(context);
                               },
@@ -568,11 +605,8 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                               ),
                             ),
                             GestureDetector(
-                              
                               onTap: () {
-
                                 int amount = int.parse(_amount.text);
-
 
                                 print(amount);
                                 Razorpay razorpay = Razorpay();
@@ -589,9 +623,10 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
                                   }
                                 };
 
-                                razorpay.on(
-                                    Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);
-                                razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) {
+                                razorpay.on(Razorpay.EVENT_PAYMENT_ERROR,
+                                    handlePaymentErrorResponse);
+                                razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS,
+                                    (response) {
                                   showAlertDialog(context, "Payment Successful",
                                       "Congratulation Your Subscription is Activated");
                                 });
@@ -649,8 +684,7 @@ showAlertDialog(context, "Payment Failed", "${response.message}");
     );
   }
 
-
-  Widget getAllHistoryLayout(double parentHeight, double parentWidth){
+  Widget getAllHistoryLayout(double parentHeight, double parentWidth) {
     return Container();
   }
 }

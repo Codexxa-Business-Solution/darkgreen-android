@@ -1,12 +1,12 @@
-
-
-
 import 'dart:convert';
 
-GetAddressOfUserResponseModel getAddressOfUserResponseModelFromJson(String str) => GetAddressOfUserResponseModel.fromJson(json.decode(str));
+GetAddressOfUserResponseModel getAddressOfUserResponseModelFromJson(
+        String str) =>
+    GetAddressOfUserResponseModel.fromJson(json.decode(str));
 
-String getAddressOfUserResponseModelToJson(GetAddressOfUserResponseModel data) => json.encode(data.toJson());
-
+String getAddressOfUserResponseModelToJson(
+        GetAddressOfUserResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetAddressOfUserResponseModel {
   bool? error;
@@ -21,15 +21,15 @@ class GetAddressOfUserResponseModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data?.add(new Data.fromJson(v));
+        data?.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error'] = this.error;
-    data['total'] = this.total;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['error'] = error;
+    data['total'] = total;
     if (this.data != null) {
       data['data'] = this.data?.map((v) => v.toJson()).toList();
     }
@@ -64,28 +64,28 @@ class Data {
 
   Data(
       {this.id,
-        this.userId,
-        this.type,
-        this.name,
-        this.countryCode,
-        this.mobile,
-        this.alternateMobile,
-        this.address,
-        this.landmark,
-        this.areaId,
-        this.cityId,
-        this.pincode,
-        this.state,
-        this.country,
-        this.latitude,
-        this.longitude,
-        this.isDefault,
-        this.dateCreated,
-        this.cityName,
-        this.areaName,
-        this.minimumFreeDeliveryOrderAmount,
-        this.minimumOrderAmount,
-        this.deliveryCharges});
+      this.userId,
+      this.type,
+      this.name,
+      this.countryCode,
+      this.mobile,
+      this.alternateMobile,
+      this.address,
+      this.landmark,
+      this.areaId,
+      this.cityId,
+      this.pincode,
+      this.state,
+      this.country,
+      this.latitude,
+      this.longitude,
+      this.isDefault,
+      this.dateCreated,
+      this.cityName,
+      this.areaName,
+      this.minimumFreeDeliveryOrderAmount,
+      this.minimumOrderAmount,
+      this.deliveryCharges});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -114,31 +114,30 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['country_code'] = this.countryCode;
-    data['mobile'] = this.mobile;
-    data['alternate_mobile'] = this.alternateMobile;
-    data['address'] = this.address;
-    data['landmark'] = this.landmark;
-    data['area_id'] = this.areaId;
-    data['city_id'] = this.cityId;
-    data['pincode'] = this.pincode;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['is_default'] = this.isDefault;
-    data['date_created'] = this.dateCreated;
-    data['city_name'] = this.cityName;
-    data['area_name'] = this.areaName;
-    data['minimum_free_delivery_order_amount'] =
-        this.minimumFreeDeliveryOrderAmount;
-    data['minimum_order_amount'] = this.minimumOrderAmount;
-    data['delivery_charges'] = this.deliveryCharges;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['type'] = type;
+    data['name'] = name;
+    data['country_code'] = countryCode;
+    data['mobile'] = mobile;
+    data['alternate_mobile'] = alternateMobile;
+    data['address'] = address;
+    data['landmark'] = landmark;
+    data['area_id'] = areaId;
+    data['city_id'] = cityId;
+    data['pincode'] = pincode;
+    data['state'] = state;
+    data['country'] = country;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['is_default'] = isDefault;
+    data['date_created'] = dateCreated;
+    data['city_name'] = cityName;
+    data['area_name'] = areaName;
+    data['minimum_free_delivery_order_amount'] = minimumFreeDeliveryOrderAmount;
+    data['minimum_order_amount'] = minimumOrderAmount;
+    data['delivery_charges'] = deliveryCharges;
     return data;
   }
 }

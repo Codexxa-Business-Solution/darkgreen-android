@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-GetOrderDeleteResponseModel getOrderDeleteResponseModelFromJson(String str) => GetOrderDeleteResponseModel.fromJson(json.decode(str));
+GetOrderDeleteResponseModel getOrderDeleteResponseModelFromJson(String str) =>
+    GetOrderDeleteResponseModel.fromJson(json.decode(str));
 
-String getOrderDeleteResponseModelToJson(GetOrderDeleteResponseModel data) => json.encode(data.toJson());
+String getOrderDeleteResponseModelToJson(GetOrderDeleteResponseModel data) =>
+    json.encode(data.toJson());
 
 class GetOrderDeleteResponseModel {
   bool error;
@@ -17,13 +19,14 @@ class GetOrderDeleteResponseModel {
     required this.message,
   });
 
-  factory GetOrderDeleteResponseModel.fromJson(Map<String, dynamic> json) => GetOrderDeleteResponseModel(
-    error: json["error"],
-    message: json["message"],
-  );
+  factory GetOrderDeleteResponseModel.fromJson(Map<String, dynamic> json) =>
+      GetOrderDeleteResponseModel(
+        error: json["error"],
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-  };
+        "error": error,
+        "message": message,
+      };
 }

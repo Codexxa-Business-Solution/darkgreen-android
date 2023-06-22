@@ -150,7 +150,7 @@ class _DashboardState extends State<Dashboard>
         children: [
           Container(
             width: parentWidth * 0.12,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: CommonColor.CIRCLE_COLOR,
               shape: BoxShape.circle,
               image: DecorationImage(
@@ -186,7 +186,7 @@ class _DashboardState extends State<Dashboard>
                       Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SearchProduct()))
+                                  builder: (context) => const SearchProduct()))
                           .then((value) {
                         if (mounted) {
                           setState(() {
