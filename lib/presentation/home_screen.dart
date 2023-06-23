@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       (BuildContext context, int itemIndex, int index1) {
                     final img = data.data[index1].image.isNotEmpty
                         ? NetworkImage(
-                            "${data.data[index1].image}",
+                            data.data[index1].image,
                           )
                         : const NetworkImage("");
 
@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding:
                                       EdgeInsets.only(top: parentHeight * 0.01),
                                   child: Text(
-                                    "${data.data[index].name}",
+                                    data.data[index].name,
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize:
@@ -1631,8 +1631,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }*/
 
   Future<GetAllSectionResponseModel> getAllSectionApi() async {
-    print("Hiii");
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     final response = await http.post(
