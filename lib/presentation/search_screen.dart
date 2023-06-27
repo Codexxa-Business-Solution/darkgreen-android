@@ -36,7 +36,7 @@ class _SearchProductState extends State<SearchProduct> {
   bool _isDialogVisible = false;
 
   removeSearch() {
-    if (searchController.text.trim().length > 0) {
+    if (searchController.text.trim().isNotEmpty) {
       if (mounted) {
         setState(() {
           showCancle = true;
@@ -62,8 +62,8 @@ class _SearchProductState extends State<SearchProduct> {
     }
   }
 
-  Future<Null> refreshList() async {
-    await Future.delayed(Duration(seconds: 1));
+  Future<void> refreshList() async {
+    await Future.delayed(const Duration(seconds: 1));
 
     var result = AllCommonApis()
         .getAllSearchingProductsApi(searchController.text.trim());
@@ -71,8 +71,6 @@ class _SearchProductState extends State<SearchProduct> {
     result.then((value) {
       setState(() {});
     });
-
-    return null;
   }
 
   @override

@@ -16,6 +16,7 @@ import 'package:darkgreen/api_model/order/get_order_delete_resonse_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_response_model.dart';
 import 'package:darkgreen/api_model/order/get_promo_code_valid_response_model.dart';
 import 'package:darkgreen/api_model/search/search.dart';
+import 'package:darkgreen/api_model/sections/section_product_model.dart';
 import 'package:darkgreen/api_model/settings/blog_categories_response_model.dart';
 import 'package:darkgreen/api_model/settings/get_all_payment_method_response.dart';
 import 'package:darkgreen/api_model/wallet/get_wallet_history_response_model.dart';
@@ -191,6 +192,7 @@ class AllCommonApis {
     }
   }
 
+  // add to cart multiple items
   Future addToCartApiMulti(List<String> pvi, List<String> count) async {
     String? id = await AppPreferences.getIds();
 
@@ -971,6 +973,35 @@ class AllCommonApis {
       return getBlogCatergoriesResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
+    }
+  }
+
+  // sections product
+  Future<SectionResponse> productsBySection(String sectionId) async {
+    // id
+    String? id = await AppPreferences.getIds();
+
+    // headers
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    // params
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllSections),
+        body: {
+          "section_id": sectionId,
+          "offset": "0",
+          "accesskey": ApiConstants().accessKey,
+          "user_id": id,
+          "get-all-sections": "1",
+          "limit": "10",
+        },
+        headers: headersList);
+
+    // check status code
+    if (response.statusCode == 200) {
+      return SectionResponse.fromJson(jsonDecode(response.body.jsonBody()));
+    } else {
+      throw Exception('Failed to get sections response.');
     }
   }
 }

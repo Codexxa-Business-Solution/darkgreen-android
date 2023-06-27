@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:darkgreen/allCommonApis/common_api.dart';
-import 'package:darkgreen/api_model/categories/get_product_by_cat_response_model.dart';
+import 'package:darkgreen/api_model/sections/section_product_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/custom_grid_view.dart';
@@ -13,19 +13,19 @@ import 'package:darkgreen/presentation/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ProductPriceDetails extends StatefulWidget {
-  final String subProName;
-  final String subCatId;
+class SectionPriceDetails extends StatefulWidget {
+  final String sectionName;
+  final String sectionId;
 
-  const ProductPriceDetails(
-      {Key? key, required this.subProName, required this.subCatId})
+  const SectionPriceDetails(
+      {Key? key, required this.sectionName, required this.sectionId})
       : super(key: key);
 
   @override
-  State<ProductPriceDetails> createState() => _ProductPriceDetailsState();
+  State<SectionPriceDetails> createState() => _SectionPriceDetailsState();
 }
 
-class _ProductPriceDetailsState extends State<ProductPriceDetails> {
+class _SectionPriceDetailsState extends State<SectionPriceDetails> {
   bool isFav = false;
   int count = 0;
   int currentIndex = 0;
@@ -46,7 +46,6 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
   @override
   void initState() {
     super.initState();
-    // AllCommonApis().productByCategoriesApi(widget.subCatId);
     if (mounted) {
       setState(() {
         AllCommonApis().getAllCarts().then((value) {
@@ -61,16 +60,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
     }
   }
 
-  Future<Null> refreshList() async {
+  Future<void> refreshList() async {
     await Future.delayed(const Duration(seconds: 1));
-
-    var result = AllCommonApis().productByCategoriesApi(widget.subCatId);
-
+    var result = AllCommonApis().productsBySection(widget.sectionId);
     result.then((value) {
       setState(() {});
     });
-
-    return null;
   }
 
   @override
@@ -110,7 +105,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                       width: SizeConfig.screenWidth * 0.6,
                       child: Center(
                         child: Text(
-                          widget.subProName,
+                          widget.sectionName,
                           style: TextStyle(
                               fontSize: SizeConfig.blockSizeHorizontal * 5.0,
                               fontFamily: "Roboto_Medium",
@@ -137,7 +132,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SearchProduct())).then((value) {
+                                          const SearchProduct())).then((value) {
                                 setState(() {
                                   if (mounted) {
                                     setState(() {
@@ -171,12 +166,12 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                               Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Cart()))
+                                          builder: (context) => const Cart()))
                                   .then((value) {
                                 if (mounted) {
                                   setState(() {
-                                    AllCommonApis().productByCategoriesApi(
-                                        widget.subCatId);
+                                    AllCommonApis()
+                                        .productsBySection(widget.sectionId);
                                     AllCommonApis().getAllCarts().then((value) {
                                       if (mounted) {
                                         setState(() {
@@ -262,8 +257,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
               color: CommonColor.WHITE_COLOR,
               height: SizeConfig.screenHeight * 0.88,
               child: /*GetAllProducts(getSubCatId: widget.subCatId,),*/
-                  FutureBuilder<GetProductsByCategoriesResponseModel>(
-                future: AllCommonApis().productByCategoriesApi(widget.subCatId),
+                  FutureBuilder<SectionResponse>(
+                future: AllCommonApis().productsBySection(widget.sectionId),
                 builder: (context, snap) {
                   if (!snap.hasData && !snap.hasError) {
                     return const Center(
@@ -290,24 +285,24 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                           right: SizeConfig.screenWidth * 0.03,
                         ),
                         shrinkWrap: true,
-                        itemCount: snap.data?.data.length,
+                        itemCount: snap.data?.data?.length,
                         gridDelegate:
                             SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 5,
                                 height: SizeConfig.screenHeight * 0.33),
                         itemBuilder: (context, index) {
-                          final img = snap.data?.data[index].image != null
+                          final img = snap.data?.data?[index].image != null
                               ? Image.network(
-                                  "${snap.data?.data[index].image}",
+                                  "${snap.data?.data?[index].image}",
                                   fit: BoxFit.fill,
                                 )
                               : Image.network("");
 
                           price = int.parse(
-                              "${snap.data?.data[index].variants[0].price}");
+                              "${snap.data?.data?[index].variants?[0].price}");
                           discountPrice = int.parse(
-                              "${snap.data?.data[index].variants[0].discountedPrice}");
+                              "${snap.data?.data?[index].variants?[0].discountedPrice}");
                           savingPrice = price - discountPrice;
 
                           return Padding(
@@ -322,13 +317,13 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                     MaterialPageRoute(
                                         builder: (context) => ProductInfoScreen(
                                               productId:
-                                                  "${snap.data?.data[index].id}",
+                                                  "${snap.data?.data?[index].id}",
                                               catId: "",
                                             ))).then((value) {
                                   if (mounted) {
                                     setState(() {
-                                      AllCommonApis().productByCategoriesApi(
-                                          widget.subCatId);
+                                      AllCommonApis()
+                                          .productsBySection(widget.sectionId);
                                       AllCommonApis()
                                           .getAllCarts()
                                           .then((value) {
@@ -421,7 +416,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                   ],
                                                 ),
                                               ),
-                                              snap.data?.data[index]
+                                              snap.data?.data?[index]
                                                           .isFavorite ==
                                                       true
                                                   ? Padding(
@@ -432,10 +427,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           productId =
-                                                              "${snap.data?.data[index].variants[0].productId}";
+                                                              "${snap.data?.data?[index].variants?[0].productId}";
 
                                                           productName =
-                                                              "${snap.data?.data[0].name}";
+                                                              "${snap.data?.data?[0].name}";
 
                                                           favTap = 0;
 
@@ -484,10 +479,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           productId =
-                                                              "${snap.data?.data[index].variants[0].productId}";
+                                                              "${snap.data?.data?[index].variants?[0].productId}";
 
                                                           productName =
-                                                              "${snap.data?.data[0].name}";
+                                                              "${snap.data?.data?[0].name}";
 
                                                           favTap = 1;
 
@@ -568,7 +563,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           0.4,
                                                       color: Colors.transparent,
                                                       child: Text(
-                                                        "${snap.data?.data[index].name}",
+                                                        "${snap.data?.data?[index].name}",
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: SizeConfig
@@ -602,7 +597,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                       MainAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
+                                                      "Rs ${snap.data?.data?[index].variants?[0].discountedPrice}",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
@@ -621,7 +616,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                   .screenWidth *
                                                               0.02),
                                                       child: Text(
-                                                        "Rs ${snap.data?.data[index].price}",
+                                                        "Rs ${snap.data?.data?[index].variants?[0].price}",
                                                         style: TextStyle(
                                                             color: CommonColor
                                                                 .DISCOUNT_COLOR,
@@ -682,7 +677,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                         .screenWidth *
                                                                     0.02),
                                                             child: Text(
-                                                              "${snap.data?.data[index].ratings}",
+                                                              "${snap.data?.data?[index].ratings}",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black,
@@ -717,8 +712,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                     Visibility(
                                                       visible: snap
                                                                   .data
-                                                                  ?.data[index]
-                                                                  .variants[0]
+                                                                  ?.data?[index]
+                                                                  .variants?[0]
                                                                   .cartCount !=
                                                               "0"
                                                           ? true
@@ -728,20 +723,20 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           GestureDetector(
                                                             onTap: () {
                                                               productId =
-                                                                  "${snap.data?.data[index].variants[0].productId}";
+                                                                  "${snap.data?.data?[index].variants?[0].productId}";
 
                                                               productVariantId =
-                                                                  "${snap.data?.data[index].variants[0].id}";
+                                                                  "${snap.data?.data?[index].variants?[0].id}";
 
                                                               cartCount = int.parse(
-                                                                  "${snap.data?.data[index].variants[0].cartCount}");
+                                                                  "${snap.data?.data?[index].variants?[0].cartCount}");
 
                                                               cartCount--;
 
                                                               snap
                                                                       .data
-                                                                      ?.data[index]
-                                                                      .variants[0]
+                                                                      ?.data?[index]
+                                                                      .variants?[0]
                                                                       .cartCount =
                                                                   cartCount
                                                                       .toString();
@@ -820,7 +815,7 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                                             5)),
                                                             child: Center(
                                                                 child: Text(
-                                                              "${snap.data?.data[index].variants[0].cartCount}",
+                                                              "${snap.data?.data?[index].variants?[0].cartCount}",
                                                               style: TextStyle(
                                                                   color: CommonColor
                                                                       .BLACK_COLOR,
@@ -835,19 +830,16 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           GestureDetector(
                                                             onTap: () {
                                                               productId =
-                                                                  "${snap.data?.data[index].variants[0].productId}";
+                                                                  "${snap.data?.data?[index].variants?[0].productId}";
                                                               productVariantId =
-                                                                  "${snap.data?.data[index].variants[0].id}";
-
+                                                                  "${snap.data?.data?[index].variants?[0].id}";
                                                               cartCount = int.parse(
-                                                                  "${snap.data?.data[index].variants[0].cartCount}");
-
+                                                                  "${snap.data?.data?[index].variants?[0].cartCount}");
                                                               cartCount++;
-
                                                               snap
                                                                       .data
-                                                                      ?.data[index]
-                                                                      .variants[0]
+                                                                      ?.data?[index]
+                                                                      .variants?[0]
                                                                       .cartCount =
                                                                   cartCount
                                                                       .toString();
@@ -920,8 +912,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                           ),
                                         ),
                                         Visibility(
-                                          visible: snap.data?.data[index]
-                                                      .variants[0].cartCount ==
+                                          visible: snap.data?.data?[index]
+                                                      .variants?[0].cartCount ==
                                                   "0"
                                               ? true
                                               : false,
@@ -934,20 +926,22 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                         0.01),
                                             child: GestureDetector(
                                               onTap: () {
-
                                                 productId =
-                                                    "${snap.data?.data[index].variants[0].productId}";
+                                                    "${snap.data?.data?[index].variants?[0].productId}";
 
                                                 productVariantId =
-                                                    "${snap.data?.data[index].variants[0].id}";
+                                                    "${snap.data?.data?[index].variants?[0].id}";
 
                                                 cartCount = int.parse(
-                                                    "${snap.data?.data[index].variants[0].cartCount}");
+                                                    "${snap.data?.data?[index].variants?[0].cartCount}");
 
                                                 cartCount++;
 
-                                                snap.data?.data[index]
-                                                        .variants[0].cartCount =
+                                                snap
+                                                        .data
+                                                        ?.data?[index]
+                                                        .variants?[0]
+                                                        .cartCount =
                                                     cartCount.toString();
 
                                                 AllCommonApis()

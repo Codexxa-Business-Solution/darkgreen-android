@@ -63,7 +63,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                   children: [
                     Container(
                       width: SizeConfig.screenWidth * 0.12,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: CommonColor.CIRCLE_COLOR,
                         shape: BoxShape.circle,
                         image: DecorationImage(
@@ -106,10 +106,11 @@ class _CategoryProductState extends State<CategoryProduct> {
                               onDoubleTap: () {},
                               onTap: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SearchProduct())).then((value) {
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchProduct()))
+                                    .then((value) {
                                   setState(() {
                                     if (mounted) {
                                       setState(() {
@@ -177,7 +178,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image(
-                                            image: AssetImage(
+                                            image: const AssetImage(
                                                 "assets/images/trolly.png"),
                                             height:
                                                 SizeConfig.screenHeight * 0.03,
@@ -311,7 +312,7 @@ class _CategoryProductState extends State<CategoryProduct> {
             itemBuilder: (context, index) {
               final img = data.data[index].image.isNotEmpty
                   ? Image.network(
-                      "${data.data[index].image}",
+                      data.data[index].image,
                     )
                   : Image.network("");
 
@@ -355,7 +356,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                offset: Offset(0.1, 1),
+                                offset: const Offset(0.1, 1),
                                 blurRadius: 5,
                                 color: Colors.black.withOpacity(0.1),
                               ),
@@ -369,7 +370,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                       Padding(
                         padding: EdgeInsets.only(top: parentHeight * 0.02),
                         child: Text(
-                          "${data.data[index].name}",
+                          data.data[index].name,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.blockSizeHorizontal * 3.7,

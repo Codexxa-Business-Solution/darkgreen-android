@@ -5,6 +5,7 @@ import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:darkgreen/presentation/category_product_screen.dart';
+import 'package:darkgreen/presentation/section_product_details_screen.dart';
 import 'package:darkgreen/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -331,13 +332,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              Text(
-                "View All",
-                style: TextStyle(
-                    fontSize: SizeConfig.blockSizeHorizontal * 4.0,
-                    fontWeight: FontWeight.w400,
-                    color: CommonColor.APP_BAR_COLOR,
-                    fontFamily: 'Roboto_Medium'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SectionPriceDetails(
+                                sectionId: sections.id.toString(),
+                                sectionName: sections.title.toString(),
+                              )));
+                },
+                child: Text(
+                  "View All",
+                  style: TextStyle(
+                      fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                      fontWeight: FontWeight.w400,
+                      color: CommonColor.APP_BAR_COLOR,
+                      fontFamily: 'Roboto_Medium'),
+                ),
               )
             ],
           ),
@@ -380,213 +392,220 @@ class _HomeScreenState extends State<HomeScreen> {
                   var productId = sections.products?[index].id.toString();
                   var productImage = sections.products?[index].image.toString();
 
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        top: parentHeight * 0.01,
-                        bottom: parentHeight * 0.01,
-                        left: parentWidth * 0.05),
-                    child: Container(
-                      height: parentHeight * 0.17,
-                      width: parentWidth * 0.47,
-                      decoration: BoxDecoration(
-                        color: CommonColor.WHITE_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.17),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(2, 1),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                  ),
-                                  height: parentHeight * 0.17,
-                                  width: parentWidth * 0.47,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
+                  return GestureDetector(
+                    onTap: () {
+                      // Code to be executed when the widget is tapped
+                      print('Widget tapped!');
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: parentHeight * 0.01,
+                          bottom: parentHeight * 0.01,
+                          left: parentWidth * 0.05),
+                      child: Container(
+                        height: parentHeight * 0.17,
+                        width: parentWidth * 0.47,
+                        decoration: BoxDecoration(
+                          color: CommonColor.WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.17),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: const Offset(2, 1),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
                                     ),
-                                    child: Image(
-                                      image: NetworkImage(productImage ?? ""),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: parentHeight * 0.015),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: parentWidth * 0.15,
-                                      height: parentHeight * 0.027,
-                                      decoration: const BoxDecoration(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(5),
-                                              bottomRight: Radius.circular(5))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "30% off",
-                                            style: TextStyle(
-                                                color: CommonColor.WHITE_COLOR,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Regular'),
-                                          ),
-                                        ],
+                                    height: parentHeight * 0.17,
+                                    width: parentWidth * 0.47,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
                                       ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            right: parentWidth * 0.02),
-                                        child: /*Image(image: AssetImage("assets/images/like_icon.png"),
-                                      height: parentHeight*0.02,
-                                      ),*/
-                                            const Icon(
-                                          Icons.favorite_outline_rounded,
-                                          color: CommonColor.LIKE_COLOR,
-                                        ))
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              Container(
-                                height: parentHeight * 0.13,
-                                width: parentWidth * 0.47,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
+                                      child: Image(
+                                        image: NetworkImage(productImage ?? ""),
+                                        fit: BoxFit.cover,
+                                      ),
                                     )),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.01,
-                                          left: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            productName!,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                fontFamily: 'Roboto_Normal',
-                                                fontWeight: FontWeight.w400),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.01,
-                                          left: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Rs ${productPrice!}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                fontFamily: 'Roboto_Normal',
-                                                fontWeight: FontWeight.w500),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: parentWidth * 0.02),
-                                            child: Text(
-                                              "Rs ${productOriginalPrice!}",
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: parentHeight * 0.015),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: parentWidth * 0.15,
+                                        height: parentHeight * 0.027,
+                                        decoration: const BoxDecoration(
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(5),
+                                                bottomRight:
+                                                    Radius.circular(5))),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "30% off",
                                               style: TextStyle(
-                                                  color: CommonColor
-                                                      .DISCOUNT_COLOR,
+                                                  color:
+                                                      CommonColor.WHITE_COLOR,
                                                   fontSize: SizeConfig
                                                           .blockSizeHorizontal *
-                                                      3.0,
+                                                      3.5,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'Roboto_Regular'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              right: parentWidth * 0.02),
+                                          child: /*Image(image: AssetImage("assets/images/like_icon.png"),
+                                      height: parentHeight*0.02,
+                                      ),*/
+                                              const Icon(
+                                            Icons.favorite_outline_rounded,
+                                            color: CommonColor.LIKE_COLOR,
+                                          ))
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(
+                                  height: parentHeight * 0.13,
+                                  width: parentWidth * 0.47,
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                      )),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.01,
+                                            left: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              productName!,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3.5,
                                                   fontFamily: 'Roboto_Normal',
-                                                  fontWeight: FontWeight.w500,
-                                                  decoration: TextDecoration
-                                                      .lineThrough),
+                                                  fontWeight: FontWeight.w400),
                                               textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.015,
-                                          left: parentWidth * 0.02,
-                                          right: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: parentHeight * 0.033,
-                                            width: parentWidth * 0.13,
-                                            decoration: BoxDecoration(
-                                                color: CommonColor
-                                                    .REVIEW_CONTAINER_COLOR,
-                                                borderRadius:
-                                                    BorderRadius.circular(7)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  productRating!,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          3.5,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily:
-                                                          'Roboto_Medium'),
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color:
-                                                      CommonColor.REVIEW_COLOR,
-                                                  size: parentHeight * 0.02,
-                                                )
-                                              ],
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.01,
+                                            left: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Rs ${productPrice!}",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3.5,
+                                                  fontFamily: 'Roboto_Normal',
+                                                  fontWeight: FontWeight.w500),
+                                              textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                          /* Container(
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: parentWidth * 0.02),
+                                              child: Text(
+                                                "Rs ${productOriginalPrice!}",
+                                                style: TextStyle(
+                                                    color: CommonColor
+                                                        .DISCOUNT_COLOR,
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        3.0,
+                                                    fontFamily: 'Roboto_Normal',
+                                                    fontWeight: FontWeight.w500,
+                                                    decoration: TextDecoration
+                                                        .lineThrough),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.015,
+                                            left: parentWidth * 0.02,
+                                            right: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: parentHeight * 0.033,
+                                              width: parentWidth * 0.13,
+                                              decoration: BoxDecoration(
+                                                  color: CommonColor
+                                                      .REVIEW_CONTAINER_COLOR,
+                                                  borderRadius:
+                                                      BorderRadius.circular(7)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    productRating!,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            3.5,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            'Roboto_Medium'),
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: CommonColor
+                                                        .REVIEW_COLOR,
+                                                    size: parentHeight * 0.02,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            /* Container(
                                             height: parentHeight*0.045,
                                             width: parentWidth*0.25,
                                             decoration: BoxDecoration(
@@ -607,131 +626,136 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ],
                                             ),
                                           )*/
-                                          Visibility(
-                                            visible: count != 0 ? true : false,
-                                            child: Row(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (mounted) {
-                                                      setState(() {
-                                                        count--;
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Container(
+                                            Visibility(
+                                              visible:
+                                                  count != 0 ? true : false,
+                                              child: Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          count--;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      height:
+                                                          parentHeight * 0.035,
+                                                      width:
+                                                          parentWidth * 0.067,
+                                                      decoration: BoxDecoration(
+                                                          color: CommonColor
+                                                              .APP_BAR_COLOR,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "-",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5.6),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                    ),
+                                                  ),
+                                                  Container(
                                                     height:
                                                         parentHeight * 0.035,
-                                                    width: parentWidth * 0.067,
+                                                    width: parentWidth * 0.07,
                                                     decoration: BoxDecoration(
                                                         color: CommonColor
-                                                            .APP_BAR_COLOR,
+                                                            .WHITE_COLOR,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(5)),
                                                     child: Center(
                                                         child: Text(
-                                                      "-",
+                                                      "$count",
                                                       style: TextStyle(
                                                           color: CommonColor
-                                                              .WHITE_COLOR,
+                                                              .BLACK_COLOR,
                                                           fontSize: SizeConfig
                                                                   .blockSizeHorizontal *
-                                                              5.6),
+                                                              3.5),
                                                       textScaleFactor: 1.0,
                                                     )),
                                                   ),
-                                                ),
-                                                Container(
-                                                  height: parentHeight * 0.035,
-                                                  width: parentWidth * 0.07,
-                                                  decoration: BoxDecoration(
-                                                      color: CommonColor
-                                                          .WHITE_COLOR,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "$count",
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .BLACK_COLOR,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            3.5),
-                                                    textScaleFactor: 1.0,
-                                                  )),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    if (mounted) {
-                                                      setState(() {
-                                                        count++;
-                                                      });
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                    height:
-                                                        parentHeight * 0.035,
-                                                    width: parentWidth * 0.067,
-                                                    decoration: BoxDecoration(
-                                                        color: CommonColor
-                                                            .APP_BAR_COLOR,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
-                                                    child: Center(
-                                                        child: Text(
-                                                      "+",
-                                                      style: TextStyle(
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (mounted) {
+                                                        setState(() {
+                                                          count++;
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      height:
+                                                          parentHeight * 0.035,
+                                                      width:
+                                                          parentWidth * 0.067,
+                                                      decoration: BoxDecoration(
                                                           color: CommonColor
-                                                              .WHITE_COLOR,
-                                                          fontSize: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              5.0),
-                                                      textScaleFactor: 1.0,
-                                                    )),
+                                                              .APP_BAR_COLOR,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "+",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5.0),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Visibility(
-                                visible: count == 0 ? true : false,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (mounted) {
-                                      setState(() {
-                                        count++;
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    height: parentHeight * 0.06,
-                                    width: parentWidth * 0.13,
-                                    decoration: const BoxDecoration(
-                                        color: CommonColor.APP_BAR_COLOR,
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(10),
-                                          topLeft: Radius.circular(10),
-                                        )),
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ],
+                                Visibility(
+                                  visible: count == 0 ? true : false,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (mounted) {
+                                        setState(() {
+                                          count++;
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      height: parentHeight * 0.06,
+                                      width: parentWidth * 0.13,
+                                      decoration: const BoxDecoration(
+                                          color: CommonColor.APP_BAR_COLOR,
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(10),
+                                            topLeft: Radius.circular(10),
+                                          )),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
