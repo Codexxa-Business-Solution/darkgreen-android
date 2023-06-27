@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:darkgreen/LoginRegistation/login_screen.dart';
 import 'package:darkgreen/api_model/register/personal_details_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../allCommonApis/common_api.dart';
-import 'darkgreen_dashboard_screen.dart';
 
 class PersonalInfo extends StatefulWidget {
   final String userNumber;
@@ -491,64 +491,65 @@ class _PersonalInfoState extends State<PersonalInfo> {
   //   }
   // }
 
-  Future userDetailsRegister() async {
-    try {
-      //
-      String? fcmId = await FirebaseMessaging.instance.getToken();
-
+  Future<void> userDetailsRegister() async {
+    String? token = "";
+    String? phoneNumber = await AppPreferences.getUserNumber();
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+      print('FCM Token: $token');
       var headers = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
-      final result = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().usersRegister),
+      http.post(
+        Uri.parse(
+            "https://darkgreen.in/app-admin/api-firebase/user-registration.php"),
         headers: headers,
         body: {
           "accesskey": ApiConstants().accessKey,
           "type": "register",
-          "name": nameController.text.trim(),
-          "email": emailController.text.trim(),
-          "password": passwordController.text.trim(),
+          "name": nameController.text.trim() ?? "",
+          "email": emailController.text.trim() ?? "",
+          "password": passwordController.text.trim() ?? "",
+          "mobile": phoneNumber ?? "",
           "referral_code": referralCodeController.text.trim() ?? "",
-          "fcm_id": fcmId,
+          "fcm_id": token ?? "",
         },
-      );
+      ).then((response) {
+        // Handle the response from the POST request
+        if (response.statusCode == 200) {
+          // response
+          var userPersonalDetailsResponseModel =
+              userPersonalDetailsResponseModelFromJson(
+                  jsonDecode(response.body));
 
-      if (result.statusCode == 200) {
-        // response
-        var userPersonalDetailsResponseModel =
-            userPersonalDetailsResponseModelFromJson(json.decode(result.body));
+          // check has error
+          if (userPersonalDetailsResponseModel.error) {
+            // show error
+            if (context.mounted) {
+              var errorMessage =
+                  userPersonalDetailsResponseModel.message.toString();
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(errorMessage)));
+            }
+          } else {
+            // save user data
+            AppPreferences.setUserData(
+                jsonEncode(userPersonalDetailsResponseModel));
 
-        // check has error
-        if (userPersonalDetailsResponseModel.error) {
-          // show error
-          if (context.mounted) {
-            var errorMessage =
-                userPersonalDetailsResponseModel.message.toString();
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(errorMessage)));
-          }
-        } else {
-          // save user data
-          AppPreferences.setUserData(
-              jsonEncode(userPersonalDetailsResponseModel));
-          // registered go to home
-          if (mounted) {
+            // registered go to home
             setState(() {
               AllCommonApis().getAllCarts().then((value) {
-                int cartCount = value.data.length;
-                Navigator.push(
-                    context,
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => Dashboard(
-                              cartCount: cartCount,
-                              comeFrom: "1",
-                            )));
+                        builder: (context) => const LoginScreen()),
+                    (Route route) => false);
               });
             });
           }
         }
-      }
-    } catch (e) {
-      rethrow;
-    }
+      }).catchError((error) {
+        print('Failed to perform POST request: $error');
+      });
+    }).catchError((error) {
+      print('Failed to get FCM token: $error');
+    });
   }
 }

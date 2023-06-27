@@ -181,7 +181,7 @@ class _AddCheckPayParentScreenState extends State<AddCheckPayParentScreen>
             ),
           ),
           body: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               AddressSelectScreen(
                   totalAmount: widget.totalAmount,

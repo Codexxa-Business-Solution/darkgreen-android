@@ -3,7 +3,7 @@ class AllData {
   String? message;
   String? style;
   String? visibleCount;
-  int? columnCount;
+  String? columnCount;
   List<String>? categoryOfferImages;
   List<String>? sliderOfferImages;
   List<String>? flashSalesOfferImages;

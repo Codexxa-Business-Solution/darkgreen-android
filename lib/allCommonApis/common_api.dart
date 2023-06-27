@@ -24,6 +24,8 @@ import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../api_model/order/reorder_data_model.dart';
+
 class AllCommonApis {
   Future<GetProductsByCategoriesResponseModel> productByCategoriesApi(
       String subCatId) async {
@@ -169,6 +171,38 @@ class AllCommonApis {
             "add_to_cart": "1",
             "user_id": id,
             "product_id": pi,
+            "product_variant_id": pvi,
+            "qty": count
+          },
+          headers: headersList);
+
+      var pdfText = await json.decode(json.encode(result.body.toString()));
+
+      if (result.statusCode == 200) {
+        var data = json.decode(json.encode(result.body.toString()));
+        print(data);
+      }
+
+      print("AddToCartResponse ---> ${pdfText}");
+
+      return pdfText;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future addToCartApiMulti(List<String> pvi, List<String> count) async {
+    String? id = await AppPreferences.getIds();
+
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    try {
+      final result = await http.post(
+          Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
+          body: {
+            "accesskey": ApiConstants().accessKey,
+            "add_multiple_items": "1",
+            "user_id": id,
             "product_variant_id": pvi,
             "qty": count
           },
@@ -870,6 +904,25 @@ class AllCommonApis {
       return getWalletHistoryResponseModelFromJson(response.body.jsonBody());
     } else {
       throw Exception('Failed to create album.');
+    }
+  }
+
+  Future<ReorderData> getReorderData(String orderId) async {
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllOrdersStatus),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_reorder_data": "1",
+          "order_id": orderId,
+        },
+        headers: headersList);
+
+    if (response.statusCode == 200) {
+      return ReorderData.fromJson(json.decode(response.body.jsonBody()));
+    } else {
+      throw Exception('Failed to reorder.');
     }
   }
 

@@ -333,7 +333,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Map<String, dynamic> body = jsonDecode(response.body);
 
       if (jsonData["message"] == "Successfully logged in!") {
-
         AppPreferences.setIds(jsonData["user_id"]);
         AppPreferences.setUserName(jsonData["name"]);
         AppPreferences.setUserNumber(jsonData["mobile"]);

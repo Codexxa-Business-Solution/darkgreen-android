@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:darkgreen/constant/api_constant.dart';

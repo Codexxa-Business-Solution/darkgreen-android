@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:darkgreen/api_model/register/register_request_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool showOtpField = false;
   bool showGetOtp = true;
+
+  String phoneNumber = "";
 
   Timer? _timer;
   int _start = 120;
@@ -216,6 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 labelText: 'Phone Number',
               ),
               onChanged: (phone) {
+                phoneNumber = phone.completeNumber;
                 print(" hiii${phone.completeNumber}");
               },
               onCountryChanged: (country) {
@@ -426,6 +430,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // verify number
   Future<UserRegisterResponseModel> verifyNumber() async {
+
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
@@ -452,7 +457,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         // use firebase to verify otp
         await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: numberController.text,
+          phoneNumber: phoneNumber,
           verificationCompleted: (PhoneAuthCredential credential) {
             verifyOtp();
           },
@@ -481,6 +486,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   // verify otp
   Future verifyOtp() async {
+
+    // save number
+    AppPreferences.setUserNumber(numberController.text);
+
     // show details screen
     showModalBottomSheet(
         context: context,

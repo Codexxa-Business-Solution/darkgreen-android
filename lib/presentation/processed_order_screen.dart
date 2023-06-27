@@ -91,7 +91,8 @@ class _ProcessedOrderScreenState extends State<ProcessedOrderScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DoorStepOrder(
+                builder: (context) =>
+                    DoorStepOrder(
                       model: model,
                       index: index,
                     )));
@@ -168,7 +169,7 @@ class _ProcessedOrderScreenState extends State<ProcessedOrderScreen> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal * 4.0,
+                                    SizeConfig.blockSizeHorizontal * 4.0,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'Roboto_Medium'),
                                 overflow: TextOverflow.ellipsis,
@@ -219,27 +220,27 @@ class _ProcessedOrderScreenState extends State<ProcessedOrderScreen> {
                         model.data[index].activeStatus == "awaiting_payment"
                             ? "Awaiting Approval"
                             : model.data[index].activeStatus == "pending"
-                                ? "Pending"
-                                : model.data[index].activeStatus == "received"
-                                    ? "Received"
-                                    : model.data[index].activeStatus ==
-                                            "processed"
-                                        ? "Processed"
-                                        : model.data[index].activeStatus ==
-                                                "shipped"
-                                            ? "Shipped"
-                                            : model.data[index].activeStatus ==
-                                                    "delivered"
-                                                ? "Delivered"
-                                                : model.data[index]
-                                                            .activeStatus ==
-                                                        "cancelled"
-                                                    ? "Cancelled"
-                                                    : model.data[index]
-                                                                .activeStatus ==
-                                                            "returned"
-                                                        ? "Returned"
-                                                        : "",
+                            ? "Pending"
+                            : model.data[index].activeStatus == "received"
+                            ? "Received"
+                            : model.data[index].activeStatus ==
+                            "processed"
+                            ? "Processed"
+                            : model.data[index].activeStatus ==
+                            "shipped"
+                            ? "Shipped"
+                            : model.data[index].activeStatus ==
+                            "delivered"
+                            ? "Delivered"
+                            : model.data[index]
+                            .activeStatus ==
+                            "cancelled"
+                            ? "Cancelled"
+                            : model.data[index]
+                            .activeStatus ==
+                            "returned"
+                            ? "Returned"
+                            : "",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: SizeConfig.blockSizeHorizontal * 3.5,

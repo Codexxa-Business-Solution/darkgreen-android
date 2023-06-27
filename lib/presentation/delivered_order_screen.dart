@@ -1,7 +1,9 @@
 import 'package:darkgreen/allCommonApis/common_api.dart';
 import 'package:darkgreen/api_model/order/get_all_orders_status_response_model.dart';
+import 'package:darkgreen/api_model/order/reorder_data_model.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/door_step_order.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -285,6 +287,55 @@ class _DeliveredOrderScreenState extends State<DeliveredOrderScreen> {
                         ),
                       ],
                     ),
+                  ),
+                  Container(
+                    height: parentHeight * 0.04,
+                    width: parentWidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: CommonColor.ORDER_PLACED_COLOR,
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 2,
+                            spreadRadius: 1,
+                            offset: const Offset(2, 2.0))
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: parentHeight * 0.03,
+                              left: parentWidth * 0.07,
+                              right: parentWidth * 0.07),
+                          child: GestureDetector(
+                            onTap: () {
+                              fetchOrderAndAddToCart(model.data[index].id);
+                            },
+                            child: Container(
+                              height: parentHeight * 0.06,
+                              width: parentWidth * 0.7,
+                              decoration: BoxDecoration(
+                                  color: CommonColor.APP_BAR_COLOR,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                  "Reorder",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5.0,
+                                      fontFamily: 'Roboto_Medium',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -296,5 +347,52 @@ class _DeliveredOrderScreenState extends State<DeliveredOrderScreen> {
         ),
       ),
     );
+  }
+
+  //
+  Future<void> fetchOrderAndAddToCart(String orderId) async {
+    AllCommonApis().getReorderData(orderId).then((value) => {
+          // check has error
+          if (value.error == true)
+            {
+              if (context.mounted)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(value.message.toString())))
+                }
+            }
+          else
+            {addToCart(value)}
+        });
+  }
+
+  // add to cart
+  Future<void> addToCart(ReorderData reorderData) async {
+    //
+    List<String> variantIds = [];
+    List<String> quantities = [];
+    reorderData.data!.items?.forEach((element) {
+      variantIds.add(element.productVariantId.toString());
+      quantities.add(element.quantity.toString());
+    });
+
+    //
+    AllCommonApis().addToCartApiMulti(variantIds, quantities).then((value) => {
+          // check has error
+          if (value.error == true)
+            {
+              if (context.mounted)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(value.message.toString())))
+                }
+            }
+          else
+            {
+              // go to cart screen
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Cart()))
+            }
+        });
   }
 }
