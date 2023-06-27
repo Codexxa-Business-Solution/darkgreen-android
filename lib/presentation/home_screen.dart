@@ -36,42 +36,39 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                // carousal slider
-                getCarouselSlider(
-                    SizeConfig.screenHeight, SizeConfig.screenWidth);
 
-                // category list
-                getCategoriesLayout(
-                    SizeConfig.screenHeight, SizeConfig.screenWidth);
+    // check loading
+    if (!_isLoading) {
+      final carouselSlider =
+          getCarouselSlider(SizeConfig.screenHeight, SizeConfig.screenWidth);
 
-                // sections
-                _allData.sections?.forEach((element) {
-                  getSectionLayout(
-                      SizeConfig.screenHeight, SizeConfig.screenWidth, element);
-                });
-              },
-            ),
-    );
+      // category list
+      final categoriesLayout =
+          getCategoriesLayout(SizeConfig.screenHeight, SizeConfig.screenWidth);
 
-    // ListView(
-    //         shrinkWrap: true,
-    //         padding: EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.05),
-    //         children: [
-    //           getCarouselSlider(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getCategoriesLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getPopularLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getAdv1(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getDailyNeedsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getSummerZoneLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //           getAdv2(SizeConfig.screenHeight, SizeConfig.screenWidth),
-    //         ],
-    //       )
+      // sections
+      final sectionWidgets = _allData.sections?.map((element) {
+        return getSectionLayout(
+            SizeConfig.screenHeight, SizeConfig.screenWidth, element);
+      }).toList();
+
+      return Scaffold(
+        body: SizedBox(
+          height: SizeConfig.screenHeight, // Set a specific height
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.05),
+            children: [
+              carouselSlider,
+              categoriesLayout,
+              ...sectionWidgets ?? []
+            ],
+          ),
+        ),
+      );
+    } else {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
   }
 
   Widget getCarouselSlider(double parentHeight, double parentWidth) {
@@ -79,7 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
     var sliders = _allData.sliderImages;
 
     // return empty
-    if (sliders == null) return Container();
+    if (sliders == null) {
+      print("empty container slider");
+      return Container();
+    }
 
     // return ui
     return Column(
@@ -166,7 +166,10 @@ class _HomeScreenState extends State<HomeScreen> {
     var categories = _allData.categories;
 
     // return empty
-    if (categories == null) return Container();
+    if (categories == null) {
+      print("empty container slider");
+      return Container();
+    }
 
     return Column(
       children: [
@@ -207,79 +210,98 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(top: parentHeight * 0.01),
-          child: ListView.builder(
-              padding: EdgeInsets.only(right: parentWidth * 0.05),
-              scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final img = categories[index].image!.isNotEmpty
-                    ? Image.network(
-                        "${categories[index].image}",
-                      )
-                    : Image.network("");
+          child: SizedBox(
+            height: parentHeight * 0.23,
+            child: ListView.builder(
+                padding: EdgeInsets.only(right: parentWidth * 0.05),
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final img = categories[index].image!.isNotEmpty
+                      ? Image.network(
+                          "${categories[index].image}",
+                        )
+                      : Image.network("");
 
-                return Padding(
-                  padding: EdgeInsets.only(
-                      top: parentHeight * 0.01,
-                      bottom: parentHeight * 0.01,
-                      left: parentWidth * 0.05),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CategoryProduct(
-                                    proName: "${categories[index].name}",
-                                    catId: "${categories[index].id}",
-                                  )));
-                    },
-                    child: Container(
-                      height: parentHeight * 0.18,
-                      width: parentWidth * 0.35,
-                      child: Column(
-                        children: [
-                          Container(
-                              height: parentHeight * 0.14,
-                              width: parentWidth * 0.32,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0.1, 1),
-                                    blurRadius: 5,
-                                    color: Colors.black.withOpacity(0.1),
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        top: parentHeight * 0.01,
+                        bottom: parentHeight * 0.01,
+                        left: parentWidth * 0.05),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CategoryProduct(
+                                      proName: "${categories[index].name}",
+                                      catId: "${categories[index].id}",
+                                    )));
+                      },
+                      child: Container(
+                        height: parentHeight * 0.18,
+                        width: parentWidth * 0.35,
+                        child: Column(
+                          children: [
+                            Container(
+                                height: parentHeight * 0.14,
+                                width: parentWidth * 0.32,
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: img)),
-                          Padding(
-                            padding: EdgeInsets.only(top: parentHeight * 0.01),
-                            child: Text(
-                              categories[index].name.toString(),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 3.5,
-                                  fontFamily: 'Roboto_Normal',
-                                  fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0.1, 1),
+                                      blurRadius: 5,
+                                      color: Colors.black.withOpacity(0.1),
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: img)),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: parentHeight * 0.01),
+                              child: Text(
+                                categories[index].name.toString(),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        SizeConfig.blockSizeHorizontal * 3.5,
+                                    fontFamily: 'Roboto_Normal',
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+          ),
         )
       ],
     );
   }
 
   Widget getSectionLayout(
+      double parentHeight, double parentWidth, Sections sections) {
+    // check styles
+    if (sections.style == "style_1") {
+      return getSectionOne(parentHeight, parentWidth, sections);
+    } else if (sections.style == "style_2") {
+      return getSectionTwo(parentHeight, parentWidth, sections);
+    } else if (sections.style == "style_3") {
+      return getSectionThree(parentHeight, parentWidth, sections);
+    } else {
+      return Container();
+    }
+  }
+
+  // style 1
+  Widget getSectionOne(
       double parentHeight, double parentWidth, Sections sections) {
     return Column(
       children: [
@@ -291,13 +313,23 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                sections.title.toString(),
-                style: TextStyle(
-                    fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                    fontWeight: FontWeight.w500,
-                    color: CommonColor.BLACK_COLOR,
-                    fontFamily: 'Roboto_Medium'),
+              Column(
+                children: [
+                  Text(
+                    sections.title.toString(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: CommonColor.BLACK_COLOR,
+                        fontFamily: 'Roboto_Medium'),
+                  ),
+                  Text(
+                    sections.shortDescription.toString(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w300,
+                        color: CommonColor.GRAY_COLOR,
+                        fontFamily: 'Roboto_Regular'),
+                  )
+                ],
               ),
               Text(
                 "View All",
@@ -312,14 +344,42 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(top: parentHeight * 0.01),
-          child: Container(
-            // color: Colors.red,
+          child: SizedBox(
             height: parentHeight * 0.32,
             child: ListView.builder(
                 padding: EdgeInsets.only(right: parentWidth * 0.05),
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: sections.products!.length,
                 itemBuilder: (context, index) {
+                  var productName = sections.products?[index].name.toString();
+                  if (sections.products?[index].variants?[0].isFlashSales ==
+                      true) {
+                    var isFlashSales = true;
+                    var productPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                    var productOriginalPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOffer = sections
+                        .products?[index].variants?[0].flashSales?[0].productId
+                        .toString();
+                  } else {
+                    var isFlashSales = false;
+                    var productPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOriginalPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                  }
+                  var productPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productOriginalPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productRating =
+                      sections.products?[index].numberOfRatings.toString();
+                  var productId = sections.products?[index].id.toString();
+                  var productImage = sections.products?[index].image.toString();
+
                   return Padding(
                     padding: EdgeInsets.only(
                         top: parentHeight * 0.01,
@@ -351,14 +411,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   height: parentHeight * 0.17,
                                   width: parentWidth * 0.47,
-                                  child: const ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
                                     child: Image(
-                                      image: AssetImage(
-                                          "assets/images/carosel_demo.png"),
+                                      image: NetworkImage(productImage ?? ""),
                                       fit: BoxFit.cover,
                                     ),
                                   )),
@@ -432,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "TATA Tea Premium",
+                                            productName!,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -454,7 +513,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Rs 34.00",
+                                            "Rs ${productPrice!}",
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -468,7 +527,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: EdgeInsets.only(
                                                 left: parentWidth * 0.02),
                                             child: Text(
-                                              "Rs 35.00",
+                                              "Rs ${productOriginalPrice!}",
                                               style: TextStyle(
                                                   color: CommonColor
                                                       .DISCOUNT_COLOR,
@@ -507,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "4.5",
+                                                  productRating!,
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
@@ -683,38 +742,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getAdv1(double parentHeight, double parentWidth) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: parentHeight * 0.02,
-          right: parentWidth * 0.03,
-          left: parentWidth * 0.03),
-      child: Container(
-        height: parentHeight * 0.21,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(2, 1),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: const Image(
-            image: AssetImage("assets/images/offer_adv.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget getDailyNeedsLayout(double parentHeight, double parentWidth) {
+  // style 2
+  Widget getSectionTwo(
+      double parentHeight, double parentWidth, Sections sections) {
     return Column(
       children: [
         Padding(
@@ -725,13 +755,25 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Daily Needs",
-                style: TextStyle(
-                    fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                    fontWeight: FontWeight.w500,
-                    color: CommonColor.BLACK_COLOR,
-                    fontFamily: 'Roboto_Medium'),
+              Column(
+                children: [
+                  Text(
+                    sections.title.toString(),
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                        fontWeight: FontWeight.w500,
+                        color: CommonColor.BLACK_COLOR,
+                        fontFamily: 'Roboto_Medium'),
+                  ),
+                  Text(
+                    sections.shortDescription.toString(),
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                        fontWeight: FontWeight.w300,
+                        color: CommonColor.GRAY_COLOR,
+                        fontFamily: 'Roboto_Regular'),
+                  )
+                ],
               ),
               Text(
                 "View All",
@@ -752,8 +794,37 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
                 padding: EdgeInsets.only(right: parentWidth * 0.05),
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: sections.products!.length,
                 itemBuilder: (context, index) {
+                  var productName = sections.products?[index].name.toString();
+                  if (sections.products?[index].variants?[0].isFlashSales ==
+                      true) {
+                    var isFlashSales = true;
+                    var productPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                    var productOriginalPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOffer = sections
+                        .products?[index].variants?[0].flashSales?[0].productId
+                        .toString();
+                  } else {
+                    var isFlashSales = false;
+                    var productPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOriginalPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                  }
+                  var productPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productOriginalPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productRating =
+                      sections.products?[index].numberOfRatings.toString();
+                  var productId = sections.products?[index].id.toString();
+                  var productImage = sections.products?[index].image.toString();
+
                   return Padding(
                     padding: EdgeInsets.only(
                         top: parentHeight * 0.01,
@@ -785,14 +856,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   height: parentHeight * 0.17,
                                   width: parentWidth * 0.47,
-                                  child: const ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
                                     child: Image(
-                                      image: AssetImage(
-                                          "assets/images/carosel_demo.png"),
+                                      image: NetworkImage(productImage ?? ""),
                                       fit: BoxFit.cover,
                                     ),
                                   )),
@@ -866,7 +936,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "TATA Tea Premium",
+                                            productName!,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -888,7 +958,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Rs 34.00",
+                                            "Rs ${productPrice!}",
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -902,7 +972,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: EdgeInsets.only(
                                                 left: parentWidth * 0.02),
                                             child: Text(
-                                              "Rs 35.00",
+                                              "Rs ${productOriginalPrice!}",
                                               style: TextStyle(
                                                   color: CommonColor
                                                       .DISCOUNT_COLOR,
@@ -941,7 +1011,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "4.5",
+                                                  productRating!,
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
@@ -1117,7 +1187,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getSummerZoneLayout(double parentHeight, double parentWidth) {
+  // style 3
+  Widget getSectionThree(
+      double parentHeight, double parentWidth, Sections sections) {
     return Column(
       children: [
         Padding(
@@ -1128,13 +1200,25 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Summer Zone",
-                style: TextStyle(
-                    fontSize: SizeConfig.blockSizeHorizontal * 4.5,
-                    fontWeight: FontWeight.w500,
-                    color: CommonColor.BLACK_COLOR,
-                    fontFamily: 'Roboto_Medium'),
+              Column(
+                children: [
+                  Text(
+                    sections.title.toString(),
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.5,
+                        fontWeight: FontWeight.w500,
+                        color: CommonColor.BLACK_COLOR,
+                        fontFamily: 'Roboto_Medium'),
+                  ),
+                  Text(
+                    sections.shortDescription.toString(),
+                    style: TextStyle(
+                        fontSize: SizeConfig.blockSizeHorizontal * 4.0,
+                        fontWeight: FontWeight.w300,
+                        color: CommonColor.GRAY_COLOR,
+                        fontFamily: 'Roboto_Regular'),
+                  )
+                ],
               ),
               Text(
                 "View All",
@@ -1155,8 +1239,37 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
                 padding: EdgeInsets.only(right: parentWidth * 0.05),
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: sections.products!.length,
                 itemBuilder: (context, index) {
+                  var productName = sections.products?[index].name.toString();
+                  if (sections.products?[index].variants?[0].isFlashSales ==
+                      true) {
+                    var isFlashSales = true;
+                    var productPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                    var productOriginalPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOffer = sections
+                        .products?[index].variants?[0].flashSales?[0].productId
+                        .toString();
+                  } else {
+                    var isFlashSales = false;
+                    var productPrice =
+                        sections.products?[index].variants?[0].price.toString();
+                    var productOriginalPrice = sections
+                        .products?[index].variants?[0].discountedPrice
+                        .toString();
+                  }
+                  var productPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productOriginalPrice =
+                      sections.products?[index].variants?[0].price.toString();
+                  var productRating =
+                      sections.products?[index].numberOfRatings.toString();
+                  var productId = sections.products?[index].id.toString();
+                  var productImage = sections.products?[index].image.toString();
+
                   return Padding(
                     padding: EdgeInsets.only(
                         top: parentHeight * 0.01,
@@ -1188,14 +1301,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   height: parentHeight * 0.17,
                                   width: parentWidth * 0.47,
-                                  child: const ClipRRect(
-                                    borderRadius: BorderRadius.only(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
                                     child: Image(
-                                      image: AssetImage(
-                                          "assets/images/carosel_demo.png"),
+                                      image: NetworkImage(productImage ?? ""),
                                       fit: BoxFit.cover,
                                     ),
                                   )),
@@ -1269,7 +1381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "TATA Tea Premium",
+                                            productName!,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -1291,7 +1403,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Rs 34.00",
+                                            "Rs ${productPrice!}",
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: SizeConfig
@@ -1305,7 +1417,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: EdgeInsets.only(
                                                 left: parentWidth * 0.02),
                                             child: Text(
-                                              "Rs 35.00",
+                                              "Rs ${productOriginalPrice!}",
                                               style: TextStyle(
                                                   color: CommonColor
                                                       .DISCOUNT_COLOR,
@@ -1344,7 +1456,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "4.5",
+                                                  productRating!,
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
@@ -1517,37 +1629,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
       ],
-    );
-  }
-
-  Widget getAdv2(double parentHeight, double parentWidth) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: parentHeight * 0.02,
-          right: parentWidth * 0.03,
-          left: parentWidth * 0.03),
-      child: Container(
-        height: parentHeight * 0.21,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(1, 1),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: const Image(
-            image: AssetImage("assets/images/offer_adv2.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
     );
   }
 
@@ -1575,6 +1656,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // check response
     if (response.statusCode == 200) {
+      print("get api success");
+
       var loadedData = AllData.fromJson(jsonDecode(response.body.jsonBody()));
       setState(() {
         _allData = loadedData;
