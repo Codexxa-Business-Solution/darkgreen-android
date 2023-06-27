@@ -332,24 +332,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Map<String, dynamic> body = jsonDecode(response.body);
 
-      print("loginResponse -->  ${body}");
-
       if (jsonData["message"] == "Successfully logged in!") {
+
         AppPreferences.setIds(jsonData["user_id"]);
-
         AppPreferences.setUserName(jsonData["name"]);
-
         AppPreferences.setUserNumber(jsonData["mobile"]);
-
-        print(AppPreferences.setUserName(jsonData["name"]));
-        print(AppPreferences.setIds(jsonData["user_id"]));
-        print(AppPreferences.getUserNumber());
 
         if (mounted) {
           setState(() {
             AllCommonApis().getAllCarts().then((value) {
               cartCount = value.data.length;
-              print(cartCount);
               Navigator.push(
                   context,
                   MaterialPageRoute(

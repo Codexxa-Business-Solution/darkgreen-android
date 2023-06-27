@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:darkgreen/api_model/register/personal_details_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
@@ -35,6 +38,16 @@ class AppPreferences {
   static setUserNumber(String userNumber) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("userNumber", userNumber);
+  }
+
+  static Future<UserPersonalDetailsResponseModel> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return jsonDecode(prefs.getString("userData").toString());
+  }
+
+  static setUserData(String userData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("userData", userData);
   }
 
   // static Future<String?> getMasjidName() async {

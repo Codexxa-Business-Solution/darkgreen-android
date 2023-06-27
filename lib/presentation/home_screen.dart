@@ -1,9 +1,7 @@
 import 'dart:convert';
+import 'dart:js_interop';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:darkgreen/api_model/categories/get_all_categories_response_model.dart';
-import 'package:darkgreen/api_model/home/get_all_section_response_model.dart';
-import 'package:darkgreen/api_model/home/home_image_slider_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
@@ -11,6 +9,8 @@ import 'package:darkgreen/presentation/category_product_screen.dart';
 import 'package:darkgreen/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../api_model/home/all_data_model.dart';
 
 class HomeScreen extends StatefulWidget {
   final HomeScreenInterface mListener;
@@ -25,135 +25,150 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   int count = 0;
 
+  late AllData _allData;
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    // sliderImages();
-    // allCategoriesApi();
-    getAllSectionApi();
+    getAllData();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.05),
-        children: [
-          getCarouselSlider(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getCategoriesLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getPopularLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getAdv1(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getDailyNeedsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getSummerZoneLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
-          getAdv2(SizeConfig.screenHeight, SizeConfig.screenWidth),
-        ],
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: 1,
+              itemBuilder: (context, index) {
+                // carousal slider
+                getCarouselSlider(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth);
+
+                // category list
+                getCategoriesLayout(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth);
+
+                // sections
+                _allData.sections?.forEach((element) {
+                  getSectionLayout(
+                      SizeConfig.screenHeight, SizeConfig.screenWidth, element);
+                });
+              },
+            ),
     );
+
+    // ListView(
+    //         shrinkWrap: true,
+    //         padding: EdgeInsets.only(bottom: SizeConfig.screenHeight * 0.05),
+    //         children: [
+    //           getCarouselSlider(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getCategoriesLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getPopularLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getAdv1(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getDailyNeedsLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getSummerZoneLayout(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //           getAdv2(SizeConfig.screenHeight, SizeConfig.screenWidth),
+    //         ],
+    //       )
   }
 
   Widget getCarouselSlider(double parentHeight, double parentWidth) {
-    return FutureBuilder<SliderImageResponseModel>(
-        future: sliderImages(),
-        builder: (context, snap) {
-          if (!snap.hasData && !snap.hasError) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+    // sliders
+    var sliders = _allData.sliderImages;
 
-          final data = snap.data;
+    // return empty
+    if (sliders == null) return Container();
 
-          if (data == null) {
-            return const Center(
-              child: Text("Something Went Wrong!"),
-            );
-          }
-
-          return Column(
-            children: [
-              CarouselSlider.builder(
-                  itemCount: data.data.length,
-                  options: CarouselOptions(
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        currentIndex = index;
-                      });
-                    },
-                    initialPage: 1,
-                    viewportFraction: 1.0,
-                    enableInfiniteScroll: false,
-                    autoPlay: true,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height,
-                  ),
-                  itemBuilder:
-                      (BuildContext context, int itemIndex, int index1) {
-                    final img = data.data[index1].image.isNotEmpty
-                        ? NetworkImage(
-                            data.data[index1].image,
-                          )
-                        : const NetworkImage("");
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          left: parentWidth * 0.04,
-                          right: parentWidth * 0.04,
-                          top: parentHeight * 0.02,
-                          bottom: parentHeight * 0.02),
-                      child: Container(
-                          height: SizeConfig.screenHeight * 0.18,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.17),
-                                spreadRadius: 3,
-                                blurRadius: 5,
-                                offset: const Offset(2, 2),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: img,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )),
-                    );
-                  }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < data.data.length; i++)
-                    Container(
-                      width: 7,
-                      height: 7,
-                      margin: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: currentIndex == i
-                            ? Colors.green
-                            : Colors.grey.shade400,
-                        shape: BoxShape.circle,
-                      ),
+    // return ui
+    return Column(
+      children: [
+        CarouselSlider.builder(
+            itemCount: sliders.length,
+            options: CarouselOptions(
+              onPageChanged: (index, reason) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              initialPage: 1,
+              viewportFraction: 1.0,
+              enableInfiniteScroll: false,
+              autoPlay: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+            ),
+            itemBuilder: (BuildContext context, int itemIndex, int index1) {
+              final img = sliders[index1].image!.isNotEmpty
+                  ? NetworkImage(
+                      sliders[index1].image.toString(),
                     )
-                ],
-              ),
-            ],
-          );
-        });
+                  : const NetworkImage("");
+
+              return Padding(
+                padding: EdgeInsets.only(
+                    left: parentWidth * 0.04,
+                    right: parentWidth * 0.04,
+                    top: parentHeight * 0.02,
+                    bottom: parentHeight * 0.02),
+                child: Container(
+                    height: SizeConfig.screenHeight * 0.18,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.17),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset: const Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: img,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+              );
+            }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            for (int i = 0; i < sliders.length; i++)
+              Container(
+                width: 7,
+                height: 7,
+                margin: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color:
+                      currentIndex == i ? Colors.green : Colors.grey.shade400,
+                  shape: BoxShape.circle,
+                ),
+              )
+          ],
+        ),
+      ],
+    );
   }
 
   Widget getCategoriesLayout(double parentHeight, double parentWidth) {
+    // categories
+    var categories = _allData.categories;
+
+    // return empty
+    if (categories == null) return Container();
+
     return Column(
       children: [
         Padding(
@@ -193,104 +208,80 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(top: parentHeight * 0.01),
-          child: FutureBuilder<GetAllCategoriesResponseModel>(
-            future: allCategoriesApi(),
-            builder: (context, snap) {
-              if (!snap.hasData && !snap.hasError) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          child: ListView.builder(
+              padding: EdgeInsets.only(right: parentWidth * 0.05),
+              scrollDirection: Axis.horizontal,
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final img = categories[index].image!.isNotEmpty
+                    ? Image.network(
+                        "${categories[index].image}",
+                      )
+                    : Image.network("");
 
-              final data = snap.data;
-
-              if (data == null) {
-                return const Center(
-                  child: Text("Something Went Wrong!"),
-                );
-              }
-
-              return Container(
-                // color: Colors.red,
-                height: parentHeight * 0.21,
-                child: ListView.builder(
-                    padding: EdgeInsets.only(right: parentWidth * 0.05),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snap.data?.data.length,
-                    itemBuilder: (context, index) {
-                      final img = data.data[index].image.isNotEmpty
-                          ? Image.network(
-                              "${data.data[index].image}",
-                            )
-                          : Image.network("");
-
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            top: parentHeight * 0.01,
-                            bottom: parentHeight * 0.01,
-                            left: parentWidth * 0.05),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CategoryProduct(
-                                          proName: "${data.data[index].name}",
-                                          catId: "${data.data[index].id}",
-                                        )));
-                          },
-                          child: Container(
-                            height: parentHeight * 0.18,
-                            width: parentWidth * 0.35,
-                            child: Column(
-                              children: [
-                                Container(
-                                    height: parentHeight * 0.14,
-                                    width: parentWidth * 0.32,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0.1, 1),
-                                          blurRadius: 5,
-                                          color: Colors.black.withOpacity(0.1),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: img)),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: parentHeight * 0.01),
-                                  child: Text(
-                                    data.data[index].name,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal *
-                                                3.5,
-                                        fontFamily: 'Roboto_Normal',
-                                        fontWeight: FontWeight.w400),
-                                    textAlign: TextAlign.center,
+                return Padding(
+                  padding: EdgeInsets.only(
+                      top: parentHeight * 0.01,
+                      bottom: parentHeight * 0.01,
+                      left: parentWidth * 0.05),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CategoryProduct(
+                                    proName: "${categories[index].name}",
+                                    catId: "${categories[index].id}",
+                                  )));
+                    },
+                    child: Container(
+                      height: parentHeight * 0.18,
+                      width: parentWidth * 0.35,
+                      child: Column(
+                        children: [
+                          Container(
+                              height: parentHeight * 0.14,
+                              width: parentWidth * 0.32,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: const Offset(0.1, 1),
+                                    blurRadius: 5,
+                                    color: Colors.black.withOpacity(0.1),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: img)),
+                          Padding(
+                            padding: EdgeInsets.only(top: parentHeight * 0.01),
+                            child: Text(
+                              categories[index].name.toString(),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize:
+                                      SizeConfig.blockSizeHorizontal * 3.5,
+                                  fontFamily: 'Roboto_Normal',
+                                  fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                      );
-                    }),
-              );
-            },
-          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
         )
       ],
     );
   }
 
-  Widget getPopularLayout(double parentHeight, double parentWidth) {
+  Widget getSectionLayout(
+      double parentHeight, double parentWidth, Sections sections) {
     return Column(
       children: [
         Padding(
@@ -302,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Popular Product",
+                sections.title.toString(),
                 style: TextStyle(
                     fontSize: SizeConfig.blockSizeHorizontal * 4.5,
                     fontWeight: FontWeight.w500,
@@ -1561,80 +1552,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<SliderImageResponseModel> sliderImages() async {
+  Future<void> getAllData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // auth
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
-    var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().sliderImages),
-        body: {"accesskey": ApiConstants().accessKey, "get-slider-images": "1"},
-        headers: headersList);
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      print("sliderResponse -->  ${body}");
-
-      return sliderImageResponseModelFromJson(response.body.jsonBody());
-    } else {
-      throw Exception('Failed to create album.');
-    }
-  }
-
-  Future<GetAllCategoriesResponseModel> allCategoriesApi() async {
-    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
-    var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().allCategories),
-        body: {"accesskey": ApiConstants().accessKey},
-        headers: headersList);
-
-    if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      print("allCategoriesResponse -->  ${body}");
-
-      return getAllCategoriesResponseModelFromJson(response.body.jsonBody());
-    } else {
-      throw Exception('Failed to create album.');
-    }
-  }
-
-  /*Future<GetAllSectionsResponseModel> getAllSectionApi() async {
-    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
-    var response = await http.post(
-        Uri.parse(ApiConstants().baseUrl + ApiConstants().getAllSections),
-        body: {
-          "accesskey": ApiConstants().accessKey,
-          "get-all-sections":"1",
-          "user_id": "369",
-          "section_id":"99",
-          "limit":"0",
-          "offset":"0",
-        },
-        headers: headersList);
-
-    if (response.statusCode == 200) {
-
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      print("allSectionsResponse -->  $body");
-
-      return getAllSectionsResponseModelFromJson(response.body);
-    } else {
-      throw Exception('Failed to create album.');
-    }
-  }*/
-
-  Future<GetAllSectionResponseModel> getAllSectionApi() async {
-    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
+    // fetch api
     final response = await http.post(
-      Uri.parse('https://darkgreen.in/app-admin/api-firebase/sections.php'),
+      Uri.parse('https://darkgreen.in/app-admin/api-firebase/get-all-data.php'),
       headers: headersList,
       body: {
         "accesskey": ApiConstants().accessKey,
@@ -1646,15 +1574,17 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
 
+    // check response
     if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      print("allSectionsResponse --> ${jsonDecode(response.body)}");
-      return GetAllSectionResponseModel.fromJson(
-          jsonDecode(response.body.jsonBody()));
+      var loadedData = AllData.fromJson(jsonDecode(response.body.jsonBody()));
+      setState(() {
+        _allData = loadedData;
+        _isLoading = false;
+      });
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
+      setState(() {
+        _isLoading = false;
+      });
       throw Exception('Failed to create album.');
     }
   }

@@ -4,11 +4,13 @@ import 'package:darkgreen/api_model/register/register_request_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
 import 'package:darkgreen/constant/size_config.dart';
-import 'package:darkgreen/presentation/personal_info_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
+
+import '../presentation/personal_info_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -182,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                   child: Container(
                     color: Colors.transparent,
-                    child: Icon(
+                    child: const Icon(
                       Icons.clear,
                       color: Colors.red,
                     ),
@@ -210,14 +212,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: IntlPhoneField(
               controller: numberController,
               initialCountryCode: "IN",
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Phone Number',
               ),
               onChanged: (phone) {
                 print(" hiii${phone.completeNumber}");
               },
               onCountryChanged: (country) {
-                print('Country changed to: ' + country.name);
+                print('Country changed to: ${country.name}');
               },
             ),
           ),
@@ -232,15 +234,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTap: () {
                   if (numberController.text.isNotEmpty &&
                       numberController.text.length == 10) {
+                    //
                     if (mounted) {
-                      setState(() {
-                        showGetOtp = !showGetOtp;
-                        showOtpField = !showOtpField;
-                        startTimer();
-                      });
+                      verifyNumber();
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Please Enter a Valid Mobile Number")));
                   }
                 },
@@ -394,10 +393,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onDoubleTap: () {},
                 onTap: () {
                   if (pinController.text.isNotEmpty) {
-                    userRegister();
+                    verifyOtp();
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please Enter a Valid OTP")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Please Enter a Valid OTP")));
                   }
                 },
                 child: Container(
@@ -425,7 +424,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<UserRegisterResponseModel> userRegister() async {
+  // verify number
+  Future<UserRegisterResponseModel> verifyNumber() async {
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
     var response = await http.post(
@@ -433,31 +433,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: {
           "accesskey": ApiConstants().accessKey,
           "type": "verify-user",
-          "mobile": "8980834200",
+          "mobile": numberController.text,
         },
         headers: headersList);
 
     if (response.statusCode == 200) {
-      print("Yess.. ${response.body}");
+      var userRegisterResponseModel =
+          userRegisterResponseModelFromJson(response.body);
 
-      print("Hiii");
+      // check has error
+      if (userRegisterResponseModel.error) {
+        // show error
+        if (context.mounted) {
+          var errorMessage = userRegisterResponseModel.message.toString();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(errorMessage)));
+        }
+      } else {
+        // use firebase to verify otp
+        await FirebaseAuth.instance.verifyPhoneNumber(
+          phoneNumber: numberController.text,
+          verificationCompleted: (PhoneAuthCredential credential) {
+            verifyOtp();
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(e.message.toString())));
+            }
+          },
+          codeSent: (String verificationId, int? resendToken) {
+            setState(() {
+              showGetOtp = !showGetOtp;
+              showOtpField = !showOtpField;
+              startTimer();
+            });
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {},
+        );
+      }
 
-      showModalBottomSheet(
-          context: context,
-          backgroundColor: Colors.transparent,
-          elevation: 20,
-          isScrollControlled: true,
-          isDismissible: false,
-          enableDrag: true,
-          builder: (BuildContext bc) {
-            return PersonalInfo(
-              userNumber: numberController.text,
-            );
-          });
-
-      return userRegisterResponseModelFromJson(response.body);
+      return userRegisterResponseModel;
     } else {
-      throw Exception('Failed to create album.');
+      throw Exception('Failed to register.');
     }
+  }
+
+  // verify otp
+  Future verifyOtp() async {
+    // show details screen
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        elevation: 20,
+        isScrollControlled: true,
+        isDismissible: false,
+        enableDrag: true,
+        builder: (BuildContext bc) {
+          return PersonalInfo(
+            userNumber: numberController.text,
+          );
+        });
   }
 }

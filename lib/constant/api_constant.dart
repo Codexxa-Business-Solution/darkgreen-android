@@ -2,7 +2,6 @@ class ApiConstants {
   String baseUrl = "https://darkgreen.in/app-admin/api-firebase/";
 
   String accessKey = "90336";
-
   String sliderImageUrl = "https://darkgreen.in/app-admin/upload/slider/";
 
   String token =

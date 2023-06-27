@@ -29,7 +29,6 @@ class _DashboardState extends State<Dashboard>
         CategoryScreenInterface,
         FavoriteScreenInterface,
         ProfileScreenInterface {
-  
   String currentScreen = "Dashboard";
   Widget? widDashboardScreen, widMenuScreen;
   bool isShow = true;
@@ -59,7 +58,6 @@ class _DashboardState extends State<Dashboard>
         }
         AllCommonApis().getAllCarts().then((value) {
           cartCount = value.data.length;
-          print(cartCount);
         });
       });
     }

@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:darkgreen/api_model/register/personal_details_response_model.dart';
 import 'package:darkgreen/constant/api_constant.dart';
 import 'package:darkgreen/constant/color.dart';
+import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/constant/size_config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../allCommonApis/common_api.dart';
+import 'darkgreen_dashboard_screen.dart';
 
 class PersonalInfo extends StatefulWidget {
   final String userNumber;
@@ -47,7 +52,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     SizeConfig().init(context);
     return Stack(
       children: [
-        Scaffold(
+        const Scaffold(
           backgroundColor: CommonColor.APP_BAR_COLOR,
         ),
         Padding(
@@ -133,11 +138,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   fontFamily: 'Roboto_Regular',
                   fontWeight: FontWeight.w500,
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                focusedBorder: UnderlineInputBorder(
+                focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                 ),
               ),
@@ -159,11 +164,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   fontFamily: 'Roboto_Regular',
                   fontWeight: FontWeight.w500,
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.alternate_email,
                   color: Colors.black,
                 ),
-                focusedBorder: UnderlineInputBorder(
+                focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                 ),
               ),
@@ -185,10 +190,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     fontFamily: 'Roboto_Regular',
                     fontWeight: FontWeight.w500,
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.black,
                   ),
@@ -199,7 +204,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           },
                           child: Container(
                             color: Colors.transparent,
-                            child: Icon(
+                            child: const Icon(
                               Icons.remove_red_eye,
                               color: Colors.black,
                             ),
@@ -214,7 +219,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             },
                             child: Container(
                               // color: Colors.red,
-                              child: Image(
+                              child: const Image(
                                 image:
                                     AssetImage("assets/images/close-eye.png"),
                                 color: Colors.black,
@@ -242,10 +247,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     fontFamily: 'Roboto_Regular',
                     fontWeight: FontWeight.w500,
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.lock,
                     color: Colors.black,
                   ),
@@ -256,7 +261,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           },
                           child: Container(
                             color: Colors.transparent,
-                            child: Icon(
+                            child: const Icon(
                               Icons.remove_red_eye,
                               color: Colors.black,
                             ),
@@ -271,7 +276,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             },
                             child: Container(
                               // color: Colors.red,
-                              child: Image(
+                              child: const Image(
                                 image:
                                     AssetImage("assets/images/close-eye.png"),
                                 color: Colors.black,
@@ -299,11 +304,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   fontFamily: 'Roboto_Regular',
                   fontWeight: FontWeight.w500,
                 ),
-                prefixIcon: Icon(
+                prefixIcon: const Icon(
                   Icons.alternate_email,
                   color: Colors.black,
                 ),
-                focusedBorder: UnderlineInputBorder(
+                focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: CommonColor.APP_BAR_COLOR),
                 ),
               ),
@@ -486,11 +491,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
   //   }
   // }
 
-  Future<UserPersonalDetailsResponseModel> userDetailsRegister() async {
+  Future userDetailsRegister() async {
     try {
-      print(nameController.text.trim());
-      print(emailController.text.trim());
-      print(passwordController.text.trim());
+      //
+      String? fcmId = await FirebaseMessaging.instance.getToken();
 
       var headers = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
@@ -504,21 +508,47 @@ class _PersonalInfoState extends State<PersonalInfo> {
           "email": emailController.text.trim(),
           "password": passwordController.text.trim(),
           "referral_code": referralCodeController.text.trim() ?? "",
+          "fcm_id": fcmId,
         },
       );
 
       if (result.statusCode == 200) {
-        print(result.body);
-        setState(() {
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //     const SnackBar(content: Text("Notice Successfully Deleted.")));
-          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Home(come: "1",)));
-        });
-      }
+        // response
+        var userPersonalDetailsResponseModel =
+            userPersonalDetailsResponseModelFromJson(json.decode(result.body));
 
-      return userPersonalDetailsResponseModelFromJson(json.decode(result.body));
+        // check has error
+        if (userPersonalDetailsResponseModel.error) {
+          // show error
+          if (context.mounted) {
+            var errorMessage =
+                userPersonalDetailsResponseModel.message.toString();
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(errorMessage)));
+          }
+        } else {
+          // save user data
+          AppPreferences.setUserData(
+              jsonEncode(userPersonalDetailsResponseModel));
+          // registered go to home
+          if (mounted) {
+            setState(() {
+              AllCommonApis().getAllCarts().then((value) {
+                int cartCount = value.data.length;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Dashboard(
+                              cartCount: cartCount,
+                              comeFrom: "1",
+                            )));
+              });
+            });
+          }
+        }
+      }
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

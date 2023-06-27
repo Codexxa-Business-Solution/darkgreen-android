@@ -44,9 +44,9 @@ dependencies:
   pinput:
   http:
   shared_preferences: ^2.0.18
-  flutter_html: ^2.2.1
+  flutter_html: ^3.0.0-beta.2
   google_maps_flutter: ^2.1.1
-  geolocator: ^8.0.5
+  geolocator: ^9.0.2
   geocoding: ^2.0.4
   google_maps_webservice: ^0.0.19
   flutter_google_places: ^0.3.0
@@ -56,6 +56,9 @@ dependencies:
   dotted_border:
   intl:
   dio:
+  firebase_core: ^2.14.0
+  firebase_messaging: ^14.6.4
+  firebase_auth: ^4.6.3
 
 
 dev_dependencies:
