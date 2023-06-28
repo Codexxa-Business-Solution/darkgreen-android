@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 
+import '../presentation/loading_dialog.dart';
 import '../presentation/personal_info_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -24,6 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final focusedBorderColor = const Color.fromRGBO(23, 171, 144, 1);
   final fillColor = const Color.fromRGBO(243, 246, 249, 0);
   final borderColor = const Color.fromRGBO(23, 171, 144, 0.4);
+
+  bool _isLoading = false;
+  String _loadingMessage = "Loading...";
 
   TextEditingController numberController = TextEditingController();
 
@@ -53,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool showGetOtp = true;
 
   String phoneNumber = "";
+  String verificationId = "";
 
   Timer? _timer;
   int _start = 120;
@@ -86,6 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return Stack(
       children: [
         const Scaffold(
@@ -115,6 +121,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
+        if (_isLoading)
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(child: LoadingDialog(message: _loadingMessage)),
+          ),
       ],
     );
   }
@@ -429,7 +440,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // verify number
-  Future<UserRegisterResponseModel> verifyNumber() async {
+  Future<void> verifyNumber() async {
+    setState(() {
+      _isLoading = true;
+      _loadingMessage = "Verifying Phone Number...";
+    });
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
 
@@ -459,15 +474,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (PhoneAuthCredential credential) {
-            verifyOtp();
+            setState(() {
+              _isLoading = false;
+            });
+
+            onComplete();
           },
           verificationFailed: (FirebaseAuthException e) {
+            setState(() {
+              _isLoading = false;
+            });
+
             if (context.mounted) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(e.message.toString())));
             }
           },
           codeSent: (String verificationId, int? resendToken) {
+            setState(() {
+              _isLoading = false;
+              this.verificationId = verificationId;
+            });
+
             setState(() {
               showGetOtp = !showGetOtp;
               showOtpField = !showOtpField;
@@ -477,17 +505,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
           codeAutoRetrievalTimeout: (String verificationId) {},
         );
       }
-
-      return userRegisterResponseModel;
     } else {
-      throw Exception('Failed to register.');
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Failed to register")));
+      }
     }
   }
 
   // verify otp
-  Future verifyOtp() async {
+  Future<void> verifyOtp() async {
+    setState(() {
+      _isLoading = true;
+      _loadingMessage = "Verifying OTP...";
+    });
 
-    // save number
+    FirebaseAuth auth = FirebaseAuth.instance;
+    var smsCode = pinController.text.trim();
+    var credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode);
+
+    // Sign in with the credential
+    await auth.signInWithCredential(credential).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      onComplete();
+    }).catchError((e) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Failed to verify otp.")));
+      }
+    });
+  }
+
+  // on verification complete
+  Future<void> onComplete() async {
     AppPreferences.setUserNumber(numberController.text);
 
     // show details screen

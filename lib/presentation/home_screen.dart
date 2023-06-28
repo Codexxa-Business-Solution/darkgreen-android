@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (sections.style == "style_1") {
       return getSectionOne(parentHeight, parentWidth, sections);
     } else if (sections.style == "style_2") {
-      return getSectionTwo(parentHeight, parentWidth, sections);
+      return getSectionOne(parentHeight, parentWidth, sections);
     } else if (sections.style == "style_3") {
       return getSectionThree(parentHeight, parentWidth, sections);
     } else {
@@ -860,11 +860,11 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.only(top: parentHeight * 0.01),
           child: SizedBox(
             // color: Colors.red,
-            height: parentHeight * 0.32,
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
+            height: parentHeight * 0.50,
+            child: ListView.builder(
+                // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //   crossAxisCount: 2,
+                // ),
                 padding: EdgeInsets.only(right: parentWidth * 0.05),
                 scrollDirection: Axis.horizontal,
                 itemCount: sections.products!.length,
@@ -914,8 +914,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )));
                         },
                         child: Container(
-                          height: parentHeight * 0.17,
-                          width: parentWidth * 0.47,
+                          height: parentHeight * 0.10,
+                          width: parentWidth * 0.40,
                           decoration: BoxDecoration(
                             color: CommonColor.WHITE_COLOR,
                             borderRadius: BorderRadius.circular(10),
@@ -937,8 +937,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.white,
                                       ),
-                                      height: parentHeight * 0.17,
-                                      width: parentWidth * 0.47,
+                                      height: parentHeight * 0.10,
+                                      width: parentWidth * 0.40,
                                       child: ClipRRect(
                                         borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10),
@@ -958,8 +958,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          width: parentWidth * 0.15,
-                                          height: parentHeight * 0.027,
+                                          width: parentWidth * 0.40,
+                                          height: parentHeight * 0.010,
                                           decoration: const BoxDecoration(
                                               color: CommonColor.APP_BAR_COLOR,
                                               borderRadius: BorderRadius.only(
@@ -1004,8 +1004,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 alignment: Alignment.bottomRight,
                                 children: [
                                   Container(
-                                    height: parentHeight * 0.13,
-                                    width: parentWidth * 0.47,
+                                    height: parentHeight * 0.010,
+                                    width: parentWidth * 0.40,
                                     decoration: const BoxDecoration(
                                         color: Colors.white,
                                         borderRadius: BorderRadius.only(
@@ -1090,8 +1090,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Container(
-                                                height: parentHeight * 0.033,
-                                                width: parentWidth * 0.13,
+                                                height: parentHeight * 0.030,
+                                                width: parentWidth * 0.40,
                                                 decoration: BoxDecoration(
                                                     color: CommonColor
                                                         .REVIEW_CONTAINER_COLOR,
@@ -1123,27 +1123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ],
                                                 ),
                                               ),
-                                              /* Container(
-                                            height: parentHeight*0.045,
-                                            width: parentWidth*0.25,
-                                            decoration: BoxDecoration(
-                                                color: CommonColor.APP_BAR_COLOR,
-                                                borderRadius: BorderRadius.circular(7)
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text("Add to Cart",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: SizeConfig.blockSizeHorizontal*3.7,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontFamily: 'Roboto_Medium'
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )*/
                                               Visibility(
                                                 visible:
                                                     count != 0 ? true : false,

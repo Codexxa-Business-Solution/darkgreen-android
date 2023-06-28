@@ -12,7 +12,6 @@ class FaqScreen extends StatefulWidget {
 }
 
 class _FaqScreenState extends State<FaqScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +39,7 @@ class _FaqScreenState extends State<FaqScreen> {
 
               final data = snap.data;
 
-              if (data == null) {
+              if (data == null || data.data == null) {
                 return Container(
                   height: SizeConfig.screenHeight * 0.83,
                   color: Colors.transparent,

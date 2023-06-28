@@ -4,6 +4,7 @@ import 'package:darkgreen/presentation/add_check_pay_parent_screen.dart';
 import 'package:darkgreen/presentation/cart.dart';
 import 'package:darkgreen/presentation/change_password.dart';
 import 'package:darkgreen/presentation/darkgreen_dashboard_screen.dart';
+import 'package:darkgreen/presentation/faq_screen.dart';
 import 'package:darkgreen/presentation/get_about_us_screen.dart';
 import 'package:darkgreen/presentation/get_blog_categories_screen.dart';
 import 'package:darkgreen/presentation/get_contact_us.dart';
@@ -1399,7 +1400,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => GetBlogCategories()));
+                        builder: (context) => const GetBlogCategories()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1441,7 +1442,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => GetContactUsScreen()));
+                        builder: (context) => const GetContactUsScreen()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1480,8 +1481,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutUsScreen()));
               },
               child: Container(
                 color: Colors.transparent,
@@ -1593,7 +1596,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: parentHeight * 0.02),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const FaqScreen()));
+              },
               child: Container(
                 color: Colors.transparent,
                 child: Row(
