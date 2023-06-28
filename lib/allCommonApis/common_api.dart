@@ -25,6 +25,7 @@ import 'package:darkgreen/constant/share_preference.dart';
 import 'package:darkgreen/utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../api_model/order/faq_response_model.dart';
 import '../api_model/order/reorder_data_model.dart';
 
 class AllCommonApis {
@@ -1000,6 +1001,35 @@ class AllCommonApis {
     // check status code
     if (response.statusCode == 200) {
       return SectionResponse.fromJson(jsonDecode(response.body.jsonBody()));
+    } else {
+      throw Exception('Failed to get sections response.');
+    }
+  }
+
+  // sections product
+  Future<FaqResponse> getFaqs() async {
+    // id
+    String? id = await AppPreferences.getIds();
+
+    // headers
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    // params
+    var response =
+        await http.post(Uri.parse("${ApiConstants().baseUrl}get-faqs.php"),
+            body: {
+              "accesskey": ApiConstants().accessKey,
+              "get_faqs": "1",
+              "offset": "0",
+              "limit": "10",
+              "sort": "id",
+              "order": "ASC",
+            },
+            headers: headersList);
+
+    // check status code
+    if (response.statusCode == 200) {
+      return FaqResponse.fromJson(jsonDecode(response.body.jsonBody()));
     } else {
       throw Exception('Failed to get sections response.');
     }

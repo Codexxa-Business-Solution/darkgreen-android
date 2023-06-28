@@ -22,7 +22,6 @@ class _DeliveredOrderScreenState extends State<DeliveredOrderScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     AllCommonApis().getAllDeliveredStatus();
   }
