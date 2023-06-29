@@ -977,6 +977,33 @@ class AllCommonApis {
     }
   }
 
+  Future<GetBlogCatergoriesResponseModel> getBlogByCategory(
+      String categoryId, String searchQuery) async {
+    var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
+
+    var response = await http.post(
+        Uri.parse(ApiConstants().baseUrl + ApiConstants().getBlogsData),
+        body: {
+          "accesskey": ApiConstants().accessKey,
+          "get_blogs": "1",
+          "category_id": categoryId,
+          "offset": "0",
+          "limit": "10",
+          "sort": "id",
+          "order": "ASC",
+          "search": searchQuery
+        },
+        headers: headersList);
+
+    log(response.body);
+
+    if (response.statusCode == 200) {
+      return getBlogCatergoriesResponseModelFromJson(response.body.jsonBody());
+    } else {
+      throw Exception('Failed to create album.');
+    }
+  }
+
   // sections product
   Future<SectionResponse> productsBySection(String sectionId) async {
     // id
