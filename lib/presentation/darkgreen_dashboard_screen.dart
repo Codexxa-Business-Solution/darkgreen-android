@@ -214,7 +214,7 @@ class _DashboardState extends State<Dashboard>
                     onDoubleTap: () {},
                     onTap: () {
                       Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Cart()))
+                              MaterialPageRoute(builder: (context) => const Cart()))
                           .then((value) {
                         if (mounted) {
                           setState(() {

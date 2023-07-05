@@ -175,7 +175,9 @@ class _DoorStepOrderState extends State<DoorStepOrder> {
                                     ),
                                     GestureDetector(
                                       onDoubleTap: () {},
-                                      onTap: () {},
+                                      onTap: () {
+
+                                      },
                                       child: Container(
                                         height: SizeConfig.screenHeight * 0.055,
                                         width: SizeConfig.screenWidth * 0.37,

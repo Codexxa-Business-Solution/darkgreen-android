@@ -296,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (sections.style == "style_2") {
       return getSectionOne(parentHeight, parentWidth, sections);
     } else if (sections.style == "style_3") {
-      return getSectionThree(parentHeight, parentWidth, sections);
+      return getSectionOne(parentHeight, parentWidth, sections);
     } else {
       return Container();
     }
@@ -526,18 +526,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  productName!,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
-                                                          3.5,
-                                                      fontFamily:
-                                                          'Roboto_Normal',
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                  textAlign: TextAlign.center,
+                                                Flexible(
+                                                  child: Text(
+                                                    productName!,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    softWrap: true,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            3.5,
+                                                        fontFamily:
+                                                            'Roboto_Normal',
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                 ),
                                               ],
                                             ),

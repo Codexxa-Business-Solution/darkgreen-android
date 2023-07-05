@@ -378,13 +378,10 @@ class _DeliveredOrderScreenState extends State<DeliveredOrderScreen> {
     //
     AllCommonApis().addToCartApiMulti(variantIds, quantities).then((value) => {
           // check has error
-          if (value.error == true)
+          if (value.error == "true")
             {
-              if (context.mounted)
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(value.message.toString())))
-                }
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(value.message.toString())))
             }
           else
             {

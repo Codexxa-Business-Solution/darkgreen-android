@@ -11,7 +11,7 @@ String getOrderPlacedResponceModelToJson(GetOrderPlacedResponceModel data) =>
     json.encode(data.toJson());
 
 class GetOrderPlacedResponceModel {
-  bool error;
+  String error;
   String message;
   String orderId;
 

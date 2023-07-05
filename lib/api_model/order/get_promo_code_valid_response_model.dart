@@ -15,11 +15,11 @@ String getPromoCodeValidResponseModelToJson(
 class GetPromoCodeValidResponseModel {
   bool error;
   String message;
-  String promoCode;
-  String promoCodeMessage;
-  String total;
-  String discount;
-  String discountedAmount;
+  String? promoCode;
+  String? promoCodeMessage;
+  String? total;
+  String? discount;
+  String? discountedAmount;
 
   GetPromoCodeValidResponseModel({
     required this.error,

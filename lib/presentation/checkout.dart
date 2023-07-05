@@ -1379,7 +1379,7 @@ class _CheckoutState extends State<Checkout> {
         },
         child: Container(
           height: parentHeight * 0.06,
-          width: parentWidth * 0.8,
+          width: parentWidth * 0.9,
           decoration: BoxDecoration(
               color: CommonColor.APP_BAR_COLOR,
               borderRadius: BorderRadius.circular(7)),

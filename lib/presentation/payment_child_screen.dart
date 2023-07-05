@@ -1689,21 +1689,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: parentHeight * 0.055,
-                                width: parentWidth * 0.37,
+                                // height: parentHeight * 0.055,
+                                // width: parentWidth * 0.37,
+                                constraints: BoxConstraints(
+                                    maxWidth: parentWidth * 0.37),
                                 decoration: BoxDecoration(
                                     color: Colors.black26,
                                     borderRadius: BorderRadius.circular(5)),
-                                child: Center(
-                                    child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 5.0,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Roboto-Light'),
-                                )),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal *
+                                                5.0,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Roboto-Light'),
+                                  )),
+                                ),
                               ),
                             ),
                             GestureDetector(
@@ -1711,7 +1717,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               onTap: () {
                                 print(
                                     " widget.totalAmount ${widget.totalAmount}");
-
                                 if (selectPaymentMethod == 1) {
                                   getPlacedOrder().then((value) {
                                     showDialog<String>(
@@ -1995,21 +2000,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 }
                               },
                               child: Container(
-                                height: parentHeight * 0.055,
-                                width: parentWidth * 0.37,
+                                // height: parentHeight * 0.055,
+                                // width: parentWidth * 0.37,
+                                constraints: BoxConstraints(
+                                    maxWidth: parentWidth * 0.37),
                                 decoration: BoxDecoration(
                                     color: CommonColor.APP_BAR_COLOR,
                                     borderRadius: BorderRadius.circular(5)),
-                                child: Center(
-                                    child: Text(
-                                  "Confirm",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 5.0,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Roboto-Light'),
-                                )),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text(
+                                    "Confirm",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal *
+                                                5.0,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Roboto-Light'),
+                                  )),
+                                ),
                               ),
                             )
                           ],

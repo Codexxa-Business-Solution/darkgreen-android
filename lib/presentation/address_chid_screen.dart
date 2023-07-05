@@ -240,22 +240,25 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                     padding: EdgeInsets.only(
                                         left: parentWidth * 0.01),
                                     child: Container(
-                                      width: parentWidth * 0.31,
-                                      color: Colors.transparent,
-                                      child: Text(
-                                        "${snap.data?.data?[index].name}",
-                                        style: TextStyle(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
+                                        width: parentWidth * 0.31,
+                                        color: Colors.transparent,
+                                        child: Flexible(
+                                          child: Text(
+                                            "${snap.data?.data?[index].name}",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 6,
+                                            softWrap: true,
+                                            style: TextStyle(
+                                              color: CommonColor.APP_BAR_COLOR,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
                                                   4.0,
-                                          fontFamily: 'Roboto_Medium',
-                                          fontWeight: FontWeight.w400,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                    ),
+                                              fontFamily: 'Roboto_Medium',
+                                              fontWeight: FontWeight.w400,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        )),
                                   ),
                                 ],
                               ),

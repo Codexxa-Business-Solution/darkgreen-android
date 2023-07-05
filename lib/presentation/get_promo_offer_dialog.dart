@@ -168,7 +168,15 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                                         "${widget.amount}",
                                                         "${snap.data?.data[index].promoCode}")
                                                     .then((value) {
-                                                  print(value.message);
+
+                                                  // show error
+                                                  if (value.error) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                "Error: ${value.message}")));
+                                                  }
 
                                                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>
                                                   //     AddCheckPayParentScreen(index: 1, deliveryCharges: widget.deliverCharges,
