@@ -134,8 +134,8 @@ class _SaveForLaterState extends State<SaveForLater> {
 
                 final img = data?.data[index].image != null
                     ? Image.network(
-                        "${data?.data[index].image}",
-                      )
+                  "${data?.data[index].image}",
+                )
                     : Image.network("");
 
                 return Padding(
@@ -214,7 +214,7 @@ class _SaveForLaterState extends State<SaveForLater> {
                                                 fontFamily: "Roboto_Regular",
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                    .blockSizeHorizontal *
                                                     4.0,
                                                 color: CommonColor.BLACK_COLOR),
                                           ),
@@ -226,13 +226,20 @@ class _SaveForLaterState extends State<SaveForLater> {
                                           child: GestureDetector(
                                             onTap: () {
                                               productVariantId =
-                                                  "${snap.data?.data[index].productVariantId}";
+                                              "${snap.data?.data[index]
+                                                  .productVariantId}";
 
                                               var result = AllCommonApis()
                                                   .deleteSaveForLater(
-                                                      productVariantId);
+                                                  productVariantId);
 
                                               result.then((value) {
+                                                //
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    SnackBar(content: Text(
+                                                        value.message
+                                                            .toString())));
                                                 if (mounted) {
                                                   setState(() {
                                                     refresh();
@@ -254,7 +261,7 @@ class _SaveForLaterState extends State<SaveForLater> {
                                     width: parentWidth * 0.7,
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
@@ -265,36 +272,38 @@ class _SaveForLaterState extends State<SaveForLater> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  "Rs.${snap.data?.data[index].discountedPrice}",
+                                                  "Rs.${snap.data?.data[index]
+                                                      .discountedPrice}",
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: SizeConfig
-                                                              .blockSizeHorizontal *
+                                                          .blockSizeHorizontal *
                                                           4.5,
                                                       fontFamily:
-                                                          'Roboto_Medium',
+                                                      'Roboto_Medium',
                                                       fontWeight:
-                                                          FontWeight.w500),
+                                                      FontWeight.w500),
                                                   textAlign: TextAlign.center,
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       left: parentWidth * 0.02),
                                                   child: Text(
-                                                    "Rs.${snap.data?.data[index].price}",
+                                                    "Rs.${snap.data?.data[index]
+                                                        .price}",
                                                     style: TextStyle(
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                             4.5,
                                                         fontFamily:
-                                                            'Roboto_Medium',
+                                                        'Roboto_Medium',
                                                         fontWeight:
-                                                            FontWeight.w500,
+                                                        FontWeight.w500,
                                                         decoration:
-                                                            TextDecoration
-                                                                .lineThrough),
+                                                        TextDecoration
+                                                            .lineThrough),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
@@ -302,17 +311,19 @@ class _SaveForLaterState extends State<SaveForLater> {
                                                   padding: EdgeInsets.only(
                                                       left: parentWidth * 0.02),
                                                   child: Text(
-                                                    "${snap.data?.data[index].measurement}${snap.data?.data[index].unit}",
+                                                    "${snap.data?.data[index]
+                                                        .measurement}${snap.data
+                                                        ?.data[index].unit}",
                                                     style: TextStyle(
                                                         color: CommonColor
                                                             .DISCOUNT_COLOR,
                                                         fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
+                                                            .blockSizeHorizontal *
                                                             3.0,
                                                         fontFamily:
-                                                            'Roboto_Medium',
+                                                        'Roboto_Medium',
                                                         fontWeight:
-                                                            FontWeight.w500),
+                                                        FontWeight.w500),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ),
@@ -328,78 +339,48 @@ class _SaveForLaterState extends State<SaveForLater> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: parentHeight * 0.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: parentWidth * 0.05),
-                                child: Text(
-                                  "Move To Cart",
-                                  style: TextStyle(
-                                      color: Colors.transparent,
-                                      fontSize:
-                                          SizeConfig.blockSizeHorizontal * 4.0,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'Roboto-Medium'),
-                                ),
-                              ),
-                              Text(
-                                "Delete",
+                        GestureDetector(
+                          onDoubleTap: () {},
+                          onTap: () {
+                            productId = "${snap.data?.data[index].productId}";
+
+                            productVariantId =
+                            "${snap.data?.data[index].productVariantId}";
+
+                            count = int.parse("${snap.data?.data[index].qty}");
+
+                            AllCommonApis()
+                                .addToCartApi(productId, productVariantId,
+                                count.toString())
+                                .then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(value.message.toString())));
+                              if (mounted) {
+                                setState(() {
+                                  print("hhuihuhuihhui");
+                                  refresh();
+                                });
+                              }
+                            });
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Padding(
+                              padding:
+                              EdgeInsets.only(right: parentWidth * 0.05),
+                              child: Text(
+                                "Move to cart",
                                 style: TextStyle(
-                                    color: Colors.transparent,
+                                    color: CommonColor.APP_BAR_COLOR,
                                     fontSize:
-                                        SizeConfig.blockSizeHorizontal * 4.0,
+                                    SizeConfig.blockSizeHorizontal * 4.0,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: 'Roboto-Medium'),
                               ),
-                              GestureDetector(
-                                onDoubleTap: () {},
-                                onTap: () {
-                                  productId =
-                                      "${snap.data?.data[index].productId}";
-
-                                  productVariantId =
-                                      "${snap.data?.data[index].productVariantId}";
-
-                                  count = int.parse(
-                                      "${snap.data?.data[index].qty}");
-
-                                  AllCommonApis()
-                                      .addToCartApi(productId, productVariantId,
-                                          count.toString())
-                                      .then((value) {
-                                    if (mounted) {
-                                      setState(() {
-                                        print("hhuihuhuihhui");
-                                        refresh();
-                                      });
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: parentWidth * 0.05),
-                                    child: Text(
-                                      "Move to cart",
-                                      style: TextStyle(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  4.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Roboto-Medium'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

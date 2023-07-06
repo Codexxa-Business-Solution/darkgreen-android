@@ -11,7 +11,7 @@ String getContactResponseModelToJson(GetContactResponseModel data) =>
     json.encode(data.toJson());
 
 class GetContactResponseModel {
-  bool error;
+  String error;
   String contact;
 
   GetContactResponseModel({

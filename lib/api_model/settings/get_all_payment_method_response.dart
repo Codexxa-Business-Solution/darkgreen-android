@@ -13,7 +13,7 @@ String getPaymentMethodResponseModelToJson(
     json.encode(data.toJson());
 
 class GetPaymentMethodResponseModel {
-  bool error;
+  String error;
   PaymentMethods paymentMethods;
 
   GetPaymentMethodResponseModel({

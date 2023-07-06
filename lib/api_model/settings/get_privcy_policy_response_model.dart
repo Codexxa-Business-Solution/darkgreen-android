@@ -11,7 +11,7 @@ String getPrivacyResponseModelToJson(GetPrivacyResponseModel data) =>
     json.encode(data.toJson());
 
 class GetPrivacyResponseModel {
-  bool error;
+  String error;
   String privacy;
 
   GetPrivacyResponseModel({

@@ -949,44 +949,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.only(top: parentHeight * 0.01),
-            child: Row(
-              children: [
-                Text(
-                  "Log in or sign up to view your complete profile",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: SizeConfig.blockSizeHorizontal * 3.5,
-                      fontFamily: 'Roboto_Regular',
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: parentHeight * 0.02),
-            child: Container(
-              width: parentWidth * 0.9,
-              height: parentHeight * 0.05,
-              decoration: BoxDecoration(
-                  color: CommonColor.APP_BAR_COLOR,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Continue",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.blockSizeHorizontal * 5.0,
-                        fontFamily: 'Roboto_Medium',
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: parentHeight * 0.01),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         "Log in or sign up to view your complete profile",
+          //         style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: SizeConfig.blockSizeHorizontal * 3.5,
+          //             fontFamily: 'Roboto_Regular',
+          //             fontWeight: FontWeight.w400),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(top: parentHeight * 0.02),
+          //   child: Container(
+          //     width: parentWidth * 0.9,
+          //     height: parentHeight * 0.05,
+          //     decoration: BoxDecoration(
+          //         color: CommonColor.APP_BAR_COLOR,
+          //         borderRadius: BorderRadius.circular(10)),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.center,
+          //       children: [
+          //         Text(
+          //           "Continue",
+          //           style: TextStyle(
+          //               color: Colors.white,
+          //               fontSize: SizeConfig.blockSizeHorizontal * 5.0,
+          //               fontFamily: 'Roboto_Medium',
+          //               fontWeight: FontWeight.w500),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           // Padding(
           //   padding:  EdgeInsets.only(top: parentHeight*0.01),
           //   child: Row(

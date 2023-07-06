@@ -103,6 +103,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           }
 
           final data = snap.data;
+          if (data!.error) {
+            return Center(
+              child: Text(data.message.toString()),
+            );
+          }
 
           if (data == null) {
             return const Center(

@@ -20,7 +20,8 @@ class GetAllFavProductsResponseModel {
   });
 
   bool error;
-  String total;
+  String? total;
+  String? message;
   List<Datum> data;
 
   factory GetAllFavProductsResponseModel.fromJson(Map<String, dynamic> json) =>

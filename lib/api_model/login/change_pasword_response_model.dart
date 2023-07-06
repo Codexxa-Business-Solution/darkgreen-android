@@ -11,7 +11,7 @@ String changePasswordResponseModelToJson(ChangePasswordResponseModel data) =>
     json.encode(data.toJson());
 
 class ChangePasswordResponseModel {
-  bool error;
+  String error;
   String message;
 
   ChangePasswordResponseModel({

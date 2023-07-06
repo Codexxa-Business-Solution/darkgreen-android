@@ -11,7 +11,7 @@ String getTermsResponseModelToJson(GetTermsResponseModel data) =>
     json.encode(data.toJson());
 
 class GetTermsResponseModel {
-  bool error;
+  String error;
   String terms;
 
   GetTermsResponseModel({

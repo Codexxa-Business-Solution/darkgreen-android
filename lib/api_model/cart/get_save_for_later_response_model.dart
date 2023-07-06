@@ -18,7 +18,7 @@ class GetSaveForLaterResponseModel {
     required this.data,
   });
 
-  bool error;
+  String error;
   String message;
   int total;
   List<Datum> data;

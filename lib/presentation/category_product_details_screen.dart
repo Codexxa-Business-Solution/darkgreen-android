@@ -727,10 +727,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () {
-                                                              productId =
+                                                              var similarProductId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
 
-                                                              productVariantId =
+                                                              var similarProductVariantId =
                                                                   "${snap.data?.data[index].variants[0].id}";
 
                                                               cartCount = int.parse(
@@ -748,12 +748,19 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
 
                                                               AllCommonApis()
                                                                   .addToCartApi(
-                                                                      productId,
-                                                                      productVariantId,
+                                                                      similarProductId,
+                                                                      similarProductVariantId,
                                                                       cartCount
                                                                           .toString())
                                                                   .then(
                                                                       (value) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(SnackBar(
+                                                                        content: Text(value
+                                                                            .message
+                                                                            .toString())));
+
                                                                 setState(() {
                                                                   if (mounted) {
                                                                     setState(
@@ -834,9 +841,9 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                           ),
                                                           GestureDetector(
                                                             onTap: () {
-                                                              productId =
+                                                              var similarProductId =
                                                                   "${snap.data?.data[index].variants[0].productId}";
-                                                              productVariantId =
+                                                              var similarProductVariantId =
                                                                   "${snap.data?.data[index].variants[0].id}";
 
                                                               cartCount = int.parse(
@@ -854,12 +861,19 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
 
                                                               AllCommonApis()
                                                                   .addToCartApi(
-                                                                      productId,
-                                                                      productVariantId,
+                                                                      similarProductId,
+                                                                      similarProductVariantId,
                                                                       cartCount
                                                                           .toString())
                                                                   .then(
                                                                       (value) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(SnackBar(
+                                                                        content: Text(value
+                                                                            .message
+                                                                            .toString())));
+
                                                                 setState(() {
                                                                   if (mounted) {
                                                                     setState(
@@ -934,11 +948,10 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
                                                         0.01),
                                             child: GestureDetector(
                                               onTap: () {
-
-                                                productId =
+                                                var similarProductId =
                                                     "${snap.data?.data[index].variants[0].productId}";
 
-                                                productVariantId =
+                                                var similarProductVariantId =
                                                     "${snap.data?.data[index].variants[0].id}";
 
                                                 cartCount = int.parse(
@@ -952,8 +965,8 @@ class _ProductPriceDetailsState extends State<ProductPriceDetails> {
 
                                                 AllCommonApis()
                                                     .addToCartApi(
-                                                        productId,
-                                                        productVariantId,
+                                                        similarProductId,
+                                                        similarProductVariantId,
                                                         cartCount.toString())
                                                     .then((value) {
                                                   setState(() {

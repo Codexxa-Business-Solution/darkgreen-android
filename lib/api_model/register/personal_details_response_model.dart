@@ -40,7 +40,7 @@ class UserPersonalDetailsResponseModel {
     required this.createdAt,
   });
 
-  bool error;
+  String error;
   String message;
   String password;
   String userId;

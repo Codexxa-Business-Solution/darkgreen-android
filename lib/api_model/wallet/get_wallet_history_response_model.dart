@@ -19,7 +19,7 @@ class GetWalletHistoryResponseModel {
     required this.data,
   });
 
-  bool error;
+  String error;
   String total;
   List<Datum> data;
 

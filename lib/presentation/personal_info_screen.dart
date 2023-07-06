@@ -521,7 +521,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   jsonDecode(response.body));
 
           // check has error
-          if (userPersonalDetailsResponseModel.error) {
+          if (userPersonalDetailsResponseModel.error == "true") {
             // show error
             if (context.mounted) {
               var errorMessage =

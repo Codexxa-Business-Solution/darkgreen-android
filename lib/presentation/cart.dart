@@ -441,6 +441,13 @@ class _CartState extends State<Cart> {
                                                                   cartCount
                                                                       .toString())
                                                               .then((value) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: Text(value
+                                                                        .message
+                                                                        .toString())));
+
                                                             if (mounted) {
                                                               setState(() {
                                                                 print(
@@ -528,6 +535,13 @@ class _CartState extends State<Cart> {
                                                                   cartCount
                                                                       .toString())
                                                               .then((value) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: Text(value
+                                                                        .message
+                                                                        .toString())));
+
                                                             if (mounted) {
                                                               setState(() {
                                                                 refresh();

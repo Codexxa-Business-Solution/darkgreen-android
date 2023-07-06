@@ -16,7 +16,7 @@ class UserRegisterResponseModel {
     required this.message,
   });
 
-  bool error;
+  String error;
   String message;
 
   factory UserRegisterResponseModel.fromJson(Map<String, dynamic> json) =>

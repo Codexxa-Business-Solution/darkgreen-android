@@ -11,7 +11,7 @@ String getAboutUsResponseModelToJson(GetAboutUsResponseModel data) =>
     json.encode(data.toJson());
 
 class GetAboutUsResponseModel {
-  bool error;
+  String error;
   String about;
 
   GetAboutUsResponseModel({

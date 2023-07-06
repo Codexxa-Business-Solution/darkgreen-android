@@ -22,7 +22,7 @@ class GetSearchProductResponseModel {
     required this.data,
   });
 
-  bool error;
+  String error;
   String message;
   String total;
   String limit;

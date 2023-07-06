@@ -587,8 +587,10 @@ class _WalletHistoryState extends State<WalletHistory> {
                                 Navigator.pop(context);
                               },
                               child: Container(
-                                height: SizeConfig.screenHeight * 0.055,
-                                width: SizeConfig.screenWidth * 0.37,
+                                // height: SizeConfig.screenHeight * 0.055,
+                                // width: SizeConfig.screenWidth * 0.37,
+                                constraints: BoxConstraints(
+                                    maxWidth: SizeConfig.screenWidth * 0.37),
                                 decoration: BoxDecoration(
                                     color: Colors.black26,
                                     borderRadius: BorderRadius.circular(5)),
@@ -607,7 +609,6 @@ class _WalletHistoryState extends State<WalletHistory> {
                             GestureDetector(
                               onTap: () {
                                 int amount = int.parse(_amount.text);
-
                                 print(amount);
                                 Razorpay razorpay = Razorpay();
                                 var options = {
@@ -636,8 +637,10 @@ class _WalletHistoryState extends State<WalletHistory> {
                                 razorpay.open(options);
                               },
                               child: Container(
-                                height: SizeConfig.screenHeight * 0.055,
-                                width: SizeConfig.screenWidth * 0.37,
+                                // height: SizeConfig.screenHeight * 0.055,
+                                // width: SizeConfig.screenWidth * 0.37,
+                                constraints: BoxConstraints(
+                                    maxWidth: SizeConfig.screenWidth * 0.37),
                                 decoration: BoxDecoration(
                                     color: CommonColor.APP_BAR_COLOR,
                                     borderRadius: BorderRadius.circular(5)),

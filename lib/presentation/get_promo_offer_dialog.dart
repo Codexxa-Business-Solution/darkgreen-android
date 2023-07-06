@@ -170,7 +170,7 @@ class _PromoCodeScreenState extends State<PromoCodeScreen> {
                                                     .then((value) {
 
                                                   // show error
-                                                  if (value.error) {
+                                                  if (value.error == "true") {
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(SnackBar(

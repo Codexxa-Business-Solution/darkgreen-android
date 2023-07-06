@@ -19,7 +19,7 @@ class DeleteSaveForLaterResponseModel {
     required this.data,
   });
 
-  bool error;
+  String error;
   String message;
   List<Datum> data;
 

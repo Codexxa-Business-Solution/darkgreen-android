@@ -13,7 +13,7 @@ String getOredersStatusResponseModelToJson(
     json.encode(data.toJson());
 
 class GetOredersStatusResponseModel {
-  bool error;
+  String error;
   String total;
   List<Datum> data;
 

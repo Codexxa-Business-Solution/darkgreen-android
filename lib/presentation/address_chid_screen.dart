@@ -377,19 +377,23 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                           child: Icon(Icons.edit)),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onDoubleTap: () {},
-                                    onTap: () {
-                                      AllCommonApis()
-                                          .removeAddress(
-                                              "${snap.data?.data?[index].id}")
-                                          .then((value) {
-                                        setState(() {});
-                                      });
-                                    },
-                                    child: Container(
-                                        color: Colors.transparent,
-                                        child: Icon(Icons.delete_forever)),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: parentWidth * 0.02),
+                                    child: GestureDetector(
+                                      onDoubleTap: () {},
+                                      onTap: () {
+                                        AllCommonApis()
+                                            .removeAddress(
+                                                "${snap.data?.data?[index].id}")
+                                            .then((value) {
+                                          setState(() {});
+                                        });
+                                      },
+                                      child: Container(
+                                          color: Colors.transparent,
+                                          child: Icon(Icons.delete_forever)),
+                                    ),
                                   ),
                                 ],
                               )

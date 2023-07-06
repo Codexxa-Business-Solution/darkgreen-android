@@ -462,7 +462,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           userRegisterResponseModelFromJson(response.body);
 
       // check has error
-      if (userRegisterResponseModel.error) {
+      if (userRegisterResponseModel.error == "true") {
         // show error
         if (context.mounted) {
           var errorMessage = userRegisterResponseModel.message.toString();

@@ -11,7 +11,7 @@ String getPromoCodeResponseModelToJson(GetPromoCodeResponseModel data) =>
     json.encode(data.toJson());
 
 class GetPromoCodeResponseModel {
-  bool error;
+  String error;
   String total;
   List<Datum> data;
 
@@ -111,7 +111,7 @@ class Datum {
 }
 
 class IsValidate {
-  bool error;
+  String error;
   String message;
   String promoCode;
   String promoCodeMessage;

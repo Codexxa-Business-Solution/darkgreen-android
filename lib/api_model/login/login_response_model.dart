@@ -37,7 +37,7 @@ class UserLoginResponseModel {
     required this.createdAt,
   });
 
-  bool error;
+  String error;
   String message;
   String userId;
   String name;

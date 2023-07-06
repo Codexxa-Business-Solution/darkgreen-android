@@ -724,13 +724,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         )),
                                                       ),
                                                       GestureDetector(
-                                                        onTap: () {
-                                                          if (mounted) {
-                                                            setState(() {
-                                                              count++;
-                                                            });
-                                                          }
-                                                        },
+                                                        onTap: () {},
                                                         child: Container(
                                                           height: parentHeight *
                                                               0.035,
@@ -767,7 +761,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: count == 0 ? true : false,
+                                      visible: count == 0 ? false : false,
                                       child: GestureDetector(
                                         onTap: () {
                                           if (mounted) {

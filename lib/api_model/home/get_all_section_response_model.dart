@@ -11,7 +11,7 @@ String getAllSectionResponseModelToJson(GetAllSectionResponseModel data) =>
     json.encode(data.toJson());
 
 class GetAllSectionResponseModel {
-  bool error;
+  String error;
   String message;
   String total;
   String limit;

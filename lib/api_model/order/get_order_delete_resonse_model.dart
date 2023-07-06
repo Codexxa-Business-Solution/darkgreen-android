@@ -11,7 +11,7 @@ String getOrderDeleteResponseModelToJson(GetOrderDeleteResponseModel data) =>
     json.encode(data.toJson());
 
 class GetOrderDeleteResponseModel {
-  bool error;
+  String error;
   String message;
 
   GetOrderDeleteResponseModel({
