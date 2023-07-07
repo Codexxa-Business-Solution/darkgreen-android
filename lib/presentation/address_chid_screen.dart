@@ -240,7 +240,7 @@ class _AddressSelectScreenState extends State<AddressSelectScreen> {
                                     padding: EdgeInsets.only(
                                         left: parentWidth * 0.01),
                                     child: Container(
-                                        width: parentWidth * 0.31,
+                                        width: parentWidth * 0.25,
                                         color: Colors.transparent,
                                         child: Flexible(
                                           child: Text(

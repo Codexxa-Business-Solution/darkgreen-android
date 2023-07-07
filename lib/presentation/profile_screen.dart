@@ -15,6 +15,8 @@ import 'package:darkgreen/presentation/track_order_parent_screen.dart';
 import 'package:darkgreen/presentation/wallet_history_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'address_list.dart';
+
 class ProfileScreen extends StatefulWidget {
   final ProfileScreenInterface mListener;
 
@@ -491,7 +493,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AddCheckPayParentScreen(
+                      builder: (context) => AddressListScreen(
                             index: 0,
                             orderFormat: '',
                             addressId: '',
