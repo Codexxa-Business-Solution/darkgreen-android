@@ -367,29 +367,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: sections.products!.length,
                 itemBuilder: (context, index) {
                   var productName = sections.products?[index].name.toString();
-                  if (sections.products?[index].variants?[0].isFlashSales ==
-                      true) {
-                    var isFlashSales = true;
-                    var productPrice = sections
-                        .products?[index].variants?[0].discountedPrice
-                        .toString();
-                    var productOriginalPrice =
-                        sections.products?[index].variants?[0].price.toString();
-                    var productOffer = sections
-                        .products?[index].variants?[0].flashSales?[0].productId
-                        .toString();
-                  } else {
-                    var isFlashSales = false;
-                    var productPrice =
-                        sections.products?[index].variants?[0].price.toString();
-                    var productOriginalPrice = sections
-                        .products?[index].variants?[0].discountedPrice
-                        .toString();
-                  }
-                  var productPrice =
-                      sections.products?[index].variants?[0].price.toString();
+                  var productPrice = sections
+                      .products?[index].variants?[0].discountedPrice
+                      .toString();
                   var productOriginalPrice =
                       sections.products?[index].variants?[0].price.toString();
+                  var productOffer = 0;
+                  if (productPrice != null && productOriginalPrice != null) {
+                    productOffer = int.parse(productOriginalPrice) -
+                        int.parse(productPrice);
+                  }
                   var productRating =
                       sections.products?[index].numberOfRatings.toString();
                   var productId = sections.products?[index].id.toString();
@@ -476,7 +463,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                  "30% off",
+                                                  "$productOffer \u{20B9} off",
                                                   style: TextStyle(
                                                       color: CommonColor
                                                           .WHITE_COLOR,
@@ -681,7 +668,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                           sections
                                                                   .products?[index]
-                                                                  ?.variants?[0]
+                                                                  .variants?[0]
                                                                   .cartCount =
                                                               count.toString();
 

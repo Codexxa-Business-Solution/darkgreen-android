@@ -13,7 +13,7 @@ String getBlogCatergoriesResponseModelToJson(
     json.encode(data.toJson());
 
 class GetBlogCatergoriesResponseModel {
-  String error;
+  bool error;
   String message;
   String total;
   List<Datum> data;
