@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constant/color.dart';
+import 'loading_dialog.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -29,6 +30,9 @@ class _CartState extends State<Cart> {
   int totalCartAmount = 0;
   int laterCartCount = 0;
   String isType = "0";
+
+  bool _isLoading = false;
+  String _loadingMessage = "Loading...";
 
   @override
   void initState() {
@@ -68,7 +72,7 @@ class _CartState extends State<Cart> {
       body: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.zero,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           Container(
             child: getAddMainHeadingLayout(
@@ -79,7 +83,12 @@ class _CartState extends State<Cart> {
               getAllCartsLayout(
                   SizeConfig.screenHeight, SizeConfig.screenWidth),
             ],
-          )
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(child: LoadingDialog(message: _loadingMessage)),
+            ),
         ],
         //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
       ),
@@ -339,7 +348,6 @@ class _CartState extends State<Cart> {
                                                   result.then((value) {
                                                     if (mounted) {
                                                       setState(() {
-                                                        print("HIIIIIIII");
                                                         getAllCarts();
                                                       });
                                                     }
@@ -434,6 +442,12 @@ class _CartState extends State<Cart> {
                                                               cartCount
                                                                   .toString();
 
+                                                          setState(() {
+                                                            _isLoading = true;
+                                                            _loadingMessage =
+                                                                "Updating...";
+                                                          });
+
                                                           AllCommonApis()
                                                               .addToCartApi(
                                                                   productId,
@@ -450,8 +464,8 @@ class _CartState extends State<Cart> {
 
                                                             if (mounted) {
                                                               setState(() {
-                                                                print(
-                                                                    "hhuihuhuihhui");
+                                                                _isLoading =
+                                                                    false;
                                                                 refresh();
                                                               });
                                                             }
@@ -528,6 +542,12 @@ class _CartState extends State<Cart> {
                                                               cartCount
                                                                   .toString();
 
+                                                          setState(() {
+                                                            _isLoading = true;
+                                                            _loadingMessage =
+                                                                "Updating...";
+                                                          });
+
                                                           AllCommonApis()
                                                               .addToCartApi(
                                                                   productId,
@@ -544,6 +564,8 @@ class _CartState extends State<Cart> {
 
                                                             if (mounted) {
                                                               setState(() {
+                                                                _isLoading =
+                                                                    false;
                                                                 refresh();
                                                               });
                                                             }
@@ -952,19 +974,7 @@ class _CartState extends State<Cart> {
 
   Future<GetUserCartResponseModel> getAllCarts() async {
     String? id = await AppPreferences.getIds();
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
-    // var response = await http.post(
-    //     Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
-    //     body: {
-    //       "accesskey": "90336",
-    //       "get_user_cart": "1",
-    //       "user_id": id,
-    //       "offset": "0",
-    //       "limit": "10"
-    //     },
-    //     headers: headersList);
 
     var response = await http
         .post(Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
@@ -1007,9 +1017,7 @@ class _CartState extends State<Cart> {
 
   Future addToCartApi(String pi, String pvi, String count) async {
     String? id = await AppPreferences.getIds();
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
     try {
       final result = await http.post(
           Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
@@ -1047,10 +1055,13 @@ class _CartState extends State<Cart> {
   }
 
   Future removeToCartApi(String pvi) async {
+    setState(() {
+      _isLoading = true;
+      _loadingMessage = "Removing item from cart";
+    });
+
     String? id = await AppPreferences.getIds();
-
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
-
     try {
       final result = await http.post(
           Uri.parse(ApiConstants().baseUrl + ApiConstants().addToCart),
@@ -1077,9 +1088,14 @@ class _CartState extends State<Cart> {
           }
         });
       }
-
+      setState(() {
+        _isLoading = false;
+      });
       return pdfText;
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       throw e;
     }
   }

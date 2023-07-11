@@ -13,7 +13,7 @@ String getPromoCodeValidResponseModelToJson(
     json.encode(data.toJson());
 
 class GetPromoCodeValidResponseModel {
-  String error;
+  bool error;
   String message;
   String? promoCode;
   String? promoCodeMessage;

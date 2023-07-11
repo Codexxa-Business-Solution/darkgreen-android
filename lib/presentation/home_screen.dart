@@ -11,6 +11,7 @@ import 'package:darkgreen/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../allCommonApis/common_api.dart';
 import '../api_model/home/all_data_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   int count = 0;
+  int totalCartCount = 0;
 
   late AllData _allData;
   bool _isLoading = false;
@@ -667,11 +669,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     children: [
                                                       GestureDetector(
                                                         onTap: () {
-                                                          if (mounted) {
+                                                          var similarProductId =
+                                                              "${sections.products?[index].variants?[0].productId}";
+                                                          var similarProductVariantId =
+                                                              "${sections.products?[index].variants?[0].id}";
+
+                                                          count = int.parse(
+                                                              "${sections.products?[index].variants?[0].cartCount}");
+
+                                                          count--;
+
+                                                          sections
+                                                                  .products?[index]
+                                                                  ?.variants?[0]
+                                                                  .cartCount =
+                                                              count.toString();
+
+                                                          AllCommonApis()
+                                                              .addToCartApi(
+                                                                  similarProductId,
+                                                                  similarProductVariantId,
+                                                                  count
+                                                                      .toString())
+                                                              .then((value) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: Text(value
+                                                                        .message
+                                                                        .toString())));
+
                                                             setState(() {
-                                                              count--;
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  AllCommonApis()
+                                                                      .getAllCarts()
+                                                                      .then(
+                                                                          (value) {
+                                                                    if (mounted) {
+                                                                      setState(
+                                                                          () {
+                                                                        totalCartCount = value
+                                                                            .data
+                                                                            .length;
+                                                                        print(
+                                                                            count);
+                                                                      });
+                                                                    }
+                                                                  });
+                                                                });
+                                                              }
                                                             });
-                                                          }
+                                                          });
                                                         },
                                                         child: Container(
                                                           height: parentHeight *
@@ -724,7 +773,60 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         )),
                                                       ),
                                                       GestureDetector(
-                                                        onTap: () {},
+                                                        onTap: () {
+                                                          var similarProductId =
+                                                              "${sections.products?[index].variants?[0].productId}";
+                                                          var similarProductVariantId =
+                                                              "${sections.products?[index].variants?[0].id}";
+
+                                                          count = int.parse(
+                                                              "${sections.products?[index].variants?[0].cartCount}");
+
+                                                          count++;
+
+                                                          sections
+                                                                  .products?[index]
+                                                                  .variants?[0]
+                                                                  .cartCount =
+                                                              count.toString();
+
+                                                          AllCommonApis()
+                                                              .addToCartApi(
+                                                                  similarProductId,
+                                                                  similarProductVariantId,
+                                                                  count
+                                                                      .toString())
+                                                              .then((value) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(SnackBar(
+                                                                    content: Text(value
+                                                                        .message
+                                                                        .toString())));
+
+                                                            setState(() {
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  AllCommonApis()
+                                                                      .getAllCarts()
+                                                                      .then(
+                                                                          (value) {
+                                                                    if (mounted) {
+                                                                      setState(
+                                                                          () {
+                                                                        totalCartCount = value
+                                                                            .data
+                                                                            .length;
+                                                                        print(
+                                                                            count);
+                                                                      });
+                                                                    }
+                                                                  });
+                                                                });
+                                                              }
+                                                            });
+                                                          });
+                                                        },
                                                         child: Container(
                                                           height: parentHeight *
                                                               0.035,
@@ -761,7 +863,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: count == 0 ? false : false,
+                                      visible: count == 0 ? true : false,
                                       child: GestureDetector(
                                         onTap: () {
                                           if (mounted) {
@@ -1185,11 +1287,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     ),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        if (mounted) {
+                                                        var similarProductId =
+                                                            "${sections.products?[index].variants?[0].productId}";
+                                                        var similarProductVariantId =
+                                                            "${sections.products?[index].variants?[0].id}";
+
+                                                        count = int.parse(
+                                                            "${sections.products?[index].variants?[0].cartCount}");
+
+                                                        count--;
+
+                                                        sections
+                                                                .products?[index]
+                                                                ?.variants?[0]
+                                                                .cartCount =
+                                                            count.toString();
+
+                                                        AllCommonApis()
+                                                            .addToCartApi(
+                                                                similarProductId,
+                                                                similarProductVariantId,
+                                                                count
+                                                                    .toString())
+                                                            .then((value) {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(SnackBar(
+                                                                  content: Text(value
+                                                                      .message
+                                                                      .toString())));
+
                                                           setState(() {
-                                                            count++;
+                                                            if (mounted) {
+                                                              setState(() {
+                                                                AllCommonApis()
+                                                                    .getAllCarts()
+                                                                    .then(
+                                                                        (value) {
+                                                                  if (mounted) {
+                                                                    setState(
+                                                                        () {
+                                                                      totalCartCount = value
+                                                                          .data
+                                                                          .length;
+                                                                      print(
+                                                                          count);
+                                                                    });
+                                                                  }
+                                                                });
+                                                              });
+                                                            }
                                                           });
-                                                        }
+                                                        });
                                                       },
                                                       child: Container(
                                                         height: parentHeight *
@@ -1658,11 +1807,57 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      if (mounted) {
+                                                      var similarProductId =
+                                                          "${sections.products?[index].variants?[0].productId}";
+                                                      var similarProductVariantId =
+                                                          "${sections.products?[index].variants?[0].id}";
+
+                                                      count = int.parse(
+                                                          "${sections.products?[index].variants?[0].cartCount}");
+
+                                                      count--;
+
+                                                      sections
+                                                              .products?[index]
+                                                              ?.variants?[0]
+                                                              .cartCount =
+                                                          count.toString();
+
+                                                      AllCommonApis()
+                                                          .addToCartApi(
+                                                              similarProductId,
+                                                              similarProductVariantId,
+                                                              count.toString())
+                                                          .then((value) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(SnackBar(
+                                                                content: Text(value
+                                                                    .message
+                                                                    .toString())));
+
                                                         setState(() {
-                                                          count++;
+                                                          if (mounted) {
+                                                            setState(() {
+                                                              AllCommonApis()
+                                                                  .getAllCarts()
+                                                                  .then(
+                                                                      (value) {
+                                                                if (mounted) {
+                                                                  setState(() {
+                                                                    totalCartCount =
+                                                                        value
+                                                                            .data
+                                                                            .length;
+                                                                    print(
+                                                                        count);
+                                                                  });
+                                                                }
+                                                              });
+                                                            });
+                                                          }
                                                         });
-                                                      }
+                                                      });
                                                     },
                                                     child: Container(
                                                       height:
