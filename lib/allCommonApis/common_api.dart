@@ -178,14 +178,14 @@ class AllCommonApis {
           },
           headers: headersList);
 
-      var pdfText = await json.decode(json.encode(result.body.toString()));
+      var pdfText = await json.encode(result.body.toString());
 
       if (result.statusCode == 200) {
         var data = json.decode(json.encode(result.body.toString()));
         print(data);
       }
 
-      print("AddToCartResponse ---> ${pdfText}");
+      print("#AddToCartResponse ---> ${pdfText}");
 
       return pdfText;
     } catch (e) {
@@ -211,7 +211,7 @@ class AllCommonApis {
           },
           headers: headersList);
 
-      var pdfText = await json.decode(json.encode(result.body.toString()));
+      var pdfText = await json.encode(result.body.toString());
 
       if (result.statusCode == 200) {
         var data = json.decode(json.encode(result.body.toString()));
