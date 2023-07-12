@@ -30,6 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late AllData _allData;
   bool _isLoading = false;
+  bool _isDialogVisible = false;
+  int favTap = 0;
 
   @override
   void initState() {
@@ -485,16 +487,108 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: parentWidth * 0.02),
-                                              child: /*Image(image: AssetImage("assets/images/like_icon.png"),
-                                      height: parentHeight*0.02,
-                                      ),*/
-                                                  const Icon(
-                                                Icons.favorite_outline_rounded,
-                                                color: CommonColor.LIKE_COLOR,
-                                              ))
+                                          sections.products?[index]
+                                                      .isFavorite ==
+                                                  true
+                                              ? Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                              .screenWidth *
+                                                          0.02),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${sections.products?[index].variants?[0].productId}";
+
+                                                      productName =
+                                                          "${sections.products?[0].name}";
+
+                                                      favTap = 0;
+
+                                                      var result =
+                                                          AllCommonApis()
+                                                              .removeToFavorite(
+                                                                  productId!);
+
+                                                      result.then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                true;
+
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 2),
+                                                                () {
+                                                              setState(() {
+                                                                _isDialogVisible =
+                                                                    false;
+                                                              });
+                                                            });
+                                                          });
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      child: const Icon(
+                                                        Icons.favorite_rounded,
+                                                        color: CommonColor
+                                                            .LIKE_COLOR,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: SizeConfig
+                                                              .screenWidth *
+                                                          0.02),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${sections.products?[index].variants?[0].productId}";
+
+                                                      productName =
+                                                          "${sections.products?[0].name}";
+
+                                                      favTap = 1;
+
+                                                      var result =
+                                                          AllCommonApis()
+                                                              .addToFavorite(
+                                                                  productId!);
+
+                                                      result.then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                true;
+
+                                                            Future.delayed(
+                                                                const Duration(
+                                                                    seconds: 2),
+                                                                () {
+                                                              setState(() {
+                                                                _isDialogVisible =
+                                                                    false;
+                                                              });
+                                                            });
+                                                          });
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      color: Colors.transparent,
+                                                      child: const Icon(
+                                                        Icons
+                                                            .favorite_outline_rounded,
+                                                        color: CommonColor
+                                                            .LIKE_COLOR,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                         ],
                                       ),
                                     )

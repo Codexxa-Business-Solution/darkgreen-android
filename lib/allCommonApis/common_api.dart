@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:darkgreen/api_model/address/get_address_of_user_response_model.dart';
+import 'package:darkgreen/api_model/cart/add_to_cart_response_model.dart';
 import 'package:darkgreen/api_model/cart/delete_save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/cart/get_save_for_later_response_model.dart';
 import 'package:darkgreen/api_model/cart/get_users_cart_response_model.dart';
@@ -178,13 +179,8 @@ class AllCommonApis {
           },
           headers: headersList);
 
-      var pdfText = await json.encode(result.body.toString());
-
-      if (result.statusCode == 200) {
-        var data = json.decode(json.encode(result.body.toString()));
-        print(data);
-      }
-
+      var pdfText =
+          AddToCartResponse.fromJson(jsonDecode(result.body.jsonBody()));
       print("#AddToCartResponse ---> ${pdfText}");
 
       return pdfText;
@@ -211,14 +207,9 @@ class AllCommonApis {
           },
           headers: headersList);
 
-      var pdfText = await json.encode(result.body.toString());
-
-      if (result.statusCode == 200) {
-        var data = json.decode(json.encode(result.body.toString()));
-        print(data);
-      }
-
-      print("AddToCartResponse ---> ${pdfText}");
+      var pdfText =
+          AddToCartResponse.fromJson(jsonDecode(result.body.jsonBody()));
+      print("#AddToCartResponse ---> ${pdfText}");
 
       return pdfText;
     } catch (e) {
@@ -314,7 +305,7 @@ class AllCommonApis {
     }
   }
 
-  Future<GetAllFavProductsResponseModel> getAllFavoriteProductsApi() async {
+  Future<FavouriteResponse> getAllFavoriteProductsApi() async {
     String? id = await AppPreferences.getIds();
 
     var headersList = {'Authorization': 'Bearer ${ApiConstants().token}'};
@@ -331,13 +322,7 @@ class AllCommonApis {
         headers: headersList);
 
     if (response.statusCode == 200) {
-      var jsonData = json.decode(response.body);
-
-      Map<String, dynamic> body = jsonDecode(response.body);
-
-      print("getAllFavoriteProducts -->  $body");
-
-      return getAllFavProductsResponseModelFromJson(response.body.jsonBody());
+      return FavouriteResponse.fromJson(jsonDecode(response.body.jsonBody()));
     } else {
       throw Exception('Failed to create album.');
     }

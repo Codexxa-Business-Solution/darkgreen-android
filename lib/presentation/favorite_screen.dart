@@ -93,7 +93,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget getProductDetailsLayout(double parentHeight, double parentWidth) {
     return Padding(
       padding: EdgeInsets.only(top: parentHeight * 0.01),
-      child: FutureBuilder<GetAllFavProductsResponseModel>(
+      child: FutureBuilder<FavouriteResponse>(
         future: AllCommonApis().getAllFavoriteProductsApi(),
         builder: (context, snap) {
           if (!snap.hasData && !snap.hasError) {
@@ -106,424 +106,461 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           if (data != null) {
             if (data.error) {
               return Center(
-                child: Text(data.message.toString()),
+                child: Text(data.error.toString()),
               );
             }
           }
 
-          if (data == null) {
+          if (data == null || data.data == null) {
             return const Center(
               child: Text("No favourite's added!"),
             );
-          }
+          } else {
+            return GridView.builder(
+                padding: EdgeInsets.only(
+                  bottom: parentHeight * 0.05,
+                  top: parentHeight * 0.03,
+                  left: parentWidth * 0.0,
+                  right: parentWidth * 0.03,
+                ),
+                shrinkWrap: true,
+                itemCount: data.data?.length,
+                gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 5,
+                        height: parentHeight * 0.33),
+                itemBuilder: (context, index) {
+                  final img = data.data![index][0].image.isNotEmpty
+                      ? Image.network(
+                          data.data![index][0].image,
+                        )
+                      : Image.network("");
 
-          return GridView.builder(
-              padding: EdgeInsets.only(
-                bottom: parentHeight * 0.05,
-                top: parentHeight * 0.03,
-                left: parentWidth * 0.0,
-                right: parentWidth * 0.03,
-              ),
-              shrinkWrap: true,
-              itemCount: snap.data?.data.length,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCountAndFixedHeight(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                      height: parentHeight * 0.33),
-              itemBuilder: (context, index) {
-                final img = data.data[index].image.isNotEmpty
-                    ? Image.network(
-                        data.data[index].image,
-                      )
-                    : Image.network("");
+                  price =
+                      int.parse("${data?.data?[index][0].variants[0].price}");
+                  discountPrice = int.parse(
+                      "${data?.data?[index][0].variants[0].discountedPrice}");
+                  savingPrice = price - discountPrice;
 
-                price =
-                    int.parse("${snap.data?.data[index].variants[0].price}");
-                discountPrice = int.parse(
-                    "${snap.data?.data[index].variants[0].discountedPrice}");
-                savingPrice = price - discountPrice;
-
-                return Padding(
-                  padding: EdgeInsets.only(
-                      top: parentHeight * 0.01,
-                      bottom: parentHeight * 0.01,
-                      left: parentWidth * 0.05),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductInfoScreen(
-                                    productId: "${snap.data?.data[index].id}",
-                                    catId: '',
-                                  ))).then((value) {
-                        if (mounted) {
-                          setState(() {
-                            AllCommonApis().getAllFavoriteProductsApi();
-                            AllCommonApis().getAllCarts().then((value) {
-                              if (mounted) {
-                                setState(() {
-                                  totalCartCount = value.data.length;
-                                  print(cartCount);
-                                });
-                              }
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        top: parentHeight * 0.01,
+                        bottom: parentHeight * 0.01,
+                        left: parentWidth * 0.05),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductInfoScreen(
+                                      productId: "${data?.data?[index][0].id}",
+                                      catId: '',
+                                    ))).then((value) {
+                          if (mounted) {
+                            setState(() {
+                              AllCommonApis().getAllFavoriteProductsApi();
+                              AllCommonApis().getAllCarts().then((value) {
+                                if (mounted) {
+                                  setState(() {
+                                    totalCartCount = value.data.length;
+                                    print(cartCount);
+                                  });
+                                }
+                              });
                             });
-                          });
-                        }
-                      });
-                    },
-                    child: Container(
-                      height: parentHeight * 0.17,
-                      width: parentWidth * 0.47,
-                      decoration: BoxDecoration(
-                        color: CommonColor.WHITE_COLOR,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.17),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(2, 1),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                  ),
-                                  height: parentHeight * 0.18,
-                                  width: parentWidth * 0.47,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      topRight: Radius.circular(10),
+                          }
+                        });
+                      },
+                      child: Container(
+                        height: parentHeight * 0.17,
+                        width: parentWidth * 0.47,
+                        decoration: BoxDecoration(
+                          color: CommonColor.WHITE_COLOR,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.17),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: const Offset(2, 1),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
                                     ),
-                                    child: img,
-                                  )),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: parentHeight * 0.015),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      width: parentWidth * 0.15,
-                                      height: parentHeight * 0.027,
-                                      decoration: const BoxDecoration(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(5),
-                                              bottomRight: Radius.circular(5))),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "$savingPrice \u{20B9} off",
-                                            style: TextStyle(
-                                                color: CommonColor.WHITE_COLOR,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'Roboto_Regular'),
-                                          ),
-                                        ],
+                                    height: parentHeight * 0.18,
+                                    width: parentWidth * 0.47,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
                                       ),
-                                    ),
-                                    snap.data?.data[index].isFavorite == true
-                                        ? Padding(
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig.screenWidth *
-                                                    0.02),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                productId =
-                                                    "${snap.data?.data[index].variants[0].productId}";
-
-                                                productName =
-                                                    "${snap.data?.data[0].name}";
-
-                                                favTap = 0;
-
-                                                var result = AllCommonApis()
-                                                    .removeToFavorite(
-                                                        productId);
-
-                                                result.then((value) {
-                                                  if (mounted) {
-                                                    setState(() {
-                                                      _isDialogVisible = true;
-
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              seconds: 2), () {
-                                                        setState(() {
-                                                          _isDialogVisible =
-                                                              false;
-                                                        });
-                                                      });
-                                                    });
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                color: Colors.transparent,
-                                                child: const Icon(
-                                                  Icons.favorite_rounded,
-                                                  color: CommonColor.LIKE_COLOR,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: EdgeInsets.only(
-                                                right: SizeConfig.screenWidth *
-                                                    0.02),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                productId =
-                                                    "${snap.data?.data[index].variants[0].productId}";
-
-                                                productName =
-                                                    "${snap.data?.data[0].name}";
-
-                                                favTap = 1;
-
-                                                var result = AllCommonApis()
-                                                    .addToFavorite(productId);
-
-                                                result.then((value) {
-                                                  if (mounted) {
-                                                    setState(() {
-                                                      _isDialogVisible = true;
-
-                                                      Future.delayed(
-                                                          const Duration(
-                                                              seconds: 2), () {
-                                                        setState(() {
-                                                          _isDialogVisible =
-                                                              false;
-                                                        });
-                                                      });
-                                                    });
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                color: Colors.transparent,
-                                                child: const Icon(
-                                                  Icons
-                                                      .favorite_outline_rounded,
-                                                  color: CommonColor.LIKE_COLOR,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              Container(
-                                height: parentHeight * 0.13,
-                                width: parentWidth * 0.47,
-                                decoration: const BoxDecoration(
-                                    color: CommonColor.LAYOUT_BACKGROUND_COLOR,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
+                                      child: img,
                                     )),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.01,
-                                          left: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: parentWidth * 0.4,
-                                            color: Colors.transparent,
-                                            child: Text(
-                                              "${snap.data?.data[index].name}",
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: parentHeight * 0.015),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        width: parentWidth * 0.15,
+                                        height: parentHeight * 0.027,
+                                        decoration: const BoxDecoration(
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(5),
+                                                bottomRight:
+                                                    Radius.circular(5))),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "$savingPrice \u{20B9} off",
+                                              style: TextStyle(
+                                                  color:
+                                                      CommonColor.WHITE_COLOR,
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      3.5,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'Roboto_Regular'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      data.data?[index][0].isFavorite == true
+                                          ? Padding(
+                                              padding: EdgeInsets.only(
+                                                  right:
+                                                      SizeConfig.screenWidth *
+                                                          0.02),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  productId =
+                                                      "${data?.data?[index][0].variants[0].productId}";
+
+                                                  productName =
+                                                      "${data?.data?[index][0].name}";
+
+                                                  favTap = 0;
+
+                                                  var result = AllCommonApis()
+                                                      .removeToFavorite(
+                                                          productId);
+
+                                                  result.then((value) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        _isDialogVisible = true;
+
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                false;
+                                                          });
+                                                        });
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  color: Colors.transparent,
+                                                  child: const Icon(
+                                                    Icons.favorite_rounded,
+                                                    color:
+                                                        CommonColor.LIKE_COLOR,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding: EdgeInsets.only(
+                                                  right:
+                                                      SizeConfig.screenWidth *
+                                                          0.02),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  productId =
+                                                      "${data?.data?[index][0].variants[0].productId}";
+
+                                                  productName =
+                                                      "${data?.data?[index][0].name}";
+
+                                                  favTap = 1;
+
+                                                  var result = AllCommonApis()
+                                                      .addToFavorite(productId);
+
+                                                  result.then((value) {
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        _isDialogVisible = true;
+
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 2),
+                                                            () {
+                                                          setState(() {
+                                                            _isDialogVisible =
+                                                                false;
+                                                          });
+                                                        });
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                                child: Container(
+                                                  color: Colors.transparent,
+                                                  child: const Icon(
+                                                    Icons
+                                                        .favorite_outline_rounded,
+                                                    color:
+                                                        CommonColor.LIKE_COLOR,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(
+                                  height: parentHeight * 0.13,
+                                  width: parentWidth * 0.47,
+                                  decoration: const BoxDecoration(
+                                      color:
+                                          CommonColor.LAYOUT_BACKGROUND_COLOR,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                      )),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.01,
+                                            left: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: parentWidth * 0.4,
+                                              color: Colors.transparent,
+                                              child: Text(
+                                                "${data?.data?[index][0].name}",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        3.5,
+                                                    fontFamily: 'Roboto_Normal',
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                                textAlign: TextAlign.start,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.01,
+                                            left: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Rs ${data?.data?[index][0].variants[0].discountedPrice}",
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: SizeConfig
                                                           .blockSizeHorizontal *
                                                       3.5,
                                                   fontFamily: 'Roboto_Normal',
-                                                  fontWeight: FontWeight.w400),
-                                              textAlign: TextAlign.start,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.01,
-                                          left: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Rs ${snap.data?.data[index].variants[0].discountedPrice}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    3.5,
-                                                fontFamily: 'Roboto_Normal',
-                                                fontWeight: FontWeight.w500),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: parentWidth * 0.02),
-                                            child: Text(
-                                              "Rs ${snap.data?.data[index].variants[0].price}",
-                                              style: TextStyle(
-                                                  color: CommonColor
-                                                      .DISCOUNT_COLOR,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      3.0,
-                                                  fontFamily: 'Roboto_Normal',
-                                                  fontWeight: FontWeight.w500,
-                                                  decoration: TextDecoration
-                                                      .lineThrough),
+                                                  fontWeight: FontWeight.w500),
                                               textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: parentHeight * 0.015,
-                                          left: parentWidth * 0.02,
-                                          right: parentWidth * 0.02),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            height: parentHeight * 0.035,
-                                            width: parentWidth * 0.13,
-                                            decoration: BoxDecoration(
-                                                color: CommonColor
-                                                    .REVIEW_CONTAINER_COLOR,
-                                                borderRadius:
-                                                    BorderRadius.circular(7)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: parentWidth * 0.02),
-                                                  child: Text(
-                                                    "${snap.data?.data[index].ratings}",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            3.5,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            'Roboto_Medium'),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right:
-                                                          parentWidth * 0.015),
-                                                  child: Icon(
-                                                    Icons.star,
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: parentWidth * 0.02),
+                                              child: Text(
+                                                "Rs ${data?.data?[index][0].variants[0].price}",
+                                                style: TextStyle(
                                                     color: CommonColor
-                                                        .REVIEW_COLOR,
-                                                    size: parentHeight * 0.018,
-                                                  ),
-                                                )
-                                              ],
+                                                        .DISCOUNT_COLOR,
+                                                    fontSize: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        3.0,
+                                                    fontFamily: 'Roboto_Normal',
+                                                    fontWeight: FontWeight.w500,
+                                                    decoration: TextDecoration
+                                                        .lineThrough),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
-                                          ),
-                                          Visibility(
-                                            visible: snap
-                                                        .data
-                                                        ?.data[index]
-                                                        .variants[0]
-                                                        .cartCount !=
-                                                    "0"
-                                                ? true
-                                                : false,
-                                            child: Row(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    productId =
-                                                        "${snap.data?.data[index].variants[0].productId}";
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: parentHeight * 0.015,
+                                            left: parentWidth * 0.02,
+                                            right: parentWidth * 0.02),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: parentHeight * 0.035,
+                                              width: parentWidth * 0.13,
+                                              decoration: BoxDecoration(
+                                                  color: CommonColor
+                                                      .REVIEW_CONTAINER_COLOR,
+                                                  borderRadius:
+                                                      BorderRadius.circular(7)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left:
+                                                            parentWidth * 0.02),
+                                                    child: Text(
+                                                      "${data?.data?[index][0].ratings}",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              3.5,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily:
+                                                              'Roboto_Medium'),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: parentWidth *
+                                                            0.015),
+                                                    child: Icon(
+                                                      Icons.star,
+                                                      color: CommonColor
+                                                          .REVIEW_COLOR,
+                                                      size:
+                                                          parentHeight * 0.018,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: snap
+                                                          .data
+                                                          ?.data?[index][0]
+                                                          .variants[0]
+                                                          .cartCount !=
+                                                      "0"
+                                                  ? true
+                                                  : false,
+                                              child: Row(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${data?.data?[index][0].variants[0].productId}";
 
-                                                    productVariantId =
-                                                        "${snap.data?.data[index].variants[0].id}";
+                                                      productVariantId =
+                                                          "${data?.data?[index][0].variants[0].id}";
 
-                                                    cartCount = int.parse(
-                                                        "${snap.data?.data[index].variants[0].cartCount}");
+                                                      cartCount = int.parse(
+                                                          "${data?.data?[index][0].variants[0].cartCount}");
 
-                                                    cartCount--;
+                                                      cartCount--;
 
-                                                    snap
-                                                            .data
-                                                            ?.data[index]
-                                                            .variants[0]
-                                                            .cartCount =
-                                                        cartCount.toString();
+                                                      snap
+                                                              .data
+                                                              ?.data?[index][0]
+                                                              .variants[0]
+                                                              .cartCount =
+                                                          cartCount.toString();
 
-                                                    AllCommonApis()
-                                                        .addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount
-                                                                .toString())
-                                                        .then((value) {
-                                                      if (mounted) {
-                                                        setState(() {
-                                                          AllCommonApis()
-                                                              .getAllCarts()
-                                                              .then((value) {
-                                                            if (mounted) {
-                                                              setState(() {
-                                                                totalCartCount =
-                                                                    value.data
-                                                                        .length;
-                                                                print(
-                                                                    totalCartCount);
-                                                              });
-                                                            }
+                                                      AllCommonApis()
+                                                          .addToCartApi(
+                                                              productId,
+                                                              productVariantId,
+                                                              cartCount
+                                                                  .toString())
+                                                          .then((value) {
+                                                        if (mounted) {
+                                                          setState(() {
+                                                            AllCommonApis()
+                                                                .getAllCarts()
+                                                                .then((value) {
+                                                              if (mounted) {
+                                                                setState(() {
+                                                                  totalCartCount =
+                                                                      value.data
+                                                                          .length;
+                                                                  print(
+                                                                      totalCartCount);
+                                                                });
+                                                              }
+                                                            });
                                                           });
-                                                        });
-                                                      }
-                                                    });
-                                                  },
-                                                  child: Container(
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: SizeConfig
+                                                              .screenHeight *
+                                                          0.035,
+                                                      width: SizeConfig
+                                                              .screenWidth *
+                                                          0.07,
+                                                      decoration: BoxDecoration(
+                                                          color: CommonColor
+                                                              .APP_BAR_COLOR,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "-",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5.6),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                    ),
+                                                  ),
+                                                  Container(
                                                     height: SizeConfig
                                                             .screenHeight *
                                                         0.035,
@@ -532,196 +569,172 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                                             0.07,
                                                     decoration: BoxDecoration(
                                                         color: CommonColor
-                                                            .APP_BAR_COLOR,
+                                                            .WHITE_COLOR,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(5)),
                                                     child: Center(
                                                         child: Text(
-                                                      "-",
+                                                      "${data?.data?[index][0].variants[0].cartCount}",
                                                       style: TextStyle(
                                                           color: CommonColor
-                                                              .WHITE_COLOR,
+                                                              .BLACK_COLOR,
                                                           fontSize: SizeConfig
                                                                   .blockSizeHorizontal *
-                                                              5.6),
+                                                              3.5),
                                                       textScaleFactor: 1.0,
                                                     )),
                                                   ),
-                                                ),
-                                                Container(
-                                                  height:
-                                                      SizeConfig.screenHeight *
-                                                          0.035,
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.07,
-                                                  decoration: BoxDecoration(
-                                                      color: CommonColor
-                                                          .WHITE_COLOR,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "${snap.data?.data[index].variants[0].cartCount}",
-                                                    style: TextStyle(
-                                                        color: CommonColor
-                                                            .BLACK_COLOR,
-                                                        fontSize: SizeConfig
-                                                                .blockSizeHorizontal *
-                                                            3.5),
-                                                    textScaleFactor: 1.0,
-                                                  )),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    productId =
-                                                        "${snap.data?.data[index].variants[0].productId}";
-                                                    productVariantId =
-                                                        "${snap.data?.data[index].variants[0].id}";
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      productId =
+                                                          "${data?.data?[index][0].variants[0].productId}";
+                                                      productVariantId =
+                                                          "${data?.data?[index][0].variants[0].id}";
 
-                                                    cartCount = int.parse(
-                                                        "${snap.data?.data[index].variants[0].cartCount}");
+                                                      cartCount = int.parse(
+                                                          "${data?.data?[index][0].variants[0].cartCount}");
 
-                                                    cartCount++;
+                                                      cartCount++;
 
-                                                    snap
-                                                            .data
-                                                            ?.data[index]
-                                                            .variants[0]
-                                                            .cartCount =
-                                                        cartCount.toString();
+                                                      snap
+                                                              .data
+                                                              ?.data?[index][0]
+                                                              .variants[0]
+                                                              .cartCount =
+                                                          cartCount.toString();
 
-                                                    AllCommonApis()
-                                                        .addToCartApi(
-                                                            productId,
-                                                            productVariantId,
-                                                            cartCount
-                                                                .toString())
-                                                        .then((value) {
-                                                      setState(() {
-                                                        var result =
-                                                            AllCommonApis()
-                                                                .getAllCarts();
+                                                      AllCommonApis()
+                                                          .addToCartApi(
+                                                              productId,
+                                                              productVariantId,
+                                                              cartCount
+                                                                  .toString())
+                                                          .then((value) {
+                                                        setState(() {
+                                                          var result =
+                                                              AllCommonApis()
+                                                                  .getAllCarts();
 
-                                                        result.then((value) {
-                                                          setState(() {
-                                                            totalCartCount =
-                                                                value.data
-                                                                    .length;
+                                                          result.then((value) {
+                                                            setState(() {
+                                                              totalCartCount =
+                                                                  value.data
+                                                                      .length;
+                                                            });
                                                           });
                                                         });
                                                       });
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    height: SizeConfig
-                                                            .screenHeight *
-                                                        0.035,
-                                                    width:
-                                                        SizeConfig.screenWidth *
-                                                            0.07,
-                                                    decoration: BoxDecoration(
-                                                        color: CommonColor
-                                                            .APP_BAR_COLOR,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5)),
-                                                    child: Center(
-                                                        child: Text(
-                                                      "+",
-                                                      style: TextStyle(
+                                                    },
+                                                    child: Container(
+                                                      height: SizeConfig
+                                                              .screenHeight *
+                                                          0.035,
+                                                      width: SizeConfig
+                                                              .screenWidth *
+                                                          0.07,
+                                                      decoration: BoxDecoration(
                                                           color: CommonColor
-                                                              .WHITE_COLOR,
-                                                          fontSize: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              5.0),
-                                                      textScaleFactor: 1.0,
-                                                    )),
+                                                              .APP_BAR_COLOR,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5)),
+                                                      child: Center(
+                                                          child: Text(
+                                                        "+",
+                                                        style: TextStyle(
+                                                            color: CommonColor
+                                                                .WHITE_COLOR,
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeHorizontal *
+                                                                5.0),
+                                                        textScaleFactor: 1.0,
+                                                      )),
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Visibility(
-                                visible: snap.data?.data[index].variants[0]
-                                            .cartCount ==
-                                        "0"
-                                    ? true
-                                    : false,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      right: SizeConfig.screenWidth * 0.03,
-                                      bottom: SizeConfig.screenHeight * 0.011),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      productId =
-                                          "${snap.data?.data[index].variants[0].productId}";
+                                Visibility(
+                                  visible: data?.data?[index][0].variants[0]
+                                              .cartCount ==
+                                          "0"
+                                      ? true
+                                      : false,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: SizeConfig.screenWidth * 0.03,
+                                        bottom:
+                                            SizeConfig.screenHeight * 0.011),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        productId =
+                                            "${data?.data?[index][0].variants[0].productId}";
 
-                                      productVariantId =
-                                          "${snap.data?.data[index].variants[0].id}";
+                                        productVariantId =
+                                            "${data?.data?[index][0].variants[0].id}";
 
-                                      cartCount = int.parse(
-                                          "${snap.data?.data[index].variants[0].cartCount}");
+                                        cartCount = int.parse(
+                                            "${data?.data?[index][0].variants[0].cartCount}");
 
-                                      cartCount++;
+                                        cartCount++;
 
-                                      snap.data?.data[index].variants[0]
-                                          .cartCount = cartCount.toString();
+                                        data?.data?[index][0].variants[0]
+                                            .cartCount = cartCount.toString();
 
-                                      AllCommonApis()
-                                          .addToCartApi(
-                                              productId,
-                                              productVariantId,
-                                              cartCount.toString())
-                                          .then((value) {
-                                        if (mounted) {
-                                          setState(() {
-                                            var result =
-                                                AllCommonApis().getAllCarts();
-                                            result.then((value) {
-                                              if (mounted) {
-                                                setState(() {
-                                                  totalCartCount =
-                                                      value.data.length;
-                                                });
-                                              }
+                                        AllCommonApis()
+                                            .addToCartApi(
+                                                productId,
+                                                productVariantId,
+                                                cartCount.toString())
+                                            .then((value) {
+                                          if (mounted) {
+                                            setState(() {
+                                              var result =
+                                                  AllCommonApis().getAllCarts();
+                                              result.then((value) {
+                                                if (mounted) {
+                                                  setState(() {
+                                                    totalCartCount =
+                                                        value.data.length;
+                                                  });
+                                                }
+                                              });
                                             });
-                                          });
-                                        }
-                                      });
-                                    },
-                                    child: Container(
-                                      height: SizeConfig.screenHeight * 0.04,
-                                      width: SizeConfig.screenWidth * 0.09,
-                                      decoration: BoxDecoration(
-                                          color: CommonColor.APP_BAR_COLOR,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                        size: SizeConfig.screenHeight * 0.025,
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        height: SizeConfig.screenHeight * 0.04,
+                                        width: SizeConfig.screenWidth * 0.09,
+                                        decoration: BoxDecoration(
+                                            color: CommonColor.APP_BAR_COLOR,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: SizeConfig.screenHeight * 0.025,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              });
+                  );
+                });
+          }
         },
       ),
     );

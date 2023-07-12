@@ -66,32 +66,37 @@ class _CartState extends State<Cart> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      body: ListView(
-        shrinkWrap: true,
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Container(
-            child: getAddMainHeadingLayout(
-                SizeConfig.screenHeight, SizeConfig.screenWidth),
-          ),
-          Column(
+    return Stack(
+      children: [
+        Scaffold(
+          body: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
-              getAllCartsLayout(
-                  SizeConfig.screenHeight, SizeConfig.screenWidth),
+              Container(
+                child: getAddMainHeadingLayout(
+                    SizeConfig.screenHeight, SizeConfig.screenWidth),
+              ),
+              Column(
+                children: [
+                  getAllCartsLayout(
+                      SizeConfig.screenHeight, SizeConfig.screenWidth),
+                ],
+              ),
             ],
+            //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: Center(child: LoadingDialog(message: _loadingMessage)),
-            ),
-        ],
-        //  BackScreen(SizeConfig.screenHeight,SizeConfig.screenWidth);
-      ),
+        ),
+        if (_isLoading)
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: Center(child: LoadingDialog(message: _loadingMessage)),
+          ),
+      ],
     );
   }
 
@@ -462,13 +467,11 @@ class _CartState extends State<Cart> {
                                                                         .message
                                                                         .toString())));
 
-                                                            if (mounted) {
-                                                              setState(() {
-                                                                _isLoading =
-                                                                    false;
-                                                                refresh();
-                                                              });
-                                                            }
+                                                            setState(() {
+                                                              _isLoading =
+                                                                  false;
+                                                              refresh();
+                                                            });
                                                           });
                                                         },
                                                         child: Container(
@@ -562,13 +565,11 @@ class _CartState extends State<Cart> {
                                                                         .message
                                                                         .toString())));
 
-                                                            if (mounted) {
-                                                              setState(() {
-                                                                _isLoading =
-                                                                    false;
-                                                                refresh();
-                                                              });
-                                                            }
+                                                            setState(() {
+                                                              _isLoading =
+                                                                  false;
+                                                              refresh();
+                                                            });
                                                           });
                                                         },
                                                         child: Container(
@@ -619,18 +620,34 @@ class _CartState extends State<Cart> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: parentWidth * 0.05),
-                                    child: Text(
-                                      "Save for later",
-                                      style: TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize:
-                                              SizeConfig.blockSizeHorizontal *
+                                  GestureDetector(
+                                    onDoubleTap: () {},
+                                    onTap: () {
+                                      AllCommonApis()
+                                          .addSaveForLater(
+                                              "${snap.data?.data[index].productVariantId}")
+                                          .then((value) {
+                                        setState(() {
+                                          refresh();
+                                        });
+                                      });
+                                    },
+                                    child: Container(
+                                      color: Colors.transparent,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            right: parentWidth * 0.05),
+                                        child: Text(
+                                          "Save for later",
+                                          style: TextStyle(
+                                              color: CommonColor.APP_BAR_COLOR,
+                                              fontSize: SizeConfig
+                                                      .blockSizeHorizontal *
                                                   4.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: 'Roboto-Medium'),
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: 'Roboto-Medium'),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Text(
@@ -650,11 +667,9 @@ class _CartState extends State<Cart> {
                                           .addSaveForLater(
                                               "${snap.data?.data[index].productVariantId}")
                                           .then((value) {
-                                        if (mounted) {
-                                          setState(() {
-                                            refresh();
-                                          });
-                                        }
+                                        setState(() {
+                                          refresh();
+                                        });
                                       });
                                     },
                                     child: Container(

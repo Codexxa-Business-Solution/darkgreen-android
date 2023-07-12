@@ -1,0 +1,78 @@
+{
+  "error": false,
+  "total": "13",
+  "data": [
+    [
+      {
+        "favourite_id": "210",
+        "user_id": "1",
+        "id": "98",
+        "row_order": "825",
+        "name": "TATA TEA PREMIUM 250GM",
+        "slug": "tata-tea-premium-250gm-1",
+        "category_id": "25",
+        "total_allowed_quantity": "0",
+        "is_cod_allowed": "1",
+        "tax_id": "0",
+        "category_name": "TEA & COFFEE",
+        "subcategory_id": "76",
+        "indicator": "0",
+        "manufacturer": "",
+        "made_in": "",
+        "return_status": "1",
+        "cancelable_status": "1",
+        "till_status": "processed",
+        "image": "https://darkgreen.in/app-admin/upload/images/5433-2020-09-12.jpg",
+        "other_images": [],
+        "size_chart": "",
+        "description": "<p>Tata Premium Tea contains tea leaves which are highly flavourful and aromatic. These tea leaves are hand plucked and blister packed to retain their aroma and taste, till you open the package.</p>",
+        "shipping_delivery": "",
+        "status": "1",
+        "date_added": "2020-09-12 12:55:02",
+        "ratings": "0.0",
+        "number_of_ratings": "0",
+        "review": "",
+        "rate": "",
+        "is_favorite": true,
+        "tax_title": "",
+        "tax_percentage": "0",
+        "variants": [
+          {
+            "id": "145",
+            "product_id": "98",
+            "type": "packet",
+            "measurement": "1",
+            "measurement_unit_id": "6",
+            "price": "130",
+            "discounted_price": "125",
+            "serve_for": "Available",
+            "stock": "989",
+            "stock_unit_id": "6",
+            "images": [],
+            "sku": "",
+            "hsn_code": null,
+            "measurement_unit_name": "pc",
+            "stock_unit_name": "pc",
+            "cart_count": "0",
+            "is_flash_sales": "false",
+            "flash_sales": [
+              {
+                "id": "",
+                "flash_sales_id": "",
+                "product_id": "",
+                "product_variant_id": "",
+                "price": "",
+                "discounted_price": "",
+                "start_date": "",
+                "end_date": "",
+                "date_created": "",
+                "status": "",
+                "flash_sales_name": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ]
+}

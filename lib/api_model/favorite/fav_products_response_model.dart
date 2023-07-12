@@ -1,45 +1,59 @@
-// To parse this JSON data, do
-//
-//     final getAllFavProductsResponseModel = getAllFavProductsResponseModelFromJson(jsonString);
-
-import 'dart:convert';
-
-GetAllFavProductsResponseModel getAllFavProductsResponseModelFromJson(
-        String str) =>
-    GetAllFavProductsResponseModel.fromJson(json.decode(str));
-
-String getAllFavProductsResponseModelToJson(
-        GetAllFavProductsResponseModel data) =>
-    json.encode(data.toJson());
-
-class GetAllFavProductsResponseModel {
-  GetAllFavProductsResponseModel({
-    required this.error,
-    required this.total,
-    required this.data,
-  });
-
+class FavouriteResponse {
   bool error;
   String? total;
   String? message;
-  List<Datum> data;
+  List<List<Data>>? data;
 
-  factory GetAllFavProductsResponseModel.fromJson(Map<String, dynamic> json) =>
-      GetAllFavProductsResponseModel(
-        error: json["error"],
-        total: json["total"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-      );
+  FavouriteResponse({required this.error, this.total, this.data});
 
-  Map<String, dynamic> toJson() => {
-        "error": error,
-        "total": total,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+  factory FavouriteResponse.fromJson(Map<String, dynamic> json) {
+    return FavouriteResponse(
+      error: json['error'] as bool,
+      total: json['total'] as String,
+      data: (json['data'] as List)
+          .map((item) =>
+              (item as List).map((data) => Data.fromJson(data)).toList())
+          .toList(),
+    );
+  }
 }
 
-class Datum {
-  Datum({
+class Data {
+  String favouriteId;
+  String userId;
+  String id;
+  String rowOrder;
+  String name;
+  String slug;
+  String categoryId;
+  String totalAllowedQuantity;
+  String isCodAllowed;
+  String taxId;
+  String categoryName;
+  String subcategoryId;
+  String indicator;
+  String manufacturer;
+  String madeIn;
+  String returnStatus;
+  String cancelableStatus;
+  String tillStatus;
+  String image;
+  List<dynamic> otherImages;
+  String sizeChart;
+  String description;
+  String shippingDelivery;
+  String status;
+  String dateAdded;
+  String ratings;
+  String numberOfRatings;
+  String review;
+  String rate;
+  bool isFavorite;
+  String taxTitle;
+  String taxPercentage;
+  List<Variant> variants;
+
+  Data({
     required this.favouriteId,
     required this.userId,
     required this.id,
@@ -75,115 +89,67 @@ class Datum {
     required this.variants,
   });
 
-  String favouriteId;
-  String userId;
-  String id;
-  String rowOrder;
-  String name;
-  String slug;
-  String categoryId;
-  String totalAllowedQuantity;
-  String isCodAllowed;
-  String taxId;
-  String categoryName;
-  String subcategoryId;
-  String indicator;
-  String manufacturer;
-  String madeIn;
-  String returnStatus;
-  String cancelableStatus;
-  String tillStatus;
-  String image;
-  List<dynamic> otherImages;
-  String sizeChart;
-  String description;
-  String shippingDelivery;
-  String status;
-  DateTime dateAdded;
-  String ratings;
-  String numberOfRatings;
-  String review;
-  String rate;
-  bool isFavorite;
-  String taxTitle;
-  String taxPercentage;
-  List<Variant> variants;
-
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        favouriteId: json["favourite_id"],
-        userId: json["user_id"],
-        id: json["id"],
-        rowOrder: json["row_order"],
-        name: json["name"],
-        slug: json["slug"],
-        categoryId: json["category_id"],
-        totalAllowedQuantity: json["total_allowed_quantity"],
-        isCodAllowed: json["is_cod_allowed"],
-        taxId: json["tax_id"],
-        categoryName: json["category_name"],
-        subcategoryId: json["subcategory_id"],
-        indicator: json["indicator"],
-        manufacturer: json["manufacturer"],
-        madeIn: json["made_in"],
-        returnStatus: json["return_status"],
-        cancelableStatus: json["cancelable_status"],
-        tillStatus: json["till_status"],
-        image: json["image"],
-        otherImages: List<dynamic>.from(json["other_images"].map((x) => x)),
-        sizeChart: json["size_chart"],
-        description: json["description"],
-        shippingDelivery: json["shipping_delivery"],
-        status: json["status"],
-        dateAdded: DateTime.parse(json["date_added"]),
-        ratings: json["ratings"],
-        numberOfRatings: json["number_of_ratings"],
-        review: json["review"],
-        rate: json["rate"],
-        isFavorite: json["is_favorite"],
-        taxTitle: json["tax_title"],
-        taxPercentage: json["tax_percentage"],
-        variants: List<Variant>.from(
-            json["variants"].map((x) => Variant.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "favourite_id": favouriteId,
-        "user_id": userId,
-        "id": id,
-        "row_order": rowOrder,
-        "name": name,
-        "slug": slug,
-        "category_id": categoryId,
-        "total_allowed_quantity": totalAllowedQuantity,
-        "is_cod_allowed": isCodAllowed,
-        "tax_id": taxId,
-        "category_name": categoryName,
-        "subcategory_id": subcategoryId,
-        "indicator": indicator,
-        "manufacturer": manufacturer,
-        "made_in": madeIn,
-        "return_status": returnStatus,
-        "cancelable_status": cancelableStatus,
-        "till_status": tillStatus,
-        "image": image,
-        "other_images": List<dynamic>.from(otherImages.map((x) => x)),
-        "size_chart": sizeChart,
-        "description": description,
-        "shipping_delivery": shippingDelivery,
-        "status": status,
-        "date_added": dateAdded.toIso8601String(),
-        "ratings": ratings,
-        "number_of_ratings": numberOfRatings,
-        "review": review,
-        "rate": rate,
-        "is_favorite": isFavorite,
-        "tax_title": taxTitle,
-        "tax_percentage": taxPercentage,
-        "variants": List<dynamic>.from(variants.map((x) => x.toJson())),
-      };
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      favouriteId: json['favourite_id'] as String,
+      userId: json['user_id'] as String,
+      id: json['id'] as String,
+      rowOrder: json['row_order'] as String,
+      name: json['name'] as String,
+      slug: json['slug'] as String,
+      categoryId: json['category_id'] as String,
+      totalAllowedQuantity: json['total_allowed_quantity'] as String,
+      isCodAllowed: json['is_cod_allowed'] as String,
+      taxId: json['tax_id'] as String,
+      categoryName: json['category_name'] as String,
+      subcategoryId: json['subcategory_id'] as String,
+      indicator: json['indicator'] as String,
+      manufacturer: json['manufacturer'] as String,
+      madeIn: json['made_in'] as String,
+      returnStatus: json['return_status'] as String,
+      cancelableStatus: json['cancelable_status'] as String,
+      tillStatus: json['till_status'] as String,
+      image: json['image'] as String,
+      otherImages: json['other_images'] as List<dynamic>,
+      sizeChart: json['size_chart'] as String,
+      description: json['description'] as String,
+      shippingDelivery: json['shipping_delivery'] as String,
+      status: json['status'] as String,
+      dateAdded: json['date_added'] as String,
+      ratings: json['ratings'] as String,
+      numberOfRatings: json['number_of_ratings'] as String,
+      review: json['review'] as String,
+      rate: json['rate'] as String,
+      isFavorite: json['is_favorite'] as bool,
+      taxTitle: json['tax_title'] as String,
+      taxPercentage: json['tax_percentage'] as String,
+      variants: (json['variants'] as List)
+          .map((variant) => Variant.fromJson(variant))
+          .toList(),
+    );
+  }
 }
 
 class Variant {
+  String id;
+  String productId;
+  String type;
+  String measurement;
+  String measurementUnitId;
+  String price;
+  String discountedPrice;
+  String serveFor;
+  String stock;
+  String stockUnitId;
+  List<dynamic> images;
+  String sku;
+  dynamic hsnCode;
+  String measurementUnitName;
+  String stockUnitName;
+  String cartCount;
+  String isFlashSales;
+  List<FlashSale> flashSales;
+
   Variant({
     required this.id,
     required this.productId,
@@ -197,6 +163,7 @@ class Variant {
     required this.stockUnitId,
     required this.images,
     required this.sku,
+    required this.hsnCode,
     required this.measurementUnitName,
     required this.stockUnitName,
     required this.cartCount,
@@ -204,67 +171,45 @@ class Variant {
     required this.flashSales,
   });
 
-  String id;
-  String productId;
-  String type;
-  String measurement;
-  String measurementUnitId;
-  String price;
-  String discountedPrice;
-  String serveFor;
-  String stock;
-  String stockUnitId;
-  List<dynamic> images;
-  String sku;
-  String measurementUnitName;
-  String stockUnitName;
-  String cartCount;
-  String isFlashSales;
-  List<FlashSale> flashSales;
-
-  factory Variant.fromJson(Map<String, dynamic> json) => Variant(
-        id: json["id"],
-        productId: json["product_id"],
-        type: json["type"],
-        measurement: json["measurement"],
-        measurementUnitId: json["measurement_unit_id"],
-        price: json["price"],
-        discountedPrice: json["discounted_price"],
-        serveFor: json["serve_for"],
-        stock: json["stock"],
-        stockUnitId: json["stock_unit_id"],
-        images: List<dynamic>.from(json["images"].map((x) => x)),
-        sku: json["sku"],
-        measurementUnitName: json["measurement_unit_name"],
-        stockUnitName: json["stock_unit_name"],
-        cartCount: json["cart_count"],
-        isFlashSales: json["is_flash_sales"],
-        flashSales: List<FlashSale>.from(
-            json["flash_sales"].map((x) => FlashSale.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "product_id": productId,
-        "type": type,
-        "measurement": measurement,
-        "measurement_unit_id": measurementUnitId,
-        "price": price,
-        "discounted_price": discountedPrice,
-        "serve_for": serveFor,
-        "stock": stock,
-        "stock_unit_id": stockUnitId,
-        "images": List<dynamic>.from(images.map((x) => x)),
-        "sku": sku,
-        "measurement_unit_name": measurementUnitName,
-        "stock_unit_name": stockUnitName,
-        "cart_count": cartCount,
-        "is_flash_sales": isFlashSales,
-        "flash_sales": List<dynamic>.from(flashSales.map((x) => x.toJson())),
-      };
+  factory Variant.fromJson(Map<String, dynamic> json) {
+    return Variant(
+      id: json['id'] as String,
+      productId: json['product_id'] as String,
+      type: json['type'] as String,
+      measurement: json['measurement'] as String,
+      measurementUnitId: json['measurement_unit_id'] as String,
+      price: json['price'] as String,
+      discountedPrice: json['discounted_price'] as String,
+      serveFor: json['serve_for'] as String,
+      stock: json['stock'] as String,
+      stockUnitId: json['stock_unit_id'] as String,
+      images: json['images'] as List<dynamic>,
+      sku: json['sku'] as String,
+      hsnCode: json['hsn_code'],
+      measurementUnitName: json['measurement_unit_name'] as String,
+      stockUnitName: json['stock_unit_name'] as String,
+      cartCount: json['cart_count'] as String,
+      isFlashSales: json['is_flash_sales'] as String,
+      flashSales: (json['flash_sales'] as List)
+          .map((flashSale) => FlashSale.fromJson(flashSale))
+          .toList(),
+    );
+  }
 }
 
 class FlashSale {
+  String id;
+  String flashSalesId;
+  String productId;
+  String productVariantId;
+  String price;
+  String discountedPrice;
+  String startDate;
+  String endDate;
+  String dateCreated;
+  String status;
+  String flashSalesName;
+
   FlashSale({
     required this.id,
     required this.flashSalesId,
@@ -279,43 +224,19 @@ class FlashSale {
     required this.flashSalesName,
   });
 
-  String id;
-  String flashSalesId;
-  String productId;
-  String productVariantId;
-  String price;
-  String discountedPrice;
-  String startDate;
-  String endDate;
-  String dateCreated;
-  String status;
-  String flashSalesName;
-
-  factory FlashSale.fromJson(Map<String, dynamic> json) => FlashSale(
-        id: json["id"],
-        flashSalesId: json["flash_sales_id"],
-        productId: json["product_id"],
-        productVariantId: json["product_variant_id"],
-        price: json["price"],
-        discountedPrice: json["discounted_price"],
-        startDate: json["start_date"],
-        endDate: json["end_date"],
-        dateCreated: json["date_created"],
-        status: json["status"],
-        flashSalesName: json["flash_sales_name"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "flash_sales_id": flashSalesId,
-        "product_id": productId,
-        "product_variant_id": productVariantId,
-        "price": price,
-        "discounted_price": discountedPrice,
-        "start_date": startDate,
-        "end_date": endDate,
-        "date_created": dateCreated,
-        "status": status,
-        "flash_sales_name": flashSalesName,
-      };
+  factory FlashSale.fromJson(Map<String, dynamic> json) {
+    return FlashSale(
+      id: json['id'] as String,
+      flashSalesId: json['flash_sales_id'] as String,
+      productId: json['product_id'] as String,
+      productVariantId: json['product_variant_id'] as String,
+      price: json['price'] as String,
+      discountedPrice: json['discounted_price'] as String,
+      startDate: json['start_date'] as String,
+      endDate: json['end_date'] as String,
+      dateCreated: json['date_created'] as String,
+      status: json['status'] as String,
+      flashSalesName: json['flash_sales_name'] as String,
+    );
+  }
 }
